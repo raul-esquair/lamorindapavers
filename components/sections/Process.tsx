@@ -36,30 +36,6 @@ const steps = [
   },
 ];
 
-function StepImage({ steps: allSteps }: { steps: typeof steps }) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Map scroll progress to active step index
-  const activeIndex = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [0, 1, 2, 3]);
-
-  return (
-    <div ref={containerRef} className="absolute inset-0">
-      {allSteps.map((step, i) => (
-        <StepImageLayer
-          key={step.number}
-          src={step.image}
-          index={i}
-          activeIndex={activeIndex}
-        />
-      ))}
-    </div>
-  );
-}
-
 function StepImageLayer({
   src,
   index,
@@ -113,7 +89,7 @@ function StepContent({
     <motion.div
       ref={ref}
       style={{ opacity, x }}
-      className="py-16 md:py-24 first:pt-0 last:pb-0"
+      className="min-h-[280px] flex items-center"
     >
       <div className="flex items-start gap-6">
         <span className="text-6xl md:text-7xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
@@ -126,7 +102,6 @@ function StepContent({
           <p className="text-warm-gray-500 font-sans leading-relaxed max-w-md">
             {step.description}
           </p>
-          {/* Progress indicator */}
           <div className="flex items-center gap-2 mt-6">
             {Array.from({ length: total }).map((_, i) => (
               <div
@@ -146,7 +121,15 @@ function StepContent({
 }
 
 export default function Process() {
+  // Track the entire section scroll for image syncing
   const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Map section scroll to step index (skip the header portion)
+  const activeIndex = useTransform(scrollYProgress, [0.1, 0.4, 0.6, 0.9], [0, 1, 2, 3]);
 
   return (
     <section ref={sectionRef} className="py-20 md:py-32 bg-warm-white">
@@ -163,16 +146,23 @@ export default function Process() {
         </ScrollReveal>
 
         {/* Desktop: Sticky scroll layout */}
-        <div className="hidden lg:grid grid-cols-2 gap-16 relative">
+        <div className="hidden lg:grid grid-cols-2 gap-16">
           {/* Left: Sticky image */}
           <div className="relative">
             <div className="sticky top-32 h-[500px] rounded-2xl overflow-hidden">
-              <StepImage steps={steps} />
+              {steps.map((step, i) => (
+                <StepImageLayer
+                  key={step.number}
+                  src={step.image}
+                  index={i}
+                  activeIndex={activeIndex}
+                />
+              ))}
             </div>
           </div>
 
           {/* Right: Scrolling steps */}
-          <div className="relative">
+          <div>
             {steps.map((step, i) => (
               <StepContent key={step.number} step={step} index={i} total={steps.length} />
             ))}
@@ -181,7 +171,7 @@ export default function Process() {
 
         {/* Mobile: Stacked layout */}
         <div className="lg:hidden space-y-12">
-          {steps.map((step, i) => (
+          {steps.map((step) => (
             <ScrollReveal key={step.number}>
               <div className="rounded-xl overflow-hidden h-48 mb-6">
                 <img
