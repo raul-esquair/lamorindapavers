@@ -226,6 +226,8 @@ export const services: Service[] = [
   {
     slug: "pool-decks",
     name: "Pool Decks",
+    image: "/images/services/pool-decks.jpg",
+    imagePosition: "center 25%",
     shortDescription:
       "Transform the area around your pool with slip-resistant, heat-reflective paver decking.",
     description:
