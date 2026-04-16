@@ -5,6 +5,7 @@ export interface Project {
   city: string;
   description?: string;
   images: string[];
+  imagePosition?: string;
   featured: boolean;
 }
 
@@ -35,6 +36,7 @@ export const projects: Project[] = [
     city: "Walnut Creek",
     description: "Multi-level paver entry with cascading landings, block retaining walls, and colorful landscape borders framing the front walkway.",
     images: ["/images/projects/tiered-entry-steps.jpg"],
+    imagePosition: "center 35%",
     featured: true,
   },
   {

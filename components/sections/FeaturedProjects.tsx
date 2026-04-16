@@ -47,6 +47,7 @@ export default function FeaturedProjects() {
                   src={project.images[0]}
                   alt={project.title}
                   fill
+                  style={{ objectPosition: project.imagePosition || "center" }}
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
