@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
+import Image from "next/image";
 import { company } from "@/lib/data/company";
 import { staggerContainer, fadeUp } from "@/lib/animations";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -22,18 +23,49 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
     <>
       {service.faqs.length > 0 && <FAQJsonLd faqs={service.faqs} />}
       {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal className="max-w-3xl">
-            <SectionLabel>{service.name}</SectionLabel>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl text-warm-gray-900 mt-4 mb-6">
-              {service.name}
-            </h1>
-            <p className="text-lg md:text-xl text-warm-gray-500 font-sans">
-              {service.shortDescription}
-            </p>
-          </ScrollReveal>
-        </div>
+      <section className="relative pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden">
+        {/* Background image or fallback */}
+        {service.image ? (
+          <>
+            <div className="absolute inset-0">
+              <Image
+                src={service.image}
+                alt={service.name}
+                fill
+                priority
+                className="object-cover"
+                style={{ objectPosition: service.imagePosition || "center" }}
+                sizes="100vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-warm-gray-900/60 via-warm-gray-900/50 to-warm-gray-900/70" />
+            </div>
+            <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <ScrollReveal className="max-w-3xl">
+                <SectionLabel className="text-brand-gold">{service.name}</SectionLabel>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mt-4 mb-6">
+                  {service.name}
+                </h1>
+                <p className="text-lg md:text-xl text-warm-gray-200 font-sans">
+                  {service.shortDescription}
+                </p>
+              </ScrollReveal>
+            </div>
+          </>
+        ) : (
+          <div className="bg-cream">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <ScrollReveal className="max-w-3xl">
+                <SectionLabel>{service.name}</SectionLabel>
+                <h1 className="text-5xl md:text-6xl lg:text-7xl text-warm-gray-900 mt-4 mb-6">
+                  {service.name}
+                </h1>
+                <p className="text-lg md:text-xl text-warm-gray-500 font-sans">
+                  {service.shortDescription}
+                </p>
+              </ScrollReveal>
+            </div>
+          </div>
+        )}
       </section>
 
       {/* Main Content */}
