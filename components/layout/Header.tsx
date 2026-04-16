@@ -60,7 +60,9 @@ export default function Header() {
                 width={220}
                 height={60}
                 priority
-                className="h-10 lg:h-14 w-auto"
+                className={`h-10 lg:h-14 w-auto transition-all duration-500 ${
+                  isScrolled ? "" : "brightness-0 invert"
+                }`}
               />
             </Link>
 
@@ -73,7 +75,7 @@ export default function Header() {
                   className={`px-4 py-2 text-sm font-sans font-medium tracking-wide transition-colors ${
                     isScrolled
                       ? "text-warm-gray-700 hover:text-brand-blue"
-                      : "text-warm-gray-800 hover:text-brand-blue"
+                      : "text-white/90 hover:text-white"
                   }`}
                 >
                   {link.label}
@@ -88,7 +90,7 @@ export default function Header() {
                 className={`text-sm font-sans font-medium transition-colors ${
                   isScrolled
                     ? "text-warm-gray-600 hover:text-brand-blue"
-                    : "text-warm-gray-700 hover:text-brand-blue"
+                    : "text-white/80 hover:text-white"
                 }`}
               >
                 {company.phone}
@@ -106,19 +108,19 @@ export default function Header() {
                 <motion.span
                   animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
                   className={`block h-0.5 w-full transition-colors ${
-                    isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-warm-gray-800"
+                    isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-white"
                   }`}
                 />
                 <motion.span
                   animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
                   className={`block h-0.5 w-full transition-colors ${
-                    isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-warm-gray-800"
+                    isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-white"
                   }`}
                 />
                 <motion.span
                   animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
                   className={`block h-0.5 w-full transition-colors ${
-                    isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-warm-gray-800"
+                    isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-white"
                   }`}
                 />
               </div>
