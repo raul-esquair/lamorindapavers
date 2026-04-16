@@ -30,11 +30,11 @@ export const projects: Project[] = [
   },
   {
     id: "project-3",
-    title: "Outdoor Living Retreat",
-    category: "Patios",
+    title: "Tiered Paver Entry & Landing Steps",
+    category: "Paver Driveways",
     city: "Walnut Creek",
-    description: "Expansive paver patio with integrated fire pit, seating walls, and outdoor kitchen area.",
-    images: ["/images/projects/placeholder.jpg"],
+    description: "Multi-level paver entry with cascading landings, block retaining walls, and colorful landscape borders framing the front walkway.",
+    images: ["/images/projects/tiered-entry-steps.jpg"],
     featured: true,
   },
   {
