@@ -89,7 +89,7 @@ function StepContent({
     <motion.div
       ref={ref}
       style={{ opacity, x }}
-      className="min-h-[280px] flex items-center"
+      className="min-h-[300px] flex items-center"
     >
       <div className="flex items-start gap-6">
         <span className="text-6xl md:text-7xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
@@ -121,18 +121,17 @@ function StepContent({
 }
 
 export default function Process() {
-  // Track the entire section scroll for image syncing
-  const sectionRef = useRef<HTMLElement>(null);
+  // Track the steps container scroll for image syncing
+  const stepsRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
+    target: stepsRef,
+    offset: ["start center", "end center"],
   });
 
-  // Map section scroll to step index (skip the header portion)
-  const activeIndex = useTransform(scrollYProgress, [0.1, 0.4, 0.6, 0.9], [0, 1, 2, 3]);
+  const activeIndex = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [0, 1, 2, 3]);
 
   return (
-    <section ref={sectionRef} className="py-20 md:py-32 bg-warm-white">
+    <section className="py-20 md:py-32 bg-warm-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ScrollReveal className="text-center mb-16 md:mb-24">
           <SectionLabel>How It Works</SectionLabel>
@@ -161,8 +160,8 @@ export default function Process() {
             </div>
           </div>
 
-          {/* Right: Scrolling steps */}
-          <div>
+          {/* Right: Scrolling steps — this is the tracked container */}
+          <div ref={stepsRef}>
             {steps.map((step, i) => (
               <StepContent key={step.number} step={step} index={i} total={steps.length} />
             ))}
