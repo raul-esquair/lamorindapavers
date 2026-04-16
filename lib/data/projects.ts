@@ -12,11 +12,11 @@ export interface Project {
 export const projects: Project[] = [
   {
     id: "project-1",
-    title: "Modern Driveway Transformation",
-    category: "Paver Driveways",
+    title: "Custom Spiral Paver Walkway",
+    category: "Landscape Design",
     city: "Lafayette",
-    description: "Complete driveway replacement with premium interlocking pavers in a contemporary herringbone pattern.",
-    images: ["/images/projects/placeholder.jpg"],
+    description: "Hand-laid paver walkway featuring custom circular spiral medallion inlays with curvlinear edging and lush landscape borders.",
+    images: ["/images/projects/spiral-walkway.jpg"],
     featured: true,
   },
   {

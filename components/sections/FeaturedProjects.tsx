@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { getFeaturedProjects } from "@/lib/data/projects";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -39,13 +40,24 @@ export default function FeaturedProjects() {
             <div
               key={project.id}
               className={`group relative overflow-hidden rounded-xl ${
-                i === 0 ? "md:row-span-2 h-80 md:h-full" : "h-64 md:h-72"
+                i === 0 ? "md:row-span-2 h-80 md:h-full min-h-[400px]" : "h-64 md:h-72"
               }`}
             >
-              {/* Placeholder */}
-              <div className="absolute inset-0 bg-gradient-to-br from-warm-gray-800 to-warm-gray-900">
-                <div className="absolute inset-0 bg-gradient-to-t from-warm-gray-900/80 via-transparent to-transparent" />
-              </div>
+              {/* Image or placeholder */}
+              {project.images[0] && !project.images[0].includes("placeholder") ? (
+                <Image
+                  src={project.images[0]}
+                  alt={project.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 50vw"}
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-warm-gray-800 to-warm-gray-900" />
+              )}
+
+              {/* Gradient overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-warm-gray-900/80 via-warm-gray-900/20 to-transparent" />
 
               {/* Hover overlay */}
               <div className="absolute inset-0 bg-brand-blue/0 group-hover:bg-brand-blue/20 transition-colors duration-500" />
