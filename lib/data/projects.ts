@@ -41,11 +41,11 @@ export const projects: Project[] = [
   },
   {
     id: "project-4",
-    title: "Resort-Style Pool Deck",
-    category: "Pool Decks",
-    city: "Danville",
-    description: "Slip-resistant paver pool deck with custom coping and integrated spa surround.",
-    images: ["/images/projects/placeholder.jpg"],
+    title: "Hillside Estate Motor Court",
+    category: "Paver Driveways",
+    city: "Orinda",
+    description: "Expansive circular paver motor court with radial pattern design, set against a stunning hillside backdrop of redwoods and manicured hedges.",
+    images: ["/images/projects/hillside-estate-motor-court.jpg"],
     featured: true,
   },
   {
