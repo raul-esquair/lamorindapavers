@@ -210,11 +210,11 @@ function MobileProcess() {
     offset: ["start start", "end end"],
   });
 
-  // Image switches the moment each card becomes readable (clears the image)
+  // Image switches when each card clears the image and becomes readable
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
-    if (v < 0.18) return 0;
-    if (v < 0.42) return 1;
-    if (v < 0.66) return 2;
+    if (v < 0.15) return 0;
+    if (v < 0.38) return 1;
+    if (v < 0.62) return 2;
     return 3;
   });
 
@@ -232,12 +232,10 @@ function MobileProcess() {
         ))}
       </div>
 
-      {/* Scrolling step cards — cards 1-3 pass behind image, card 4 pushes image out */}
-      <div className="relative space-y-6 pt-4">
+      {/* Scrolling step cards — all pass behind image */}
+      <div className="relative z-10 space-y-6 pt-4 pb-[18rem]">
         {steps.map((step, i) => (
-          <div key={step.number} className={i === steps.length - 1 ? "relative z-30" : "relative z-10"}>
-            <MobileStepCard step={step} index={i} total={steps.length} />
-          </div>
+          <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
         ))}
       </div>
     </div>
