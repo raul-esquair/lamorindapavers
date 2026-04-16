@@ -155,6 +155,54 @@ function DesktopProcess() {
   );
 }
 
+function MobileStepCard({
+  step,
+  index,
+  total,
+}: {
+  step: (typeof steps)[0];
+  index: number;
+  total: number;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.85", "start 0.5"],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
+  const x = useTransform(scrollYProgress, [0, 1], [20, 0]);
+
+  return (
+    <motion.div ref={ref} style={{ opacity, x }}>
+      <div className="bg-warm-white/95 backdrop-blur-sm rounded-xl p-6 border border-warm-gray-200 shadow-sm">
+        <div className="flex items-start gap-4">
+          <span className="text-5xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
+            {step.number}
+          </span>
+          <div>
+            <h3 className="text-xl font-serif text-warm-gray-900 mb-2">
+              {step.title}
+            </h3>
+            <p className="text-sm text-warm-gray-500 font-sans leading-relaxed">
+              {step.description}
+            </p>
+            <div className="flex items-center gap-2 mt-4">
+              {Array.from({ length: total }).map((_, j) => (
+                <div
+                  key={j}
+                  className={`h-1 rounded-full transition-all duration-500 ${
+                    j <= index ? "w-6 bg-brand-blue" : "w-3 bg-warm-gray-200"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 function MobileProcess() {
   const stepsRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -162,16 +210,17 @@ function MobileProcess() {
     offset: ["start start", "end end"],
   });
 
+  // Image switches when each card clears the image and becomes readable
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
-    if (v < 0.3) return 0;
-    if (v < 0.55) return 1;
-    if (v < 0.8) return 2;
+    if (v < 0.28) return 0;
+    if (v < 0.52) return 1;
+    if (v < 0.76) return 2;
     return 3;
   });
 
   return (
     <div ref={stepsRef} className="lg:hidden">
-      {/* Sticky image at top — z-20 so cards scroll behind it */}
+      {/* Sticky image at top */}
       <div className="sticky top-20 z-20 mx-auto rounded-xl overflow-hidden h-56 sm:h-64 mb-6">
         {steps.map((step, i) => (
           <StepImageLayer
@@ -183,36 +232,10 @@ function MobileProcess() {
         ))}
       </div>
 
-      {/* Scrolling step cards — z-10 so they pass behind the image */}
-      <div className="relative z-10 space-y-6 pt-4">
+      {/* Scrolling step cards — pass behind image, last card stays visible */}
+      <div className="relative z-10 space-y-6 pt-4 pb-[calc(100vh-22rem)]">
         {steps.map((step, i) => (
-          <ScrollReveal key={step.number}>
-            <div className="bg-warm-white/95 backdrop-blur-sm rounded-xl p-6 border border-warm-gray-200 shadow-sm">
-              <div className="flex items-start gap-4">
-                <span className="text-5xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
-                  {step.number}
-                </span>
-                <div>
-                  <h3 className="text-xl font-serif text-warm-gray-900 mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-warm-gray-500 font-sans leading-relaxed">
-                    {step.description}
-                  </p>
-                  <div className="flex items-center gap-2 mt-4">
-                    {Array.from({ length: steps.length }).map((_, j) => (
-                      <div
-                        key={j}
-                        className={`h-1 rounded-full transition-all duration-500 ${
-                          j <= i ? "w-6 bg-brand-blue" : "w-3 bg-warm-gray-200"
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ScrollReveal>
+          <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
         ))}
       </div>
     </div>
