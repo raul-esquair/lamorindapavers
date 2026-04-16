@@ -50,7 +50,7 @@ export const services: Service[] = [
     slug: "retaining-walls",
     name: "Retaining Walls",
     image: "/images/services/retaining-walls.jpg",
-    imagePosition: "center 30%",
+    imagePosition: "center 15%",
     shortDescription:
       "Functional and beautiful retaining walls that transform sloped terrain into usable outdoor space.",
     description:
