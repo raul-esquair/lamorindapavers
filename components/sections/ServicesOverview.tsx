@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { services } from "@/lib/data/services";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -34,19 +35,32 @@ export default function ServicesOverview() {
               href={`/services/${service.slug}`}
               className="group block relative bg-cream rounded-xl overflow-hidden h-64 md:h-72"
             >
-              {/* Placeholder gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-all duration-500" />
+              {/* Background */}
+              {service.image ? (
+                <Image
+                  src={service.image}
+                  alt={service.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-all duration-500" />
+              )}
+
+              {/* Overlay for text readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-warm-gray-900/80 via-warm-gray-900/20 to-transparent" />
 
               {/* Content */}
               <div className="absolute inset-0 flex flex-col justify-end p-6">
-                <h3 className="text-xl font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
+                <h3 className="text-xl font-serif text-white group-hover:text-brand-gold transition-colors mb-2">
                   {service.name}
                 </h3>
-                <p className="text-sm font-sans text-warm-gray-500 line-clamp-2">
+                <p className="text-sm font-sans text-warm-gray-300 line-clamp-2">
                   {service.shortDescription}
                 </p>
 
-                <div className="flex items-center gap-1 mt-3 text-brand-blue text-sm font-sans font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                <div className="flex items-center gap-1 mt-3 text-brand-gold text-sm font-sans font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
                   Learn More
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
