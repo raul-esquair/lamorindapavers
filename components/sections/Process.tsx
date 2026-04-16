@@ -210,11 +210,11 @@ function MobileProcess() {
     offset: ["start start", "end end"],
   });
 
-  // Image switches when each card clears the image and becomes readable
+  // Image switches the moment each card becomes readable (clears the image)
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
-    if (v < 0.28) return 0;
-    if (v < 0.52) return 1;
-    if (v < 0.76) return 2;
+    if (v < 0.18) return 0;
+    if (v < 0.42) return 1;
+    if (v < 0.66) return 2;
     return 3;
   });
 
