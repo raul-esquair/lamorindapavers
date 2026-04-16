@@ -171,8 +171,8 @@ function MobileProcess() {
 
   return (
     <div ref={stepsRef} className="lg:hidden">
-      {/* Sticky image at top */}
-      <div className="sticky top-20 z-10 mx-auto rounded-xl overflow-hidden h-56 sm:h-64 mb-6">
+      {/* Sticky image at top — z-20 so cards scroll behind it */}
+      <div className="sticky top-20 z-20 mx-auto rounded-xl overflow-hidden h-56 sm:h-64 mb-6">
         {steps.map((step, i) => (
           <StepImageLayer
             key={step.number}
@@ -183,8 +183,8 @@ function MobileProcess() {
         ))}
       </div>
 
-      {/* Scrolling step cards */}
-      <div className="relative z-20 space-y-6 pt-4">
+      {/* Scrolling step cards — z-10 so they pass behind the image */}
+      <div className="relative z-10 space-y-6 pt-4">
         {steps.map((step, i) => (
           <ScrollReveal key={step.number}>
             <div className="bg-warm-white/95 backdrop-blur-sm rounded-xl p-6 border border-warm-gray-200 shadow-sm">
