@@ -77,6 +77,8 @@ export const services: Service[] = [
   {
     slug: "patios",
     name: "Patios",
+    image: "/images/services/patios.jpg",
+    imagePosition: "center 40%",
     shortDescription:
       "Create your perfect outdoor living space with a custom paver patio designed for your lifestyle.",
     description:
