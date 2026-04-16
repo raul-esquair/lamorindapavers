@@ -232,10 +232,12 @@ function MobileProcess() {
         ))}
       </div>
 
-      {/* Scrolling step cards — pass behind image, last card stays visible */}
-      <div className="relative z-10 space-y-6 pt-4 pb-[calc(100vh-22rem)]">
+      {/* Scrolling step cards — cards 1-3 pass behind image, card 4 pushes image out */}
+      <div className="relative space-y-6 pt-4">
         {steps.map((step, i) => (
-          <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
+          <div key={step.number} className={i === steps.length - 1 ? "relative z-30" : "relative z-10"}>
+            <MobileStepCard step={step} index={i} total={steps.length} />
+          </div>
         ))}
       </div>
     </div>
