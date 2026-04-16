@@ -39,9 +39,7 @@ export default function FeaturedProjects() {
           {projects.map((project, i) => (
             <div
               key={project.id}
-              className={`group relative overflow-hidden rounded-xl ${
-                i === 0 ? "md:row-span-2 h-80 md:h-full min-h-[400px]" : "h-64 md:h-72"
-              }`}
+              className="group relative overflow-hidden rounded-xl h-72 md:h-80"
             >
               {/* Image or placeholder */}
               {project.images[0] && !project.images[0].includes("placeholder") ? (
@@ -50,7 +48,7 @@ export default function FeaturedProjects() {
                   alt={project.title}
                   fill
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
-                  sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 50vw"}
+                  sizes="(max-width: 768px) 100vw, 50vw"
                 />
               ) : (
                 <div className="absolute inset-0 bg-gradient-to-br from-warm-gray-800 to-warm-gray-900" />
