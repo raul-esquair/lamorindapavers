@@ -1,26 +1,42 @@
 "use client";
 
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import { services } from "@/lib/data/services";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
-import ScrollStagger from "@/components/animations/ScrollStagger";
 import ServiceCard from "@/components/ui/ServiceCard";
 
 const featuredServices = services.slice(0, 8);
 
-// Bento layout: define which cards are large
-// Index 0 (Paver Driveways) and 4 (Landscape Design) span 2 columns
-const bentoLayout: Record<number, string> = {
-  0: "sm:col-span-2 h-72 md:h-80",
-  1: "h-64 md:h-72",
-  2: "h-64 md:h-72",
-  3: "h-64 md:h-72",
-  4: "h-64 md:h-72",
-  5: "h-64 md:h-72",
-  6: "h-64 md:h-72",
-  7: "sm:col-span-2 h-72 md:h-80",
+// Bento layout config
+const bentoConfig: Record<number, { gridClass: string; cardHeight: string; sizes: string }> = {
+  0: { gridClass: "sm:col-span-2", cardHeight: "h-72 md:h-80", sizes: "(max-width: 640px) 100vw, 50vw" },
+  7: { gridClass: "sm:col-span-2", cardHeight: "h-72 md:h-80", sizes: "(max-width: 640px) 100vw, 50vw" },
 };
+
+const defaultConfig = {
+  gridClass: "",
+  cardHeight: "h-64 md:h-72",
+  sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw",
+};
+
+function BentoItem({ children, className }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.95", "start 0.45"],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
+
+  return (
+    <motion.div ref={ref} style={{ opacity, y }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
 
 export default function ServicesOverview() {
   return (
@@ -39,22 +55,20 @@ export default function ServicesOverview() {
         </ScrollReveal>
 
         {/* Bento Services Grid */}
-        <ScrollStagger
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
-        >
-          {featuredServices.map((service, i) => (
-            <ServiceCard
-              key={service.slug}
-              service={service}
-              className={bentoLayout[i] || "h-64 md:h-72"}
-              sizes={
-                i === 0 || i === 7
-                  ? "(max-width: 640px) 100vw, (max-width: 1024px) 100vw, 50vw"
-                  : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              }
-            />
-          ))}
-        </ScrollStagger>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {featuredServices.map((service, i) => {
+            const config = bentoConfig[i] || defaultConfig;
+            return (
+              <BentoItem key={service.slug} className={config.gridClass}>
+                <ServiceCard
+                  service={service}
+                  className={config.cardHeight}
+                  sizes={config.sizes}
+                />
+              </BentoItem>
+            );
+          })}
+        </div>
 
         {/* View All Link */}
         <ScrollReveal className="text-center mt-12">
