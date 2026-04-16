@@ -118,16 +118,13 @@ function StepContent({
   );
 }
 
-export default function Process() {
-  // Track the steps container scroll for image syncing
+function DesktopProcess() {
   const stepsRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: stepsRef,
     offset: ["start center", "end center"],
   });
 
-  // Image switches when the next step's title aligns with the image center.
-  // Shifted later so each image holds until the next step fully arrives.
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
     if (v < 0.35) return 0;
     if (v < 0.58) return 1;
@@ -135,6 +132,94 @@ export default function Process() {
     return 3;
   });
 
+  return (
+    <div className="hidden lg:grid grid-cols-2 gap-16">
+      <div className="relative">
+        <div className="sticky top-32 h-[500px] rounded-2xl overflow-hidden">
+          {steps.map((step, i) => (
+            <StepImageLayer
+              key={step.number}
+              src={step.image}
+              index={i}
+              activeIndex={activeIndex}
+            />
+          ))}
+        </div>
+      </div>
+      <div ref={stepsRef} className="pt-[140px]">
+        {steps.map((step, i) => (
+          <StepContent key={step.number} step={step} index={i} total={steps.length} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MobileProcess() {
+  const stepsRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: stepsRef,
+    offset: ["start start", "end end"],
+  });
+
+  const activeIndex = useTransform(scrollYProgress, (v: number): number => {
+    if (v < 0.3) return 0;
+    if (v < 0.55) return 1;
+    if (v < 0.8) return 2;
+    return 3;
+  });
+
+  return (
+    <div ref={stepsRef} className="lg:hidden">
+      {/* Sticky image at top */}
+      <div className="sticky top-20 z-10 mx-auto rounded-xl overflow-hidden h-56 sm:h-64 mb-6">
+        {steps.map((step, i) => (
+          <StepImageLayer
+            key={step.number}
+            src={step.image}
+            index={i}
+            activeIndex={activeIndex}
+          />
+        ))}
+      </div>
+
+      {/* Scrolling step cards */}
+      <div className="relative z-20 space-y-6 pt-4">
+        {steps.map((step, i) => (
+          <ScrollReveal key={step.number}>
+            <div className="bg-warm-white/95 backdrop-blur-sm rounded-xl p-6 border border-warm-gray-200 shadow-sm">
+              <div className="flex items-start gap-4">
+                <span className="text-5xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
+                  {step.number}
+                </span>
+                <div>
+                  <h3 className="text-xl font-serif text-warm-gray-900 mb-2">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm text-warm-gray-500 font-sans leading-relaxed">
+                    {step.description}
+                  </p>
+                  <div className="flex items-center gap-2 mt-4">
+                    {Array.from({ length: steps.length }).map((_, j) => (
+                      <div
+                        key={j}
+                        className={`h-1 rounded-full transition-all duration-500 ${
+                          j <= i ? "w-6 bg-brand-blue" : "w-3 bg-warm-gray-200"
+                        }`}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default function Process() {
   return (
     <section className="py-20 md:py-32 bg-warm-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -149,57 +234,8 @@ export default function Process() {
           </p>
         </ScrollReveal>
 
-        {/* Desktop: Sticky scroll layout */}
-        <div className="hidden lg:grid grid-cols-2 gap-16">
-          {/* Left: Sticky image */}
-          <div className="relative">
-            <div className="sticky top-32 h-[500px] rounded-2xl overflow-hidden">
-              {steps.map((step, i) => (
-                <StepImageLayer
-                  key={step.number}
-                  src={step.image}
-                  index={i}
-                  activeIndex={activeIndex}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Right: Scrolling steps — this is the tracked container */}
-          <div ref={stepsRef} className="pt-[140px]">
-            {steps.map((step, i) => (
-              <StepContent key={step.number} step={step} index={i} total={steps.length} />
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile: Stacked layout */}
-        <div className="lg:hidden space-y-12">
-          {steps.map((step) => (
-            <ScrollReveal key={step.number}>
-              <div className="rounded-xl overflow-hidden h-48 mb-6">
-                <img
-                  src={step.image}
-                  alt={step.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="flex items-start gap-4">
-                <span className="text-5xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
-                  {step.number}
-                </span>
-                <div>
-                  <h3 className="text-xl font-serif text-warm-gray-900 mb-2">
-                    {step.title}
-                  </h3>
-                  <p className="text-sm text-warm-gray-500 font-sans leading-relaxed">
-                    {step.description}
-                  </p>
-                </div>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
+        <DesktopProcess />
+        <MobileProcess />
       </div>
     </section>
   );
