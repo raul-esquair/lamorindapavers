@@ -190,6 +190,8 @@ export const services: Service[] = [
   {
     slug: "outdoor-kitchens",
     name: "Outdoor Kitchens",
+    image: "/images/services/outdoor-kitchens.jpg",
+    imagePosition: "center 30%",
     shortDescription:
       "Take your entertaining to the next level with a fully equipped custom outdoor kitchen.",
     description:
