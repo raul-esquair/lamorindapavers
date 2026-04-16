@@ -45,11 +45,9 @@ function StepImageLayer({
   index: number;
   activeIndex: MotionValue<number>;
 }) {
+  // Hard switch — no cross-fade blending. Active step = 1, everything else = 0.
   const opacity = useTransform(activeIndex, (latest: number) => {
-    const distance = Math.abs(latest - index);
-    if (distance < 0.5) return 1;
-    if (distance < 1) return 1 - (distance - 0.5) * 2;
-    return 0;
+    return Math.round(latest) === index ? 1 : 0;
   });
 
   return (
@@ -128,7 +126,13 @@ export default function Process() {
     offset: ["start center", "end center"],
   });
 
-  const activeIndex = useTransform(scrollYProgress, [0, 0.33, 0.66, 1], [0, 1, 2, 3]);
+  // Each step takes 1/4 of the scroll. Image switches at the boundary between steps.
+  const activeIndex = useTransform(scrollYProgress, (v: number): number => {
+    if (v < 0.25) return 0;
+    if (v < 0.5) return 1;
+    if (v < 0.75) return 2;
+    return 3;
+  });
 
   return (
     <section className="py-20 md:py-32 bg-warm-white">
@@ -161,7 +165,7 @@ export default function Process() {
           </div>
 
           {/* Right: Scrolling steps — this is the tracked container */}
-          <div ref={stepsRef}>
+          <div ref={stepsRef} className="pt-[140px]">
             {steps.map((step, i) => (
               <StepContent key={step.number} step={step} index={i} total={steps.length} />
             ))}
