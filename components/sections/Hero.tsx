@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { company } from "@/lib/data/company";
 import QuoteButton from "@/components/ui/QuoteButton";
 
@@ -10,12 +11,21 @@ export default function Hero() {
       {/* Background with overlay */}
       <div className="absolute inset-0">
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-105"
+          className="absolute inset-0 scale-105"
           style={{
-            backgroundImage: "url('/images/hero-bg.jpg')",
             animation: "kenBurns 20s ease-in-out infinite alternate",
           }}
-        />
+        >
+          <Image
+            src="/images/hero-bg.jpg"
+            alt="Beautiful landscaped backyard with retaining walls, water feature, and lush greenery by Lamorinda Pavers"
+            fill
+            priority
+            quality={85}
+            className="object-cover"
+            sizes="100vw"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-warm-gray-900/60 via-warm-gray-900/40 to-warm-gray-900/70" />
       </div>
 
