@@ -106,6 +106,7 @@ export const services: Service[] = [
     slug: "artificial-turf",
     name: "Artificial Turf",
     image: "/images/services/artificial-turf.jpg",
+    imagePosition: "center 70%",
     shortDescription:
       "Enjoy a lush, green lawn year-round with zero watering, mowing, or maintenance.",
     description:
