@@ -131,6 +131,7 @@ export const services: Service[] = [
   {
     slug: "landscape-design",
     name: "Landscape Design",
+    image: "/images/services/landscape-design.jpg",
     shortDescription:
       "Comprehensive landscape design that brings your outdoor vision to life from concept to completion.",
     description:
