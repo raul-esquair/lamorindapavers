@@ -2,6 +2,7 @@ export interface Service {
   slug: string;
   name: string;
   image?: string;
+  imagePosition?: string;
   shortDescription: string;
   description: string;
   features: string[];
@@ -14,6 +15,7 @@ export const services: Service[] = [
     slug: "paver-driveways",
     name: "Paver Driveways",
     image: "/images/services/paver-driveways.jpg",
+    imagePosition: "center 70%",
     shortDescription:
       "Elevate your home's curb appeal with a custom-designed paver driveway built to last.",
     description:
