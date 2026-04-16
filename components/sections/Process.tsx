@@ -126,11 +126,12 @@ export default function Process() {
     offset: ["start center", "end center"],
   });
 
-  // Each step takes 1/4 of the scroll. Image switches at the boundary between steps.
+  // Image switches when the next step's title aligns with the image center.
+  // Shifted later so each image holds until the next step fully arrives.
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
-    if (v < 0.25) return 0;
-    if (v < 0.5) return 1;
-    if (v < 0.75) return 2;
+    if (v < 0.35) return 0;
+    if (v < 0.58) return 1;
+    if (v < 0.8) return 2;
     return 3;
   });
 
