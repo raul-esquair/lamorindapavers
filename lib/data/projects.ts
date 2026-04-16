@@ -21,11 +21,11 @@ export const projects: Project[] = [
   },
   {
     id: "project-2",
-    title: "Hillside Retaining Wall System",
-    category: "Retaining Walls",
+    title: "Segmented Modern Entry Walkway",
+    category: "Paver Driveways",
     city: "Orinda",
-    description: "Multi-tiered retaining wall system transforming a steep hillside into terraced garden space.",
-    images: ["/images/projects/placeholder.jpg"],
+    description: "Contemporary paneled paver walkway with charcoal banding, river rock borders, and curated landscape plantings leading to a modern estate entry.",
+    images: ["/images/projects/segmented-entry-walkway.jpg"],
     featured: true,
   },
   {
