@@ -61,7 +61,8 @@ function StepImageLayer({
     <motion.div
       className="absolute inset-0 rounded-2xl overflow-hidden"
       animate={{ opacity: isActive ? 1 : 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
+      transition={{ duration: isActive ? 0.15 : 0.3, ease: "easeOut" }}
+      style={{ zIndex: isActive ? 2 : 1 }}
     >
       <img
         src={src}
@@ -184,15 +185,17 @@ function MobileProcessCard({
   const opacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
   const x = useTransform(scrollYProgress, [0, 1], [20, 0]);
 
-  // Fire onVisible once when card crosses the threshold
-  const hasFired = useRef(false);
+  // Fire onVisible when card crosses threshold, and revert when scrolling back
+  const wasVisible = useRef(false);
   useTransform(scrollYProgress, (v: number) => {
-    if (v > 0.3 && !hasFired.current) {
-      hasFired.current = true;
+    const isVisible = v > 0.3;
+    if (isVisible && !wasVisible.current) {
+      wasVisible.current = true;
       onVisible(index);
-    } else if (v <= 0.1) {
-      // Reset when scrolling back up
-      hasFired.current = false;
+    } else if (!isVisible && wasVisible.current) {
+      wasVisible.current = false;
+      // Scrolling back up — revert to previous step's image
+      if (index > 0) onVisible(index - 1);
     }
     return v;
   });
