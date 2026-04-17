@@ -1,6 +1,7 @@
 export interface Service {
   slug: string;
   name: string;
+  icon?: string;
   image?: string;
   imagePosition?: string;
   shortDescription: string;
@@ -14,6 +15,7 @@ export const services: Service[] = [
   {
     slug: "paver-driveways",
     name: "Paver Driveways",
+    icon: "/images/icons/paver-driveways.png",
     image: "/images/services/paver-driveways.jpg",
     imagePosition: "center 70%",
     shortDescription:

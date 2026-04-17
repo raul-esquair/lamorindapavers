@@ -98,6 +98,20 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
             }}
           />
 
+          {/* Icon badge */}
+          {service.icon && (
+            <div
+              className="absolute top-4 left-4 md:top-5 md:left-5 w-10 h-10 md:w-12 md:h-12 rounded-lg bg-white/15 backdrop-blur-sm flex items-center justify-center"
+              style={{ transform: "translateZ(30px)" }}
+            >
+              <img
+                src={service.icon}
+                alt=""
+                className="w-6 h-6 md:w-7 md:h-7 brightness-0 invert"
+              />
+            </div>
+          )}
+
           {/* Content */}
           <div
             className="absolute inset-0 flex flex-col justify-end p-6 md:p-8"

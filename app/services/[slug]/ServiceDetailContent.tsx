@@ -41,6 +41,15 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
             </div>
             <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <ScrollReveal className="max-w-3xl">
+                {service.icon && (
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center mb-5">
+                    <img
+                      src={service.icon}
+                      alt=""
+                      className="w-8 h-8 md:w-9 md:h-9 brightness-0 invert"
+                    />
+                  </div>
+                )}
                 <SectionLabel className="text-brand-gold">{service.name}</SectionLabel>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mt-4 mb-6">
                   {service.name}
@@ -55,6 +64,15 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
           <div className="bg-cream">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <ScrollReveal className="max-w-3xl">
+                {service.icon && (
+                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-xl bg-brand-blue/10 flex items-center justify-center mb-5">
+                    <img
+                      src={service.icon}
+                      alt=""
+                      className="w-8 h-8 md:w-9 md:h-9"
+                    />
+                  </div>
+                )}
                 <SectionLabel>{service.name}</SectionLabel>
                 <h1 className="text-5xl md:text-6xl lg:text-7xl text-warm-gray-900 mt-4 mb-6">
                   {service.name}
