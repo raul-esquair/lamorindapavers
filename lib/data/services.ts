@@ -170,6 +170,7 @@ export const services: Service[] = [
   {
     slug: "fire-pits-and-fire-features",
     name: "Fire Pits & Fire Features",
+    icon: "/images/icons/fire-pits-and-fire-features.png",
     image: "/images/services/fire-pits-and-fire-features.jpg",
     imagePosition: "center 35%",
     shortDescription:
