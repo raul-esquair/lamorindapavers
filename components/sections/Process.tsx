@@ -46,10 +46,14 @@ function StepImageLayer({
   activeIndex: MotionValue<number>;
 }) {
   const [isActive, setIsActive] = useState(index === 0);
+  const isActiveRef = useRef(index === 0);
 
   useTransform(activeIndex, (latest: number) => {
     const shouldBeActive = Math.round(latest) === index;
-    if (shouldBeActive !== isActive) setIsActive(shouldBeActive);
+    if (shouldBeActive !== isActiveRef.current) {
+      isActiveRef.current = shouldBeActive;
+      setIsActive(shouldBeActive);
+    }
     return latest;
   });
 
