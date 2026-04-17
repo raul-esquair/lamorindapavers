@@ -205,6 +205,7 @@ export const services: Service[] = [
   {
     slug: "outdoor-kitchens",
     name: "Outdoor Kitchens",
+    icon: "/images/icons/outdoor-kitchens.png",
     image: "/images/services/outdoor-kitchens.jpg",
     imagePosition: "center 30%",
     shortDescription:
