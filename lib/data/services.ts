@@ -51,6 +51,7 @@ export const services: Service[] = [
   {
     slug: "retaining-walls",
     name: "Retaining Walls",
+    icon: "/images/icons/retaining-walls.webp",
     image: "/images/services/retaining-walls.jpg",
     imagePosition: "center 15%",
     shortDescription:
