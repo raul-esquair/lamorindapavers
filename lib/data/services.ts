@@ -236,6 +236,7 @@ export const services: Service[] = [
   {
     slug: "pool-decks",
     name: "Pool Decks",
+    icon: "/images/icons/pool-decks.webp",
     image: "/images/services/pool-decks.jpg",
     imagePosition: "center 25%",
     shortDescription:
