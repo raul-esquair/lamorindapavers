@@ -113,6 +113,7 @@ export const services: Service[] = [
   {
     slug: "artificial-turf",
     name: "Artificial Turf",
+    icon: "/images/icons/artificial-turf.png",
     image: "/images/services/artificial-turf.jpg",
     imagePosition: "center 70%",
     shortDescription:
