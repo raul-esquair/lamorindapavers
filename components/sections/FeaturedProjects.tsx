@@ -16,6 +16,14 @@ const revealDirections: Array<"left" | "right" | "bottom" | "top"> = [
   "left",
 ];
 
+// Curtain colors cycling through the 3 logo colors
+const curtainColors = [
+  "bg-brand-blue",
+  "bg-brand-red",
+  "bg-brand-gold",
+  "bg-brand-blue",
+];
+
 function ProjectRevealCard({
   project,
   index,
@@ -73,7 +81,7 @@ function ProjectRevealCard({
     <div ref={cardRef} className="group relative overflow-hidden rounded-xl h-72 md:h-80">
       {/* Colored reveal bar that slides across before image appears */}
       <motion.div
-        className="absolute inset-0 z-10 bg-brand-blue"
+        className={`absolute inset-0 z-10 ${curtainColors[index % curtainColors.length]}`}
         style={{
           clipPath,
           opacity: useTransform(revealProgress, [0, 0.4, 0.7, 1], [0, 1, 1, 0]),
