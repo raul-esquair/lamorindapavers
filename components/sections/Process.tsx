@@ -45,15 +45,19 @@ function StepImageLayer({
   index: number;
   activeIndex: MotionValue<number>;
 }) {
-  // Hard switch — no cross-fade blending. Active step = 1, everything else = 0.
-  const opacity = useTransform(activeIndex, (latest: number) => {
-    return Math.round(latest) === index ? 1 : 0;
+  const [isActive, setIsActive] = useState(index === 0);
+
+  useTransform(activeIndex, (latest: number) => {
+    const shouldBeActive = Math.round(latest) === index;
+    if (shouldBeActive !== isActive) setIsActive(shouldBeActive);
+    return latest;
   });
 
   return (
     <motion.div
       className="absolute inset-0 rounded-2xl overflow-hidden"
-      style={{ opacity }}
+      animate={{ opacity: isActive ? 1 : 0 }}
+      transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <img
         src={src}
@@ -176,9 +180,16 @@ function MobileProcessCard({
   const opacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
   const x = useTransform(scrollYProgress, [0, 1], [20, 0]);
 
-  // Fire onVisible when card crosses the threshold
+  // Fire onVisible once when card crosses the threshold
+  const hasFired = useRef(false);
   useTransform(scrollYProgress, (v: number) => {
-    if (v > 0.3) onVisible(index);
+    if (v > 0.3 && !hasFired.current) {
+      hasFired.current = true;
+      onVisible(index);
+    } else if (v <= 0.1) {
+      // Reset when scrolling back up
+      hasFired.current = false;
+    }
     return v;
   });
 
