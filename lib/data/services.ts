@@ -81,6 +81,7 @@ export const services: Service[] = [
   {
     slug: "patios",
     name: "Patios",
+    icon: "/images/icons/patios.webp",
     image: "/images/services/patios.jpg",
     imagePosition: "center 20%",
     shortDescription:
