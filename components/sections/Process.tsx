@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, useScroll, useTransform, useMotionValue, type MotionValue } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
@@ -155,22 +155,32 @@ function DesktopProcess() {
   );
 }
 
-function MobileStepCard({
+function MobileProcessCard({
   step,
   index,
   total,
+  onVisible,
 }: {
   step: (typeof steps)[0];
   index: number;
   total: number;
+  onVisible: (index: number) => void;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start 0.85", "start 0.5"],
+    // Card becomes "visible" when its top reaches just below the image
+    offset: ["start 0.55", "start 0.35"],
   });
+
   const opacity = useTransform(scrollYProgress, [0, 1], [0.4, 1]);
   const x = useTransform(scrollYProgress, [0, 1], [20, 0]);
+
+  // Fire onVisible when card crosses the threshold
+  useTransform(scrollYProgress, (v: number) => {
+    if (v > 0.3) onVisible(index);
+    return v;
+  });
 
   return (
     <motion.div ref={ref} style={{ opacity, x }}>
@@ -204,18 +214,15 @@ function MobileStepCard({
 }
 
 function MobileProcess() {
-  const cardsRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardsRef,
-    offset: ["start center", "end center"],
-  });
+  const [activeStep, setActiveStep] = useState(0);
+  const activeMotion = useMotionValue(0);
 
-  const activeIndex = useTransform(scrollYProgress, (v: number): number => {
-    if (v < 0.3) return 0;
-    if (v < 0.55) return 1;
-    if (v < 0.8) return 2;
-    return 3;
-  });
+  const handleVisible = (index: number) => {
+    if (index !== activeStep) {
+      setActiveStep(index);
+      activeMotion.set(index);
+    }
+  };
 
   return (
     <div className="lg:hidden">
@@ -228,23 +235,33 @@ function MobileProcess() {
               key={step.number}
               src={step.image}
               index={i}
-              activeIndex={activeIndex}
+              activeIndex={activeMotion}
             />
           ))}
         </div>
 
         {/* Cards 1-3 scroll behind the image */}
-        <div ref={cardsRef} className="relative z-10 space-y-6 pt-6">
+        <div className="relative z-10 space-y-6 pt-6">
           {steps.slice(0, 3).map((step, i) => (
-            <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
+            <MobileProcessCard
+              key={step.number}
+              step={step}
+              index={i}
+              total={steps.length}
+              onVisible={handleVisible}
+            />
           ))}
         </div>
       </div>
 
-      {/* Card 4: outside the sticky wrapper, so it sits below the now-unstuck image.
-          Both scroll out of view together. */}
+      {/* Card 4: outside the sticky wrapper, scrolls out with the image */}
       <div className="mt-6">
-        <MobileStepCard step={steps[3]} index={3} total={steps.length} />
+        <MobileProcessCard
+          step={steps[3]}
+          index={3}
+          total={steps.length}
+          onVisible={handleVisible}
+        />
       </div>
     </div>
   );
