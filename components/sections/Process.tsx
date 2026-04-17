@@ -210,8 +210,6 @@ function MobileProcess() {
     offset: ["start center", "end center"],
   });
 
-  // Image switches when each card is fully covered and the next appears below.
-  // Thresholds tuned so the switch happens as each new card hovers in the gap.
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
     if (v < 0.3) return 0;
     if (v < 0.55) return 1;
@@ -221,25 +219,32 @@ function MobileProcess() {
 
   return (
     <div className="lg:hidden">
-      {/* Sticky image */}
-      <div className="sticky top-20 z-20 mx-auto rounded-xl overflow-hidden h-56 sm:h-64 mb-6">
-        {steps.map((step, i) => (
-          <StepImageLayer
-            key={step.number}
-            src={step.image}
-            index={i}
-            activeIndex={activeIndex}
-          />
-        ))}
+      {/* This wrapper constrains the sticky image. When it ends, image unsticks. */}
+      <div className="relative">
+        {/* Sticky image */}
+        <div className="sticky top-20 z-20 mx-auto rounded-xl overflow-hidden h-56 sm:h-64">
+          {steps.map((step, i) => (
+            <StepImageLayer
+              key={step.number}
+              src={step.image}
+              index={i}
+              activeIndex={activeIndex}
+            />
+          ))}
+        </div>
+
+        {/* Cards 1-3 scroll behind the image */}
+        <div ref={cardsRef} className="relative z-10 space-y-6 pt-6">
+          {steps.slice(0, 3).map((step, i) => (
+            <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
+          ))}
+        </div>
       </div>
 
-      {/* All 4 cards — 1-3 scroll behind image, card 4 is last so when it
-          reaches the gap below the image, the sticky container naturally
-          ends and both scroll out together */}
-      <div ref={cardsRef} className="relative z-10 space-y-6 pt-4">
-        {steps.map((step, i) => (
-          <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
-        ))}
+      {/* Card 4: outside the sticky wrapper, so it sits below the now-unstuck image.
+          Both scroll out of view together. */}
+      <div className="mt-6">
+        <MobileStepCard step={steps[3]} index={3} total={steps.length} />
       </div>
     </div>
   );
