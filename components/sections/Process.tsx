@@ -204,39 +204,53 @@ function MobileStepCard({
 }
 
 function MobileProcess() {
-  const stepsRef = useRef<HTMLDivElement>(null);
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: stepsRef,
+    target: scrollAreaRef,
     offset: ["start start", "end end"],
   });
 
-  // Image switches when each card clears the image and becomes readable
+  // Switch image when the next card's top appears below the image (in the gap)
+  // Cards 1-3 scroll behind. Each transition happens when the card is fully covered.
   const activeIndex = useTransform(scrollYProgress, (v: number): number => {
-    if (v < 0.15) return 0;
-    if (v < 0.38) return 1;
-    if (v < 0.62) return 2;
+    if (v < 0.28) return 0;
+    if (v < 0.55) return 1;
+    if (v < 0.82) return 2;
     return 3;
   });
 
+  const firstThreeSteps = steps.slice(0, 3);
+  const lastStep = steps[3];
+
   return (
-    <div ref={stepsRef} className="lg:hidden">
-      {/* Sticky image at top */}
-      <div className="sticky top-20 z-20 mx-auto rounded-xl overflow-hidden h-56 sm:h-64 mb-6">
-        {steps.map((step, i) => (
-          <StepImageLayer
-            key={step.number}
-            src={step.image}
-            index={i}
-            activeIndex={activeIndex}
-          />
-        ))}
+    <div className="lg:hidden">
+      {/* Scroll area: sticky image + cards 1-3 that scroll behind it */}
+      <div ref={scrollAreaRef}>
+        {/* Sticky image — stays pinned while cards 1-3 scroll behind */}
+        <div className="sticky top-20 z-20 mx-auto rounded-xl overflow-hidden h-56 sm:h-64">
+          {steps.map((step, i) => (
+            <StepImageLayer
+              key={step.number}
+              src={step.image}
+              index={i}
+              activeIndex={activeIndex}
+            />
+          ))}
+        </div>
+
+        {/* Cards 1-3: scroll behind the sticky image */}
+        <div className="relative z-10 space-y-6 pt-6">
+          {firstThreeSteps.map((step, i) => (
+            <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
+          ))}
+          {/* Spacer so card 3 fully disappears behind image before sticky ends */}
+          <div className="h-56 sm:h-64" />
+        </div>
       </div>
 
-      {/* Scrolling step cards — all pass behind image */}
-      <div className="relative z-10 space-y-6 pt-4 pb-[18rem]">
-        {steps.map((step, i) => (
-          <MobileStepCard key={step.number} step={step} index={i} total={steps.length} />
-        ))}
+      {/* Card 4: sits below with a gap, scrolls out with the image in tandem */}
+      <div className="relative z-10 -mt-2">
+        <MobileStepCard step={lastStep} index={3} total={steps.length} />
       </div>
     </div>
   );
