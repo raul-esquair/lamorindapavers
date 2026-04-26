@@ -77,3 +77,67 @@ export function FAQJsonLd({
     />
   );
 }
+
+export function BreadcrumbJsonLd({
+  items,
+}: {
+  items: { name: string; url: string }[];
+}) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
+export function ServiceJsonLd({
+  serviceName,
+  serviceType,
+  description,
+  cityName,
+  url,
+}: {
+  serviceName: string;
+  serviceType: string;
+  description: string;
+  cityName: string;
+  url: string;
+}) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: serviceName,
+    serviceType,
+    description,
+    url,
+    provider: {
+      "@type": "HomeAndConstructionBusiness",
+      name: company.name,
+      telephone: company.phone,
+      url: company.domain,
+    },
+    areaServed: {
+      "@type": "City",
+      name: `${cityName}, CA`,
+    },
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}

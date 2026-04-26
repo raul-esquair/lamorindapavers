@@ -7,46 +7,39 @@ export interface Testimonial {
   source: "yelp" | "google" | "direct";
 }
 
-// TODO: Replace with real Yelp reviews from Steve
+// Real Yelp reviews — lightly trimmed for the carousel display. Full reviews at:
+// https://www.yelp.com/biz/lamorinda-pavers-lafayette
 export const testimonials: Testimonial[] = [
   {
-    name: "Sarah M.",
-    city: "Lafayette",
+    name: "Ashley N.",
+    city: "Twentynine Palms, CA",
     rating: 5,
-    text: "Steve and his crew transformed our backyard into an absolute paradise. The paver patio is stunning and the attention to detail is incredible. He was on-site every single day overseeing the work. Couldn't be happier!",
+    text: "Working with Steve and his team was an amazing experience from start to finish. He's professional, honest and extremely knowledgeable. He genuinely cares about the quality of his work, and delivered exactly what we envisioned. Our new turf and pavers turned out beautifully and completely transformed the space.",
+    service: "Artificial Turf",
+    source: "yelp",
+  },
+  {
+    name: "Marie D.",
+    city: "Pleasant Hill, CA",
+    rating: 5,
+    text: "Great work! They went above and beyond. We had a concrete patio installed 10 years ago and the color and finish was worn away — I wasn't sure it could be restored. Steve and Randy did wonders and it looks brand new! Quality work, integrity, and pride in a job well done. They won't stop until it is just right.",
     service: "Patios",
     source: "yelp",
   },
   {
-    name: "Michael R.",
-    city: "Orinda",
+    name: "Wade P.",
+    city: "Concord, CA",
     rating: 5,
-    text: "We had our entire driveway replaced with pavers and the result exceeded our expectations. The crew was professional, clean, and finished on schedule. Our neighbors keep stopping to compliment it.",
+    text: "We hired Steve years ago to do our original driveway and went with him again to expand our driveway for our RV access. He did a fantastic job both times. Well worth working with him. Very professional.",
     service: "Paver Driveways",
     source: "yelp",
   },
   {
-    name: "Jennifer L.",
-    city: "Walnut Creek",
+    name: "Sharon B.",
+    city: "Los Altos, CA",
     rating: 5,
-    text: "From the initial consultation to the final walkthrough, the experience was flawless. Steve's design eye is remarkable — he suggested a retaining wall detail that completely made the project. Highly recommend.",
-    service: "Retaining Walls",
-    source: "yelp",
-  },
-  {
-    name: "David K.",
-    city: "Moraga",
-    rating: 5,
-    text: "Best investment we've made in our home. The outdoor kitchen and patio area Steve designed has become the heart of our home. We entertain out there every weekend now.",
-    service: "Outdoor Kitchens",
-    source: "yelp",
-  },
-  {
-    name: "Lisa T.",
-    city: "Danville",
-    rating: 5,
-    text: "We replaced our water-guzzling lawn with artificial turf and couldn't be happier. Looks perfectly green year-round and our water bill dropped dramatically. Steve's team did an amazing job with the installation.",
-    service: "Artificial Turf",
+    text: "We are so glad we found Steve! He listened and did what I wanted but added his input that was helpful in making my decision. His knowledge and experience really made a difference for our project. His crew was skillful, professional and courteous. They did a great job in a timely manner!",
+    service: "Landscape Design",
     source: "yelp",
   },
 ];

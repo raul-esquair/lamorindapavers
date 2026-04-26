@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { City } from "@/lib/data/cities";
+import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
 import { staggerContainer, fadeUp } from "@/lib/animations";
@@ -13,6 +14,11 @@ import QuoteButton from "@/components/ui/QuoteButton";
 import FinalCTA from "@/components/sections/FinalCTA";
 
 export default function CityPageContent({ city }: { city: City }) {
+  const sameCountyCities = cities.filter(
+    (c) => c.county === city.county && c.slug !== city.slug,
+  );
+  const otherCountyCities = cities.filter((c) => c.county !== city.county);
+
   return (
     <>
       {/* Hero */}
@@ -32,14 +38,16 @@ export default function CityPageContent({ city }: { city: City }) {
       </section>
 
       {/* Services Available */}
-      <section className="py-16 md:py-24 bg-warm-white">
+      <section id="services" className="py-16 md:py-24 bg-warm-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <ScrollReveal className="mb-12">
-            <h2 className="text-3xl md:text-4xl text-warm-gray-900">
+          <ScrollReveal className="mb-12 max-w-2xl">
+            <SectionLabel>What We Build</SectionLabel>
+            <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3">
               Services in {city.name}
             </h2>
             <p className="text-warm-gray-500 font-sans mt-3">
-              Full-service paver installation and outdoor living for {city.name} homeowners.
+              Premium hardscaping and outdoor living, tailored to {city.name}{" "}
+              properties in {city.county} County.
             </p>
           </ScrollReveal>
 
@@ -129,6 +137,59 @@ export default function CityPageContent({ city }: { city: City }) {
           </div>
         </div>
       </section>
+
+      {/* Nearby Cities */}
+      {sameCountyCities.length > 0 && (
+        <section className="py-16 md:py-24 bg-warm-white border-t border-warm-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ScrollReveal className="mb-8 max-w-2xl">
+              <SectionLabel>Nearby</SectionLabel>
+              <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3 mb-4">
+                Other {city.county} County Areas We Serve
+              </h2>
+              <p className="text-warm-gray-500 font-sans">
+                We work throughout the East Bay — explore neighboring communities
+                where we&apos;ve installed driveways, patios, and outdoor living spaces.
+              </p>
+            </ScrollReveal>
+
+            <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-3">
+              {sameCountyCities.map((c) => (
+                <li key={c.slug}>
+                  <Link
+                    href={`/${c.slug}`}
+                    className="group flex items-center gap-3 text-warm-gray-700 hover:text-brand-blue font-sans transition-colors"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-gold shrink-0" />
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            {otherCountyCities.length > 0 && (
+              <p className="text-sm font-sans text-warm-gray-500 mt-8">
+                Also serving{" "}
+                {otherCountyCities.slice(0, 3).map((c, i) => (
+                  <span key={c.slug}>
+                    <Link
+                      href={`/${c.slug}`}
+                      className="text-brand-blue hover:underline"
+                    >
+                      {c.name}
+                    </Link>
+                    {i < Math.min(otherCountyCities.length, 3) - 1 ? ", " : ""}
+                  </span>
+                ))}
+                {" "}and the wider East Bay.{" "}
+                <Link href="/areas" className="text-brand-blue hover:underline">
+                  View all areas →
+                </Link>
+              </p>
+            )}
+          </div>
+        </section>
+      )}
 
       <FinalCTA />
     </>

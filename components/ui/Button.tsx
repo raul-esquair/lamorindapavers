@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 interface ButtonProps {
   href?: string;
-  variant?: "primary" | "secondary" | "outline" | "ghost";
+  variant?: "primary" | "secondary" | "outline" | "outline-white" | "ghost";
   size?: "sm" | "md" | "lg";
   className?: string;
   children: React.ReactNode;
@@ -16,6 +16,7 @@ const variants = {
   primary: "bg-brand-blue text-white hover:bg-brand-blue-dark",
   secondary: "bg-brand-gold text-white hover:bg-brand-gold-dark",
   outline: "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white",
+  "outline-white": "border-2 border-white text-white hover:bg-white hover:text-warm-gray-900",
   ghost: "text-warm-gray-700 hover:text-brand-blue hover:bg-warm-gray-100",
 };
 

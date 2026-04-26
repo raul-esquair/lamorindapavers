@@ -33,6 +33,6 @@ export const company = {
     ];
   },
   social: {
-    yelp: "", // TODO: add Yelp URL
+    yelp: "https://www.yelp.com/biz/lamorinda-pavers-lafayette",
   },
 } as const;

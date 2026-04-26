@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
 import Image from "next/image";
+import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { staggerContainer, fadeUp } from "@/lib/animations";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -19,6 +20,9 @@ interface Props {
 }
 
 export default function ServiceDetailContent({ service, relatedServices }: Props) {
+  const contraCostaCities = cities.filter((c) => c.county === "Contra Costa");
+  const alamedaCities = cities.filter((c) => c.county === "Alameda");
+
   return (
     <>
       {service.faqs.length > 0 && <FAQJsonLd faqs={service.faqs} />}
@@ -234,6 +238,76 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
           </div>
         </section>
       )}
+
+      {/* Areas We Serve */}
+      <section className="py-16 md:py-24 bg-warm-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal className="mb-10 max-w-2xl">
+            <SectionLabel>Service Area</SectionLabel>
+            <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3 mb-4">
+              Where We Install {service.name}
+            </h2>
+            <p className="text-warm-gray-500 font-sans">
+              Premium {service.name.toLowerCase()} installation across Contra Costa
+              and Alameda counties. Steve personally oversees every project — from
+              Lamorinda hillside estates to homes throughout the wider East Bay.
+            </p>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-16">
+            <div>
+              <h3 className="text-xl font-serif text-warm-gray-900 mb-5">
+                Contra Costa County
+              </h3>
+              <ul className="grid grid-cols-2 gap-x-6 gap-y-3">
+                {contraCostaCities.map((city) => (
+                  <li key={city.slug}>
+                    <Link
+                      href={`/${city.slug}`}
+                      className="group flex items-center gap-3 text-warm-gray-700 hover:text-brand-blue font-sans transition-colors"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-brand-gold shrink-0" />
+                      {city.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            {alamedaCities.length > 0 && (
+              <div>
+                <h3 className="text-xl font-serif text-warm-gray-900 mb-5">
+                  Alameda County
+                </h3>
+                <ul className="grid grid-cols-2 gap-x-6 gap-y-3">
+                  {alamedaCities.map((city) => (
+                    <li key={city.slug}>
+                      <Link
+                        href={`/${city.slug}`}
+                        className="group flex items-center gap-3 text-warm-gray-700 hover:text-brand-blue font-sans transition-colors"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-brand-blue/60 shrink-0" />
+                        {city.name}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-10">
+            <Link
+              href="/areas"
+              className="inline-flex items-center gap-2 text-brand-blue font-sans font-medium hover:gap-3 transition-all"
+            >
+              View all service areas
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </section>
     </>
   );
 }

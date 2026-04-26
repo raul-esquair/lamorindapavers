@@ -11,14 +11,21 @@ import ServiceCard from "@/components/ui/ServiceCard";
 const featuredServices = services.slice(0, 8);
 
 // Bento layout config
-const bentoConfig: Record<number, { gridClass: string; cardHeight: string; sizes: string }> = {
-  0: { gridClass: "sm:col-span-2", cardHeight: "h-72 md:h-80", sizes: "(max-width: 640px) 100vw, 50vw" },
-  7: { gridClass: "sm:col-span-2", cardHeight: "h-72 md:h-80", sizes: "(max-width: 640px) 100vw, 50vw" },
+// At lg (4-col grid), index 0 is a tall hero (2w x 2h), index 7 spans 2 cols.
+// Below lg, they just span the 2-col grid like before.
+const bentoConfig: Record<number, { gridClass: string; sizes: string }> = {
+  0: {
+    gridClass: "sm:col-span-2 lg:row-span-2 h-72 md:h-80 lg:h-full",
+    sizes: "(max-width: 640px) 100vw, 50vw",
+  },
+  7: {
+    gridClass: "sm:col-span-2 h-72 md:h-80 lg:h-full",
+    sizes: "(max-width: 640px) 100vw, 50vw",
+  },
 };
 
 const defaultConfig = {
-  gridClass: "",
-  cardHeight: "h-64 md:h-72",
+  gridClass: "h-64 md:h-72 lg:h-full",
   sizes: "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw",
 };
 
@@ -55,16 +62,12 @@ export default function ServicesOverview() {
         </ScrollReveal>
 
         {/* Bento Services Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:auto-rows-[18rem]">
           {featuredServices.map((service, i) => {
             const config = bentoConfig[i] || defaultConfig;
             return (
               <BentoItem key={service.slug} className={config.gridClass}>
-                <ServiceCard
-                  service={service}
-                  className={config.cardHeight}
-                  sizes={config.sizes}
-                />
+                <ServiceCard service={service} sizes={config.sizes} />
               </BentoItem>
             );
           })}

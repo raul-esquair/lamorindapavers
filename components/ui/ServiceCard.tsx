@@ -40,6 +40,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
 
   return (
     <motion.div
+      className="h-full w-full"
       style={{
         perspective: 800,
       }}
@@ -50,12 +51,13 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
           rotateY: tilt.y,
         }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
+        className="h-full w-full"
         style={{ transformStyle: "preserve-3d" }}
       >
         <Link
           ref={cardRef}
           href={`/services/${service.slug}`}
-          className={`group block relative rounded-xl overflow-hidden ${className}`}
+          className={`group block relative rounded-xl overflow-hidden h-full w-full ${className}`}
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={handleMouseLeave}

@@ -13,7 +13,7 @@ export default function SectionLabel({ children, className }: SectionLabelProps)
         className
       )}
     >
-      <span className="w-8 h-px bg-brand-blue" />
+      <span className="w-8 h-px bg-current" />
       {children}
     </span>
   );

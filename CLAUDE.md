@@ -63,13 +63,14 @@ Complex sticky scroll storytelling with separate desktop and mobile implementati
 
 **Mobile:** Sticky image pins below header (top-20, z-20). Cards 1-3 scroll behind the image (z-10). Image switches when each card becomes readable (tracked per-card via individual `useScroll` refs with `onVisible` callbacks). Card 4 is outside the sticky wrapper — it sits below the image with a gap, and both scroll out of view together. Image transitions use `animate` with `duration: 0.15s` fade-in (z-2) and `0.3s` fade-out (z-1) to prevent flash. Reverse scrolling fires `onVisible(index - 1)`.
 
-## Page Structure (35 pages)
+## Page Structure (36 pages)
 
 ### Routes
 - `/` — Homepage (9 sections)
 - `/services` — Services overview grid
 - `/services/[slug]` — 11 individual service detail pages
 - `/projects` — Filterable portfolio gallery
+- `/areas` — Service areas hub, groups cities by county (Contra Costa, Alameda); each card links to `/[city]`
 - `/about` — Steve's story, values, credentials
 - `/contact` — Multi-step quote form (also accessible via modal from any page)
 - `/blog` — Coming soon shell (structure only, no content yet)
@@ -80,7 +81,7 @@ Complex sticky scroll storytelling with separate desktop and mobile implementati
 ### Homepage Sections (in scroll order)
 1. Hero — full-viewport, Ken Burns background image, single CTA ("Get a Free Estimate" opens modal)
 2. Trust Bar — animated counters, license/warranty/review badges
-3. Services Overview — bento grid (first and last cards span 2 cols), ServiceCard with parallax/tilt/icons
+3. Services Overview — bento grid (see design decision #4 below), ServiceCard with parallax/tilt/icons
 4. Featured Projects — 2x2 grid, clip-path curtain reveals with alternating directions and logo colors
 5. About Preview — split layout (image left, content right), slide-in animations
 6. Testimonials — carousel with star ratings, prev/next navigation
@@ -100,7 +101,7 @@ Complex sticky scroll storytelling with separate desktop and mobile implementati
 All data lives in `lib/data/`:
 - `services.ts` — 11 services with: slug, name, icon, image, imagePosition, shortDescription, description, features, FAQs, relatedSlugs
 - `company.ts` — Business info, service area cities, contact details (uses `as const`)
-- `testimonials.ts` — 5 placeholder reviews (TODO: replace with real Yelp reviews)
+- `testimonials.ts` — 4 real Yelp reviews (Ashley N., Marie D., Wade P., Sharon B.), lightly trimmed for the carousel display size. Full reviews at the Yelp URL in `company.ts`.
 - `projects.ts` — 6 projects (4 featured with real images, 2 non-featured placeholders)
 - `cities.ts` — 12 cities with unique descriptions and meta descriptions
 
@@ -139,17 +140,15 @@ All 8 homepage services have icons (red line-style, mix of .png and .webp). On c
 1. **Single hero CTA** — "Get a Free Estimate" only. No secondary button. Prevents decision fatigue.
 2. **Modal over navigation** — All "Get a Free Estimate" buttons open the quote modal, not navigate to `/contact`. Keeps users in context.
 3. **Scroll-scrubbed animations** — Never use `whileInView` trigger-based animations that play entirely on viewport entry. All reveals tied to scroll position.
-4. **Bento grid for services** — First and last service cards span 2 columns. Not a uniform grid.
+4. **Bento grid for services (`ServicesOverview.tsx`)** — At `lg` (4-col grid with `auto-rows-[18rem]`): index 0 (Paver Driveways) is a tall hero (`col-span-2 row-span-2`), indexes 1-6 are singles, index 7 (Pool Decks) spans 2 cols. Below `lg` it collapses to 1 or 2 cols with fixed card heights. `ServiceCard`'s outer motion.div wrappers have `h-full w-full` so the Link fills its grid cell — do not remove these or cards will collapse to 0 height.
 5. **Per-card scroll tracking** — Each card in ScrollStagger and MobileProcessCard tracks its own viewport position. Never share a parent scroll progress across cards.
 6. **Icon hover behavior** — White icons on cards transition to original red on hover, badge goes from frosted to white background.
 
 ## TODO (Not Yet Done)
 - Wire contact/quote form to email backend (Formspree, Resend, or Server Action)
-- Replace placeholder testimonials with real Yelp reviews
 - Add remaining 3 service images (putting greens, water features, arbors) + their icons
 - Add real project photos beyond the current 4 featured
 - Add Steve's photo for About page and homepage About Preview
-- Add Yelp business URL to `company.ts`
 - Set up Google Analytics 4 + Vercel Analytics
 - Connect custom domain on Netlify
 - Set up redirects from old WordPress URLs to new routes
@@ -163,3 +162,6 @@ npm run lint     # ESLint
 ```
 
 Always run `npm run build` before pushing to verify zero TypeScript errors and successful static generation.
+
+### Dev server gotcha
+Next.js 16 + Turbopack's dev cache can wedge with a misleading `ReferenceError: require is not defined` in server components (build still works, only dev 500s). Fix: stop the dev server, `rm -rf .next`, restart. Not a code issue.
