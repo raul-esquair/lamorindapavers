@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import { projects, getCategories } from "@/lib/data/projects";
-import ProjectsPageContent from "./ProjectsPageContent";
+import ProjectsClient from "./ProjectsClient";
 
 export const metadata: Metadata = {
   title: "Projects",
@@ -10,5 +11,11 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   const categories = getCategories();
-  return <ProjectsPageContent projects={projects} categories={categories} />;
+  return (
+    // Suspense boundary required because ProjectsClient calls useSearchParams,
+    // which opts the subtree into dynamic rendering.
+    <Suspense fallback={null}>
+      <ProjectsClient projects={projects} categories={categories} />
+    </Suspense>
+  );
 }

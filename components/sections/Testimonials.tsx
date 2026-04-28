@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { testimonials } from "@/lib/data/testimonials";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -46,7 +46,7 @@ export default function Testimonials() {
 
         <div className="relative">
           <AnimatePresence mode="wait">
-            <motion.div
+            <m.div
               key={active}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -66,7 +66,7 @@ export default function Testimonials() {
                   {testimonials[active].city} &middot; {testimonials[active].service}
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           </AnimatePresence>
 
           {/* Navigation */}

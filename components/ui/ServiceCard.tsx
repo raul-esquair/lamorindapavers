@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import type { Service } from "@/lib/data/services";
+import { blurProps } from "@/lib/blur";
 
 interface ServiceCardProps {
   service: Service;
@@ -39,13 +40,13 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
   };
 
   return (
-    <motion.div
+    <m.div
       className="h-full w-full"
       style={{
         perspective: 800,
       }}
     >
-      <motion.div
+      <m.div
         animate={{
           rotateX: tilt.x,
           rotateY: tilt.y,
@@ -64,7 +65,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
         >
           {/* Parallax image container */}
           {service.image ? (
-            <motion.div
+            <m.div
               className="absolute inset-[-16%] will-change-transform"
               style={{ y: imageY }}
             >
@@ -75,8 +76,9 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
                 style={{ objectPosition: service.imagePosition || "center" }}
                 className="object-cover"
                 sizes={sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
+                {...blurProps(service.image)}
               />
-            </motion.div>
+            </m.div>
           ) : (
             <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-all duration-500" />
           )}
@@ -91,7 +93,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
           />
 
           {/* Shine effect on hover */}
-          <motion.div
+          <m.div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
             style={{
               background: isHovering
@@ -134,7 +136,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
             </div>
           </div>
         </Link>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

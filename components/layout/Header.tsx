@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { company } from "@/lib/data/company";
+import { blurProps } from "@/lib/blur";
 import QuoteButton from "@/components/ui/QuoteButton";
 
 const navLinks = [
@@ -41,7 +42,7 @@ export default function Header() {
 
   return (
     <>
-      <motion.header
+      <m.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
@@ -64,6 +65,7 @@ export default function Header() {
                 className={`h-12 lg:h-16 w-auto transition-all duration-500 ${
                   isScrolled ? "" : "brightness-0 invert"
                 }`}
+                {...blurProps("/images/logo.png")}
               />
             </Link>
 
@@ -106,19 +108,19 @@ export default function Header() {
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               <div className="w-6 flex flex-col gap-1.5">
-                <motion.span
+                <m.span
                   animate={isMobileMenuOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
                   className={`block h-0.5 w-full transition-colors ${
                     isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-white"
                   }`}
                 />
-                <motion.span
+                <m.span
                   animate={isMobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
                   className={`block h-0.5 w-full transition-colors ${
                     isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-white"
                   }`}
                 />
-                <motion.span
+                <m.span
                   animate={isMobileMenuOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
                   className={`block h-0.5 w-full transition-colors ${
                     isMobileMenuOpen ? "bg-white" : isScrolled ? "bg-warm-gray-800" : "bg-white"
@@ -128,12 +130,12 @@ export default function Header() {
             </button>
           </div>
         </div>
-      </motion.header>
+      </m.header>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -142,7 +144,7 @@ export default function Header() {
           >
             <nav className="flex flex-col items-center gap-6">
               {navLinks.map((link, i) => (
-                <motion.div
+                <m.div
                   key={link.href}
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -160,10 +162,10 @@ export default function Header() {
                   >
                     {link.label}
                   </Link>
-                </motion.div>
+                </m.div>
               ))}
 
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 20 }}
@@ -177,9 +179,9 @@ export default function Header() {
                   {company.phone}
                 </a>
                 <QuoteButton size="md">Get a Free Quote</QuoteButton>
-              </motion.div>
+              </m.div>
             </nav>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>

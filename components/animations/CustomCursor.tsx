@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
   const [isHovering, setIsHovering] = useState(false);
@@ -73,7 +73,7 @@ export default function CustomCursor() {
   if (isMobile) return null;
 
   return (
-    <motion.div
+    <m.div
       className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border-[1.5px] border-brand-blue mix-blend-difference"
       style={{
         x,
@@ -81,11 +81,23 @@ export default function CustomCursor() {
         translateX: "-50%",
         translateY: "-50%",
       }}
+      // Explicit `initial` so framer-motion doesn't read the DOM's default
+      // `backgroundColor: transparent` — "transparent" isn't interpolatable as
+      // a color, only alpha is. Same applies to `borderColor`.
+      initial={{
+        width: 20,
+        height: 20,
+        opacity: 0,
+        backgroundColor: "rgba(59, 125, 216, 0)",
+        borderColor: "#3B7DD8",
+      }}
       animate={{
         width: isHovering ? 48 : 20,
         height: isHovering ? 48 : 20,
         opacity: isVisible ? 1 : 0,
-        backgroundColor: isHovering ? "rgba(59, 125, 216, 0.1)" : "transparent",
+        backgroundColor: isHovering
+          ? "rgba(59, 125, 216, 0.1)"
+          : "rgba(59, 125, 216, 0)",
         borderColor: isHovering ? "#E8A83E" : "#3B7DD8",
       }}
       transition={{ duration: 0.3, ease: "easeOut" }}

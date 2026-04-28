@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
 import { testimonials } from "@/lib/data/testimonials";
 import { staggerContainer, fadeUp } from "@/lib/animations";
+import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
@@ -65,6 +66,7 @@ export default function LafayetteContent() {
             className="object-cover"
             style={{ objectPosition: "center 60%" }}
             sizes="100vw"
+            {...blurProps("/images/areas/lafayette-hero.jpg")}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-warm-gray-900/65 via-warm-gray-900/55 to-warm-gray-900/75" />
         </div>
@@ -127,7 +129,7 @@ export default function LafayetteContent() {
             </p>
           </ScrollReveal>
 
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -135,7 +137,7 @@ export default function LafayetteContent() {
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
             {lafayetteNeighborhoods.map((n) => (
-              <motion.div
+              <m.div
                 key={n.name}
                 variants={fadeUp}
                 className="p-6 rounded-xl bg-cream border border-warm-gray-200"
@@ -146,9 +148,9 @@ export default function LafayetteContent() {
                 <p className="text-warm-gray-600 font-sans text-sm leading-relaxed">
                   {n.note}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -351,6 +353,7 @@ export default function LafayetteContent() {
                 fill
                 className="object-cover"
                 sizes="(min-width: 1024px) 1200px, 100vw"
+                {...blurProps("/images/projects/spiral-walkway.jpg")}
               />
             </div>
           </ScrollReveal>

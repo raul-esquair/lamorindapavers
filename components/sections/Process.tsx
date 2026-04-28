@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useScroll, useTransform, useMotionValue, type MotionValue } from "framer-motion";
+import { m, useScroll, useTransform, useMotionValue, type MotionValue } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
@@ -11,28 +11,28 @@ const steps = [
     title: "Free Consultation",
     description:
       "We visit your property, listen to your vision, assess the space, and provide a detailed free estimate — no pressure, no obligation.",
-    image: "/images/hero-bg.jpg",
+    image: "/images/process/free-consultation.webp",
   },
   {
     number: "02",
     title: "Custom Design",
     description:
       "We create a custom design plan with material selections, layout options, and a clear project timeline tailored to your goals and budget.",
-    image: "/images/services/landscape-design.jpg",
+    image: "/images/process/custom-design.webp",
   },
   {
     number: "03",
     title: "Expert Installation",
     description:
       "Our experienced crews bring the design to life with precision craftsmanship. Steve personally oversees every project on-site.",
-    image: "/images/services/paver-driveways.jpg",
+    image: "/images/process/expert-installation.webp",
   },
   {
     number: "04",
     title: "Final Walkthrough",
     description:
       "We do a detailed walkthrough together to ensure every detail meets your expectations, backed by our 5-year workmanship warranty.",
-    image: "/images/projects/hillside-estate-motor-court.jpg",
+    image: "/images/process/final-walkthrough.webp",
   },
 ];
 
@@ -58,7 +58,7 @@ function StepImageLayer({
   });
 
   return (
-    <motion.div
+    <m.div
       className="absolute inset-0 rounded-2xl overflow-hidden"
       animate={{ opacity: isActive ? 1 : 0 }}
       transition={{ duration: isActive ? 0.15 : 0.3, ease: "easeOut" }}
@@ -70,7 +70,7 @@ function StepImageLayer({
         className="w-full h-full object-cover"
       />
       <div className="absolute inset-0 bg-warm-gray-900/20" />
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -93,7 +93,7 @@ function StepContent({
   const x = useTransform(scrollYProgress, [0, 1], [30, 0]);
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       style={{ opacity, x }}
       className="min-h-[300px] flex items-center"
@@ -123,7 +123,7 @@ function StepContent({
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -201,7 +201,7 @@ function MobileProcessCard({
   });
 
   return (
-    <motion.div ref={ref} style={{ opacity, x }}>
+    <m.div ref={ref} style={{ opacity, x }}>
       <div className="bg-warm-white/95 backdrop-blur-sm rounded-xl p-6 border border-warm-gray-200 shadow-sm">
         <div className="flex items-start gap-4">
           <span className="text-5xl font-serif font-bold text-brand-blue/15 leading-none shrink-0">
@@ -227,7 +227,7 @@ function MobileProcessCard({
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 

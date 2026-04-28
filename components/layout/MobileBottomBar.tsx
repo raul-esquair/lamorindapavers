@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { company } from "@/lib/data/company";
 import { useQuoteModal } from "@/components/ui/QuoteModal";
 
@@ -20,7 +20,7 @@ export default function MobileBottomBar() {
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
+        <m.div
           initial={{ y: 100 }}
           animate={{ y: 0 }}
           exit={{ y: 100 }}
@@ -47,7 +47,7 @@ export default function MobileBottomBar() {
               Free Quote
             </button>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

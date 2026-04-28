@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { company } from "@/lib/data/company";
 import Button from "@/components/ui/Button";
 import QuoteButton from "@/components/ui/QuoteButton";
@@ -35,7 +35,7 @@ export default function FinalCTA() {
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <motion.div style={{ opacity, y, scale }}>
+        <m.div style={{ opacity, y, scale }}>
           <h2 className="text-4xl md:text-5xl lg:text-6xl text-white mb-6">
             Ready to Transform Your
             <br />
@@ -62,7 +62,7 @@ export default function FinalCTA() {
           <p className="text-sm font-sans text-blue-200">
             Licensed #{company.license} &middot; {company.warranty} &middot; Free Estimates
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

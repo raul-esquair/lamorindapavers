@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { m, useScroll, useTransform, useInView } from "framer-motion";
 import { company } from "@/lib/data/company";
 import { animateCounter } from "@/lib/animations";
 
@@ -53,16 +53,16 @@ export default function TrustBar() {
   return (
     <section ref={ref} className="py-12 md:py-16 bg-cream border-y border-warm-gray-200">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <motion.div
+        <m.div
           style={{ opacity, y }}
           className="grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {stats.map((stat) => (
             <AnimatedStat key={stat.label} stat={stat} />
           ))}
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           style={{ opacity }}
           className="flex flex-wrap items-center justify-center gap-6 mt-8 pt-8 border-t border-warm-gray-200"
         >
@@ -84,7 +84,7 @@ export default function TrustBar() {
             </svg>
             Fully Insured
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

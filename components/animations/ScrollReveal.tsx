@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -37,8 +37,8 @@ export default function ScrollReveal({
   const x = useTransform(clampedProgress, [0, 1], [xOffset, 0]);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y, x }} className={className}>
+    <m.div ref={ref} style={{ opacity, y, x }} className={className}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }

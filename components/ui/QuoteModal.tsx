@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, createContext, useContext, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
@@ -90,7 +90,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
   const prevStep = () => setStep((s) => Math.max(s - 1, 1));
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -98,7 +98,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
       className="fixed inset-0 z-[100] flex items-center justify-center p-4"
     >
       {/* Backdrop */}
-      <motion.div
+      <m.div
         initial={{ backdropFilter: "blur(0px)" }}
         animate={{ backdropFilter: "blur(12px)" }}
         exit={{ backdropFilter: "blur(0px)" }}
@@ -108,7 +108,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
       />
 
       {/* Modal */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 20, scale: 0.95 }}
@@ -128,7 +128,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
 
         <div className="p-6 sm:p-8">
           {submitted ? (
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className="text-center py-8"
@@ -150,7 +150,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                   {company.phone}
                 </a>
               </p>
-            </motion.div>
+            </m.div>
           ) : (
             <>
               {/* Header */}
@@ -179,7 +179,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                 <AnimatePresence mode="wait">
                   {/* Step 1: Service Selection */}
                   {step === 1 && (
-                    <motion.div
+                    <m.div
                       key="step1"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -218,12 +218,12 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                           Continue
                         </button>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {/* Step 2: Project Details */}
                   {step === 2 && (
-                    <motion.div
+                    <m.div
                       key="step2"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -274,12 +274,12 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                           Continue
                         </button>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {/* Step 3: Contact Info */}
                   {step === 3 && (
-                    <motion.div
+                    <m.div
                       key="step3"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -364,14 +364,14 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                           Submit Request
                         </button>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </form>
             </>
           )}
         </div>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }

@@ -1,12 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
 import Image from "next/image";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { staggerContainer, fadeUp } from "@/lib/animations";
+import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
@@ -40,6 +41,7 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
                 className="object-cover"
                 style={{ objectPosition: service.imagePosition || "center" }}
                 sizes="100vw"
+                {...blurProps(service.image)}
               />
               <div className="absolute inset-0 bg-gradient-to-b from-warm-gray-900/60 via-warm-gray-900/50 to-warm-gray-900/70" />
             </div>
@@ -107,7 +109,7 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
                 <h2 className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
                   What&apos;s Included
                 </h2>
-                <motion.ul
+                <m.ul
                   initial="hidden"
                   whileInView="visible"
                   viewport={{ once: true }}
@@ -115,7 +117,7 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
                   className="space-y-4 mb-12"
                 >
                   {service.features.map((feature) => (
-                    <motion.li
+                    <m.li
                       key={feature}
                       variants={fadeUp}
                       className="flex items-start gap-3"
@@ -124,9 +126,9 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       <span className="text-warm-gray-600 font-sans">{feature}</span>
-                    </motion.li>
+                    </m.li>
                   ))}
-                </motion.ul>
+                </m.ul>
               </ScrollReveal>
 
               {/* FAQ */}
@@ -212,7 +214,7 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
               </h2>
             </ScrollReveal>
 
-            <motion.div
+            <m.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -220,7 +222,7 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
               className="grid grid-cols-1 md:grid-cols-3 gap-6"
             >
               {relatedServices.map((related) => (
-                <motion.div key={related.slug} variants={fadeUp}>
+                <m.div key={related.slug} variants={fadeUp}>
                   <Link
                     href={`/services/${related.slug}`}
                     className="group block bg-warm-white rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
@@ -232,9 +234,9 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
                       {related.shortDescription}
                     </p>
                   </Link>
-                </motion.div>
+                </m.div>
               ))}
-            </motion.div>
+            </m.div>
           </div>
         </section>
       )}

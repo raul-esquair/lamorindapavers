@@ -1,10 +1,11 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import { getFeaturedProjects, type Project } from "@/lib/data/projects";
+import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 
@@ -80,7 +81,7 @@ function ProjectRevealCard({
   return (
     <div ref={cardRef} className="group relative overflow-hidden rounded-xl h-72 md:h-80">
       {/* Colored reveal bar that slides across before image appears */}
-      <motion.div
+      <m.div
         className={`absolute inset-0 z-10 ${curtainColors[index % curtainColors.length]}`}
         style={{
           clipPath,
@@ -90,8 +91,8 @@ function ProjectRevealCard({
 
       {/* Image with clip-path reveal */}
       {hasImage ? (
-        <motion.div className="absolute inset-0" style={{ clipPath }}>
-          <motion.div
+        <m.div className="absolute inset-0" style={{ clipPath }}>
+          <m.div
             className="absolute inset-0"
             style={{ scale: imageScale }}
           >
@@ -102,18 +103,19 @@ function ProjectRevealCard({
               style={{ objectPosition: project.imagePosition || "center" }}
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
+              {...blurProps(project.images[0])}
             />
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       ) : (
-        <motion.div
+        <m.div
           className="absolute inset-0 bg-gradient-to-br from-warm-gray-800 to-warm-gray-900"
           style={{ clipPath }}
         />
       )}
 
       {/* Gradient overlay — also reveals with clip-path */}
-      <motion.div
+      <m.div
         className="absolute inset-0 bg-gradient-to-t from-warm-gray-900/80 via-warm-gray-900/20 to-transparent"
         style={{ clipPath }}
       />
@@ -122,7 +124,7 @@ function ProjectRevealCard({
       <div className="absolute inset-0 bg-brand-blue/0 group-hover:bg-brand-blue/20 transition-colors duration-500" />
 
       {/* Content — fades in after image reveals */}
-      <motion.div
+      <m.div
         className="absolute inset-0 flex flex-col justify-end p-6 md:p-8"
         style={{ opacity: textOpacity, y: textY }}
       >
@@ -135,7 +137,7 @@ function ProjectRevealCard({
         <p className="text-sm font-sans text-warm-gray-300">
           {project.city}, CA
         </p>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

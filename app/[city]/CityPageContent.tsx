@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import type { City } from "@/lib/data/cities";
 import { cities } from "@/lib/data/cities";
@@ -51,7 +51,7 @@ export default function CityPageContent({ city }: { city: City }) {
             </p>
           </ScrollReveal>
 
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -59,7 +59,7 @@ export default function CityPageContent({ city }: { city: City }) {
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {services.map((service) => (
-              <motion.div key={service.slug} variants={fadeUp}>
+              <m.div key={service.slug} variants={fadeUp}>
                 <Link
                   href={`/services/${service.slug}`}
                   className="group flex items-center gap-4 p-4 rounded-lg bg-cream border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-sm transition-all"
@@ -69,9 +69,9 @@ export default function CityPageContent({ city }: { city: City }) {
                     {service.name}
                   </span>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 

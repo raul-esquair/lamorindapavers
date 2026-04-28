@@ -1,8 +1,9 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import { blurProps } from "@/lib/blur";
 
 interface ParallaxImageProps {
   src: string;
@@ -29,7 +30,7 @@ export default function ParallaxImage({
 
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>
-      <motion.div style={{ y }} className="relative h-[120%] w-full">
+      <m.div style={{ y }} className="relative h-[120%] w-full">
         <Image
           src={src}
           alt={alt}
@@ -37,8 +38,9 @@ export default function ParallaxImage({
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"
           priority={priority}
+          {...blurProps(src)}
         />
-      </motion.div>
+      </m.div>
     </div>
   );
 }

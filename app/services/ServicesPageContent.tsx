@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
 import { staggerContainer, fadeUp } from "@/lib/animations";
@@ -30,7 +30,7 @@ export default function ServicesPageContent({ services }: { services: Service[] 
       {/* Services Grid */}
       <section className="py-16 md:py-24 bg-warm-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
@@ -38,7 +38,7 @@ export default function ServicesPageContent({ services }: { services: Service[] 
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {services.map((service) => (
-              <motion.div key={service.slug} variants={fadeUp}>
+              <m.div key={service.slug} variants={fadeUp}>
                 <Link
                   href={`/services/${service.slug}`}
                   className="group block bg-cream rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
@@ -61,9 +61,9 @@ export default function ServicesPageContent({ services }: { services: Service[] 
                     </span>
                   </div>
                 </Link>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 

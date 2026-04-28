@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import React from "react";
 
 interface ScrollStaggerProps {
@@ -36,8 +36,8 @@ function StaggerItem({ children }: { children: React.ReactNode }) {
   const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
 
   return (
-    <motion.div ref={ref} style={{ opacity, y }}>
+    <m.div ref={ref} style={{ opacity, y }}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }

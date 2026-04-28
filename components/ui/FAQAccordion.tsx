@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 
 interface FAQ {
   question: string;
@@ -25,7 +25,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
             <span className="font-sans font-medium text-warm-gray-800 pr-4">
               {faq.question}
             </span>
-            <motion.svg
+            <m.svg
               animate={{ rotate: openIndex === i ? 180 : 0 }}
               transition={{ duration: 0.3 }}
               className="w-5 h-5 text-warm-gray-400 shrink-0"
@@ -39,12 +39,12 @@ export default function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
                 strokeWidth={2}
                 d="M19 9l-7 7-7-7"
               />
-            </motion.svg>
+            </m.svg>
           </button>
 
           <AnimatePresence>
             {openIndex === i && (
-              <motion.div
+              <m.div
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
@@ -55,7 +55,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
                     {faq.answer}
                   </p>
                 </div>
-              </motion.div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
@@ -40,7 +40,7 @@ export default function ContactPageContent() {
       <>
         <section className="pt-32 pb-32 md:pt-40 min-h-screen flex items-center">
           <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <motion.div
+            <m.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
@@ -64,7 +64,7 @@ export default function ContactPageContent() {
               <Button href="/" variant="primary">
                 Back to Home
               </Button>
-            </motion.div>
+            </m.div>
           </div>
         </section>
       </>
@@ -125,7 +125,7 @@ export default function ContactPageContent() {
               <form onSubmit={handleSubmit(onSubmit)}>
                 <AnimatePresence mode="wait">
                   {step === 1 && (
-                    <motion.div
+                    <m.div
                       key="step1"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -160,11 +160,11 @@ export default function ContactPageContent() {
                           Continue
                         </Button>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {step === 2 && (
-                    <motion.div
+                    <m.div
                       key="step2"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -210,11 +210,11 @@ export default function ContactPageContent() {
                           Continue
                         </Button>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
 
                   {step === 3 && (
-                    <motion.div
+                    <m.div
                       key="step3"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
@@ -289,7 +289,7 @@ export default function ContactPageContent() {
                           Submit Request
                         </Button>
                       </div>
-                    </motion.div>
+                    </m.div>
                   )}
                 </AnimatePresence>
               </form>

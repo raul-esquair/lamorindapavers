@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { company } from "@/lib/data/company";
 import { staggerContainer, fadeUp, slideInLeft, slideInRight } from "@/lib/animations";
 import SectionLabel from "@/components/ui/SectionLabel";
@@ -53,7 +53,7 @@ export default function AboutPageContent() {
       <section className="py-16 md:py-24 bg-warm-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <motion.div
+            <m.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -64,9 +64,9 @@ export default function AboutPageContent() {
                   Steve Barsanti
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
@@ -99,7 +99,7 @@ export default function AboutPageContent() {
                   every inch of our work.
                 </p>
               </div>
-            </motion.div>
+            </m.div>
           </div>
         </div>
       </section>
@@ -114,7 +114,7 @@ export default function AboutPageContent() {
             </h2>
           </ScrollReveal>
 
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
@@ -122,7 +122,7 @@ export default function AboutPageContent() {
             className="grid grid-cols-1 md:grid-cols-2 gap-8"
           >
             {values.map((value) => (
-              <motion.div
+              <m.div
                 key={value.title}
                 variants={fadeUp}
                 className="bg-warm-white rounded-xl p-8 border border-warm-gray-200"
@@ -133,9 +133,9 @@ export default function AboutPageContent() {
                 <p className="text-warm-gray-500 font-sans leading-relaxed">
                   {value.description}
                 </p>
-              </motion.div>
+              </m.div>
             ))}
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
@@ -148,14 +148,14 @@ export default function AboutPageContent() {
             </h2>
           </ScrollReveal>
 
-          <motion.div
+          <m.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             variants={staggerContainer}
             className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto"
           >
-            <motion.div variants={fadeUp} className="text-center p-6">
+            <m.div variants={fadeUp} className="text-center p-6">
               <div className="w-16 h-16 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-brand-blue" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -163,9 +163,9 @@ export default function AboutPageContent() {
               </div>
               <h3 className="font-sans font-semibold text-warm-gray-900 mb-1">Licensed</h3>
               <p className="text-sm font-sans text-warm-gray-500">CA License #{company.license}</p>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="text-center p-6">
+            <m.div variants={fadeUp} className="text-center p-6">
               <div className="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-brand-gold" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 1l2.928 6.856L20 8.588l-5 5.012L16.18 20 10 16.428 3.82 20 5 13.6 0 8.588l7.072-.732L10 1z" clipRule="evenodd" />
@@ -173,9 +173,9 @@ export default function AboutPageContent() {
               </div>
               <h3 className="font-sans font-semibold text-warm-gray-900 mb-1">Warranted</h3>
               <p className="text-sm font-sans text-warm-gray-500">{company.warranty}</p>
-            </motion.div>
+            </m.div>
 
-            <motion.div variants={fadeUp} className="text-center p-6">
+            <m.div variants={fadeUp} className="text-center p-6">
               <div className="w-16 h-16 rounded-full bg-brand-red/10 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-brand-red" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -183,8 +183,8 @@ export default function AboutPageContent() {
               </div>
               <h3 className="font-sans font-semibold text-warm-gray-900 mb-1">Insured</h3>
               <p className="text-sm font-sans text-warm-gray-500">Fully Insured &amp; Bonded</p>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
         </div>
       </section>
 

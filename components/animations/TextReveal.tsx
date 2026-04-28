@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 interface TextRevealProps {
   children: string;
@@ -21,7 +21,7 @@ export default function TextReveal({
 
   return (
     <Tag className={className}>
-      <motion.span
+      <m.span
         initial="hidden"
         whileInView="visible"
         viewport={{ once, margin: "-50px" }}
@@ -38,7 +38,7 @@ export default function TextReveal({
       >
         {words.map((word, i) => (
           <span key={i} className="inline-block overflow-hidden">
-            <motion.span
+            <m.span
               className="inline-block"
               variants={{
                 hidden: { y: "100%", opacity: 0 },
@@ -53,11 +53,11 @@ export default function TextReveal({
               }}
             >
               {word}
-            </motion.span>
+            </m.span>
             {i < words.length - 1 && "\u00A0"}
           </span>
         ))}
-      </motion.span>
+      </m.span>
     </Tag>
   );
 }

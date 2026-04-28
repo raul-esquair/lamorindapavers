@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
+import { blurProps } from "@/lib/blur";
 
 const quickLinks = [
   { href: "/services", label: "Services" },
@@ -28,6 +29,7 @@ export default function Footer() {
                 width={180}
                 height={50}
                 className="h-10 w-auto brightness-0 invert mb-4"
+                {...blurProps("/images/logo.png")}
               />
             </Link>
             <p className="text-sm leading-relaxed text-warm-gray-400 mb-6">
