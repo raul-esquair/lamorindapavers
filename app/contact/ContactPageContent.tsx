@@ -8,6 +8,7 @@ import { services } from "@/lib/data/services";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
+import { submitQuote } from "@/lib/actions/submit-quote";
 
 interface FormData {
   service: string;
@@ -22,14 +23,22 @@ interface FormData {
 export default function ContactPageContent() {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
 
   const selectedService = watch("service");
 
-  const onSubmit = (data: FormData) => {
-    // TODO: Wire to server action or form service
-    console.log("Form submitted:", data);
-    setSubmitted(true);
+  const onSubmit = async (data: FormData) => {
+    setSubmitting(true);
+    setSubmitError(null);
+    const result = await submitQuote(data);
+    setSubmitting(false);
+    if (result.ok) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(result.error);
+    }
   };
 
   const nextStep = () => setStep((s) => Math.min(s + 1, 3));
@@ -281,12 +290,17 @@ export default function ContactPageContent() {
                           />
                         </div>
                       </div>
+                      {submitError && (
+                        <p className="text-brand-red text-sm mt-6 font-sans">
+                          {submitError}
+                        </p>
+                      )}
                       <div className="mt-8 flex justify-between">
-                        <Button onClick={prevStep} variant="ghost">
+                        <Button onClick={prevStep} variant="ghost" disabled={submitting}>
                           Back
                         </Button>
-                        <Button type="submit" variant="secondary" onClick={() => {}}>
-                          Submit Request
+                        <Button type="submit" variant="secondary" disabled={submitting}>
+                          {submitting ? "Sending…" : "Submit Request"}
                         </Button>
                       </div>
                     </m.div>

@@ -5,6 +5,7 @@ import { m, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
+import { submitQuote } from "@/lib/actions/submit-quote";
 
 // Context so any component can open the modal
 const QuoteModalContext = createContext<{
@@ -71,6 +72,8 @@ export function QuoteModalProvider({ children }: { children: React.ReactNode }) 
 function QuoteModalContent({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(1);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const {
     register,
     handleSubmit,
@@ -80,10 +83,16 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
 
   const selectedService = watch("service");
 
-  const onSubmit = (data: FormData) => {
-    // TODO: Wire to server action or form service
-    console.log("Quote form submitted:", data);
-    setSubmitted(true);
+  const onSubmit = async (data: FormData) => {
+    setSubmitting(true);
+    setSubmitError(null);
+    const result = await submitQuote(data);
+    setSubmitting(false);
+    if (result.ok) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(result.error);
+    }
   };
 
   const nextStep = () => setStep((s) => Math.min(s + 1, 3));
@@ -349,19 +358,26 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                           />
                         </div>
                       </div>
+                      {submitError && (
+                        <p className="text-brand-red text-sm mt-4 font-sans">
+                          {submitError}
+                        </p>
+                      )}
                       <div className="mt-6 flex justify-between">
                         <button
                           type="button"
                           onClick={prevStep}
-                          className="px-4 py-2.5 text-sm font-sans font-medium text-warm-gray-500 hover:text-warm-gray-700 transition-colors"
+                          disabled={submitting}
+                          className="px-4 py-2.5 text-sm font-sans font-medium text-warm-gray-500 hover:text-warm-gray-700 transition-colors disabled:opacity-50"
                         >
                           Back
                         </button>
                         <button
                           type="submit"
-                          className="px-6 py-2.5 bg-brand-gold text-white text-sm font-sans font-semibold rounded-lg hover:bg-brand-gold-dark transition-colors"
+                          disabled={submitting}
+                          className="px-6 py-2.5 bg-brand-gold text-white text-sm font-sans font-semibold rounded-lg hover:bg-brand-gold-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                         >
-                          Submit Request
+                          {submitting ? "Sending…" : "Submit Request"}
                         </button>
                       </div>
                     </m.div>

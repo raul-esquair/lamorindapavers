@@ -10,6 +10,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "button" | "submit";
   external?: boolean;
+  disabled?: boolean;
 }
 
 const variants = {
@@ -35,11 +36,13 @@ export default function Button({
   onClick,
   type = "button",
   external = false,
+  disabled = false,
 }: ButtonProps) {
   const classes = cn(
     "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold transition-all duration-300",
     variants[variant],
     sizes[size],
+    disabled && "opacity-60 cursor-not-allowed pointer-events-none",
     className
   );
 
@@ -60,7 +63,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
       {children}
     </button>
   );
