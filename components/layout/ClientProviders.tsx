@@ -17,14 +17,14 @@ export default function ClientProviders({
   // forces the full bundle to load synchronously, defeating the saving — so
   // every file in this codebase should use `m.*`.
   return (
-    <QuoteModalProvider>
-      <LazyMotion features={domAnimation}>
+    <LazyMotion features={domAnimation}>
+      <QuoteModalProvider>
         <SmoothScroll>
           <CustomCursor />
           {children}
           <MobileBottomBar />
         </SmoothScroll>
-      </LazyMotion>
-    </QuoteModalProvider>
+      </QuoteModalProvider>
+    </LazyMotion>
   );
 }
