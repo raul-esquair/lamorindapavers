@@ -205,6 +205,9 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 
 ## TODO (Not Yet Done)
 - ⚠️ **Confirm placeholder editorial fields** (`scope`, `duration`, `year`, `materials`) on the 4 real projects with Steve before launch. TODO block at top of `lib/data/projects.ts`.
+- ⚠️ **Confirm Steve's signed paragraphs** on `/moraga` and `/orinda`. Drafts are in `app/moraga/content.ts` (`moragaSteveNote`) and `app/orinda/content.ts` (`orindaSteveNote`) — published with Steve's name, so the words should be his. Edit to his voice.
+- ⚠️ **Confirm Moraga patio thresholds** — the town doesn't publish a sf/grade trigger; the FAQ in `app/moraga/content.ts` is conservative. Verify with the Moraga planning counter (925-888-7040).
+- ⚠️ **Confirm Orinda Downs HOA scope** — HOA exists but it's unclear whether driveway/patio scope triggers ARC review. Currently the Orinda page mentions HOA review for Wilder, Orindawoods, and OCC only.
 - Wire contact/quote form to email backend via Resend Server Action — **paused** awaiting `lamorindapaving.com` DNS verification on Resend. Plan: send from `quotes@lamorindapaving.com`, recipient is Steve's personal email, `replyTo: customer_email` on notifications. See memory file `project_form_routing.md` for full plan.
 - Add real project photos for project-5 (Outdoor Kitchen) and project-6 (Putting Green) — currently render gradient "Photo coming soon" fallback in the gallery.
 - Add remaining 3 service images (putting greens, water features, arbors) + their icons
@@ -214,6 +217,8 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 - Set up redirects from old WordPress URLs to new routes
 - Blog content (structure is ready)
 - **Optional polish:** upgrade Process section's `<img>` tags to `next/image` to activate the (already-generated) blur entries for those WebPs.
+- **Optional polish:** retrofit the "From the Owner" signed-paragraph pattern to `/lafayette` for parity with Moraga and Orinda.
+- **Optional polish:** drop in real Moraga and Orinda project photos and add a "Featured Project" section to each city page (mirror Lafayette's pattern). Currently both pages skip this section.
 
 ## Build & Dev Commands
 ```bash

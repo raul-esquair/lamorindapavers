@@ -7,9 +7,11 @@ interface Props {
   params: Promise<{ city: string }>;
 }
 
-// Lafayette has its own custom static route at /app/lafayette — exclude it here
-// so the static route takes precedence and there's no build-time path collision.
-const dynamicCities = cities.filter((c) => c.slug !== "lafayette");
+// Lafayette, Moraga, and Orinda each have their own custom static route at
+// /app/[slug] — exclude them here so the static route takes precedence and
+// there's no build-time path collision.
+const customRouteSlugs = new Set(["lafayette", "moraga", "orinda"]);
+const dynamicCities = cities.filter((c) => !customRouteSlugs.has(c.slug));
 
 export async function generateStaticParams() {
   return dynamicCities.map((city) => ({
@@ -19,7 +21,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { city } = await params;
-  if (city === "lafayette") return {};
+  if (customRouteSlugs.has(city)) return {};
   const cityData = getCityBySlug(city);
   if (!cityData) return {};
 
@@ -31,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CityPage({ params }: Props) {
   const { city } = await params;
-  if (city === "lafayette") notFound();
+  if (customRouteSlugs.has(city)) notFound();
   const cityData = getCityBySlug(city);
   if (!cityData) notFound();
 
