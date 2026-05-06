@@ -133,6 +133,29 @@ A stack of fullscreen "chapters," one per project. Files live under `app/project
 **Editorial fields on `Project`** (in `lib/data/projects.ts`):
 `scope`, `duration`, `year`, `materials`, `services`, `challenge`, `solution`, `slug`, `heroIndex` — all optional. **The 4 real projects (project-1 through project-4) have placeholder values flagged with a TODO block at the top of the file. Verify with Steve before launch.**
 
+### City Page Architecture
+12 cities total. Three have **bespoke routes** with full landing pages — `/lafayette` (`app/lafayette/`), `/moraga` (`app/moraga/`), `/orinda` (`app/orinda/`). The other 9 use the generic `[city]` template (`app/[city]/CityPageContent.tsx`).
+
+The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set(["lafayette", "moraga", "orinda"])` so there's no path collision. To promote a city from templated to bespoke, add the slug to that Set and create the matching `app/[slug]/{page.tsx, content.ts, [Name]Content.tsx}`.
+
+**Anti-doorway-page rules.** Every bespoke city page must satisfy these rules — they're how the site avoids near-duplicate suppression on city pages with similar service offerings. Rules derived from May 2026 research synthesis on local-SEO best practices post-Helpful Content updates.
+
+1. **Different lead hook per city** — the section immediately after the hero must be unique to that city. Lafayette: hillside oak ordinance. Moraga: pervious-driveway code (>50 ft / >16 ft rule). Orinda: Orinda Formation soil story + paver cross-section diagram.
+2. **Different featured-service mix** — Lafayette has driveways/patios/walls/decks/kitchens. Moraga swaps in fire pits + artificial turf. Orinda swaps in pool decks + water features. Don't replicate the same five.
+3. **Vary section ordering** — Lafayette goes neighborhoods → soil → permits → project → services. Moraga goes lead hook → neighborhoods → permits → services. Orinda goes lead hook + cross-section → neighborhoods → permits → services. Same component palette, different sequence.
+4. **Skip Materials/brands section on non-Lafayette pages** — link to Lafayette's instead. Brand grids replicated across cities are the highest-risk duplicate-content pattern.
+5. **Adjacent-only nearby-cities** — link to ~3 geographically adjacent cities, not all 11 others. Footer/section dump-all-cities patterns trigger thin-content suppression.
+6. **Signed paragraph from Steve** — every bespoke city page renders a `cityNameSteveNote` constant from `content.ts` in a "From the Owner" section. The constant ends with the literal suffix `— Steve Barsanti, Owner` and the JSX strips it via `.replace(/ — Steve Barsanti, Owner$/, "")` to render the byline as a separate figcaption. This is the highest-leverage E-E-A-T signal on these pages — preserve the pattern. Lafayette doesn't have it yet (TODO retrofit for parity).
+7. **City-specific FAQs** — every bespoke page has 8 FAQs that reference the city's actual permit office, soil, HOAs, or ordinances. Generic FAQs reused across cities are a Helpful Content negative signal.
+
+**Per-page SEO infrastructure.** Every bespoke city `page.tsx` includes:
+- `BreadcrumbJsonLd` (Home → Service Areas → City)
+- `ServiceJsonLd` with `areaServed: { "@type": "City", name: "City, CA" }`
+- `FAQJsonLd` from the city's FAQ array
+- Metadata with canonical URL `${company.domain}/[city-slug]`
+
+**Hero pattern.** Hero photos live at `/public/images/areas/[slug]-hero.jpg`. After adding a hero photo, run `npm run blur:gen` so the blur map picks it up. The hero markup uses `<Image>` with a dark gradient overlay and `objectPosition` tuned per photo. The cream-bg fallback variant (used briefly during initial Moraga/Orinda development) is no longer in use.
+
 ### Quote Modal (`components/ui/QuoteModal.tsx`)
 - Global context provider wrapping the entire app via `ClientProviders`
 - Blurred backdrop (12px blur + dark overlay)
@@ -202,6 +225,8 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 8. **`getLenis()` for programmatic scroll** — Use the live singleton getter, not native `scrollIntoView`, to avoid double-smooth artifacts. See "Lenis is exposed via `getLenis()`" above.
 9. **Per-chapter scroll tracking on `/projects`** — Same rule as #5. Filter changes remount the shelf (`key={count}`) to refresh stale closures inside `useTransform`. AnimatePresence (NOT LayoutGroup) handles filter transitions on the chapter stack — layout animation fights `lg:h-[200vh]` sticky parents.
 10. **Curtain handoff is image-aligned, not text-aligned** — On `/projects`, the curtain reveals the next chapter's image at `scale: 1.06` so it lines up with the next chapter's entry-zoom origin. No visual pop at pin handoff. Don't change this geometry.
+11. **Bespoke city pages must vary, not replicate** — `/lafayette`, `/moraga`, and `/orinda` each have a unique lead hook, a different featured-service mix, varied section ordering, and a 100-word signed paragraph from Steve. The Materials/brands section appears only on Lafayette. Nearby-cities sections link adjacent-only, not all 11 others. See "City Page Architecture" section for the full rule set — these are anti-doorway-page rules, not stylistic preferences.
+12. **Signed owner paragraphs are load-bearing E-E-A-T** — every bespoke city page renders a `cityNameSteveNote` constant ending with `— Steve Barsanti, Owner`. JSX strips the suffix via `.replace()` and renders it as the figcaption. Don't refactor to flatten this into a single paragraph — the byline-as-figcaption pattern is what makes the signal trustworthy.
 
 ## TODO (Not Yet Done)
 - ⚠️ **Confirm placeholder editorial fields** (`scope`, `duration`, `year`, `materials`) on the 4 real projects with Steve before launch. TODO block at top of `lib/data/projects.ts`.
