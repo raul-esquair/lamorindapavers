@@ -1,0 +1,58 @@
+name: Auto-merge open blog drafts
+
+# Safety net for the weekly blog pipeline. If the reviewer doesn't manually
+# merge an open drafts/* PR by Sunday night, this workflow squash-merges it
+# so the post is on main and publishes Monday morning.
+#
+# Contract:
+#   - Leave PR open → implicit approval → auto-merges Sunday night
+#   - Close PR      → explicit rejection → nothing publishes, brief stays queued
+#   - Edit PR       → still auto-merges (edits captured in the branch)
+
+on:
+  schedule:
+    # Monday 07:00 UTC = Sunday 23:00 PST / Monday 00:00 PDT
+    - cron: '0 7 * * 1'
+  workflow_dispatch:
+
+jobs:
+  auto-merge:
+    name: Squash-merge pending draft PRs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Find and merge open draft PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          prs=$(gh pr list \
+            --repo "$REPO" \
+            --state open \
+            --base main \
+            --json number,headRefName,title \
+            --jq '.[] | select(.headRefName | startswith("drafts/")) | .number')
+
+          if [ -z "$prs" ]; then
+            echo "No open draft PRs. Nothing to auto-merge."
+            exit 0
+          fi
+
+          for pr in $prs; do
+            echo "──────────────────────────────────────────"
+            echo "Auto-merging PR #$pr"
+            echo "──────────────────────────────────────────"
+
+            gh pr comment "$pr" --repo "$REPO" --body "Auto-merged
+
+            This PR was still open at the Sunday 11pm PT deadline, so it's being auto-merged per the default-approve pipeline policy. The post will publish on its scheduled date when the weekly rebuild fires Monday morning.
+
+            If this was a mistake: revert the merge on main before the Monday rebuild, or edit the post directly on main (it stays hidden until its scheduled date anyway)."
+
+            gh pr merge "$pr" --repo "$REPO" --squash --delete-branch --admin
+          done
+
+          echo ""
+          echo "Auto-merge pass complete."

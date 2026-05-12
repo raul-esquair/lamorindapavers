@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { services } from "@/lib/data/services";
 import { cities } from "@/lib/data/cities";
+import { getPublishedPosts } from "@/lib/blog/data";
 
 const BASE_URL = "https://lamorindapaving.com";
 
@@ -31,5 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticPages, ...servicePages, ...cityPages];
+  const blogPages: MetadataRoute.Sitemap = getPublishedPosts().map((post) => ({
+    url: `${BASE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticPages, ...servicePages, ...cityPages, ...blogPages];
 }

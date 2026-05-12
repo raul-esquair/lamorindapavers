@@ -102,6 +102,41 @@ export function BreadcrumbJsonLd({
   );
 }
 
+export function ArticleJsonLd({
+  title,
+  description,
+  date,
+  url,
+  image,
+}: {
+  title: string;
+  description: string;
+  date: string;
+  url: string;
+  image?: string;
+}) {
+  const jsonLd: Record<string, unknown> = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: title,
+    description,
+    datePublished: date,
+    author: { "@type": "Organization", name: company.name },
+    publisher: { "@type": "Organization", name: company.name },
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+  };
+  if (image) {
+    jsonLd.image = { "@type": "ImageObject", url: image };
+  }
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+}
+
 export function ServiceJsonLd({
   serviceName,
   serviceType,

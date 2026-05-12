@@ -1,0 +1,28 @@
+name: Weekly blog publish
+
+# Triggers a Netlify rebuild every Monday so pre-written blog posts whose
+# `date` field has now passed become visible on the site.
+
+on:
+  schedule:
+    # Every Monday at 14:00 UTC = 7am PDT (summer) / 6am PST (winter)
+    - cron: '0 14 * * 1'
+  workflow_dispatch:
+
+jobs:
+  trigger-netlify-rebuild:
+    name: Trigger Netlify rebuild
+    runs-on: ubuntu-latest
+    steps:
+      - name: POST to Netlify build hook
+        env:
+          HOOK_URL: ${{ secrets.NETLIFY_BUILD_HOOK_URL }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then
+            echo "::error::NETLIFY_BUILD_HOOK_URL secret is missing."
+            exit 1
+          fi
+          echo "Triggering Netlify rebuild..."
+          curl --fail --show-error -X POST -d '{}' "$HOOK_URL"
+          echo ""
+          echo "Rebuild triggered. Monitor progress in the Netlify dashboard."

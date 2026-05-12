@@ -1,0 +1,93 @@
+name: Auto-propose content batch when queue is low
+
+# Every Tuesday, counts unpublished briefs in content/post-queue.json. If the
+# runway drops to RUNWAY_THRESHOLD weeks or fewer AND there's no open proposal
+# PR already, fires propose-next-batch.ts to generate the next batch.
+
+on:
+  schedule:
+    # Tuesday 16:00 UTC = ~9am PDT / 8am PST
+    - cron: '0 16 * * 2'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force proposal even if queue is healthy'
+        required: false
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+env:
+  # Trigger when this many unpublished briefs remain or fewer (4 = ~1 month runway)
+  RUNWAY_THRESHOLD: 4
+
+jobs:
+  check-and-propose:
+    name: Check queue depth + fire proposal if low
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check queue depth
+        id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+
+          count=$(jq --arg today "$TODAY" \
+            '[.[] | select(.scheduledDate > $today)] | length' \
+            content/post-queue.json)
+
+          open_proposal=$(gh pr list --state open --json headRefName \
+            --jq '[.[] | select(.headRefName | startswith("proposals/"))] | length')
+
+          echo "──────────────────────────────────────────"
+          echo "Unpublished briefs in queue: $count"
+          echo "Threshold:                   ${{ env.RUNWAY_THRESHOLD }}"
+          echo "Open proposal PRs:           $open_proposal"
+          echo "Force flag:                  ${{ inputs.force }}"
+          echo "──────────────────────────────────────────"
+
+          TRIGGER=false
+          if [ "${{ inputs.force }}" = "true" ]; then
+            TRIGGER=true
+            echo "Force flag set — triggering regardless of queue depth."
+          elif [ "$count" -le "${{ env.RUNWAY_THRESHOLD }}" ] && [ "$open_proposal" -eq 0 ]; then
+            TRIGGER=true
+            echo "Queue at or below threshold and no pending proposal — triggering."
+          elif [ "$open_proposal" -gt 0 ]; then
+            echo "Skipping — a proposal PR is already open. Review and merge it first."
+          else
+            echo "Queue is healthy ($count posts) — no action needed."
+          fi
+
+          echo "trigger=$TRIGGER" >> $GITHUB_OUTPUT
+
+      - name: Propose next batch
+        if: steps.check.outputs.trigger == 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GSC_SERVICE_ACCOUNT_JSON_BASE64: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON_BASE64 }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODEL: claude-opus-4-7
+          SEND_PROPOSAL_EMAIL: "true"
+        run: |
+          echo "Running propose-next-batch.ts..."
+          npx tsx scripts/propose-next-batch.ts

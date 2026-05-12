@@ -1,14 +1,23 @@
 import type { Metadata } from "next";
+import { generatePageMetadata } from "@/lib/metadata";
+import { getPublishedPosts } from "@/lib/blog/data";
+import { loadBlogConfig } from "@/lib/blog-config";
 import SectionLabel from "@/components/ui/SectionLabel";
-import Button from "@/components/ui/Button";
+import BlogCard from "@/components/blog/BlogCard";
+import BlogCTA from "@/components/blog/BlogCTA";
 
-export const metadata: Metadata = {
-  title: "Blog",
-  description:
-    "Tips, guides, and inspiration for your outdoor living projects. Expert advice from Lamorinda Pavers, the East Bay's trusted paver contractor.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const config = await loadBlogConfig();
+  return generatePageMetadata({
+    title: `Blog | ${config.site.brand.short}`,
+    description: `Insights and guides from ${config.site.brand.full} — paver driveways, patios, retaining walls, and outdoor living for East Bay homeowners.`,
+    path: "/blog",
+  });
+}
 
-export default function BlogPage() {
+export default async function BlogPage() {
+  const posts = getPublishedPosts();
+
   return (
     <>
       <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream">
@@ -26,25 +35,28 @@ export default function BlogPage() {
         </div>
       </section>
 
-      <section className="py-24 md:py-32 bg-warm-white">
-        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="w-16 h-16 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-brand-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
-            </svg>
-          </div>
-          <h2 className="text-2xl md:text-3xl text-warm-gray-900 mb-4">
-            Coming Soon
-          </h2>
-          <p className="text-warm-gray-500 font-sans mb-8">
-            We&apos;re working on helpful content about paver installation, outdoor living
-            design, and maintenance tips. Check back soon!
-          </p>
-          <Button href="/contact" variant="primary">
-            Get a Free Estimate
-          </Button>
+      <section className="py-16 md:py-24 bg-warm-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {posts.length === 0 ? (
+            <div className="text-center py-24">
+              <p className="text-warm-gray-500 font-sans">No posts published yet — check back soon.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              {posts.map((post) => (
+                <BlogCard key={post.slug} post={post} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
+
+      <BlogCTA
+        heading="Ready to start your outdoor project?"
+        subtext="Tell us about your property and we'll come walk it with you — free estimate, no pressure."
+        buttonText="Request a free estimate"
+        buttonHref="/contact"
+      />
     </>
   );
 }

@@ -1,0 +1,64 @@
+name: Weekly blog draft
+
+# Every Friday morning Pacific, generates a draft of the next queued blog
+# post and opens a PR for review. The script reads recipients from
+# blog.config.ts > email.reviewRecipients by default. Override via
+# DRAFT_REVIEW_EMAILS env var below if you want CI to use a different list.
+
+on:
+  schedule:
+    # Friday 16:00 UTC = 9am PDT (summer) / 8am PST (winter)
+    - cron: '0 16 * * 5'
+  workflow_dispatch:
+    inputs:
+      model:
+        description: 'Claude model'
+        required: false
+        default: 'claude-sonnet-4-6'
+        type: choice
+        options:
+          - claude-sonnet-4-6
+          - claude-opus-4-7
+
+jobs:
+  generate-draft:
+    name: Generate next blog draft
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for queued posts
+        id: check-queue
+        run: |
+          if ! jq -e '.[] | select(.status == "queued")' content/post-queue.json > /dev/null; then
+            echo "No queued posts remaining. Skipping draft generation."
+            echo "skip=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate blog draft
+        if: steps.check-queue.outputs.skip != 'true'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MODEL: ${{ inputs.model || 'claude-sonnet-4-6' }}
+        run: |
+          if [ -z "$ANTHROPIC_API_KEY" ]; then
+            echo "::error::ANTHROPIC_API_KEY secret is missing."
+            exit 1
+          fi
+          npx tsx scripts/generate-post.ts

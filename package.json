@@ -8,7 +8,11 @@
     "prebuild": "node scripts/generate-blur-map.mjs",
     "start": "next start",
     "lint": "eslint",
-    "blur:gen": "node scripts/generate-blur-map.mjs"
+    "blur:gen": "node scripts/generate-blur-map.mjs",
+    "setup": "tsx scripts/setup.ts",
+    "generate-post": "tsx scripts/generate-post.ts",
+    "propose-batch": "tsx scripts/propose-next-batch.ts",
+    "build-inventory": "tsx scripts/build-site-inventory.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -16,13 +20,17 @@
     "framer-motion": "^12.38.0",
     "gsap": "^3.15.0",
     "lenis": "^1.3.23",
+    "lucide-react": "^1.14.0",
+    "marked": "^18.0.3",
     "next": "16.2.4",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.1",
-    "resend": "^6.12.2"
+    "resend": "^6.12.2",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.95.2",
     "@netlify/plugin-nextjs": "^5.15.9",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -30,8 +38,11 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
+    "googleapis": "^171.4.0",
+    "openai": "^6.37.0",
     "plaiceholder": "^3.0.0",
     "tailwindcss": "^4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   }
 }

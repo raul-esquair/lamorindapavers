@@ -1,0 +1,59 @@
+name: Auto-merge open content proposal PRs
+
+# Safety net. If the proposal PR opened by auto-propose-batch.yml on Tuesday
+# still hasn't been merged by Thursday night, this workflow auto-merges it.
+# That triggers merge-proposed-briefs.yml to migrate briefs into post-queue.json.
+
+on:
+  schedule:
+    # Friday 07:00 UTC = Thursday 23:00 PST / Friday 00:00 PDT
+    - cron: '0 7 * * 5'
+  workflow_dispatch:
+
+jobs:
+  auto-merge:
+    name: Squash-merge pending proposal PRs
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Find and merge open proposal PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          prs=$(gh pr list \
+            --repo "$REPO" \
+            --state open \
+            --base main \
+            --json number,headRefName,title \
+            --jq '.[] | select(.headRefName | startswith("proposals/")) | .number')
+
+          if [ -z "$prs" ]; then
+            echo "No open proposal PRs. Nothing to auto-merge."
+            exit 0
+          fi
+
+          # Merge only the oldest open proposal PR. Merging a second would
+          # conflict with content/proposed-briefs.json after the first migrates.
+          first_pr=$(echo "$prs" | head -n 1)
+
+          echo "Auto-merging proposal PR #$first_pr"
+
+          gh pr comment "$first_pr" --repo "$REPO" --body "Auto-merged
+
+          This proposal was still open at the Thursday 11pm PT deadline, so it's being auto-merged. Briefs will migrate into post-queue.json via merge-proposed-briefs.yml, and the Friday draft automation will pick them up.
+
+          If this was a mistake: revert the merge before Friday's draft fires, or edit content/post-queue.json directly to remove unwanted briefs."
+
+          gh pr merge "$first_pr" --repo "$REPO" --squash --delete-branch --admin
+
+          remaining=$(echo "$prs" | tail -n +2)
+          if [ -n "$remaining" ]; then
+            echo ""
+            echo "Additional open proposal PRs skipped (one at a time to avoid file conflicts):"
+            for other in $remaining; do
+              echo "   - PR #$other"
+            done
+          fi

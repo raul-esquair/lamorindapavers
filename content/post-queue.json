@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "paver-driveway-cost-east-bay-2026",
+    "scheduledDate": "2026-05-18",
+    "status": "queued",
+    "title": "Paver Driveway Cost in the East Bay: 2026 Pricing Guide",
+    "metaTitle": "Paver Driveway Cost in East Bay 2026 | Real Lamorinda Numbers",
+    "excerpt": "What does a paver driveway actually cost in Lafayette, Moraga, Orinda, and the broader East Bay in 2026? Real installed numbers from 100+ projects, broken down by size, pattern, and site conditions.",
+    "primaryKeyword": "paver driveway cost east bay",
+    "secondaryKeywords": [
+      "paver driveway price lafayette",
+      "paver driveway cost per square foot bay area",
+      "paver vs concrete driveway cost",
+      "paver driveway installation cost orinda",
+      "interlocking paver driveway cost"
+    ],
+    "relatedService": "paver-driveways",
+    "targetWordCount": 2400,
+    "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek + surrounding Contra Costa)",
+    "citiesReferenced": ["lafayette", "moraga", "orinda", "walnut-creek", "danville"],
+    "outline": [
+      {
+        "h2": "The Short Answer",
+        "notes": "2-4 sentence direct answer. Lead with the typical East Bay range — something like '$18 to $32 per installed square foot, with most Lafayette and Orinda projects landing $20K-$45K'. Anchor the rest of the post."
+      },
+      {
+        "h2": "What drives the price of a paver driveway in the East Bay",
+        "h3": [
+          "Driveway size and slope",
+          "Paver type and pattern (herringbone, running bond, modular blends)",
+          "Base preparation depth (and why East Bay clay soil matters)",
+          "Demo and disposal of existing concrete or asphalt"
+        ],
+        "notes": "Each subsection 2-3 paragraphs. Hit clay soil specifically — Lafayette/Orinda/Moraga sit on expansive clays that require deeper base prep than the manufacturer minimum."
+      },
+      {
+        "h2": "2026 paver driveway cost ranges by project size",
+        "notes": "Table with 3 size tiers: small (under 600 sq ft), mid (600-1200 sq ft), large (1200+ sq ft). Include cost range, typical timeline, common scope. Make it a real markdown table."
+      },
+      {
+        "h2": "Paver vs concrete: the 20-year cost comparison",
+        "notes": "Comparison table covering upfront cost, lifespan, maintenance, repairability. Pavers more upfront, but interlocking pavers don't crack with ground movement (key for clay-soil East Bay). Real numbers."
+      },
+      {
+        "h2": "What a paver driveway project looks like in Lafayette vs Orinda vs Walnut Creek",
+        "h3": [
+          "Lafayette: hillside lots, drainage as the hidden cost driver",
+          "Orinda: longer driveways, often with circular or motor-court layouts",
+          "Walnut Creek: flatter lots, faster installs, smaller cost variance"
+        ],
+        "notes": "Hyper-local. Mention Happy Valley Road area in Lafayette, the Orinda hills, downtown WC corridor. This is the E-E-A-T section — proves Lamorinda actually works these specific neighborhoods."
+      },
+      {
+        "h2": "How to budget for permits, drainage, and the 'unknowns'",
+        "notes": "Practical budgeting advice. Contra Costa permit costs. Drainage engineering when ground slopes. The contingency line — recommend 10-15% for unforeseen base prep."
+      },
+      {
+        "h2": "How to vet a paver contractor's bid (red flags + green flags)",
+        "notes": "Pricing transparency, base prep depth specified in writing, warranty terms, ICPI certification, licensed/bonded check. Not salesy — written from the homeowner's perspective."
+      }
+    ],
+    "mustInclude": [
+      "Specific neighborhoods: Happy Valley (Lafayette), the Orinda hills, downtown Walnut Creek",
+      "Clay soil constraint and how it affects base prep depth",
+      "Interlocking paver structural advantage over slab concrete on moving ground",
+      "ICPI (Interlocking Concrete Pavement Institute) certification mention",
+      "Real cost per sq ft ranges, not just project totals",
+      "Permit requirements vary by jurisdiction (Lafayette, Orinda, Moraga each)",
+      "5-year workmanship warranty (Lamorinda's standard)"
+    ],
+    "mustAvoid": [
+      "Generic 'paver driveways are beautiful and durable' filler",
+      "Vague phrases like 'the price depends on many factors' without naming them",
+      "Stock contractor language ('we pride ourselves on...', 'industry-leading')",
+      "Promising specific prices without ranges or conditions"
+    ],
+    "internalLinks": [
+      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
+      { "url": "/services/retaining-walls", "anchor": "hillside retaining walls" },
+      { "url": "/lafayette", "anchor": "Lafayette paver projects" },
+      { "url": "/orinda", "anchor": "Orinda driveway installations" },
+      { "url": "/walnut-creek", "anchor": "Walnut Creek paver driveways" }
+    ],
+    "cta": "Tell the reader: if you want a real number for your specific property, request a free on-site estimate. Lamorinda will walk the lot, measure access constraints, evaluate the existing base, and send a fixed-price proposal in writing within 48 hours."
+  }
+]
