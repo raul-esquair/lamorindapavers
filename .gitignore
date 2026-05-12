@@ -40,9 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Blog engine — consumer-authored config (per-site secrets like Resend domain + recipients)
-blog.config.ts
-
 # Blog engine — auto-generated site inventory
 content/site-inventory.json
 
