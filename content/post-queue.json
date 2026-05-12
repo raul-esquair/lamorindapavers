@@ -2,7 +2,7 @@
   {
     "slug": "paver-driveway-cost-east-bay-2026",
     "scheduledDate": "2026-05-18",
-    "status": "queued",
+    "status": "drafted",
     "title": "Paver Driveway Cost in the East Bay: 2026 Pricing Guide",
     "metaTitle": "Paver Driveway Cost in East Bay 2026 | Real Lamorinda Numbers",
     "excerpt": "What does a paver driveway actually cost in Lafayette, Moraga, Orinda, and the broader East Bay in 2026? Real installed numbers from 100+ projects, broken down by size, pattern, and site conditions.",
@@ -17,7 +17,13 @@
     "relatedService": "paver-driveways",
     "targetWordCount": 2400,
     "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek + surrounding Contra Costa)",
-    "citiesReferenced": ["lafayette", "moraga", "orinda", "walnut-creek", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "moraga",
+      "orinda",
+      "walnut-creek",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -75,11 +81,26 @@
       "Promising specific prices without ranges or conditions"
     ],
     "internalLinks": [
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/services/retaining-walls", "anchor": "hillside retaining walls" },
-      { "url": "/lafayette", "anchor": "Lafayette paver projects" },
-      { "url": "/orinda", "anchor": "Orinda driveway installations" },
-      { "url": "/walnut-creek", "anchor": "Walnut Creek paver driveways" }
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/services/retaining-walls",
+        "anchor": "hillside retaining walls"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette paver projects"
+      },
+      {
+        "url": "/orinda",
+        "anchor": "Orinda driveway installations"
+      },
+      {
+        "url": "/walnut-creek",
+        "anchor": "Walnut Creek paver driveways"
+      }
     ],
     "cta": "Tell the reader: if you want a real number for your specific property, request a free on-site estimate. Lamorinda will walk the lot, measure access constraints, evaluate the existing base, and send a fixed-price proposal in writing within 48 hours."
   }
