@@ -1,0 +1,14 @@
+[
+  {
+    "url": "/projects",
+    "type": "static",
+    "title": "Projects",
+    "summary": "Editorial gallery of Lamorinda Pavers installations — paver driveways, walkways, patios, retaining walls, and motor courts across the East Bay. Filterable by service type."
+  },
+  {
+    "url": "/about",
+    "type": "static",
+    "title": "About Lamorinda Pavers",
+    "summary": "Steve Barsanti's story, the 5-year workmanship warranty, CA License #1092749, and the company's specialty in Lamorinda-area paver installations."
+  }
+]

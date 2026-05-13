@@ -81,7 +81,7 @@ async function main() {
   if (config.geography && config.geography.length > 0) {
     for (const g of config.geography) {
       entries.push({
-        url: `/service-areas/${g.slug}`,
+        url: `/${g.slug}`,
         type: "city",
         title: `${g.name}, ${g.region}`,
         summary: `${config.site.brand.short} services in ${g.name}, ${g.region}.`,
@@ -93,7 +93,7 @@ async function main() {
       });
     }
     entries.push({
-      url: "/service-areas",
+      url: "/areas",
       type: "static",
       title: "Service Areas",
       summary: `All ${config.geography.length} cities served by ${config.site.brand.short}.`,
