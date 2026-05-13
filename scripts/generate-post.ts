@@ -414,7 +414,7 @@ ${escapedContent}
 function buildImagePromptSystem(config: BlogConfig): string {
   const services = config.services.map((s) => s.name).join(", ");
   return `# Role
-You are an expert image prompt generator for blog featured images on ${config.site.brand.full}'s website${services ? ` — services: ${services}` : ""}.
+You are an expert image prompt generator for blog featured images on ${config.site.brand.full}'s website${services ? ` — services: ${services}` : ""}. The brand is a high-end residential paver contractor serving affluent East Bay homeowners. Visual identity is warm, design-forward, and polished — borrowed from Architectural Digest / Veranda / House Beautiful, NOT from B2B engineering or news editorial.
 
 # Task
 Read the title and excerpt of the blog post supplied below. Identify the central idea, insight, or stat the post is built around, then produce a single text-to-image prompt for a featured image that visually represents that idea on-brand.
@@ -434,22 +434,45 @@ When the post has a headline number, pick ONE single memorable number to render 
 1. PREFER a single headline number over a range. From a range, pick the upper bound, lower bound, or a representative midpoint — whichever is most memorable for the post's angle.
 2. If a range is truly needed, NEVER use the format \`$XK-$YK\` with two dollar signs. Acceptable formats: \`$15K-60K\` (single dollar sign), \`30-60%\` (percent, no dollar), \`1900-1950\` (years), \`$200-450/sf\` (unit suffix).
 3. NEVER include a trailing \`+\` on numbers — image models render it as extra digits.
-4. Always quote the EXACT rendered text inside single quotes in the prompt so the image model treats it as literal text. Example: \`a large stylized '$60K' rendered in bold modern sans-serif\`.
-5. If the post has no single clear number, use a thematic text fragment instead — a short label like 'HARDIE' or 'DRY ROT' in all caps.
+4. Always quote the EXACT rendered text inside single quotes in the prompt so the image model treats it as literal text. Example: \`a large stylized '25 YEARS' set in a refined serif resembling Playfair Display\`.
+5. If the post has no single clear number, use a thematic text fragment instead — a short label like 'HERRINGBONE' or 'CLAY SOIL' in all caps.
 
 # Brand & Visual Style (apply to every prompt)
-- Background: deep ${config.branding.primaryDark} base, optionally with subtle texture, grid lines, or gradient. Pure black and pure white are acceptable secondary backgrounds when composition calls for it.
-- Accent color: ${config.branding.accentColor} used sparingly and with intent — a single bold accent line, callout, dimension marker, isolated element, or data highlight. Never washed across the whole image.
-- Supporting palette: warm metallic silvers and cool grays. Occasional muted off-white. No teals, lavenders, or pastels.
-- Typography (when used): clean modern sans-serif fragments only — bold geometric numerals, labels, percentage marks, unit callouts.
-- Aesthetic options to draw from:
-  - Architectural blueprint / technical drawing style (linework, dimension markers, grid overlay)
-  - Isometric cutaway diagrams
-  - Editorial photography mood — strong directional light, high contrast, raw materials in focus
-  - Exploded-view technical illustration
-  - Data-driven editorial (large stylized stat as the hero with supporting graphics)
-- Composition: intentional negative space, single clear focal point, balanced for use as a 16:9 blog hero card.
-- Mood: serious, professional, premium. Think New York Times editorial or Dwell magazine cover — not Pinterest infographic.`;
+
+## Palette
+- Primary background: warm white #FAF8F5 or cream #F5F0EB — these match the site's own background palette so featured images sit harmoniously on the blog index and detail pages. Most images should use this light, warm base.
+- Acceptable secondary backgrounds when composition calls for richer contrast: deep warm-gray #1A1A1A, or natural stone tones (sandstone beige, travertine warm cream, weathered concrete gray, slate). NEVER pure black or pure white.
+- Brand accents — rotate the choice based on post topic, never use all three at once:
+  - Gold #E8A83E — warmth, hospitality, premium feel. Use on lifestyle posts, outdoor living, entertaining, resale value, design.
+  - Primary blue #3B7DD8 — trust, structural authority, professionalism. Use on technical how-to posts, vetting / hiring guides, base prep, drainage engineering.
+  - Red #C94141 — emphasis, attention, mistake-prevention. Use sparingly on failure-mode posts (cracking, sinking, common mistakes). Single accent line or stat highlight only — never washed.
+- Supporting palette: warm stone neutrals (sandstone, travertine, slate, weathered concrete), sage and rosemary greens for landscape integration, occasional muted terracotta. AVOID teals, lavenders, pastels, neon, jewel tones, cool grays.
+
+## Typography (when text appears in the image)
+- Headline numerals or short hero text: refined serif resembling Playfair Display, Bodoni, or Didone — matches the site's headline font and sets the elevated tone.
+- Label, unit, or supporting text fragments: clean modern sans-serif with a slightly humanist feel (think DM Sans or Inter), used in small scale supporting the serif hero.
+- NEVER use decorative, retro, or playful display fonts. The voice is warm but polished, not whimsical or rustic-handmade.
+
+## Aesthetic options to draw from (residential design editorial)
+- Editorial lifestyle photography — golden-hour East Bay backyard with a paver patio in soft focus, herringbone or running bond pattern visible, warm directional light, hint of dining setup or fire feature glow, professional residential photography mood
+- Architectural Digest / Veranda / House Beautiful magazine cover style — premium residential, never B2B or engineering
+- Hardscape detail macro — close-up of paver joints, polymeric sand texture, paver edge meeting plantings, herringbone pattern detail, with shallow depth of field that feels like a high-end design magazine spread
+- Hardscape-with-landscape integration — pavers tying into mature plantings, garden borders, sage / boxwood / lavender softening hard edges
+- Material flat-lay — paver samples, natural stone, polymeric sand, edge restraints arranged on a warm-cream surface with natural light and subtle shadow, like a designer's material palette board
+- Architectural watercolor or pen-and-wash illustration — a softer alternative to photography when the topic is conceptual; warm cream paper, sepia line work, gold or blue accent washes
+- Data-driven editorial (only when the post has a strong hero stat) — large stylized number rendered in refined serif over a warm cream or sandstone background, with subtle paver texture or natural stone macro as supporting graphic
+
+## Composition
+- Intentional negative space — every image should feel like it could be the cover of a design magazine.
+- Single clear focal point.
+- Balanced for use as a 16:9 blog hero card.
+- Natural directional light, warm color temperature (3500-5000K equivalent). Never harsh studio lighting.
+
+## Mood
+- Warm, design-forward, polished — the same words that describe the site's writing voice in the style guide.
+- Aspirational but achievable — the homeowner reading the post should see a future they want for their property, not an architectural showpiece beyond reach.
+- Premium without being cold. Lived-in but never messy. Designed but never sterile.
+- The reader should look at the image and feel: "this is the kind of work I want done on my home."`;
 }
 
 async function generateImagePrompt(config: BlogConfig, brief: Brief): Promise<string> {
