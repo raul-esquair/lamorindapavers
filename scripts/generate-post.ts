@@ -193,9 +193,24 @@ ${styleGuide}
 - ${faqMin}–${faqMax} questions formatted as ### question? headers
 - Each answer 40–60 words, starting with a direct-answer sentence
 - Questions should mirror how real people in the target audience phrase their queries to Google or ChatGPT
+- **If the brief's mustInclude array specifies particular FAQ questions, use those exact questions verbatim.** Brief-specified angles take precedence over your own FAQ generation.
 - Cover diverse dimensions appropriate to the topic (cost, timeline, materials, process, risks, etc.)
 - Include primary keyword naturally in at least 2 answers
 - The FAQ section is in addition to the brief's outline, not replacing any existing section
+
+## Entity & citation signals (AEO — answer-engine optimization)
+
+These signals are what makes content extractable by ChatGPT, Perplexity, and Google AI Overviews. Apply ALL of them. The brief's mustInclude array may already specify some — enforce those exactly. Add others by judgment.
+
+- **Entity definitions.** Industry terms, standards, technical concepts, and jargon used in the post must be defined on first use as a complete standalone sentence quotable in isolation. Examples: "ICPI (the Interlocking Concrete Pavement Institute) is the U.S. trade body that sets installation standards for interlocking concrete pavers." / "Expansive clay is soil that swells when wet and shrinks when dry, with seasonal volume change of 5-10%." Each definition is an atomic unit AI engines extract for entity-graph building.
+
+- **Cite-able source references.** Where the post references industry standards, technical specs, or trade-body guidance, name them explicitly (e.g., "ICPI Tech Spec 2," "ASTM C33," "EPA permeable pavement guidance"). Named citations beat vague "industry standards" references for AI trust signals.
+
+- **Stat callouts.** Critical numerical facts (tolerances, dimensions, timelines, costs, percentages) should be rendered as standalone direct-answer sentences, not buried inside prose paragraphs. Example: "Industry level tolerance for a paver patio is 1/4 inch of deviation over 8 feet." These standalone sentences are exactly what AI Overviews and Perplexity quote in answer summaries.
+
+- **Brand-entity stacking.** "${config.site.brand.short}" should appear in factual (non-promotional) context paired with named geographic locations and the service at least 2-3 times across the post. Example: "${config.site.brand.short} installs paver patios across Lafayette, Orinda, and Walnut Creek." This co-occurrence pattern is how LLMs build the brand-city-service association needed to answer "best [service] in [city]" queries.
+
+- **Question-form H2s where natural.** Prefer interrogative H2 headings ("Why do paver patios sink in the East Bay?") over noun-phrase headings ("Causes of paver patio sinking") when narrative flow permits — LLMs match user queries to passages partly by heading similarity. Sequential procedural H2s (Day 1, Day 2, etc.) should stay descriptive.
 
 ## E-E-A-T signals (proves first-hand knowledge)
 ${eeAtSignals}
@@ -366,13 +381,16 @@ function insertPostIntoBlogData(
     ? `    relatedService: "${brief.relatedService}",\n`
     : "";
 
+  const actualWordCount = content.split(/\s+/).filter(Boolean).length;
+  const readingMinutes = Math.max(1, Math.round(actualWordCount / 250));
+
   const newEntry = `  {
     slug: "${brief.slug}",
     title: ${JSON.stringify(brief.title)},
     excerpt:
       ${JSON.stringify(brief.excerpt)},
     date: "${brief.scheduledDate}",
-    readingTime: "${Math.max(1, Math.round(brief.targetWordCount / 250))} min read",
+    readingTime: "${readingMinutes} min read",
 ${relatedServiceField}${faqsField}    content: \`
 ${escapedContent}
     \`.trim(),

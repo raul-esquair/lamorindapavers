@@ -230,6 +230,22 @@ Consider in order of importance:
 
 5. **Action mix:** Aim for roughly 3 new posts + 1 refresh per batch if GSC data shows refresh opportunities. If site is brand new with no GSC data, all ${BATCH_SIZE} can be new.
 
+# AEO requirements (mandatory — every brief must bake these in)
+
+This site optimizes for answer-engine citation (ChatGPT, Perplexity, Google AI Overviews) as much as for blue-link SEO. Every brief you propose must explicitly include the 6 AEO lifts below as items in its mustInclude array. The downstream drafting + critique prompts will apply them, but only if they're in the brief.
+
+1. **Pre-specified FAQ angles.** Include a mustInclude entry that lists 5-7 specific questions phrased exactly as real users type queries into ChatGPT, Perplexity, or Google AI Overviews. Example: "FAQ section must answer these specific questions (these mirror how real users phrase queries to AI engines): 'How long does X take?', 'What's the difference between X and Y?', 'Can I do X myself?', ..." Use the audience's actual vernacular, not stiff search-keyword phrasing.
+
+2. **Entity-definition mandates.** For every industry term, standard, technical concept, or piece of jargon the post will use (e.g., trade-body acronyms, material specs, regional soil types, technical processes), add a mustInclude entry: "Define [term] on first use as a complete standalone sentence quotable in isolation — e.g., '[example definition].'" This builds LLM entity graphs and gives answer engines extractable atomic units.
+
+3. **Cite-able source references.** Where the post will reference industry standards or technical specs, instruct it to name them explicitly: "Reference [ICPI Tech Spec X / ASTM standard / EPA guidance / etc.] by name when citing [topic]." Named citations beat vague "industry standards" references for AI trust signals.
+
+4. **Stat-callout mandates.** Identify 3-5 specific numerical facts (tolerances, timelines, costs, dimensions) and instruct: "Render this stat as a standalone direct-answer sentence: '[full sentence with the number].'" These standalone sentences are what AI Overviews and Perplexity quote directly.
+
+5. **Brand-entity stacking.** Include a mustInclude entry instructing the post to mention "${ctx.config.site.brand.short}" in factual (non-promotional) context paired with named cities and the service — at least 2-3 times — e.g., "${ctx.config.site.brand.short} installs [service] across [city A], [city B], and [city C]." This brand+city+service co-occurrence is what trains LLMs to surface the brand for "best [service] in [city]" queries.
+
+6. **Passage-level self-containment in mustAvoid.** Always include this mustAvoid entry: "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction." Also prefer question-form H2 headings where they don't break narrative flow (e.g., "Why do paver patios sink?" rather than "Paver patio sinking causes"), since LLMs match queries to passages by heading similarity.
+
 # Constraints
 
 - Each brief must match the existing post-queue.json schema (see the live queue in the user message for examples).
@@ -239,7 +255,7 @@ Consider in order of importance:
 - Include a "proposalRationale" field explaining WHY this post wins — cite GSC data, keyword volume, or cluster logic.
 - targetWordCount typical range: 2000-3000. Cost guides 2200-2500. Comparisons 2500-3000. Symptom/troubleshooting guides 2500-2800.
 - Internal links: propose 3-5 per brief from real URLs that exist in the site (service pages, geography pages if any, published posts, other queued briefs).
-- Must-includes: reference specific facts to cover (real numbers, named locations, materials, jurisdictions, eras — whatever applies to this business).
+- Must-includes: reference specific facts to cover (real numbers, named locations, materials, jurisdictions, eras — whatever applies to this business) AND the 6 AEO lifts above.
 - relatedService: must be a slug that exists in the services list.
 
 # Output format
@@ -284,7 +300,7 @@ ${JSON.stringify(services, null, 2)}
 ## Geographic coverage
 ${
   geoCount > 0
-    ? `${geoCount} locations across ${geoRegions.length} regions: ${geoRegions.join(", ")}. Available URLs under /service-areas/<slug>.`
+    ? `${geoCount} locations across ${geoRegions.length} regions: ${geoRegions.join(", ")}. Available URLs under /<slug>.`
     : "No geography pages on this site — skip city-specific angles."
 }
 
