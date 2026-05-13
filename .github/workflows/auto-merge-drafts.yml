@@ -42,9 +42,20 @@ jobs:
 
           for pr in $prs; do
             echo "──────────────────────────────────────────"
-            echo "Auto-merging PR #$pr"
+            echo "PR #$pr — checking CI status"
             echo "──────────────────────────────────────────"
 
+            if ! gh pr checks "$pr" --repo "$REPO"; then
+              echo "::warning::CI checks failed or still pending for PR #$pr — skipping auto-merge"
+              gh pr comment "$pr" --repo "$REPO" --body "Auto-merge skipped — CI failing or pending
+
+              CI checks haven't passed on this draft PR. The post will NOT publish Monday until the build is fixed and the PR is merged manually.
+
+              Common causes: TypeScript errors in the inserted blog post, malformed markdown that breaks the template literal in lib/blog/data.ts, or a transient CI hiccup. Re-run the failed workflow, or close this PR to push the brief back to next week's slot."
+              continue
+            fi
+
+            echo "CI passed. Auto-merging PR #$pr"
             gh pr comment "$pr" --repo "$REPO" --body "Auto-merged
 
             This PR was still open at the Sunday 11pm PT deadline, so it's being auto-merged per the default-approve pipeline policy. The post will publish on its scheduled date when the weekly rebuild fires Monday morning.

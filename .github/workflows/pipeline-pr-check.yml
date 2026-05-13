@@ -1,0 +1,36 @@
+name: PR check (drafts + proposals)
+
+# Gate for the auto-merge pipeline. Runs on every PR whose head ref starts
+# with `drafts/` or `proposals/` — i.e. PRs opened by the weekly blog
+# pipeline. Fails if TypeScript errors are introduced or if `next build`
+# fails. The auto-merge workflows check this status before merging, so a
+# failed run here means the bad code does NOT land on main and break the
+# Monday Netlify rebuild.
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    name: Type-check + production build
+    if: startsWith(github.head_ref, 'drafts/') || startsWith(github.head_ref, 'proposals/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check
+        run: npx tsc --noEmit
+
+      - name: Production build
+        run: npm run build
