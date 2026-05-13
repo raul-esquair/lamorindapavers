@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import type { BlogPost } from "@/lib/blog/types";
+import { blurProps } from "@/lib/blur";
 
 interface BlogCardProps {
   post: BlogPost;
@@ -21,6 +22,7 @@ export default function BlogCard({ post }: BlogCardProps) {
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover transition-transform duration-700 group-hover:scale-105"
+            {...blurProps(post.featuredImage)}
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center px-6">

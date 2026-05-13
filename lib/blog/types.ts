@@ -14,6 +14,8 @@ export interface BlogPost {
   metaTitle?: string;
   excerpt: string;
   date: string; // ISO YYYY-MM-DD — controls publish gating
+  /** ISO YYYY-MM-DD — set when a post is refreshed. Defaults to `date` in schema if absent. */
+  dateModified?: string;
   readingTime: string; // e.g. "8 min read"
   category?: string;
   /** Optional: matches a slug from blogConfig.services for related-service linking. */

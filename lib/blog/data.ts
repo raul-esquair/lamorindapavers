@@ -32,3 +32,14 @@ export function getPostBySlug(slug: string): BlogPost | undefined {
   if (!post || !isPublished(post)) return undefined;
   return post;
 }
+
+export function getRelatedPosts(
+  currentSlug: string,
+  relatedService: string | undefined,
+  limit = 3,
+): BlogPost[] {
+  if (!relatedService) return [];
+  return getPublishedPosts()
+    .filter((p) => p.slug !== currentSlug && p.relatedService === relatedService)
+    .slice(0, limit);
+}

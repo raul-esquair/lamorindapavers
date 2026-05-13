@@ -106,23 +106,31 @@ export function ArticleJsonLd({
   title,
   description,
   date,
+  dateModified,
   url,
   image,
 }: {
   title: string;
   description: string;
   date: string;
+  dateModified?: string;
   url: string;
   image?: string;
 }) {
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
-    "@type": "Article",
+    "@type": "BlogPosting",
     headline: title,
     description,
     datePublished: date,
-    author: { "@type": "Organization", name: company.name },
-    publisher: { "@type": "Organization", name: company.name },
+    dateModified: dateModified ?? date,
+    author: { "@type": "Organization", name: company.name, url: company.domain },
+    publisher: {
+      "@type": "Organization",
+      name: company.name,
+      url: company.domain,
+      logo: { "@type": "ImageObject", url: `${company.domain}/images/logo.png` },
+    },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };
   if (image) {

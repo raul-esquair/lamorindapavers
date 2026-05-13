@@ -6,9 +6,11 @@ import { ArrowLeft } from "lucide-react";
 import { marked } from "marked";
 import { generatePageMetadata } from "@/lib/metadata";
 import { loadBlogConfig } from "@/lib/blog-config";
-import { BLOG_POSTS, isPublished, getPublishedPosts } from "@/lib/blog/data";
+import { blurProps } from "@/lib/blur";
+import { BLOG_POSTS, isPublished, getPublishedPosts, getRelatedPosts } from "@/lib/blog/data";
 import SectionLabel from "@/components/ui/SectionLabel";
 import { ArticleJsonLd, FAQJsonLd, BreadcrumbJsonLd } from "@/components/seo/JsonLd";
+import BlogCard from "@/components/blog/BlogCard";
 import BlogCTA from "@/components/blog/BlogCTA";
 
 interface Props {
@@ -47,6 +49,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   const postUrl = `${config.site.url}/blog/${post.slug}`;
   const renderedHtml = marked.parse(post.content, { gfm: true, async: false }) as string;
+  const relatedPosts = getRelatedPosts(post.slug, post.relatedService, 3);
 
   return (
     <>
@@ -54,6 +57,7 @@ export default async function BlogPostPage({ params }: Props) {
         title={post.title}
         description={post.excerpt}
         date={post.date}
+        dateModified={post.dateModified}
         url={postUrl}
         image={post.featuredImage ? `${config.site.url}${post.featuredImage}` : undefined}
       />
@@ -81,6 +85,13 @@ export default async function BlogPostPage({ params }: Props) {
                 <span className="text-warm-gray-300">·</span>
               </>
             )}
+            <Link
+              href="/about"
+              className="text-warm-gray-500 hover:text-warm-gray-900 transition-colors"
+            >
+              By the Lamorinda Pavers team
+            </Link>
+            <span className="text-warm-gray-300">·</span>
             <time className="text-warm-gray-500" dateTime={post.date}>
               {new Date(post.date).toLocaleDateString("en-US", {
                 month: "long",
@@ -107,6 +118,7 @@ export default async function BlogPostPage({ params }: Props) {
                 sizes="(max-width: 1024px) 100vw, 1024px"
                 priority
                 className="object-cover"
+                {...blurProps(post.featuredImage)}
               />
             </div>
           </div>
@@ -150,6 +162,24 @@ export default async function BlogPostPage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      {relatedPosts.length > 0 && (
+        <section className="py-16 md:py-20 bg-cream">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-5xl mx-auto">
+              <SectionLabel>Continue reading</SectionLabel>
+              <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3 mb-10">
+                Related articles
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                {relatedPosts.map((related) => (
+                  <BlogCard key={related.slug} post={related} />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <BlogCTA
         heading="Ready to start your project?"
