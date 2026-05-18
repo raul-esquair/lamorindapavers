@@ -2,7 +2,7 @@
   {
     "slug": "how-to-prevent-paver-patio-sinking-2026",
     "scheduledDate": "2026-05-18",
-    "status": "queued",
+    "status": "drafted",
     "title": "How to Prevent Paver Patio Sinking in 2026",
     "metaTitle": "Paver Patio Installation: Prevent Sinking in 2026 | Lamorinda",
     "excerpt": "Paver patios sink for a handful of fixable reasons — undersized base, poor grading, missing edge restraints, and the wrong joint sand. Here's what real-world installation does differently across Lafayette, Moraga, and Orinda's clay-soil lots in 2026.",
@@ -17,7 +17,13 @@
     "relatedService": "patios",
     "targetWordCount": 2600,
     "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "moraga", "orinda", "walnut-creek", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "moraga",
+      "orinda",
+      "walnut-creek",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -85,11 +91,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/lafayette", "anchor": "Lafayette patio projects" },
-      { "url": "/orinda", "anchor": "Orinda paver patios" },
-      { "url": "/moraga", "anchor": "Moraga hardscape work" },
-      { "url": "/projects", "anchor": "our completed paver projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette patio projects"
+      },
+      {
+        "url": "/orinda",
+        "anchor": "Orinda paver patios"
+      },
+      {
+        "url": "/moraga",
+        "anchor": "Moraga hardscape work"
+      },
+      {
+        "url": "/projects",
+        "anchor": "our completed paver projects"
+      }
     ],
     "cta": "Tell the reader: if you're planning a paver patio in 2026 and want to know exactly what base prep your specific lot needs, request a free on-site estimate. Lamorinda will walk the property, dig a test pit to assess soil conditions, measure grade, and send a fixed-price proposal with the base depth, drainage spec, edge-restraint plan, and 5-year warranty terms in writing within 48 hours."
   },
@@ -111,7 +132,13 @@
     "relatedService": "patios",
     "targetWordCount": 2800,
     "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "walnut-creek", "orinda", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "walnut-creek",
+      "orinda",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -179,11 +206,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/lafayette", "anchor": "Lafayette paver work" },
-      { "url": "/walnut-creek", "anchor": "Walnut Creek patio installs" },
-      { "url": "/about", "anchor": "how Steve runs Lamorinda Pavers" },
-      { "url": "/projects", "anchor": "see completed Lamorinda paver projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette paver work"
+      },
+      {
+        "url": "/walnut-creek",
+        "anchor": "Walnut Creek patio installs"
+      },
+      {
+        "url": "/about",
+        "anchor": "how Steve runs Lamorinda Pavers"
+      },
+      {
+        "url": "/projects",
+        "anchor": "see completed Lamorinda paver projects"
+      }
     ],
     "cta": "Tell the reader: now that you know exactly what a great paver patio install looks like, the next step is finding the contractor who actually does it. Request a free on-site estimate from Lamorinda Pavers. We'll walk the property, dig the test pit ourselves, and send a fixed-price proposal with the base depth, lift count, compactor spec, polymeric sand brand, and 5-year warranty terms all in writing within 48 hours. No vague bids."
   },
@@ -205,7 +247,13 @@
     "relatedService": "patios",
     "targetWordCount": 2500,
     "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -273,11 +321,26 @@
       "Treating 'plate compactor' and 'rammer compactor' (jumping jack) as interchangeable — they aren't"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/blog/how-to-prevent-paver-patio-sinking-2026", "anchor": "preventing paver patio sinking" },
-      { "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift", "anchor": "the full paver patio install walkthrough" },
-      { "url": "/lafayette", "anchor": "Lafayette paver projects" },
-      { "url": "/projects", "anchor": "completed Lamorinda paver projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/blog/how-to-prevent-paver-patio-sinking-2026",
+        "anchor": "preventing paver patio sinking"
+      },
+      {
+        "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift",
+        "anchor": "the full paver patio install walkthrough"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette paver projects"
+      },
+      {
+        "url": "/projects",
+        "anchor": "completed Lamorinda paver projects"
+      }
     ],
     "cta": "Tell the reader: if you're planning a paver patio and want a contractor who treats base compaction as the install's most important phase (not the fastest), request a free on-site estimate from Lamorinda Pavers. We'll walk the property, run a Proctor test on the subgrade if conditions warrant, and send a fixed-price proposal with the base depth, lift count, compaction spec, and 5-year warranty terms in writing within 48 hours."
   },
@@ -299,7 +362,13 @@
     "relatedService": "patios",
     "targetWordCount": 3000,
     "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "moraga", "walnut-creek", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "moraga",
+      "walnut-creek",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -388,11 +457,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every mistake section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/blog/how-to-prevent-paver-patio-sinking-2026", "anchor": "preventing paver patio sinking and settling" },
-      { "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift", "anchor": "the full paver patio install walkthrough" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "paver base compaction deep-dive" },
-      { "url": "/lafayette", "anchor": "Lafayette hillside paver projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/blog/how-to-prevent-paver-patio-sinking-2026",
+        "anchor": "preventing paver patio sinking and settling"
+      },
+      {
+        "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift",
+        "anchor": "the full paver patio install walkthrough"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "paver base compaction deep-dive"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette hillside paver projects"
+      }
     ],
     "cta": "Tell the reader: if your existing paver patio shows any of these 11 drainage failure modes, a free on-site assessment from Lamorinda Pavers will tell you whether it can be repaired or needs a partial rebuild. We'll walk the patio with you, identify which mistakes are present, and send a fixed-price proposal for the fix — repair, partial replacement, or full rebuild — in writing within 48 hours. If you're planning a new install, we'll show you how we engineer drainage from the ground up so you never see these failure modes."
   },
@@ -415,7 +499,13 @@
     "relatedService": "patios",
     "targetWordCount": 2900,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -492,11 +582,26 @@
       "Self-promotional CTA framing inside the question sections — keep brand mentions factual until the closing CTA"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation service" },
-      { "url": "/about", "anchor": "about Steve Barsanti and Lamorinda Pavers" },
-      { "url": "/projects", "anchor": "completed Lamorinda paver projects" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "what a great answer to Question 2 looks like" },
-      { "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage", "anchor": "drainage mistakes that good contractors avoid" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation service"
+      },
+      {
+        "url": "/about",
+        "anchor": "about Steve Barsanti and Lamorinda Pavers"
+      },
+      {
+        "url": "/projects",
+        "anchor": "completed Lamorinda paver projects"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "what a great answer to Question 2 looks like"
+      },
+      {
+        "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage",
+        "anchor": "drainage mistakes that good contractors avoid"
+      }
     ],
     "cta": "Tell the reader: take these 9 questions to your next paver contractor bid meeting — and ask Lamorinda Pavers the same ones. We'll answer every one in writing, including license number, ICPI certification, three drive-by reference addresses across Lafayette, Orinda, and Walnut Creek, our 5-year written workmanship warranty, and the specific change-order process we use. Request a free on-site estimate and we'll send the full written response within 48 hours."
   },
@@ -519,7 +624,13 @@
     "relatedService": "patios",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -596,11 +707,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation service" },
-      { "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios", "anchor": "9 questions to vet a paver installer" },
-      { "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift", "anchor": "the full paver patio install walkthrough" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "why the base prep line item matters most" },
-      { "url": "/lafayette", "anchor": "Lafayette paver projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation service"
+      },
+      {
+        "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios",
+        "anchor": "9 questions to vet a paver installer"
+      },
+      {
+        "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift",
+        "anchor": "the full paver patio install walkthrough"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "why the base prep line item matters most"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette paver projects"
+      }
     ],
     "cta": "Tell the reader: a realistic budget number for your specific large paver patio depends on site conditions a remote estimator can't see. Request a free on-site estimate from Lamorinda Pavers and we'll walk the lot, measure grade and drainage challenges, dig a test pit if soil conditions warrant, and send a fixed-price bid with all six line items — materials, labor, drainage, site prep, integrated features, and contingency — itemized in writing within 48 hours. Across Lafayette, Orinda, Moraga, and Walnut Creek, this is how transparent large-patio bidding works."
   },
@@ -622,7 +748,13 @@
     "relatedService": "patios",
     "targetWordCount": 3000,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -711,11 +843,26 @@
       "Conflating 'paver patio' with 'outdoor entertainment area' — the first is the foundation, the second is the full room built on it"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "full-service paver patio construction" },
-      { "url": "/services/outdoor-kitchens", "anchor": "outdoor kitchen installation" },
-      { "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios", "anchor": "9 questions to vet a paver installer" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "budgeting a large paver patio" },
-      { "url": "/projects", "anchor": "see completed Lamorinda outdoor living projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "full-service paver patio construction"
+      },
+      {
+        "url": "/services/outdoor-kitchens",
+        "anchor": "outdoor kitchen installation"
+      },
+      {
+        "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios",
+        "anchor": "9 questions to vet a paver installer"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "budgeting a large paver patio"
+      },
+      {
+        "url": "/projects",
+        "anchor": "see completed Lamorinda outdoor living projects"
+      }
     ],
     "cta": "Tell the reader: use this 12-feature checklist as the framework for your next outdoor living conversation — with any contractor, not just Lamorinda. Then request a free on-site estimate from Lamorinda Pavers and we'll walk your property, work through every one of the 12 features with you (must-haves, high-priority, elective), and send a fixed-price proposal with each feature priced separately so you can scope your phase 1 budget confidently. Across Lafayette, Orinda, Moraga, and Walnut Creek, this is how full-service outdoor entertainment areas get built."
   },
@@ -737,7 +884,13 @@
     "relatedService": "outdoor-kitchens",
     "targetWordCount": 2900,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -818,11 +971,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/outdoor-kitchens", "anchor": "paver outdoor kitchen installation" },
-      { "url": "/services/fire-pits-and-fire-features", "anchor": "fire pit and fire feature installation" },
-      { "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios", "anchor": "the 9 general patio installer vetting questions" },
-      { "url": "/blog/12-features-full-service-paver-patios-should-include", "anchor": "12 features full-service paver patios should include" },
-      { "url": "/about", "anchor": "how Steve runs Lamorinda Pavers" }
+      {
+        "url": "/services/outdoor-kitchens",
+        "anchor": "paver outdoor kitchen installation"
+      },
+      {
+        "url": "/services/fire-pits-and-fire-features",
+        "anchor": "fire pit and fire feature installation"
+      },
+      {
+        "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios",
+        "anchor": "the 9 general patio installer vetting questions"
+      },
+      {
+        "url": "/blog/12-features-full-service-paver-patios-should-include",
+        "anchor": "12 features full-service paver patios should include"
+      },
+      {
+        "url": "/about",
+        "anchor": "how Steve runs Lamorinda Pavers"
+      }
     ],
     "cta": "Tell the reader: if you're planning a paver outdoor kitchen or fire pit project in the East Bay, request a free on-site estimate from Lamorinda Pavers. We'll walk the property, work through every step of this guide with you, identify which contractor model fits your project, and send a single-source bid with all trades line-itemed, permit responsibility clearly assigned, and our 5-year workmanship warranty on the integrated build — in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how full-service outdoor kitchen and fire pit projects get scoped."
   },
@@ -845,7 +1013,13 @@
     "relatedService": "patios",
     "targetWordCount": 2900,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -926,11 +1100,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/outdoor-kitchens", "anchor": "outdoor kitchen installation" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "the budget guide for large paver patios" },
-      { "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits", "anchor": "the contractor hiring guide for outdoor kitchens and fire pits" },
-      { "url": "/blog/12-features-full-service-paver-patios-should-include", "anchor": "the 12-feature scope checklist" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/outdoor-kitchens",
+        "anchor": "outdoor kitchen installation"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "the budget guide for large paver patios"
+      },
+      {
+        "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits",
+        "anchor": "the contractor hiring guide for outdoor kitchens and fire pits"
+      },
+      {
+        "url": "/blog/12-features-full-service-paver-patios-should-include",
+        "anchor": "the 12-feature scope checklist"
+      }
     ],
     "cta": "Tell the reader: if you're planning an outdoor living build in 2026 and want a contractor who shares a written coordination plan upfront — schedule, permits, lead times, change-order process, weekly check-ins — request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the build with you, and send a fixed-price proposal with the full coordination plan attached in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how outdoor living projects finish on time, on budget, and on scope."
   },
@@ -953,7 +1142,13 @@
     "relatedService": "patios",
     "targetWordCount": 3000,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1033,11 +1228,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every bottleneck section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "outdoor living and paver patio installation" },
-      { "url": "/blog/how-to-coordinate-an-outdoor-living-build-in-2026", "anchor": "the coordination process framework" },
-      { "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits", "anchor": "vetting outdoor kitchen and fire pit contractors" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "budgeting for change-order contingency" },
-      { "url": "/about", "anchor": "how Steve runs Lamorinda Pavers" }
+      {
+        "url": "/services/patios",
+        "anchor": "outdoor living and paver patio installation"
+      },
+      {
+        "url": "/blog/how-to-coordinate-an-outdoor-living-build-in-2026",
+        "anchor": "the coordination process framework"
+      },
+      {
+        "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits",
+        "anchor": "vetting outdoor kitchen and fire pit contractors"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "budgeting for change-order contingency"
+      },
+      {
+        "url": "/about",
+        "anchor": "how Steve runs Lamorinda Pavers"
+      }
     ],
     "cta": "Tell the reader: if you want to avoid the 10 bottlenecks on your East Bay outdoor living project, request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the build, share our coordination plan in writing — including weather-buffered scheduling, written sub commitments, buried-condition contingency, HOA-timeline parallelism, and weekly check-ins — and send a fixed-price proposal within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how outdoor living projects don't slip."
   },
@@ -1059,7 +1269,13 @@
     "relatedService": "outdoor-kitchens",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1135,11 +1351,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/outdoor-kitchens", "anchor": "outdoor paver kitchen installation" },
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "the large paver patio budget guide" },
-      { "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits", "anchor": "vetting outdoor kitchen and fire pit contractors" },
-      { "url": "/blog/10-outdoor-living-build-coordination-bottlenecks", "anchor": "the 10 coordination bottlenecks that cause overruns" }
+      {
+        "url": "/services/outdoor-kitchens",
+        "anchor": "outdoor paver kitchen installation"
+      },
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "the large paver patio budget guide"
+      },
+      {
+        "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits",
+        "anchor": "vetting outdoor kitchen and fire pit contractors"
+      },
+      {
+        "url": "/blog/10-outdoor-living-build-coordination-bottlenecks",
+        "anchor": "the 10 coordination bottlenecks that cause overruns"
+      }
     ],
     "cta": "Tell the reader: if you want a fixed-price outdoor paver kitchen bid that actually holds through construction — 8 line items, named SKUs, written change-order process, separated buried-condition contingency — request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the kitchen with you, and send the itemized bid in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how outdoor paver kitchen budgets actually hold."
   },
@@ -1161,7 +1392,13 @@
     "relatedService": "outdoor-kitchens",
     "targetWordCount": 3000,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1251,11 +1488,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every hidden-cost section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/outdoor-kitchens", "anchor": "outdoor paver kitchen installation" },
-      { "url": "/blog/outdoor-paver-kitchen-cost-overruns-in-2026", "anchor": "the 5 overrun drivers and how to prevent them" },
-      { "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits", "anchor": "vetting outdoor kitchen and fire pit contractors" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "the broader large patio budget guide" },
-      { "url": "/blog/10-outdoor-living-build-coordination-bottlenecks", "anchor": "10 outdoor living coordination bottlenecks" }
+      {
+        "url": "/services/outdoor-kitchens",
+        "anchor": "outdoor paver kitchen installation"
+      },
+      {
+        "url": "/blog/outdoor-paver-kitchen-cost-overruns-in-2026",
+        "anchor": "the 5 overrun drivers and how to prevent them"
+      },
+      {
+        "url": "/blog/hiring-contractors-for-paver-kitchens-and-fire-pits",
+        "anchor": "vetting outdoor kitchen and fire pit contractors"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "the broader large patio budget guide"
+      },
+      {
+        "url": "/blog/10-outdoor-living-build-coordination-bottlenecks",
+        "anchor": "10 outdoor living coordination bottlenecks"
+      }
     ],
     "cta": "Tell the reader: if you want an outdoor paver kitchen bid that itemizes all 13 hidden costs upfront — not as 'allowances,' not as 'TBD,' not as 'we'll figure it out' — request a free on-site estimate from Lamorinda Pavers. We'll walk the lot, run the gas BTU and electrical load calculations, identify every permit and access charge, and send a fully itemized fixed-price proposal in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how outdoor kitchen budgets stop having surprises."
   },
@@ -1278,7 +1530,13 @@
     "relatedService": "patios",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "danville", "moraga"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "danville",
+      "moraga"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1355,11 +1613,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/services/outdoor-kitchens", "anchor": "outdoor kitchen installation" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "the large paver patio budget guide" },
-      { "url": "/blog/12-features-full-service-paver-patios-should-include", "anchor": "12 features full-service paver patios should include" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/services/outdoor-kitchens",
+        "anchor": "outdoor kitchen installation"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "the large paver patio budget guide"
+      },
+      {
+        "url": "/blog/12-features-full-service-paver-patios-should-include",
+        "anchor": "12 features full-service paver patios should include"
+      }
     ],
     "cta": "Tell the reader: if you're planning a paver outdoor living improvement with resale value in mind — material choices, layout decisions, appliance specs, warranty documentation — request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the project with a resale-aware design lens, and send a fixed-price proposal with material specs that hold appraisal value over time. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver outdoor living gets built to be both used and recoverable when the property eventually sells."
   },
@@ -1382,7 +1655,13 @@
     "relatedService": "patios",
     "targetWordCount": 2500,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["walnut-creek", "lafayette", "orinda", "moraga", "danville"],
+    "citiesReferenced": [
+      "walnut-creek",
+      "lafayette",
+      "orinda",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1459,11 +1738,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026", "anchor": "the broader paver outdoor living ROI guide" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "budgeting a large paver patio" },
-      { "url": "/walnut-creek", "anchor": "Walnut Creek paver projects" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026",
+        "anchor": "the broader paver outdoor living ROI guide"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "budgeting a large paver patio"
+      },
+      {
+        "url": "/walnut-creek",
+        "anchor": "Walnut Creek paver projects"
+      }
     ],
     "cta": "Tell the reader: if you're planning a paver patio with resale value in mind — neutral design, classic materials, ICPI-spec installation, documented warranty — request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the patio with a resale-aware design lens, and send a fixed-price proposal with material specs that hold appraisal value over time. Across Walnut Creek, Lafayette, Orinda, Moraga, and Danville, this is how paver patios get built to be both used and recoverable when the property eventually sells."
   },
@@ -1486,7 +1780,13 @@
     "relatedService": "paver-driveways",
     "targetWordCount": 2900,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "moraga", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1567,11 +1867,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every upgrade section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/pool-decks", "anchor": "paver pool deck installation" },
-      { "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026", "anchor": "the broader paver outdoor living ROI guide" },
-      { "url": "/blog/do-paver-patios-increase-home-value-in-the-east-bay", "anchor": "the paver patio value deep-dive" }
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/pool-decks",
+        "anchor": "paver pool deck installation"
+      },
+      {
+        "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026",
+        "anchor": "the broader paver outdoor living ROI guide"
+      },
+      {
+        "url": "/blog/do-paver-patios-increase-home-value-in-the-east-bay",
+        "anchor": "the paver patio value deep-dive"
+      }
     ],
     "cta": "Tell the reader: if you're scoping resale-aware paver upgrades on your East Bay home — whether a $5K refresh package or a $45K motor court overlay — request a free on-site estimate from Lamorinda Pavers. We'll walk the property, identify which of the 10 upgrades fits your timeline and neighborhood ceiling, and send a fixed-price proposal with cost, ROI projection, and recommended timing in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver upgrades get scoped with both lifestyle and resale value in mind."
   },
@@ -1594,7 +1909,13 @@
     "relatedService": "paver-driveways",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Moraga, Orinda, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "moraga", "walnut-creek", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "moraga",
+      "walnut-creek",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1671,11 +1992,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation and repair" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "the paver base compaction deep-dive" },
-      { "url": "/blog/how-to-prevent-paver-patio-sinking-2026", "anchor": "the parallel paver patio failure-mode guide" },
-      { "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage", "anchor": "drainage mistakes that affect any paver install" },
-      { "url": "/lafayette", "anchor": "Lafayette paver driveway projects" }
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation and repair"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "the paver base compaction deep-dive"
+      },
+      {
+        "url": "/blog/how-to-prevent-paver-patio-sinking-2026",
+        "anchor": "the parallel paver patio failure-mode guide"
+      },
+      {
+        "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage",
+        "anchor": "drainage mistakes that affect any paver install"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette paver driveway projects"
+      }
     ],
     "cta": "Tell the reader: if your paver driveway is cracking, settling, or showing edge failures, request a free on-site assessment from Lamorinda Pavers. We'll run the 4-step diagnostic on your driveway, identify which of the 5 failure causes are active, and send a written repair-vs-rebuild recommendation with fixed-price options for each in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how driveway paver problems get diagnosed honestly and fixed correctly."
   },
@@ -1698,7 +2034,13 @@
     "relatedService": "paver-driveways",
     "targetWordCount": 3100,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "moraga", "walnut-creek", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "moraga",
+      "walnut-creek",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1784,11 +2126,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every mistake section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/blog/driveway-pavers-cracking-or-uneven-in-2026", "anchor": "the driveway paver diagnostic guide" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "the paver base compaction deep-dive" },
-      { "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage", "anchor": "the parallel patio installation mistakes guide" },
-      { "url": "/lafayette", "anchor": "Lafayette hillside driveway projects" }
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/blog/driveway-pavers-cracking-or-uneven-in-2026",
+        "anchor": "the driveway paver diagnostic guide"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "the paver base compaction deep-dive"
+      },
+      {
+        "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage",
+        "anchor": "the parallel patio installation mistakes guide"
+      },
+      {
+        "url": "/lafayette",
+        "anchor": "Lafayette hillside driveway projects"
+      }
     ],
     "cta": "Tell the reader: if you're planning a new paver driveway or diagnosing problems with an existing one, request a free on-site estimate from Lamorinda Pavers. We'll walk the driveway, identify whether any of the 11 mistakes are present, and send a fixed-price proposal with the full spec — base depth, lift count, paver SKU, polymeric sand SKU, edge restraint detail, drainage plan — in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver driveways get installed correctly the first time."
   },
@@ -1811,7 +2168,13 @@
     "relatedService": "paver-driveways",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "moraga", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -1898,11 +2261,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation and repair" },
-      { "url": "/blog/driveway-pavers-cracking-or-uneven-in-2026", "anchor": "the driveway paver diagnostic guide" },
-      { "url": "/blog/11-driveway-paver-mistakes-that-cause-cracks", "anchor": "11 driveway paver installation mistakes" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "the paver base compaction deep-dive" },
-      { "url": "/blog/how-to-prevent-paver-patio-sinking-2026", "anchor": "the parallel paver patio sinking guide" }
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation and repair"
+      },
+      {
+        "url": "/blog/driveway-pavers-cracking-or-uneven-in-2026",
+        "anchor": "the driveway paver diagnostic guide"
+      },
+      {
+        "url": "/blog/11-driveway-paver-mistakes-that-cause-cracks",
+        "anchor": "11 driveway paver installation mistakes"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "the paver base compaction deep-dive"
+      },
+      {
+        "url": "/blog/how-to-prevent-paver-patio-sinking-2026",
+        "anchor": "the parallel paver patio sinking guide"
+      }
     ],
     "cta": "Tell the reader: if your paver driveway shows sinking, shifting, or both, request a free on-site assessment from Lamorinda Pavers. We'll measure level deviation and perimeter alignment, identify which mechanisms are active, and send a written diagnosis with fixed-price repair options — surface fix for shifting, base intervention for sinking, or combined repair for turning-zone failures — in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how driveway paver movement problems get diagnosed correctly and fixed at the right scope."
   },
@@ -1925,7 +2303,13 @@
     "relatedService": "paver-driveways",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "moraga", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -2005,11 +2389,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/paver-driveways", "anchor": "paver driveway repair and installation" },
-      { "url": "/blog/driveway-pavers-cracking-or-uneven-in-2026", "anchor": "the driveway paver diagnostic guide" },
-      { "url": "/blog/what-causes-driveway-pavers-to-sink-or-shift", "anchor": "sinking vs. shifting mechanisms" },
-      { "url": "/blog/11-driveway-paver-mistakes-that-cause-cracks", "anchor": "the 11 driveway install mistakes" },
-      { "url": "/blog/what-is-paver-base-compaction-and-why-it-matters", "anchor": "paver base compaction deep-dive" }
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway repair and installation"
+      },
+      {
+        "url": "/blog/driveway-pavers-cracking-or-uneven-in-2026",
+        "anchor": "the driveway paver diagnostic guide"
+      },
+      {
+        "url": "/blog/what-causes-driveway-pavers-to-sink-or-shift",
+        "anchor": "sinking vs. shifting mechanisms"
+      },
+      {
+        "url": "/blog/11-driveway-paver-mistakes-that-cause-cracks",
+        "anchor": "the 11 driveway install mistakes"
+      },
+      {
+        "url": "/blog/what-is-paver-base-compaction-and-why-it-matters",
+        "anchor": "paver base compaction deep-dive"
+      }
     ],
     "cta": "Tell the reader: if your paver driveway shows pooling, washed-out joints, or settled areas from drainage failure and the fix exceeds DIY scope, request a free on-site assessment from Lamorinda Pavers. We'll walk the 4-step diagnostic with you, identify whether the fix is surface or base, and send a written repair scope with fixed-price options for each line item — resand, regrade, French drain, base supplement — in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver driveway drainage gets corrected at the right scope, not over-scoped."
   },
@@ -2032,7 +2431,13 @@
     "relatedService": "patios",
     "targetWordCount": 2800,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "moraga", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -2118,11 +2523,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift", "anchor": "the full paver patio install walkthrough" },
-      { "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios", "anchor": "9 questions to vet a paver installer" },
-      { "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026", "anchor": "the paver outdoor living ROI guide" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/blog/how-to-install-a-level-paver-patio-that-wont-shift",
+        "anchor": "the full paver patio install walkthrough"
+      },
+      {
+        "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios",
+        "anchor": "9 questions to vet a paver installer"
+      },
+      {
+        "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026",
+        "anchor": "the paver outdoor living ROI guide"
+      }
     ],
     "cta": "Tell the reader: if you're scoping a paver project — patio, driveway, walkway, or full outdoor living build — and want a written commitment to the six build dimensions covered in this guide, request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the project, and send a fixed-price proposal with each of the six dimensions — base spec, drainage plan, named SKUs, edge restraint detail, polymeric sand, and 5-year workmanship warranty — itemized in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is what professional paver installation actually looks like in contract."
   },
@@ -2145,7 +2565,13 @@
     "relatedService": "patios",
     "targetWordCount": 3000,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "moraga", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -2227,11 +2653,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every improvement section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces", "anchor": "the professional paver installation category guide" },
-      { "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026", "anchor": "the paver outdoor living ROI guide" },
-      { "url": "/blog/12-features-full-service-paver-patios-should-include", "anchor": "12 features full-service paver patios should include" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces",
+        "anchor": "the professional paver installation category guide"
+      },
+      {
+        "url": "/blog/paver-outdoor-living-roi-for-home-resale-in-2026",
+        "anchor": "the paver outdoor living ROI guide"
+      },
+      {
+        "url": "/blog/12-features-full-service-paver-patios-should-include",
+        "anchor": "12 features full-service paver patios should include"
+      }
     ],
     "cta": "Tell the reader: if you want a paver project that delivers all 10 of these improvements in writing — lifespan, capacity, level, drainage, repairability, code compliance, resale recovery, and transferable warranty — request a free on-site estimate from Lamorinda Pavers. We'll walk the property, scope the project, and send a fixed-price proposal with each improvement specified as a contract line item within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is what professional paver installation delivers when scoped correctly."
   },
@@ -2254,7 +2695,13 @@
     "relatedService": "patios",
     "targetWordCount": 2700,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "moraga", "walnut-creek", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "moraga",
+      "walnut-creek",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -2327,11 +2774,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "paver patio installation" },
-      { "url": "/services/paver-driveways", "anchor": "paver driveway installation" },
-      { "url": "/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces", "anchor": "the professional paver installation category guide" },
-      { "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage", "anchor": "11 DIY drainage mistakes to avoid" },
-      { "url": "/blog/how-to-fix-driveway-pavers-uneven-from-drainage", "anchor": "how to fix existing drainage problems" }
+      {
+        "url": "/services/patios",
+        "anchor": "paver patio installation"
+      },
+      {
+        "url": "/services/paver-driveways",
+        "anchor": "paver driveway installation"
+      },
+      {
+        "url": "/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces",
+        "anchor": "the professional paver installation category guide"
+      },
+      {
+        "url": "/blog/11-diy-paver-patio-mistakes-that-ruin-drainage",
+        "anchor": "11 DIY drainage mistakes to avoid"
+      },
+      {
+        "url": "/blog/how-to-fix-driveway-pavers-uneven-from-drainage",
+        "anchor": "how to fix existing drainage problems"
+      }
     ],
     "cta": "Tell the reader: if you're planning a paver project on a hillside East Bay lot or a property with drainage challenges, request a free on-site estimate from Lamorinda Pavers. We'll walk the property, identify drainage routing and uphill water sources, scope the four engineered drainage elements (grading, base, edge restraint, French drain), and send a fixed-price proposal with the full drainage plan in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver drainage gets engineered correctly the first time."
   },
@@ -2354,7 +2816,13 @@
     "relatedService": "patios",
     "targetWordCount": 2900,
     "geoFocus": "East Bay (Lafayette, Orinda, Moraga, Walnut Creek, Danville + surrounding Contra Costa / Alameda)",
-    "citiesReferenced": ["lafayette", "orinda", "walnut-creek", "moraga", "danville"],
+    "citiesReferenced": [
+      "lafayette",
+      "orinda",
+      "walnut-creek",
+      "moraga",
+      "danville"
+    ],
     "outline": [
       {
         "h2": "The Short Answer",
@@ -2433,11 +2901,26 @@
       "References to 'as mentioned above' or 'as discussed earlier' — every step section must read standalone for LLM passage extraction"
     ],
     "internalLinks": [
-      { "url": "/services/patios", "anchor": "professional paver patio installation" },
-      { "url": "/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces", "anchor": "the professional paver installation category guide" },
-      { "url": "/blog/budgeting-a-large-paver-patio-in-2026", "anchor": "the large paver patio budget guide" },
-      { "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios", "anchor": "the 9 contractor vetting questions" },
-      { "url": "/blog/12-features-full-service-paver-patios-should-include", "anchor": "12 features full-service paver patios should include" }
+      {
+        "url": "/services/patios",
+        "anchor": "professional paver patio installation"
+      },
+      {
+        "url": "/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces",
+        "anchor": "the professional paver installation category guide"
+      },
+      {
+        "url": "/blog/budgeting-a-large-paver-patio-in-2026",
+        "anchor": "the large paver patio budget guide"
+      },
+      {
+        "url": "/blog/9-questions-to-vet-a-paver-installer-for-big-patios",
+        "anchor": "the 9 contractor vetting questions"
+      },
+      {
+        "url": "/blog/12-features-full-service-paver-patios-should-include",
+        "anchor": "12 features full-service paver patios should include"
+      }
     ],
     "cta": "Tell the reader: if you want a paver project that finishes on time, on budget, and on scope, complete this 10-step planning checklist and then request a free on-site estimate from Lamorinda Pavers. We'll walk through your planning document with you, validate the layout, drainage, materials, and budget, and send a fixed-price bid built around your locked scope in writing within 48 hours. Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver projects start with the planning that makes professional installation possible."
   }
