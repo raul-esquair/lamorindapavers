@@ -14,6 +14,256 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "11-diy-paver-patio-mistakes-that-ruin-drainage",
+    featuredImage: "/images/blog-11-diy-paver-patio-mistakes-that-ruin-drainage.png",
+    title: "11 DIY Paver Patio Mistakes That Ruin Drainage",
+    excerpt:
+      "Paver patio drainage problems come from 11 specific DIY mistakes — flat grading, wrong base aggregate, missing French drains, mortared joints, and more. Here's each one explained with the actual fix, calibrated for East Bay clay soil and hillside lots.",
+    date: "2026-06-08",
+    readingTime: "17 min read",
+    relatedService: "patios",
+    faqs: [
+      {
+        "question": "Why is water pooling on my paver patio?",
+        "answer": "Water pooling on a paver patio usually comes from one of four causes: the subgrade was flat-graded instead of sloped at 1 inch per 8 feet away from the house; joint sand has eroded and water is ponding above a sealed base layer; base aggregate settled unevenly and created low spots; or a French drain has clogged. On East Bay clay-soil lots, the most common cause of paver patio standing water is flat grading combined with joint sand loss over time. Run a hose at the patio's high corner while watching the drainage edge — that test confirms which failure mode is active."
+      },
+      {
+        "question": "How do you fix paver patio drainage?",
+        "answer": "Fixing paver patio drainage starts with identifying the specific failure mode. Flat grading: pull the perimeter pavers, re-grade the base at 1 inch per 8 feet, and relay. Joint sand erosion: resand with Techniseal HP NextGel, Alliance Gator Maxx, or SEK Pro after cleaning at 1,200–1,500 PSI maximum. Base settlement creating low spots: lift affected pavers, add Class II aggregate or bedding sand to restore grade, and relay. French drain failure: camera the pipe, clear the blockage, or replace the perforated section. Many East Bay pooling problems are joint sand and minor settlement — a partial fix rather than a full rebuild."
+      },
+      {
+        "question": "Should a paver patio slope toward or away from the house?",
+        "answer": "Always away from the house. The industry-standard paver patio slope is 1 inch of fall per 8 feet (approximately 1% grade) directed away from any structure, toward the patio's lowest drainage point. Sloping toward the house routes water into the foundation, saturates adjacent clay, and causes seasonal expansion pressure against the structure. On hillside lots in Orinda or Lafayette where the house sits downhill from the patio, a catch basin at the foundation edge intercepts water before it reaches the wall — but the patio itself still slopes away from the foundation."
+      },
+      {
+        "question": "Can you regrade a paver patio without removing the pavers?",
+        "answer": "In some cases, yes — if settlement is localized. Pull the pavers in the affected area, add Class II aggregate or adjust the bedding sand layer to restore the correct slope, tamp lightly, and relay. Resand the joints with Techniseal HP NextGel, Alliance Gator Maxx, or SEK Pro. If the entire field is flat or sloped the wrong direction, a full paver pull and subgrade re-grade is unavoidable. Attempting to correct a system-wide paver patio grading mistake by shimming individual pavers introduces inconsistent bedding depth and new differential settlement."
+      },
+      {
+        "question": "How much does it cost to fix paver patio drainage?",
+        "answer": "Spot repairs — joint resanding, pulling and releveling a few pavers, clearing a French drain — run $500–$2,000 on a standard 400–600 square foot East Bay patio. Partial section rebuilds (pulling 25–40% of the field, re-grading base, relaying) run $3,000–$7,000 depending on scope. A full rebuild with correct base spec and drainage runs $18–28 per square foot in the current East Bay market. The main cost driver is base access — once pavers come up, base assessment determines whether you're doing a minor repair or a full reconstruction."
+      },
+      {
+        "question": "What's the right slope for a paver patio?",
+        "answer": "The correct slope for a paver patio is 1 inch of fall per 8 feet (1% grade minimum) sloped away from any structure, toward the patio's lowest drainage edge. That slope is steep enough to sheet water off the surface without visibly tilting the patio. On hillside Lafayette and Orinda lots where natural grade steepens, you can match the natural slope up to about 2% (1/4 inch per foot) before the patio starts to feel noticeably pitched underfoot. Above 2%, consider terracing with a retaining wall step rather than running a continuous slope across the entire patio footprint."
+      }
+    ],
+    content: `
+# 11 DIY Paver Patio Mistakes That Ruin Drainage
+
+## The Short Answer
+
+Paver patio drainage problems almost always come down to one of 11 specific DIY install mistakes — flat grading, wrong base aggregate, mortared joints, missing French drains, and seven more. Each has a clean fix. Together they explain 95% of pooling, sinking, and shifting on East Bay paver patios. If your patio is already showing standing water, rocking pavers, or perimeter separation, one of these 11 mistakes is almost certainly the cause — and knowing which one determines whether you need a repair or a full rebuild.
+
+This post covers every failure mode in detail: what causes it, why it's worse on East Bay clay soil, and exactly how to fix it. For the full [paver patio installation](/services/patios) process from excavation through final jointing, see the [full paver patio install walkthrough](/blog/how-to-install-a-level-paver-patio-that-wont-shift). For a deep dive on base prep specifically, the [paver base compaction deep-dive](/blog/what-is-paver-base-compaction-and-why-it-matters) covers equipment, lift depth, and compaction targets in detail.
+
+---
+
+## Why Paver Patio Drainage Problems Are Worse in the East Bay Than Most Places
+
+Paver patio drainage problems are worse in the East Bay because clay soils hold water at the surface instead of absorbing it, and hillside lots in Lafayette, Orinda, and Moraga concentrate winter runoff against the patio's perimeter.
+
+**East Bay clay-soil lots get 18–25 inches of winter rain concentrated in 4–5 months.**
+
+That compressed rainfall window — December through April — hits a subgrade that doesn't drain the way sandy soil would. Expansive clay is soil that swells when wet and shrinks when dry, with seasonal volume change of 5–10%. Every blocked drain path, every low spot that traps water, every cracked joint that lets water in — those failures compound fast when 20 inches of rain lands in 120 days. A drainage mistake that might show up as minor pooling on a Phoenix patio shows up as a sinking, cracking rebuild candidate in Orinda after two wet seasons.
+
+The fixes below are specific to that reality. General paver drainage advice written for stable sandy lots in drier climates doesn't translate to East Bay conditions. Every mistake is calibrated to what actually fails here — on [Orinda](/orinda) hillside lots, on sloped [Moraga](/moraga) clay grades, and on the flatter but still clay-heavy lots of [Walnut Creek](/walnut-creek) and [Danville](/danville).
+
+---
+
+## Mistake 1: Skipping a Site Drainage Plan Before Any Digging Starts
+
+Skipping a site drainage plan is the most common DIY paver patio drainage mistake — and the most expensive to fix later, because every other phase of the install depends on it.
+
+A drainage plan answers one question: where does water go during a 1-inch-per-hour rain? On a flat Walnut Creek lot, the answer might be straightforward. On a sloped Orinda or Lafayette property, it's not — uphill runoff from a neighbor's lot, downspouts discharging near the patio footprint, and seasonal groundwater seeping through clay strata can all concentrate water against a patio that was designed without accounting for any of them.
+
+The fix is simple but can't be skipped: before any excavation, run a garden hose at the highest point of the planned patio footprint and follow where the water goes. Do it again during one actual rain. Map the low spots, the concentrated flow paths, and any existing drainage outlets. Design the patio's slope and any supplemental drains — French drains, catch basins, or pop-up emitters — to route water toward those natural outlets. Once pavers and base aggregate are in place, you can't redesign the drainage logic without removing everything.
+
+---
+
+## Mistake 2: Flat-Grading the Subgrade Instead of Sloping Away from the House
+
+Flat-grading a paver patio's subgrade is the second-most-common DIY paver patio drainage mistake — the industry standard is 1 inch of fall per 8 feet (roughly 1%) sloped away from the house.
+
+**The industry-standard paver patio slope is 1 inch of fall per 8 feet sloped away from the house.**
+
+The instinct to make the patio look "level" is understandable — a visibly tilted patio looks wrong to the eye. But a truly flat patio develops pooling within the first wet season. Water has nowhere to go, it sits on the surface, and on East Bay clay it takes hours to drain. That standing water works into any low joint, migrates into the base aggregate, and starts the wet-dry cycling that breaks down compaction.
+
+The fix: set the finish grade at 1 inch of fall per 8 feet, confirmed with a 4-foot or 6-foot level and a marked grade block (a scrap of wood cut to the exact target drop). Verify slope at the subgrade level — if the subgrade is flat, the base and pavers follow it flat regardless of how carefully you screed.
+
+---
+
+## Mistake 3: Crowning the Patio Toward the House Instead of Away from It
+
+Crowning a paver patio toward the house instead of away from it routes rainwater directly into the foundation — a paver patio grading mistake that causes thousands of dollars of foundation and crawlspace damage in East Bay clay soils.
+
+This failure mode shows up on DIY installs more than you'd expect. The installer works to match the finished patio grade to the adjacent door threshold or interior floor, eyeballs the level, and ends up with a surface that pitches slightly toward the house. On a clay-soil lot in Lafayette or Orinda, that slope concentrates every inch of seasonal rain against the foundation. Water wicks through the slab edge, saturates the adjacent clay, and the seasonal swelling cycle begins pushing against the structure itself.
+
+The fix is the same as Mistake 2: slope away from the house at 1 inch per 8 feet minimum, confirmed at the subgrade level with a physical grade block. On hillside lots where the house sits downhill from the patio, a catch basin at the foundation edge intercepts water before it reaches the wall — but the patio still slopes away from the foundation and toward the basin.
+
+---
+
+## Mistake 4: Installing Pavers Flush Against the Foundation Without an Expansion Gap
+
+Pavers installed flush against a house foundation create a moisture trap and concentrate clay seasonal movement against the structure — leave a 1/2-inch expansion gap filled with a drainable backer rod and exterior-rated polyurethane sealant, or pack loosely with #57 stone.
+
+Clay expands laterally in wet months. A paver field installed hard against a foundation gets pushed into it with measurable force during wet winters. That pressure cracks both foundation siding and joint sand at the perimeter, and once those joints open, water follows them straight down toward the footing. On a Moraga or Lafayette hillside lot with saturated subgrade, that moisture pathway matters.
+
+The fix: leave a minimum 1/2-inch gap between the outermost paver row and the foundation, wall, or any fixed structure. Seal it with backer rod and a paintable, exterior-rated polyurethane sealant if aesthetics matter, or leave it loosely filled with 1/4-inch clean crushed stone for a draining gap that still looks intentional. Inspect annually and reseal when cracking appears.
+
+---
+
+## Mistake 5: Using Fine Sand or Decomposed Granite as Base Aggregate Instead of Class II
+
+Fine sand and decomposed granite don't drain like Class II aggregate — they hold water at the bedding layer and accelerate clay subgrade movement.
+
+Class II aggregate is a Caltrans-spec graded crushed stone with particles ranging from 3/4-inch down to fines, engineered to interlock under compaction and drain freely between particles. Fine sand and decomposed granite compact into dense, low-permeability layers that water sits on top of rather than flowing through. When winter rain infiltrates paver joints — and it always does — the drainage path hits a DG or fine-sand base and stops. That water either ponds at the bedding layer or routes laterally toward the perimeter, undercutting edge restraints and washing bedding sand outward.
+
+The fix: spec Caltrans Class II road base for the structural lift in every [paver patio installation](/services/patios). ICPI Tech Spec 2 (Construction of Interlocking Concrete Pavements) — the U.S. trade standard published by ICPI (the Interlocking Concrete Pavement Institute) — names Class II as the correct material for residential paver applications. Not DG, not play sand, not "crusher run" without a published spec. For a full breakdown of aggregate selection, compaction equipment, and lift counts, see the [paver base compaction deep-dive](/blog/what-is-paver-base-compaction-and-why-it-matters).
+
+---
+
+## Mistake 6: Mortaring or Grouting the Joints to "Seal" Them
+
+Mortared paver joints look clean for one season, then crack everywhere as clay seasonally moves under the patio — and once cracked, mortared joints trap water and accelerate base damage.
+
+Interlocking pavers are designed as a flexible system. The paver field moves slightly with clay expansion and contraction, with seasonal temperature changes, and with minor base settlement. That micro-movement is normal and harmless when joints are filled with polymeric sand, which flexes with the field. Rigid mortar joints don't flex — they crack. And cracked mortar joints are worse than open joints: the fractured mortar holds water above the crack line and funnels it into the base along the fracture face.
+
+The fix: polymeric joint sand, applied per manufacturer instructions. Techniseal HP NextGel, Alliance Gator Maxx, and SEK Pro are three products with consistent performance records in East Bay wet-dry cycling conditions. All three bind without going rigid, shed water at the surface, and resist weed germination. Expect 5–7 years of service before resealing is needed.
+
+---
+
+## Mistake 7: Skipping or Undersizing French Drains on Hillside Lafayette and Orinda Lots
+
+Hillside paver patios in Lafayette, Orinda, and Moraga need French drains routed under or around the patio footprint to intercept winter rain before it saturates the subgrade — skipping this step is the single most common drainage failure mode on East Bay hillside installs.
+
+A French drain is a perforated pipe buried in gravel that collects subsurface water and routes it to a daylight outlet. On a flat [Danville](/danville) lot with good natural drainage, a French drain may not be necessary. On a sloped lot in the Orinda hills or up Happy Valley Road in Lafayette, it almost always is — hillside properties receive not just rainfall on the patio footprint but concentrated subsurface flow from the uphill grade, neighboring properties, and seasonal groundwater movement through clay strata.
+
+The fix: 4-inch perforated PVC pipe in clean #57 stone, wrapped in non-woven geotextile to prevent clay fines from clogging the gravel over time. Route it to a hillside daylight outlet or to a connection with the municipal storm drain system. Contra Costa County drainage requirements specify that drainage from hardscape improvements must not be directed onto adjacent properties or increase runoff onto streets beyond pre-development levels — French drain outlet placement must account for that. Undersizing is a real failure mode too: on a steeply sloped lot, a single 4-inch drain may be insufficient during a concentrated rain event. Err toward two drains or a 6-inch main.
+
+For the full subsurface drainage picture in a new install, read [the full paver patio install walkthrough](/blog/how-to-install-a-level-paver-patio-that-wont-shift). For hillside-specific structural context, our [retaining walls](/services/retaining-walls) service page covers how wall and patio drainage systems integrate on sloped lots.
+
+---
+
+## Mistake 8: Skipping Edge Restraints — Water Seeps Laterally Under the Paver Field
+
+Paver patios installed without PVC edge restraints fail laterally — water gets under the perimeter pavers, undermines the base aggregate, and the entire field walks outward over time.
+
+Edge restraints aren't decorative trim. They're a structural component that holds the paver field in compression. Without them, winter rain saturates the soil at the perimeter, clay movement pushes outward, and the perimeter pavers follow. Once they start moving — typically 1/4 to 1/2 inch per wet season on an unrestrained East Bay clay lot — the bedding sand layer opens at the perimeter and water infiltrates directly into the base. Joint sand follows. Field separation accelerates.
+
+Concrete edge curbs are not a substitute. Concrete cracks at clay-movement joints, and once cracked, the gap between a concrete curb and the paver field becomes a direct water pathway into the base aggregate. The correct spec: PVC spike-down edge restraints with 10-inch galvanized spikes at 10-inch spacing, driven fully flush. Shorter spikes pull out. Wider spacing allows flex. Both produce the same result — a perimeter that walks outward and leaves the base exposed. See [preventing paver patio sinking and settling](/blog/how-to-prevent-paver-patio-sinking-2026) for how edge restraint failure presents at the surface.
+
+---
+
+## Mistake 9: Applying Polymeric Sand During a Rain Window or in Extreme Heat
+
+Polymeric sand cures correctly only within a narrow temperature and moisture window — apply it within 24 hours of forecasted rain or above 80°F and the cure fails, creating porous joint fill that lets water under the pavers.
+
+Polymeric joint sand activates with a fine water mist and then cures hard over 24 hours. Heavy rain during cure doesn't just slow the process — it physically washes the uncured polymer binder onto paver faces (where it hazes permanently) and unevenly flushes it through the joint depth, leaving the lower portion of each joint under-bonded. Those under-bonded joints look solid on the surface and fail through the middle — exactly the failure mode that routes water straight to the bedding sand layer.
+
+Heat above 80°F creates the opposite problem: the polymer skin-cures at the surface too fast, trapping moisture below and leaving the bottom of each joint uncured. That hollow-below-the-crust joint cracks under foot traffic within months.
+
+**Apply polymeric sand at 50–80°F with at least 36 hours of clear forecast after installation.** In the East Bay, that window exists reliably from April through October. Avoid application during heat spikes in inland Walnut Creek and Danville, where afternoons regularly exceed 85°F in summer. If the day cools below 80°F by mid-afternoon, schedule application for morning so the misting and cure period falls in the cooler part of the day. Techniseal HP NextGel, Alliance Gator Maxx, and SEK Pro all have consistent performance records across East Bay climate cycling.
+
+---
+
+## Mistake 10: Aggressive Power-Washing That Blasts Joint Sand Out
+
+**Power-washing paver patios above 1,500 PSI strips joint sand out of the joints.**
+
+Many homeowners power-wash their paver patio annually thinking they're doing the right maintenance — and they are, at the right pressure. Above 1,500 PSI, the stream cuts directly into the joint, eroding polymeric sand and bedding sand below it. The joint empties progressively over two or three annual washings until water flows freely into the base with every rain.
+
+Both Belgard and Calstone — two major paver manufacturers whose products are common in East Bay installs — specify a maximum of 1,200–1,500 PSI for cleaning, with the wand held at least 12 inches from the paver surface. A direct-stream nozzle is never appropriate; use a rotating or fan nozzle.
+
+The fix: clean at 1,200–1,500 PSI maximum, fan or rotating nozzle, wand 12 inches minimum from the surface. After cleaning, inspect every joint — joints visibly lower than the paver chamfer need refilling. Sweep dry polymeric sand into low joints and activate with a fine mist before the next rain. If joint sand has been power-washed out over multiple years, a full joint resand with Techniseal HP NextGel, Alliance Gator Maxx, or SEK Pro is the correct repair. This is also the most common preventable cause of [paver patio standing water](#) that develops slowly rather than immediately after install.
+
+---
+
+## Mistake 11: Not Resealing Polymeric Joint Sand Every 5–7 Years
+
+**Polymeric joint sand lasts 5–7 years in East Bay weather before it cracks and needs resealing.**
+
+Most homeowners — and many contractors — treat polymeric sand as install-and-forget. It isn't. The polymer binder that gives joint sand its weather resistance and weed suppression degrades over time, accelerated by UV exposure, wet-dry cycling, and East Bay temperature swings. After 5–7 years, even correctly installed polymeric sand shows visible crazing, surface erosion, and weed germination in joints where the binder has degraded.
+
+Those cracked, eroded joints are open water pathways. Water enters, migrates to the bedding sand layer, carries fine particles toward the perimeter, and undermines the base from the inside — the same failure sequence as every other joint-related mistake on this list.
+
+The fix: budget a full resand and reseal every 5–7 years. Signs it's overdue include visible joint crazing, weed germination directly in the joint (not at the paver edge — in the joint itself), and surface erosion where sand sits more than 1/8 inch below the paver chamfer. A reseal is a 1-day maintenance operation, not a rebuild — it protects the base investment already in the ground. On a correctly built East Bay paver patio, the base spec and drainage system should outlast multiple reseal cycles.
+
+---
+
+## How to Verify Your Paver Patio Drainage Actually Works
+
+A paver patio's drainage works correctly if water sheets off the surface within 30 seconds of a 1-inch-per-hour rain and no puddle exceeds 1/4 inch deep anywhere on the field.
+
+Here's how to verify it:
+
+1. **Hose test at the high point.** Run a garden hose at full flow at the highest corner of the patio. Water should sheet across the surface and exit cleanly at the low edge in under 30 seconds. Any point where flow slows to a standing puddle identifies a grading low spot or drainage block.
+
+2. **Live rain observation.** Walk the patio during a moderate East Bay winter rain — not a drizzle. Hard rain reveals pooling spots that a hose test misses, especially at the foundation perimeter and at grading seams where one section meets another at a slightly different pitch.
+
+3. **Foundation perimeter inspection.** After the first few wet-season rains, check the foundation siding and any visible crawlspace vents for water staining or efflorescence. Both indicate water is routing toward the structure — a grading or expansion-gap failure.
+
+4. **Joint sand inspection twice a year.** In spring and fall, walk the patio and look at joint fill levels. Joints should be flush with the paver chamfer. Visible low joints mean water (or power-washing, or both) has eroded joint sand, and the base below is getting more water exposure than designed.
+
+For a full post-install verification checklist tied to each install phase, see [the full paver patio install walkthrough](/blog/how-to-install-a-level-paver-patio-that-wont-shift). And if you're seeing joint sand loss that correlates with patio movement, [preventing paver patio sinking and settling](/blog/how-to-prevent-paver-patio-sinking-2026) walks through how those two failure modes interact.
+
+---
+
+## Should You DIY a Paver Patio in the East Bay, or Hire It Out?
+
+A DIY paver patio in flat, sandy soil is achievable for a competent homeowner with rented equipment — but on East Bay clay-soil lots, especially the hillside terrain of Lafayette, Orinda, and Moraga, the drainage engineering and base prep usually require professional spec.
+
+**The honest breakdown:**
+
+**DIY advantages:** You save 40–60% on labor. You control the timeline. For a small, flat patio on stable soil with no drainage complications, a skilled DIYer with a rented vibratory plate compactor can produce a result that holds up.
+
+**Where DIY fails in the East Bay:** Rental compactors from hardware stores typically run 2,000–2,500 lbs of vibratory force — well below the 3,500 lb minimum for Class II aggregate compaction to 95% Proctor density on clay subgrades. Drainage planning on a hillside lot is genuine civil engineering work: where to locate a French drain, how to size it for site runoff, how to route it to a compliant outlet under Contra Costa County drainage requirements. Those decisions have consequences that show up 18 months after install, not 18 days. A misread subgrade condition — clay wetter than expected, a buried irrigation line, a shallow seasonal water table — compounds quickly when the drainage system was designed for drier conditions.
+
+The rebuild cost for a DIY patio that fails at the base runs $18–25 per square foot in the East Bay market. That number typically exceeds what professional installation would have cost on a 400–600 square foot patio.
+
+Lamorinda Pavers builds paver patios across Lafayette, Orinda, and Walnut Creek — see our [paver patio installation](/services/patios) and [Lafayette hillside paver projects](/lafayette) pages — where most homeowners ultimately decide the drainage engineering is worth professional install. For [Moraga](/moraga) and [Orinda](/orinda) hillside lots in particular, the site-specific drainage work — French drain routing, catch basin placement, hillside runoff interception — is where the cost of getting it wrong is highest. Every install Lamorinda Pavers completes carries a 5-year workmanship warranty; if drainage fails due to any installation defect within that window, we fix it. That warranty exists because we've done the drainage engineering correctly from the ground up.
+
+---
+
+## Frequently Asked Questions
+
+### Why is water pooling on my paver patio?
+
+Water pooling on a paver patio usually comes from one of four causes: the subgrade was flat-graded instead of sloped at 1 inch per 8 feet away from the house; joint sand has eroded and water is ponding above a sealed base layer; base aggregate settled unevenly and created low spots; or a French drain has clogged. On East Bay clay-soil lots, the most common cause of paver patio standing water is flat grading combined with joint sand loss over time. Run a hose at the patio's high corner while watching the drainage edge — that test confirms which failure mode is active.
+
+### How do you fix paver patio drainage?
+
+Fixing paver patio drainage starts with identifying the specific failure mode. Flat grading: pull the perimeter pavers, re-grade the base at 1 inch per 8 feet, and relay. Joint sand erosion: resand with Techniseal HP NextGel, Alliance Gator Maxx, or SEK Pro after cleaning at 1,200–1,500 PSI maximum. Base settlement creating low spots: lift affected pavers, add Class II aggregate or bedding sand to restore grade, and relay. French drain failure: camera the pipe, clear the blockage, or replace the perforated section. Many East Bay pooling problems are joint sand and minor settlement — a partial fix rather than a full rebuild.
+
+### Should a paver patio slope toward or away from the house?
+
+Always away from the house. The industry-standard paver patio slope is 1 inch of fall per 8 feet (approximately 1% grade) directed away from any structure, toward the patio's lowest drainage point. Sloping toward the house routes water into the foundation, saturates adjacent clay, and causes seasonal expansion pressure against the structure. On hillside lots in Orinda or Lafayette where the house sits downhill from the patio, a catch basin at the foundation edge intercepts water before it reaches the wall — but the patio itself still slopes away from the foundation.
+
+### Can you regrade a paver patio without removing the pavers?
+
+In some cases, yes — if settlement is localized. Pull the pavers in the affected area, add Class II aggregate or adjust the bedding sand layer to restore the correct slope, tamp lightly, and relay. Resand the joints with Techniseal HP NextGel, Alliance Gator Maxx, or SEK Pro. If the entire field is flat or sloped the wrong direction, a full paver pull and subgrade re-grade is unavoidable. Attempting to correct a system-wide paver patio grading mistake by shimming individual pavers introduces inconsistent bedding depth and new differential settlement.
+
+### How much does it cost to fix paver patio drainage?
+
+Spot repairs — joint resanding, pulling and releveling a few pavers, clearing a French drain — run $500–$2,000 on a standard 400–600 square foot East Bay patio. Partial section rebuilds (pulling 25–40% of the field, re-grading base, relaying) run $3,000–$7,000 depending on scope. A full rebuild with correct base spec and drainage runs $18–28 per square foot in the current East Bay market. The main cost driver is base access — once pavers come up, base assessment determines whether you're doing a minor repair or a full reconstruction.
+
+### What's the right slope for a paver patio?
+
+The correct slope for a paver patio is 1 inch of fall per 8 feet (1% grade minimum) sloped away from any structure, toward the patio's lowest drainage edge. That slope is steep enough to sheet water off the surface without visibly tilting. On hillside Lafayette and Orinda lots where natural grade steepens, you can match the natural slope up to about 2% (1/4 inch per foot) before the patio starts to feel noticeably pitched underfoot. Above 2%, consider terracing with a [retaining wall](/services/retaining-walls) step rather than running a continuous slope across the entire patio footprint.
+
+---
+
+## Already Seeing One of These Failure Modes?
+
+If your existing paver patio shows pooling, perimeter separation, rocking pavers, or joint sand loss, a free on-site assessment from Lamorinda Pavers will tell you whether it's a repair or a partial rebuild — and which of the 11 mistakes above is driving it.
+
+We'll walk the patio with you, probe the joint sand depth, run a hose test at the high corner, and check edge restraint condition and base stability at the perimeter. Within 48 hours you'll have a fixed-price proposal in writing — repair scope, materials, timeline, and cost — before you commit to anything. If the base is sound and the fix is joint resanding or a section relevel, that's what we'll tell you. If the base is compromised and a section rebuild is the right call, the proposal will name it explicitly: base depth, lift count, aggregate product, polymeric sand brand, and warranty terms.
+
+If you're planning a new install and want to see what drainage-engineered paver patio construction looks like from the ground up, Lamorinda Pavers builds paver patios across Lafayette, Orinda, and Walnut Creek using the same drainage-first design approach — French drain routing mapped before excavation, Class II base to ICPI Tech Spec 2 standards, polymeric sand applied in the correct weather window, and a 5-year workmanship warranty on every install. [Contact us](/contact) to schedule your site visit, or browse [Lafayette hillside paver projects](/lafayette) to see finished work on the terrain where drainage engineering matters most.
+    `.trim(),
+  },
+
+  {
     slug: "what-is-paver-base-compaction-and-why-it-matters",
     featuredImage: "/images/blog-what-is-paver-base-compaction-and-why-it-matters.png",
     title: "What Is Paver Base Compaction and Why It Matters",
