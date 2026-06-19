@@ -14,6 +14,308 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "budgeting-a-large-paver-patio-in-2026",
+    featuredImage: "/images/blog-budgeting-a-large-paver-patio-in-2026.png",
+    title: "Budgeting a Large Paver Patio in 2026",
+    excerpt:
+      "A large paver patio (800-2,500 sq ft) in the East Bay costs $25,000-$75,000 in 2026, with most projects landing $35K-$55K. Here's the line-by-line budget breakdown — materials, labor, drainage engineering, soft costs, and contingency — plus how to scope your project before any contractor walks the site.",
+    date: "2026-06-22",
+    readingTime: "17 min read",
+    relatedService: "patios",
+    faqs: [
+      {
+        "question": "How much does a large paver patio cost in 2026?",
+        "answer": "A large paver patio (800–2,500 sq ft) in the East Bay costs $25,000–$75,000 in 2026. Most projects land $35K–$55K. The four variables that move large paver patio cost are pattern complexity, site prep depth, drainage engineering, and integrated features like outdoor kitchens or retaining walls. A 1,500 sq ft patio in running bond on a flat Walnut Creek lot runs $40,000–$50,000; the same 1,500 sq ft on an Orinda hillside with clay prep, French drains, and an outdoor kitchen runs closer to $89,000."
+      },
+      {
+        "question": "How much does a paver patio cost per square foot in the Bay Area?",
+        "answer": "In the East Bay in 2026, large paver patios cost $25–$50 per installed square foot. The rate is not linear — a 1,200 sq ft patio in herringbone will cost more per square foot than a 2,000 sq ft patio in running bond. Materials alone account for $9–$22/sf; labor accounts for the remaining $13–$28/sf depending on crew time, pattern complexity, and drainage scope."
+      },
+      {
+        "question": "What's included in a paver patio installation cost?",
+        "answer": "A complete paver patio installation cost covers six categories: materials (pavers, Class II aggregate, ASTM C33 bedding sand, polymeric joint sand, edge restraints, geotextile), labor across all install phases, drainage engineering (French drains, catch basins, regrading), site prep (excavation and subgrade work), integrated features (outdoor kitchen, fire pit, seat walls if applicable), and change-order contingency. A transparent bid names all six as separate line items — not a lump sum. Soft costs — permits, design fees, inspections — sit outside the contractor's base bid and add another 10–15%."
+      },
+      {
+        "question": "How long does it take to install a large paver patio?",
+        "answer": "A 1,500 sq ft East Bay paver patio installs in 7–9 working days with a 4-person crew. Smaller 800–1,200 sq ft patios run 5–7 days; estate-scale patios at 2,000–2,500 sq ft run 8–12 days. The most common delay triggers are rain wetting the subgrade past the compaction window, discovering buried concrete or irrigation during excavation, and heat pushing afternoon temperatures above 80°F during polymeric sand application. A 10–15% schedule contingency should be written into the contract."
+      },
+      {
+        "question": "Is a paver patio cheaper or more expensive than concrete?",
+        "answer": "Poured concrete installs for roughly $12–$18/sf in the East Bay — less than paver's $25–$50/sf installed. But the comparison breaks down on clay-soil East Bay lots: interlocking pavers are 3–4 times stronger under compressive load and flex with seasonal clay movement instead of cracking. On Orinda or Lafayette clay, poured slabs hairline-crack within two to three wet seasons. Individual pavers are replaceable; cracked poured slabs require full section replacement. Over 20–30 years, total cost of ownership often favors pavers."
+      },
+      {
+        "question": "Can I phase a large paver patio install to spread the cost?",
+        "answer": "Yes — but the cost savings from phasing are 5–10%, not 40%. Crew mobilization, material delivery, and equipment costs don't transfer between phases, so you pay setup costs twice. Phasing works well when zones are genuinely modular with independent drainage, or when a deferrable feature like an outdoor kitchen can be rough-in'd in Phase 1 and built out later without disturbing the paver field. Phasing fails when Phase 2 requires regrading or excavating through Phase 1's installed pavers."
+      }
+    ],
+    content: `
+## The Short Answer
+
+A large paver patio (800–2,500 sq ft) in the East Bay costs $25,000–$75,000 in 2026, or roughly $25–$50 per installed square foot. Most projects land $35K–$55K. The spread comes from four variables — pattern complexity, site prep depth, drainage engineering, and integrated features like outdoor kitchens or retaining walls. Every section below breaks those variables into specific dollar ranges so you can build a realistic number before any contractor walks your lot.
+
+If you're comparing bids or scoping your first large patio, the [paver patio installation service](/services/patios) page covers what a full-scope install includes from excavation through final jointing.
+
+---
+
+## What Counts as a "Large" Paver Patio in 2026?
+
+In East Bay luxury markets, a paver patio is considered large at 800 square feet and complex at 1,500 square feet or above. Most Lafayette, Orinda, and Walnut Creek custom patios land between 1,200 and 2,500 square feet.
+
+To put those numbers in physical terms: an 800 sq ft patio is roughly 20×40 — enough for a dining table and a seating cluster, with a few feet of clearance between. A 1,500 sq ft patio starts supporting a second zone: dining plus lounge plus circulation. At 2,500 sq ft, you're designing a full outdoor living program — outdoor kitchen, fire pit zone, lounge area, and enough circulation that each zone feels intentional rather than cramped.
+
+**Industry convention on size tiers:**
+
+- **800–1,200 sq ft** — large: one or two distinct zones, standard drainage complexity
+- **1,500–2,000 sq ft** — complex: multi-zone design, almost always requires drainage engineering
+- **2,500 sq ft+** — estate-scale: triggers Contra Costa County stormwater compliance review for impervious surfaces; drainage design becomes a separate line item
+
+The distinction between large and complex matters for budgeting because large paver patio cost doesn't scale linearly. A 2,000 sq ft patio isn't twice as expensive as a 1,000 sq ft patio — it's 1.5–1.8× depending on pattern and features. Understanding that curve before you open conversations with contractors saves a lot of sticker-shock moments.
+
+---
+
+## 2026 Cost Ranges by Patio Size
+
+Large paver patio cost in the East Bay varies by size tier, pattern, and site conditions. The table below reflects 2026 market pricing for installed work across Lafayette, Orinda, Moraga, Walnut Creek, and Danville.
+
+| Patio size | Typical scope | Cost range (2026) | Per sq ft | Typical timeline |
+|---|---|---|---|---|
+| 800–1,200 sq ft | Dining + lounge zone, simple pattern, moderate drainage | $25,000–$40,000 | $25–$35/sf | 5–7 days |
+| 1,200–1,800 sq ft | Multi-zone design, moderate grade change, standard drainage engineering | $35,000–$55,000 | $30–$42/sf | 6–9 days |
+| 1,800–2,500 sq ft+ | Full outdoor living program, integrated features, complex drainage | $50,000–$75,000+ | $32–$50/sf | 8–12 days |
+
+**A large paver patio (800–2,500 sq ft) in the East Bay costs $25,000–$75,000 in 2026.** That range is not a hedge — it reflects genuinely different project scopes. A flat Danville lot with a simple running bond pattern sits at the low end. A sloped Orinda property with herringbone, a French drain, and an integrated outdoor kitchen sits at the high end.
+
+Note on per-sq-ft pricing: the per-sq-ft rate drops slightly with scale only when the pattern stays simple. If a 2,000 sq ft patio uses a herringbone layout with a custom inlay border, the per-sq-ft cost can equal or exceed a 1,000 sq ft patio in running bond. Scale economies come from base prep efficiency and material delivery — not from pattern cutting, which scales linearly with lineal feet of edge.
+
+For a gallery of completed large-patio projects across the region, the [projects page](/projects) shows installed work filterable by service type.
+
+---
+
+## What Drives the $25K–$75K Spread? Four Cost Variables That Matter Most
+
+The $25K–$75K spread on large paver patios comes from four compounding variables — pattern complexity, site prep depth, drainage engineering, and integrated features. Most homeowners encounter two or three of these in a single project.
+
+### Pattern Complexity (Herringbone, Blends, Custom Inlays)
+
+Pattern choice is the first variable that moves patio paver installation cost, primarily through cutting labor and waste. A simple running bond — bricks laid end to end in offset rows — requires minimal cuts and produces around 5% waste. Herringbone, one of the most-requested patterns in Lafayette and Walnut Creek entertaining patios, adds 8–15% to paver material and labor cost because every perimeter row requires 45-degree cuts across a wider proportion of the installed field. Multi-pattern blends with custom inlays — a contrasting border, a central medallion — add 15–25% to the paver line item and require a more experienced crew to sequence correctly.
+
+In dollar terms on a 1,500 sq ft patio: running bond is your baseline, herringbone adds roughly $3,500–$6,000, and a multi-pattern blend with a custom inlay border adds $6,000–$12,000 on top of baseline.
+
+### Site Prep Depth (Clay Soil = Deeper Base = More Cost)
+
+Clay-soil base preparation adds 10–20% to a large East Bay paver patio budget compared to flat-lot minimums on stable soil.
+
+Class II aggregate is a Caltrans-specification graded crushed stone with particles ranging from 3/4-inch down to fines, engineered to interlock under compaction and drain freely between particles — it's the correct base material for East Bay paver installations. On a flat Danville lot with moderate clay, a 6-inch base in two 3-inch compaction lifts may be adequate. On a sloped Orinda hillside or a Lafayette lot with expansive subgrade, 8 inches in three compaction lifts over non-woven geotextile is the correct spec — and that extra material and compaction work adds $2,000–$6,000 to a 1,200–2,000 sq ft install.
+
+Shortcuts here are invisible at install and visible within two years. For a full explanation of what correct compaction requires, see [why the base prep line item matters most](/blog/what-is-paver-base-compaction-and-why-it-matters). And if you want to understand the failure modes that skip-the-base decisions produce, the post on [how to prevent paver patio sinking](/blog/how-to-prevent-paver-patio-sinking-2026) walks through each one with real East Bay examples.
+
+### Drainage Engineering (French Drains, Regrading, Surface Drains)
+
+Drainage engineering adds $3,000–$15,000 to a large East Bay paver patio budget, and on hillside Lafayette, Orinda, or Moraga lots it's often the difference between a 25-year install and a 5-year failure.
+
+Specific drainage line items:
+
+- **French drain installation:** $3,000–$8,000 depending on routing distance and outlet type. A French drain is a perforated pipe buried in clean gravel that collects subsurface water and routes it to a daylight outlet — on hillside lots, this intercepts uphill groundwater before it saturates the patio subgrade.
+- **Site regrading when existing slope needs correction:** $1,000–$5,000
+- **Surface or channel drains:** $1,000–$3,000 for catch basin installation with pop-up emitters
+- **Permeable paver upgrade:** $1.50–$3/sf premium over standard pavers, but reduces or eliminates French drain costs by allowing water to infiltrate through the joint system
+
+One regulatory note: Contra Costa County stormwater requirements apply to impervious hardscape improvements exceeding 2,500 sq ft, which can trigger a drainage design requirement and formal inspection. If your patio is estate-scale, factor in the cost and timeline of that review before finalizing your scope. This is not an obscure edge case — several [Moraga](/moraga) and [Orinda](/orinda) project footprints cross that threshold.
+
+The [11 DIY paver patio drainage mistakes](/blog/11-diy-paver-patio-mistakes-that-ruin-drainage) post covers exactly what happens when drainage is treated as optional on East Bay clay — useful context even if you're not DIYing anything.
+
+### Integrated Features (Outdoor Kitchen, Fire Pit, Retaining Walls)
+
+Integrated features are the most variable cost driver on large patios. Each feature below is priced as a standalone add-on to the base patio bid:
+
+- **Outdoor kitchen:** $15,000–$40,000 depending on appliance spec, countertop material, and utility rough-in complexity. See the [outdoor kitchens service page](/services/outdoor-kitchens) for scope detail on what a built-in kitchen install covers.
+- **Fire pit (gas or wood):** $3,000–$8,000. The [fire pits and fire features page](/services/fire-pits-and-fire-features) covers gas vs. wood spec decisions.
+- **Low retaining walls (seat walls, grade transitions under 4 feet):** $4,000–$12,000 per wall, depending on length and material. Structural walls over 4 feet fall under the [retaining walls service](/services/retaining-walls) with separate engineering requirements.
+- **Built-in seating with cap stone:** $2,500–$6,000
+
+Features don't simply add to the base patio cost — they change the sequencing of the entire install. An integrated outdoor kitchen requires coordination between paver work and utility rough-in. A retaining wall that drains through the patio perimeter has to be designed before excavation begins. On a project with two or three integrated features, sequencing mistakes are expensive to undo.
+
+---
+
+## Material Costs — What You're Actually Paying For
+
+Materials account for 35–50% of a large paver patio's total cost. The largest material line item is always the pavers themselves; the most overlooked is geotextile fabric and edge restraints.
+
+Per-square-foot material costs, 2026 East Bay market:
+
+- **Pavers: $5–$15/sf material cost.** Belgard Holland Stone and Calstone Country Manor sit at the mid-range ($7–$10/sf). Premium natural stone and imported porcelain push toward $12–$15/sf. The pattern and manufacturer determine this number more than anything else.
+- **Class II base aggregate: $1–$2/sf**, varying with depth spec (6-inch vs. 8-inch installation)
+- **ASTM C33 bedding sand: $0.50–$1/sf.** ASTM C33 is the American Society for Testing and Materials specification for concrete-grade aggregates with consistent gradation — not play sand, not mason sand, and not interchangeable with base aggregate.
+- **Polymeric joint sand: $1–$1.50/sf.** Techniseal HP NextGel is the consistent performer across East Bay wet-dry cycling; Alliance Gator Maxx and SEK Pro are comparable alternatives. Polymeric joint sand is a sand-polymer blend that hardens after water activation, locking joints against ant intrusion, weed germination, and washout.
+- **PVC edge restraints: $0.75–$1.25/sf** with 10-inch galvanized spikes at 10-inch centers
+- **Non-woven geotextile fabric: $0.30–$0.50/sf**
+
+**Total material range: $9–$22 per installed square foot**, with the low end representing a running-bond concrete paver pattern on a moderate-prep site and the high end representing premium imported stone with deep-base spec and full drainage material stack.
+
+---
+
+## Labor and Crew Time — Why a 1,200 Sq Ft Patio Isn't 6× a 200 Sq Ft Patio
+
+Labor accounts for 50–65% of a large paver patio's total cost, and labor scales non-linearly with size — a 1,200 sq ft patio takes roughly 8–10× the labor of a 200 sq ft patio, not 6×.
+
+Here's why: some costs amortize better at scale. A crew's drive time, equipment setup, and material delivery are roughly the same whether the patio is 800 or 1,200 sq ft — so those fixed costs spread thinner at larger scale, producing a small per-sq-ft advantage. But the disadvantages compound faster. Cutting waste at pattern perimeters scales with lineal feet of edge, which grows as the patio expands. Multi-day base prep at correct 3-inch lift intervals can't be compressed — each lift needs to be compacted and verified before the next goes down. Pattern matching at grade transitions and integrated feature edges requires experienced judgment, not just hours.
+
+**A typical 1,500 sq ft East Bay paver patio install requires a 4-person crew on-site for 7–9 working days.**
+
+Crew timeline on a large install:
+
+- **Day 1:** Excavation and subgrade prep
+- **Days 2–3:** Class II aggregate placement and compaction in 3-inch lifts, French drain installation if specified
+- **Day 4:** Base walk, bedding sand screed
+- **Days 5–7:** Paver field placement, edge restraint installation, pattern verification at perimeter
+- **Day 8:** Polymeric joint sand application (weather window permitting)
+- **Day 9:** Surface cleanup, final inspection
+
+Weather is a real variable, not a contractor hedge. Polymeric sand must be applied at 50–80°F with at least 36 hours of clear forecast. In inland Walnut Creek and Danville, summer afternoon temperatures regularly exceed 85°F — which pushes polymeric application to morning windows or separate days. That's a chemistry requirement, not a scheduling preference.
+
+For more on install sequencing, [the full paver patio install walkthrough](/blog/how-to-install-a-level-paver-patio-that-wont-shift) covers each phase day by day, with a homeowner punch list you can use to verify your contractor's doing it right.
+
+---
+
+## Drainage Budget — The Line Item That Catches DIY Budgeters Off-Guard
+
+Drainage engineering adds $3,000–$15,000 to a large East Bay paver patio budget, and on hillside Lafayette, Orinda, or Moraga lots it's often the difference between a 25-year install and a 5-year failure.
+
+East Bay lots receive 18–25 inches of winter rain concentrated in four to five months. Expansive clay is soil that swells when wet and shrinks when dry, with seasonal volume change of 5–10% — and every blocked drain path on that subgrade amplifies winter rainfall into compaction failure. A French drain that would be optional on a flat, sandy Danville lot near the freeway is structural on a sloped Orinda property where subsurface groundwater moves through clay strata toward the patio footprint.
+
+Treating drainage as optional on this terrain isn't conservative budgeting — it's deferring a larger repair bill. A patio base that saturates and fails during year two costs $18–$25/sf to rebuild. The French drain that would have prevented it costs $3,000–$8,000 at install. The math isn't complicated.
+
+For patio paver installation cost planning purposes, drainage should always appear as its own line item in a bid — never bundled into site prep. If you're evaluating bids and can't find drainage called out separately, that's worth asking about directly. The [9 questions to vet a paver installer](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) includes that question with guidance on what a credible answer looks like.
+
+For projects over 2,500 sq ft, Contra Costa County stormwater compliance requirements may apply to impervious surfaces — an additional cost and timeline variable worth confirming during your permitting research before finalizing scope.
+
+---
+
+## Soft Costs — Design, Permits, Change Orders, and Contingency
+
+Soft costs add 10–15% to a large paver patio budget — design fees, permits, change-order contingency, and inspections that aren't part of the contractor's base bid.
+
+A change order is a written modification to the original contract scope, signed by both parties before additional work begins. On East Bay hillside lots, buried conditions during excavation are not hypothetical — old concrete pours, abandoned irrigation lines, clay wetter than the pre-bid soil assessment predicted. The question isn't whether buried conditions happen; it's whether your budget accounts for them before the shovel goes in.
+
+Soft cost line items:
+
+- **Landscape design fees** (if using a separate [landscape designer](/services/landscape-design)): $1,500–$5,000
+- **Permits** (thresholds vary by city — Lafayette, Orinda, and Moraga each have their own planning thresholds for hardscape impervious cover): $300–$1,500
+- **Change-order contingency:** 10–15% of base contract value
+- **Inspections** (if permit triggers them): $200–$800
+
+**A realistic soft-cost contingency for a large East Bay paver patio is 10–15% of the base contract value.** Anything lower is selling a fantasy on terrain this variable. A contractor who quotes 5% contingency either has never excavated a Lafayette hillside lot or is building surprises into their change-order billing.
+
+Before your first bid meeting, review the [9 questions to vet a paver installer](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) — question 7 specifically covers change-order process and how transparent contractors handle buried conditions in writing.
+
+---
+
+## How to Budget Realistically — The 5-Step Worksheet
+
+A realistic paver patio budget builds in five steps: square footage and pattern, site prep adjustment, drainage adjustment, integrated features, and contingency. Work through each in sequence before you open conversations with contractors.
+
+**Step 1: Start with size + pattern from the cost table.**
+A 1,500 sq ft patio in running bond lands at roughly $40,000 baseline ($30–$35/sf at that size in the simplest pattern).
+
+**Step 2: Add 10–20% for clay-soil deep base prep.**
+On a [Lafayette](/lafayette), [Orinda](/orinda), or [Moraga](/moraga) lot with expansive clay and any meaningful slope, add $4,000–$8,000 for 8-inch Class II base in three lifts over geotextile. On a flatter [Danville](/danville) or [Walnut Creek](/walnut-creek) lot with less clay exposure, this adjustment may be smaller — but don't assume zero until a test pit confirms it.
+
+**Step 3: Add drainage line items based on terrain.**
+A hillside lot with uphill runoff exposure needs at minimum a French drain along the uphill perimeter. Budget $3,000–$10,000 depending on routing distance and whether regrading is needed.
+
+**Step 4: Add integrated features.**
+An outdoor kitchen with gas appliances, concrete countertops, and utility rough-in: $25,000 is a reasonable mid-range number for a 10-foot-run kitchen with standard appliances.
+
+**Step 5: Add 10–15% change-order and soft-cost contingency.**
+Sum steps 1–4, then multiply by 1.12 (midpoint of the 10–15% range).
+
+**Worked example — 1,500 sq ft Orinda hillside patio with outdoor kitchen:**
+
+| Line item | Cost |
+|---|---|
+| Base patio (1,500 sq ft, running bond) | $40,000 |
+| Clay-soil deep base prep (8-inch spec) | $6,000 |
+| French drain (uphill perimeter + daylight outlet) | $7,000 |
+| Integrated outdoor kitchen | $25,000 |
+| Soft-cost + change-order contingency (14%) | $11,000 |
+| **Total** | **$89,000** |
+
+That number lands in the upper half of the $50K–$75K range for 1,800–2,500 sq ft installs because the outdoor kitchen pushes total project scope beyond base patio work alone. A 1,500 sq ft Orinda patio without integrated features — just base patio, clay prep, and drainage — lands closer to $53,000 using the same math.
+
+---
+
+## When Does It Make Sense to Phase a Large Paver Patio?
+
+Phasing a large paver patio makes sense when budget constraints, design uncertainty, or surrounding garden maturity argue for installing in two stages — but only when Phase 2 doesn't require redoing Phase 1's base work.
+
+Phasing works when the zones are genuinely modular: a dining terrace now, a fire pit zone in year two, with each zone having independent grading and drainage that doesn't require breaking into the earlier install. It also works when a deferrable integrated feature — say, an outdoor kitchen — can be rough-in'd now and built out later without disturbing the paver field.
+
+Phasing doesn't work when the drainage plan ties zones together. If Phase 1's French drain routes beneath where Phase 2's kitchen pad will sit, building that kitchen in year two means excavating through installed pavers. That's not phasing — it's rebuilding with extra steps.
+
+The cost savings from phasing are typically 5–10%, not 40%. Crew mobilization, material delivery, and equipment costs don't transfer across separated installs — you pay setup costs twice. The primary reason to phase is cash flow and design confidence, not construction economics. Any contractor who pitches phasing as a major cost-reduction strategy is either misrepresenting the math or hasn't run the numbers on dual mobilization.
+
+---
+
+## How Lamorinda Pavers Structures a Transparent Large-Patio Bid
+
+A transparent paver installation service breaks the bid into six clear line items — materials, labor, drainage engineering, site prep, integrated features, and contingency — with each component documented separately. A lump-sum number tells you nothing about where cost lives or what happens when a buried condition changes the scope.
+
+What that looks like in practice:
+
+- **Materials:** Named paver manufacturer and SKU (Belgard Holland Stone, Calstone Country Manor, or the specific import you've selected), Class II aggregate depth and volume, Techniseal HP NextGel polymeric sand, ASTM C33 bedding sand, PVC edge restraint spec with spike count
+- **Labor:** Split by phase — excavation, base aggregate and compaction, paver placement, polymeric sand application, site cleanup and final walk
+- **Drainage engineering:** French drain routing, catch basin placement, and outlet point named explicitly — not bundled into site prep
+- **Site prep:** Excavation depth and disposal separate from base aggregate placement
+- **Integrated features:** Each feature priced as its own line — outdoor kitchen, fire pit, seat walls — not absorbed into a lump-sum total
+- **Contingency:** Written clause specifying the percentage held and the trigger conditions for accessing it
+
+Lamorinda Pavers structures large patio bids across Lafayette, Orinda, Moraga, and Walnut Creek using this six-line-item format — no vague lump sums. Every bid includes a written 5-year workmanship warranty covering drainage failure, base settlement, edge restraint movement, and joint sand failure attributable to installation defect.
+
+For [Lafayette paver projects](/lafayette) specifically — where Happy Valley Road lots combine hillside grade, expansive clay, and long material-haul distances — the drainage and base prep lines in the bid reflect actual site conditions, not generic minimums.
+
+See the [paver patio installation service](/services/patios) page for full scope detail, or the [9 questions to vet a paver installer](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) for the complete checklist to apply to any bid you receive.
+
+---
+
+## Frequently Asked Questions
+
+### How much does a large paver patio cost in 2026?
+
+A large paver patio (800–2,500 sq ft) in the East Bay costs $25,000–$75,000 in 2026. Most projects land $35K–$55K. The four variables that move large paver patio cost are pattern complexity, site prep depth, drainage engineering, and integrated features like outdoor kitchens or retaining walls. A 1,500 sq ft patio in running bond on a flat Walnut Creek lot runs $40,000–$50,000; the same 1,500 sq ft on an Orinda hillside with clay prep, French drains, and an outdoor kitchen runs closer to $89,000.
+
+### How much does a paver patio cost per square foot in the Bay Area?
+
+In the East Bay in 2026, large paver patios cost $25–$50 per installed square foot. The rate is not linear — a 1,200 sq ft patio in herringbone will cost more per square foot than a 2,000 sq ft patio in running bond. Materials alone account for $9–$22/sf; labor accounts for the remaining $13–$28/sf depending on crew time, pattern complexity, and drainage scope.
+
+### What's included in a paver patio installation cost?
+
+A complete paver patio installation cost covers six categories: materials (pavers, Class II aggregate, ASTM C33 bedding sand, polymeric joint sand, edge restraints, geotextile), labor across all install phases, drainage engineering (French drains, catch basins, regrading), site prep (excavation and subgrade work), integrated features (outdoor kitchen, fire pit, seat walls if applicable), and change-order contingency. A transparent bid names all six as separate line items — not a lump sum. Soft costs — permits, design fees, inspections — sit outside the contractor's base bid and add another 10–15%.
+
+### How long does it take to install a large paver patio?
+
+A 1,500 sq ft East Bay paver patio installs in 7–9 working days with a 4-person crew. Smaller 800–1,200 sq ft patios run 5–7 days; estate-scale patios at 2,000–2,500 sq ft run 8–12 days. The most common delay triggers are rain wetting the subgrade past the compaction window, discovering buried concrete or irrigation during excavation, and heat pushing afternoon temperatures above 80°F during polymeric sand application. A 10–15% schedule contingency should be written into the contract for all three.
+
+### Is a paver patio cheaper or more expensive than concrete?
+
+Poured concrete installs for roughly $12–$18/sf in the East Bay — less than paver's $25–$50/sf installed. But the comparison breaks down on clay-soil East Bay lots for two reasons. Interlocking pavers are 3–4 times stronger than poured concrete under compressive load and flex with seasonal clay movement instead of cracking — on Orinda or Lafayette clay, poured slabs hairline-crack within two to three wet seasons. Individual pavers are also replaceable if damaged; a cracked poured slab requires full section replacement. Over a 20–30 year horizon, the total cost of ownership often favors pavers on East Bay terrain despite the higher upfront large paver patio cost.
+
+### Can I phase a large paver patio install to spread the cost?
+
+Yes — but the cost savings from phasing are 5–10%, not 40%. Crew mobilization, material delivery, and equipment costs don't transfer between phases, so you pay setup costs twice. Phasing works well when zones are genuinely modular with independent drainage, or when a deferrable feature like an outdoor kitchen can be rough-in'd in Phase 1 and built out in Phase 2 without disturbing the paver field. Phasing fails when Phase 2 requires regrading or excavating through Phase 1's installed pavers. The primary reason to phase is cash flow and design confidence — not construction economics.
+
+---
+
+## Get a Fixed-Price Bid Before You Commit to a Number
+
+A realistic budget for your specific patio depends on site conditions that no remote estimator can see — the actual clay depth at your subgrade, where uphill water concentrates during a December rain, whether your existing grade already routes toward the foundation, and what buried conditions your lot is likely to hold.
+
+Lamorinda Pavers offers free on-site estimates across Lafayette, Orinda, Moraga, and Walnut Creek. We'll walk the lot, measure grade and drainage challenges, dig a test pit if soil conditions warrant it, and send a fixed-price bid with all six line items — materials, labor, drainage, site prep, integrated features, and contingency — itemized separately and in writing within 48 hours. That bid includes the 5-year workmanship warranty, named paver manufacturer and SKU, base depth and lift count, aggregate product, drainage provisions, and polymeric sand brand. Nothing deferred to after signing.
+
+[Contact us](/contact) to schedule your site visit — or start with the [paver patio installation service](/services/patios) page for full scope detail on what a large-patio install covers from excavation through final jointing.
+    `.trim(),
+  },
+
+  {
     slug: "9-questions-to-vet-a-paver-installer-for-big-patios",
     featuredImage: "/images/blog-9-questions-to-vet-a-paver-installer-for-big-patios.png",
     title: "9 Questions to Vet a Paver Installer for Big Patios",
