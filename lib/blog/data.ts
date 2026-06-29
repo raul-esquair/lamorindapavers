@@ -14,6 +14,286 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "12-features-full-service-paver-patios-should-include",
+    featuredImage: "/images/blog-12-features-full-service-paver-patios-should-include.png",
+    title: "12 Features Full-Service Paver Patios Should Include",
+    excerpt:
+      "Full-service paver patio construction goes beyond pavers — engineered drainage, defined zones, outdoor kitchens, fire features, integrated lighting, shade, audio, and seven more must-have features. Here's the 12-feature checklist to scope your East Bay project and evaluate outdoor living companies confidently.",
+    date: "2026-06-29",
+    readingTime: "18 min read",
+    relatedService: "patios",
+    faqs: [
+      {
+        "question": "What features should a paver patio include?",
+        "answer": "A full-service paver patio should include engineered base and drainage, defined functional zones, integrated low-voltage lighting, and material continuity across all hardscape elements — these four are non-negotiable for any outdoor entertainment area meant to last 25 years. The additional eight features (outdoor kitchen, fire feature, shade structure, water feature, bar/beverage station, audio and electrical, privacy screening, and supplemental heating) are scoped based on how you entertain and your phase budget."
+      },
+      {
+        "question": "What's the difference between basic paver installation and full-service paver patio construction?",
+        "answer": "Basic paver installation covers excavation, base placement, paver field installation, and joint sand. Full-service paver patio construction adds design, engineering, permitting, and construction of every integrated feature — outdoor kitchen, fire feature, shade structure, lighting, audio, electrical, water feature, privacy screening, supplemental heating, bar station, and material continuity. A basic installer treats drainage, lighting, and kitchens as separate contracts. A full-service builder owns the entire scope."
+      },
+      {
+        "question": "What does an outdoor living company include?",
+        "answer": "A full-service outdoor living company designs and builds the entire outdoor room as a unified scope: the paver hardscape foundation, integrated cooking and entertaining features, structural elements (pergolas, retaining walls, screen walls), and ambient systems (lighting, audio, electrical, heating). They pull permits, coordinate utility rough-in, and warranty the complete installation — distinguishing them from basic hardscape contractors who broker work to unsupervised subcontractors."
+      },
+      {
+        "question": "How much does a full outdoor entertainment area cost?",
+        "answer": "A full paver entertainment area in the East Bay costs $50,000–$250,000, with most luxury builds landing $80K–$150K. Foundation scope runs $30,000–$60,000. Adding the four high-priority features — outdoor kitchen, fire feature, shade structure, and privacy screening — brings the total to $65,000–$120,000. A full 12-feature build runs $100,000–$250,000 depending on appliance spec, pergola system, and site complexity."
+      },
+      {
+        "question": "Do I need an outdoor kitchen if I'm building a paver patio?",
+        "answer": "No. An outdoor kitchen is high-priority for homeowners who cook and entertain outdoors regularly — not a universal requirement. If your outdoor use is primarily lounging, fire-pit evenings, and morning coffee, the kitchen budget is better redirected toward a shade structure or upgraded pavers. Outdoor kitchen and patio builders add the most value when the cooking station shifts daily behavior and makes the patio a primary living space. The installed cost is $15,000–$40,000."
+      },
+      {
+        "question": "Can I add outdoor lighting after the patio is installed?",
+        "answer": "Technically yes, but it costs 60–70% more and produces a worse result. Post-install lighting requires cutting into finished pavers to run wire, patching joints that never match the original sand color, and surface-mounting conduit where it's most visible. Full-service paver patio construction runs conduit to lighting junction points during base prep at near-zero marginal cost, so fixtures can be placed without disturbing the finished surface."
+      }
+    ],
+    content: `
+## The Short Answer
+
+Full-service paver patio construction goes beyond laying pavers. Full-service paver patio construction means a single contractor designs, scopes, permits, builds, and warranties the entire outdoor living space — including the paver hardscape and the integrated features that turn a patio into an entertainment area. The 12 features that define full-service scope are: engineered base and drainage, defined functional zones, outdoor kitchen, fire feature, shade structure, integrated lighting, water feature, bar or beverage station, audio and electrical infrastructure, privacy screening, supplemental heating, and material continuity across the entire outdoor room. A basic installer skips most of these. A full-service builder includes them in scope, design, and warranty.
+
+A full paver entertainment area in the East Bay costs $50,000–$250,000, with most luxury builds landing $80K–$150K.
+
+---
+
+## What Does "Full-Service" Actually Mean for Paver Patio Construction?
+
+Full-service paver patio construction means a single contractor designs, scopes, permits, builds, and warranties the entire outdoor living space — including the paver hardscape and the integrated features that turn a patio into an entertainment area.
+
+A paver entertainment area is an outdoor living space built on a paver hardscape foundation that integrates cooking, gathering, and ambient features into a unified outdoor room. Hardscape refers to the constructed non-living elements of a landscape — paving, walls, fire features, water features, and built structures. Everything from the gravel base under your pavers to the pergola above your dining table falls within that definition.
+
+The distinction between a basic paver installer and a full-service builder is scope ownership. A basic installer lays pavers and stops. The kitchen? "Talk to a contractor." The lighting? "That's a different sub." The drainage under the patio? Sometimes not mentioned at all. Everything beyond the paver field gets treated as someone else's problem — which usually means it becomes your problem.
+
+Full-service [outdoor living companies](/services) design the entire outdoor room from the first site walk. The drainage routes from the correct places before excavation starts. The electrical conduit goes into the ground during base prep, not after the pavers are locked in. The outdoor kitchen coordinates with the paver phase instead of fighting with it. The visual result is coherent — pavers, structures, and features reading as a single designed space rather than a collection of contractor handoffs.
+
+If you're evaluating whether full-service scope is the right call for your project, the [9 questions to vet a paver installer](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) gives you the framework to distinguish a genuine full-service builder from a basic installer who has broadened their marketing. And if you're early in the research process, the [full-service paver patio construction](/services/patios) service page covers what a design-build engagement looks like from first site walk through final warranty documentation.
+
+---
+
+## Feature 1: Engineered Base and Drainage
+
+Engineered base and drainage is the invisible foundation that determines whether an outdoor entertainment area lasts 25 years or 5.
+
+Full-service builders treat base and drainage as design-engineering, not labor. That distinction matters. A laborer places material; an engineer specifies what material goes where, at what depth, and why — then verifies it was installed correctly before the next layer goes down.
+
+**What "included" looks like:** 6–8 inches of compacted Caltrans Class II aggregate placed in 3-inch lifts over non-woven geotextile, compacted to 95% Proctor density. Surface grade pitched at a minimum of 1 inch per 8 feet away from structures. French drains routed to daylight outlets based on where the site actually concentrates water — not a standard detail applied without looking at the lot.
+
+On [Lafayette](/lafayette) hillside lots, [Orinda](/orinda) clay slopes, and [Moraga](/moraga) properties where subsurface water moves through strata toward the patio footprint, this engineering is what separates a two-year failure from a 25-year install. A patio base that saturates and fails costs $18–$25 per square foot to rebuild. The drainage engineering that prevents it typically runs $4–$8 per square foot of patio area in a properly scoped full-service bid.
+
+For a detailed breakdown of what correct base compaction requires, see [what paver base compaction actually involves](/blog/what-is-paver-base-compaction-and-why-it-matters), which covers lift counts, aggregate specs, and how to verify your contractor is hitting the right compaction density. For cost context, [budgeting a large paver patio](/blog/budgeting-a-large-paver-patio-in-2026) covers drainage cost ranges across East Bay terrain types.
+
+---
+
+## Feature 2: Defined Functional Zones (Dining, Lounge, Cooking)
+
+A full-service outdoor entertainment area is designed as three or four distinct functional zones — dining, lounge, cooking, and sometimes a destination zone like a fire feature or water feature — with the hardscape pattern, level changes, and circulation paths intentionally separating each.
+
+Zones are what turn a large paved area into a usable room. Without them, a 1,500 sq ft patio is just a big flat surface. With defined zones, it's a dining terrace that seats eight, a lounge cluster that holds a conversation group, a cooking station that doesn't put the chef's back to the guests, and a fire feature that anchors the far end as a place to end up after dinner.
+
+**What "included" looks like:** Distinct paver patterns or inlay borders demarcating each zone — a herringbone field in the dining zone transitioning to a running bond in the lounge, separated by a contrasting soldier course. One or two step level changes between zones on appropriate sites. A 4-foot minimum circulation path between zones so each one feels independent rather than crowded.
+
+The design fee for zone planning is typically $1,500–$5,000 as a standalone service. In a full-service bid, it's absorbed into the build scope rather than invoiced separately — you get it either way, but in a full-service engagement you see it reflected in the outcome rather than the invoice. For a sense of how zone planning translates to finished outdoor rooms, [see completed Lamorinda outdoor living projects](/projects) across Lafayette, Orinda, and Walnut Creek.
+
+---
+
+## Feature 3: Built-In Outdoor Kitchen or Cooking Station
+
+A full-service outdoor entertainment area includes a built-in cooking station — at minimum a built-in grill with counter space and storage, often expanded to include refrigeration, side burners, and a sink.
+
+Outdoor kitchens are the single most-requested entertainment-area feature in luxury Lafayette, Walnut Creek, and Danville builds. The reason is simple: they shift the functional center of the space from indoors to outdoors, which changes how often you actually use the patio.
+
+**What "included" looks like:** A stainless steel built-in grill — Lynx, DCS, and Hestan are the common specifications at this market level — with 4–8 feet of counter space, access-door storage below, and a gas line run with permit. Larger builds add side burners, a dedicated sink with hot/cold, a vent hood on covered installations, and a refrigerator built into the cabinet run. NFPA 58, the U.S. propane gas code, governs outdoor gas appliance placement, clearances, and shutoff requirements — a full-service builder pulls the correct permits and meets those specs before any appliance is connected.
+
+Outdoor kitchens typically cost $15,000–$40,000 installed. The top of that range involves appliance packages with multiple Lynx or Hestan units, natural stone countertops, and complex utility rough-in. The bottom reflects a single grill, concrete countertop, and straightforward gas run.
+
+For full scope detail on what [outdoor kitchen installation](/services/outdoor-kitchens) covers, the service page walks through the design and build process from footprint to final appliance connection. Paver entertainment area design-build at the kitchen level is where the distinction between a hardscape contractor and a true outdoor living company becomes most visible.
+
+---
+
+## Feature 4: Fire Feature (Fire Pit, Fire Table, or Fire Wall)
+
+A fire feature anchors an outdoor entertainment area as a destination — the spot people gravitate toward after dinner — and full-service builds include it as a planned focal point, not an afterthought.
+
+Fire features extend usable outdoor hours into evenings and East Bay shoulder seasons: the October through April window when a fire pit means the difference between using the patio and not. Most East Bay HOAs and jurisdictions increasingly restrict or prohibit wood-burning outdoor fire features; gas-fed installations are almost always the correct spec.
+
+**What "included" looks like:** A gas-fed fire pit, 36–48 inches in diameter, with lava rock or fire glass media. Manual or remote-controlled ignition. The gas line run and shutoff valved per NFPA 58 requirements — NFPA 58 is the U.S. propane gas code governing outdoor appliance placement, clearances, and emergency shutoffs. LED lighting integrated into the surround if it's a built masonry piece. Clearance from combustibles verified against local fire-feature code, which varies by city — [Orinda](/orinda), [Lafayette](/lafayette), and [Moraga](/moraga) each have their own distance requirements from structures and property lines.
+
+Fire pits and tables run $3,000–$15,000. Fire walls and large feature installations reach $25,000 depending on footprint, masonry spec, and gas system complexity. For the full scope of what a custom fire feature build involves, the [fire pits and fire features](/services/fire-pits-and-fire-features) service page covers material choices, gas system specs, and permitting.
+
+---
+
+## Feature 5: Shade Structure (Pergola, Arbor, or Retractable Shade)
+
+Shade structures extend the usable hours of an outdoor entertainment area through East Bay summer heat — full-service builds spec a pergola, arbor, or retractable shade tied into the patio hardscape's footprint and material palette.
+
+An unshaded patio in [Walnut Creek](/walnut-creek) or [Danville](/danville) sees dramatically reduced use between June and September, when afternoon temperatures regularly exceed 90°F. A shaded patio doesn't eliminate the heat, but it cuts radiant load enough that a ceiling fan and a cross breeze make the space genuinely comfortable through the afternoon.
+
+**What "included" looks like:** A fixed aluminum or cedar pergola sized to the dining or lounge zone — 10×12 to 16×20 is typical — with integrated electrical for a ceiling fan and downlights. On premium builds: a louvered adjustable system from StruXure or Renson, which tilts to track the sun and closes against rain, turning an open patio into a covered room without a permanent roof. Footings tied into the paver base rather than poured as disconnected independent pads.
+
+Fixed pergolas run $8,000–$25,000. Louvered adjustable systems run $15,000–$40,000 depending on span and motorization spec. The [arbors and pergolas](/services/arbors) service page covers structural options, material choices, and how shade structures tie into the broader patio hardscape design.
+
+---
+
+## Feature 6: Integrated Low-Voltage Lighting
+
+Integrated low-voltage lighting transforms an outdoor entertainment area after sunset — and full-service builds plan lighting at the design stage and trench the wiring during base prep, not after the pavers are down.
+
+Low-voltage lighting trenched during base prep costs 60–70% less than retrofitted after install. Retrofitting means cutting into a finished paver field, pulling wire through sand joints, and patching — which never looks right and voids the joint sand warranty. Planning lighting before excavation means the conduit runs go into the ground at zero marginal labor cost.
+
+**What "included" looks like:** Low-voltage path lights at zone edges. Accent uplights on shade structures, specimen plants, and water features. In-paver step lights at level changes between zones. A dimmable scene-control system on a 12V transformer with its own dedicated circuit, so dining and lounge zones can be lit independently.
+
+Full outdoor entertainment area lighting runs $3,000–$10,000 depending on fixture count and whether the system ties into a smart-home controller. This is one of the features where the [paver entertainment area design-build](/services/patios) process pays the clearest dividend: lighting planned from the first design meeting costs a fraction of what it costs to add after the patio is finished.
+
+---
+
+## Feature 7: Water Feature (Fountain, Spillway, or Pondless Waterfall)
+
+A water feature adds acoustic softening and a visual focal point to an outdoor entertainment area — full-service builds integrate it into the patio geometry, not as a freestanding add-on dropped in after the fact.
+
+Water acoustics do something that landscaping can't: they mask ambient noise. On Lafayette lots near Reliez Valley Road or Walnut Creek properties adjacent to the downtown corridor, a spillway or pondless waterfall running at 30–40 decibels shifts the acoustic character of the entire space. Traffic disappears into the background.
+
+**What "included" looks like:** A pondless waterfall, sheer-descent spillway into a basin, or formal fountain — sized to the patio's scale and integrated into the hardscape geometry so it reads as part of the design rather than a feature purchased separately. Electrical for the circulation pump. LED uplighting inside the water chamber. An auto-fill connection so it doesn't require manual monitoring.
+
+Water features run $5,000–$25,000 depending on scale, pump capacity, and whether the water source is integrated into a retaining wall face or a standalone masonry element. The [water features](/services/water-features) service page covers pondless waterfall, fountain, and spillway options in detail, including circulation pump sizing for different patio scales.
+
+---
+
+## Feature 8: Bar or Beverage Station With Refrigeration
+
+A bar or beverage station with refrigeration is what separates an outdoor kitchen from an outdoor entertainment area — full-service builds plan electrical, plumbing, and counter integration into the kitchen layout so the bar functions as a continuous service area.
+
+The distinction is hosting versus cooking. An outdoor kitchen without a beverage station means someone still has to go inside for drinks. A built-in refrigerator and ice maker within arm's reach of the grill means the entire party operates outside.
+
+**What "included" looks like:** A 24-inch outdoor-rated refrigerator — True Residential and Sub-Zero both make units rated for exterior temperature swings — built into the kitchen cabinetry run with a dedicated 20-amp circuit. A built-in ice maker on larger builds. A counter bar overhang at 36–42 inches with knee clearance for stool seating, so guests can sit at the bar while food is being prepared. Optional kegerator on builds where the homeowner wants a draft tap.
+
+A basic beverage station runs $4,000–$12,000. A full bar build with ice maker, kegerator, and dedicated plumbing runs $15,000–$30,000. On full outdoor kitchen and patio builder scopes, the bar station is typically spec'd as a contiguous run of the kitchen cabinetry — not a separate island dropped across the patio.
+
+---
+
+## Feature 9: Audio and Electrical Infrastructure
+
+Audio and electrical infrastructure trenched during base prep — speakers, GFCI outlets, USB-C charging, conduit for future-proofing — is what makes an outdoor entertainment area genuinely functional, not just photogenic.
+
+Like lighting, retrofitting audio and electrical after pavers are locked in means destruction. The International Residential Code (IRC) — the model building code adopted by most Contra Costa and Alameda County jurisdictions — requires GFCI protection on all 15- and 20-amp outdoor receptacles, tamper-resistant outlets in locations accessible to children, and weatherproof covers on all exterior boxes. A full-service build runs that infrastructure during base prep, so the conduit is in the ground before the first paver goes down.
+
+**What "included" looks like:** Two to four weatherproof landscape speakers — Sonance and James Loudspeaker are the consistent performers at this price point — zoned to dining and lounge separately. Four to eight GFCI outlets distributed across the patio surface, not clustered at one end. USB-C charging receptacles at seating areas. Conduit stubbed to a junction point for future smart-home integration — so adding a camera, a smart controller, or additional zones in two years doesn't require tearing up the patio again.
+
+Full A/V and electrical infrastructure runs $3,000–$10,000 depending on speaker count, outlet distribution, and whether the system ties into a home automation platform.
+
+---
+
+## Feature 10: Privacy Screening and Planted Borders
+
+Privacy screening defines the edges of an outdoor entertainment area and turns a patio into a room — full-service builds integrate the planting plan, hardscape borders, and any built screening walls into the design as a unified perimeter strategy.
+
+Open-edged patios feel exposed. Defined-edge patios feel like a destination. This is true regardless of lot size: a 2,000 sq ft patio with undefined borders feels like a parking lot; the same footprint with planted edges and a screen wall on the neighbor-facing side feels like a private garden room.
+
+**What "included" looks like:** A sight-line analysis at the design stage — standing at the dining table and identifying where the neighboring rooflines, second-story windows, and street views land. Cedar, ipe, or Corten steel screen panels on the exposures that warrant hard screening. Hedge plantings — Italian cypress, podocarpus, or boxwood depending on growth rate, maintenance tolerance, and HOA restrictions — on longer perimeter runs. Raised planters integrated with the paver border to create a defined edge that also holds seasonal planting.
+
+Privacy screening runs $2,000–$15,000 depending on screen wall length, material, and whether planted elements are in the build scope. On Moraga and Orinda properties where neighboring lots sit uphill, the sight-line analysis frequently identifies a second-story exposure that a flat-screen plan would miss entirely. A [landscape design](/services/landscape-design) scope integrated with the hardscape build is the cleanest way to address planting and screening as a unified plan.
+
+---
+
+## Feature 11: Supplemental Heating (Built-In or Specified Freestanding)
+
+Supplemental heating extends usable shoulder-season and evening hours — full-service builds plan for built-in radiant heating, ceiling-mounted infrared heaters under pergolas, or designed locations for premium freestanding heaters, rather than leaving heating as a post-installation afterthought.
+
+East Bay evenings drop below 60°F nine months a year. Without a heat source, a patio that sees heavy summer use sits empty from October through April — half the calendar. Supplemental heating turns shoulder-season evenings into usable outdoor hours and extends the value of every other feature on the list.
+
+**What "included" looks like:** Under-pergola infrared electric or natural gas heaters — Bromic and Schwank are the standard specification at this market level — ceiling-mounted and aimed at the seating zone below. On covered installations with a concrete slab component, radiant floor heating integrated into the concrete pour before the paver bed goes down. On open patios, specified locations for freestanding premium heaters with dedicated 240V receptacles recessed into the paver field for clean installation.
+
+Supplemental heating runs $1,500–$8,000 depending on heater type, count, and whether a dedicated gas line or 240V electrical run is required.
+
+---
+
+## Feature 12: Material Continuity Across the Outdoor Room
+
+Material continuity — the same paver palette, edge restraint detailing, and finish standard carried across all hardscape elements — is what makes an outdoor entertainment area look designed, not assembled from contractor add-ons.
+
+Material continuity across all 12 features is the single biggest visual differentiator between full-service builds and patchwork outdoor spaces. When the patio pavers, the kitchen surround, the retaining wall cap, and the fire feature base all draw from the same material family, the space reads as a unified outdoor room. When each element was specified independently by a different subcontractor, the mismatched stones and finishes announce it immediately.
+
+**What "included" looks like:** Pavers from the same manufacturer series — Belgard, Calstone, or a selected natural stone or porcelain — carried through the patio field, the step treads at level changes, the retaining wall cap stone, and the kitchen countertop transition material. Consistent grout color and joint sand tone across all field and detail elements. Coordinated lighting fixture finish across path lights, uplights, and under-cabinet kitchen lighting. Edge restraint detailing that disappears into the design rather than calling attention to itself.
+
+Material continuity isn't a separate line item — it's a design standard built into the full-service scope from day one. Lamorinda Pavers builds outdoor entertainment areas across Lafayette, Orinda, and Walnut Creek with material continuity as a non-negotiable design standard. To see what that looks like on completed projects, [see completed Lamorinda outdoor living projects](/projects) across all five service areas.
+
+---
+
+## How to Scope These 12 Features for Your Project
+
+Not every outdoor entertainment area needs all 12 features — but a full-service builder presents all 12 as design decisions, not invisible omissions. The right scoping conversation covers every feature explicitly, even when the answer is "not in this phase."
+
+Here's a practical framework for working through the list:
+
+### Must-Have (4 Features — Non-Negotiable for Any Real Outdoor Room)
+
+Engineered base and drainage, defined functional zones, integrated lighting, and material continuity apply to every full-service outdoor entertainment area, regardless of budget or lifestyle. You can defer the outdoor kitchen. You can skip the water feature. But a patio without engineered drainage fails. A patio without defined zones is just a large surface. Lighting retrofitted after install costs two to three times more and looks worse. And mismatched materials announce themselves every time guests arrive.
+
+For the common drainage mistakes that occur when these features are skipped or underscoped, [11 DIY paver patio drainage mistakes](/blog/11-diy-paver-patio-mistakes-that-ruin-drainage) covers what goes wrong — and what the correct fix looks like on East Bay clay-soil lots.
+
+### High-Priority (4 Features — Most Luxury East Bay Builds Include These)
+
+Outdoor kitchen, fire feature, shade structure, and privacy screening appear in the majority of full-service builds across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville). These four features most directly expand the hours and occasions the patio is used — morning coffee under a shaded pergola, dinner parties that run to midnight at the fire pit, year-round cooking that doesn't require going inside.
+
+### Elective (4 Features — Driven by Lifestyle and Phase Budget)
+
+Water feature, bar or beverage station, audio and electrical infrastructure, and supplemental heating are features where lifestyle and budget drive the decision. A homeowner who entertains large groups weekly has a different calculus than one who uses the patio quietly on weekends. These four features have the widest variation in cost impact and the widest variation in individual value.
+
+### What the Full Scope Costs
+
+| Scope tier | Features included | Typical cost range |
+|---|---|---|
+| Foundation scope | Engineered base, zones, lighting, material continuity | $30,000–$60,000 |
+| Mid-range build | Foundation + kitchen, fire feature, shade, privacy screening | $65,000–$120,000 |
+| Full entertainment area | All 12 features | $100,000–$250,000 |
+
+Most luxury East Bay outdoor entertainment areas in the 1,200–2,500 sq ft range land $80,000–$150,000 with six to eight of the 12 features included. For a detailed breakdown of what drives cost within that range, [budgeting a large paver patio](/blog/budgeting-a-large-paver-patio-in-2026) covers the four variables that move the number most.
+
+The bid you accept should explicitly address every one of the 12 features — even if "not in scope" is the answer. If a contractor's proposal doesn't mention drainage engineering, lighting, material continuity, or zone definition, those aren't included. They're just not mentioned. The [how to install a paver patio that won't shift](/blog/how-to-install-a-level-paver-patio-that-wont-shift) post includes a homeowner punch list you can use to verify a contractor's process before you sign anything.
+
+---
+
+## Frequently Asked Questions
+
+### What features should a paver patio include?
+
+A full-service paver patio should include engineered base and drainage, defined functional zones, integrated low-voltage lighting, and material continuity across all hardscape elements — these four are non-negotiable for any outdoor entertainment area meant to last 25 years. The additional eight features — outdoor kitchen, fire feature, shade structure, water feature, bar or beverage station, audio and electrical infrastructure, privacy screening, and supplemental heating — are scoped based on how you entertain and your phase budget. A full-service builder presents all 12 as explicit design decisions.
+
+### What's the difference between basic paver installation and full-service paver patio construction?
+
+Basic paver installation covers excavation, base placement, paver field installation, and joint sand. Full-service paver patio construction covers all of that plus the design, engineering, permitting, and construction of every integrated feature — outdoor kitchen, fire feature, shade structure, lighting, audio, electrical, water feature, privacy screening, supplemental heating, bar station, and material continuity across all elements. A basic installer treats drainage, lighting, and kitchens as separate contracts. A full-service builder owns the entire scope.
+
+### What does an outdoor living company include?
+
+A full-service outdoor living company designs and builds the entire outdoor room as a unified scope: the paver hardscape foundation, the integrated cooking and entertaining features, the structural elements (pergolas, retaining walls, screen walls), and the ambient systems (lighting, audio, electrical, heating). They pull permits, coordinate utility rough-in, and warranty the complete installation. Full-service outdoor living companies are distinguished from basic hardscape contractors by their ability to manage multi-trade coordination without brokering your project to unsupervised subcontractors. Use the [9 questions to vet a paver installer](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) to separate genuine full-service builders from basic installers with broader marketing.
+
+### How much does a full outdoor entertainment area cost?
+
+A full paver entertainment area in the East Bay costs $50,000–$250,000, with most luxury builds landing $80K–$150K. Foundation scope (engineered base, defined zones, lighting, material continuity) runs $30,000–$60,000. Adding the four high-priority features — outdoor kitchen, fire feature, shade structure, and privacy screening — brings the total to $65,000–$120,000. A full 12-feature build runs $100,000–$250,000 depending on appliance spec, pergola system, and site complexity. [Full-service paver patio construction](/services/patios) bids should itemize each feature as its own line so you can phase scope intelligently.
+
+### Do I need an outdoor kitchen if I'm building a paver patio?
+
+No. An outdoor kitchen is a high-priority feature for homeowners who cook and entertain outdoors regularly — not a universal requirement. If your outdoor use is primarily lounging, fire-pit evenings, and morning coffee rather than cooking, the kitchen budget is better redirected toward a shade structure, fire feature, or upgraded paver material. The value of outdoor kitchen and patio builders is most apparent when the cooking station shifts daily behavior and makes the patio a primary living space. If that matches how you'll use the space, the $15,000–$40,000 investment is high-leverage. If it doesn't, it isn't.
+
+### Can I add outdoor lighting after the patio is installed?
+
+Technically yes. Practically, it costs significantly more and produces a worse result. Low-voltage lighting trenched during base prep costs 60–70% less than retrofitted after install. Post-install lighting requires cutting into finished pavers to run wire, patching joints that never match the original sand color, and surface-mounting conduit where it's most visible. The full-service approach runs conduit to lighting junction points during base prep — adding almost no marginal cost at that stage — so fixtures can be placed and adjusted without disturbing the finished surface. If you're planning a patio now, plan the lighting concurrently.
+
+---
+
+## Use This Checklist on Your Next Outdoor Living Conversation
+
+This 12-feature framework works as a scoping tool for any outdoor living conversation — with any contractor, not just Lamorinda. Walk into a bid meeting with this list and ask the contractor to address each feature explicitly: included in this phase, deferred to a future phase, or not applicable. A full-service builder answers that question for all 12 without prompting. A basic installer skips several without mentioning it.
+
+When you're ready to scope your own project, Lamorinda Pavers offers free on-site estimates across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), and [Walnut Creek](/walnut-creek). We'll walk your property, work through every one of the 12 features with you — must-haves, high-priority, elective — and send a fixed-price proposal with each feature priced as its own line item so you can build your Phase 1 budget with a clear picture of what Phase 2 holds.
+
+Every bid includes Lamorinda's 5-year workmanship warranty covering drainage failure, base settlement, edge restraint movement, and joint sand failure attributable to installation defect — in writing, before you sign anything.
+
+[Contact us](/contact) to schedule your site visit, or start with the [full-service paver patio construction](/services/patios) service page for complete scope detail on what a design-build outdoor entertainment area covers from site engineering through final feature installation.
+    `.trim(),
+  },
+
+  {
     slug: "budgeting-a-large-paver-patio-in-2026",
     featuredImage: "/images/blog-budgeting-a-large-paver-patio-in-2026.png",
     title: "Budgeting a Large Paver Patio in 2026",
