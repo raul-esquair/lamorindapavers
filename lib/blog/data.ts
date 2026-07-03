@@ -14,6 +14,302 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "hiring-contractors-for-paver-kitchens-and-fire-pits",
+    title: "Hiring Contractors for Paver Kitchens and Fire Pits",
+    excerpt:
+      "Hiring outdoor living contractors for paver kitchens and fire pits requires different vetting than hiring a basic paver patio installer — these projects involve gas, electrical, and code compliance work most patio contractors aren't licensed for. Here's the 7-step guide to scoping, vetting, and bidding it correctly.",
+    date: "2026-07-06",
+    readingTime: "17 min read",
+    relatedService: "outdoor-kitchens",
+    faqs: [
+      {
+        "question": "How do I find a good outdoor kitchen contractor in California?",
+        "answer": "Search for outdoor living contractors who specifically list paver outdoor kitchen and fire pit installation as a core service, then verify their CSLB license at cslb.ca.gov and confirm they carry licensed C-36 (gas) and C-10 (electrical) subs with separate insurance certificates. Ask for five outdoor kitchen reference projects with addresses from the last 24 months. The 8 specialty vetting questions in this post cover the kitchen- and fire-pit-specific competencies beyond general patio installer screening."
+      },
+      {
+        "question": "What license does an outdoor kitchen installer need?",
+        "answer": "The primary contractor should hold a C-27 (landscape contractor) or B (general building contractor) CSLB license for hardscape and structural work. Gas line installation requires a separate C-36 (plumbing contractor) license. Electrical circuits and GFCI outlets require a C-10 (electrical contractor) license. All three are verifiable at cslb.ca.gov. A contractor who can't identify their C-36 and C-10 subs is either unlicensed on those trades or hasn't organized their sub relationships."
+      },
+      {
+        "question": "Do I need a permit to install a fire pit in the East Bay?",
+        "answer": "Yes — any gas-fed fire feature requires a permit in every East Bay jurisdiction. Lafayette, Orinda, Moraga, Walnut Creek, and Danville all require a gas permit for new appliance runs. Fire features must also comply with NFPA 58 setback and fuel-storage requirements and local fire authority distance rules from structures. Some jurisdictions require a building permit for permanently installed masonry fire feature structures. Ensure your contractor takes written permit responsibility in the contract."
+      },
+      {
+        "question": "Should I hire a landscape designer or a contractor for my outdoor kitchen?",
+        "answer": "For projects under $100,000, a single full-service outdoor living contractor who designs and builds is typically the most efficient structure. For projects at $150,000 and above with complex design requirements, a hybrid model — landscape designer for drawings, full-service GC for build — provides design depth without giving up trade coordination control. Owner-managed multi-contractor builds are legitimate for experienced owners willing to manage trade scheduling and save the 15–25% GC coordination premium."
+      },
+      {
+        "question": "How much does an outdoor kitchen and fire pit cost installed?",
+        "answer": "A built-in paver outdoor kitchen runs $15,000–$40,000 depending on appliance spec, countertop material, and utility rough-in complexity. A gas fire feature runs $3,000–$15,000 for a fire pit or table; fire walls and larger masonry installations reach $25,000. Combined on a paver patio foundation, a full outdoor kitchen and fire pit project in the East Bay typically lands $65,000–$120,000, including base patio, drainage engineering, kitchen, fire feature, and all trade utility work."
+      },
+      {
+        "question": "How long does outdoor kitchen and fire pit installation take?",
+        "answer": "The realistic timeline for a full paver outdoor kitchen and fire pit project in the East Bay is 4–8 weeks, including permit issuance. The construction phase itself typically runs 8–12 working days on a complex multi-feature project. Combined gas and electrical permits take 2–4 weeks from submittal to issuance in most Contra Costa County jurisdictions — in a well-managed project, that window runs concurrently with design finalization, not after construction starts."
+      }
+    ],
+    content: `
+# Hiring Outdoor Living Contractors for Paver Kitchens and Fire Pits
+
+## The Short Answer
+
+Hiring outdoor living contractors for paver kitchens and fire pits requires multi-trade vetting that basic patio installers don't need. These projects involve gas line work (C-36 plumbing contractor scope), electrical (C-10 electrician scope), permitting under NFPA 58 and local fire setback rules, and hardscape integration — and the contractor you hire either manages all of it under one license or coordinates between separately-licensed subs.
+
+An outdoor living contractor is a general contractor specializing in integrated paver hardscape and outdoor feature builds — patios, kitchens, fire features, and the gas, electrical, and plumbing work that ties them together. Most East Bay homeowners planning a [paver outdoor kitchen installation](/services/outdoor-kitchens) and [fire pit and fire feature installation](/services/fire-pits-and-fire-features) are best served by a single full-service outdoor living contractor who pulls the permits, owns the design coordination, and carries integration risk under one contract.
+
+---
+
+## Why Do Paver Kitchens and Fire Pits Need a Different Contractor Approach Than Basic Patios?
+
+A paver patio is a single-trade hardscape project. A paver outdoor kitchen or fire pit is a multi-trade project requiring gas, electrical, and sometimes plumbing work — and that changes which contractor model and licensing structure makes sense.
+
+A basic paver installer typically carries a C-27 landscape contractor license. That license authorizes earthwork, hardscape, and irrigation — not gas line installation above a pressure threshold, not new electrical circuits, not structural kitchen framing. The moment your project includes a built-in gas grill, a gas fire pit, a refrigerator, or GFCI-protected outlets embedded in a paver field, you've crossed into trade territory requiring separate California CSLB licenses.
+
+The Contractors State License Board (CSLB) is the California agency that licenses construction contractors; license status is verifiable at [cslb.ca.gov](https://www.cslb.ca.gov).
+
+**A typical paver outdoor kitchen and fire pit project involves 3 to 5 trade subcontractors coordinated under a single GC.** Those trades are: the hardscape crew (C-27 or B-licensed), a gas line contractor (C-36), an electrical contractor (C-10), sometimes a plumbing contractor for sink rough-in, and occasionally a structural framing sub for heavier kitchen structures. On a basic [paver patio](/services/patios), none of those trades appear. That's why the contractor model that works for a $40,000 patio doesn't automatically transfer to a $90,000 paver kitchen and fire pit project.
+
+Fire features add a specific layer of complexity. NFPA 58 is the U.S. liquefied petroleum gas code that governs outdoor fire feature fuel storage, line sizing, and appliance setbacks — and compliance isn't self-certifying. Local fire departments in [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville) each enforce their own setback distance requirements from structures and property lines. A fire pit that passes muster in unincorporated Contra Costa County may not satisfy the Orinda Fire Protection District's distance rules. Getting that wrong during a permit inspection doesn't just delay the project — it requires relocating a built masonry structure.
+
+---
+
+## The Three Outdoor-Living Contractor Models — and Which Fits Your Project
+
+Three contractor models work for paver kitchen and fire pit projects, each with different risk and cost trade-offs.
+
+### Model 1: Single Full-Service Outdoor Living Contractor (Subs In-House or Coordinated)
+
+The GC holds the prime contract, carries or coordinates every licensed sub, pulls every permit, and owns integration risk from design through final inspection. You write one check and have one accountable party when something doesn't fit together correctly.
+
+**A full-service GC charges a 15–25% coordination premium over owner-managed trades but transfers integration risk.** That premium buys you design coordination that happens before the shovel goes in — not as an improvised conversation between trades who've never met. For most Lafayette and Walnut Creek homeowners spending $65,000–$150,000 on an outdoor living project, that transfer of risk is worth the premium.
+
+### Model 2: Landscape Designer + Multiple Specialty Contractors (Owner-Managed)
+
+You hire a landscape designer for drawings, then separately contract a hardscape crew, a C-36 gas sub, and a C-10 electrical sub — each on their own contract. You coordinate scheduling and manage handoffs.
+
+This model saves the 15–25% coordination premium. On a $120,000 project, that's $18,000–$30,000 in savings — real money. The trade-off is that you're the GC. If the gas trench doesn't get dug before the paver crew arrives, that's your scheduling problem. If the kitchen base footprint conflicts with the fire pit gas routing, you're the one making the call. Sophisticated homeowners with construction project experience sometimes choose this model deliberately. It's a legitimate choice — just an eyes-open one.
+
+### Model 3: Hybrid — Landscape Designer for Design, Full-Service GC for Build
+
+A [landscape designer](/services/landscape-design) or architect produces the stamped drawings and material specifications; a full-service GC executes the build under their single prime contract. Design and build are separated, which lets you shop the build competitively off a fixed design package.
+
+This model is common on estate-scale projects at $150,000 and above, where the design investment justifies a separate professional engagement. It works well when the design drawings are detailed enough that the GC can bid without assumptions — and it produces problems when drawings leave trade coordination details unspecified and the GC inherits ambiguity.
+
+---
+
+## Step 1: Define Your Project Scope Before Contractor Outreach
+
+Define the scope of your outdoor kitchen and fire pit project before you start contractor outreach — bidders need to bid the same thing, and that only happens with a written scope.
+
+The [12 features full-service paver patios should include](/blog/12-features-full-service-paver-patios-should-include) is a practical starting framework for paver patio design and feature selection. Work through the list and make explicit decisions on:
+
+- **Kitchen footprint and appliance list:** grill size and brand tier (Lynx, Hestan, or DCS are the consistent specs at this market level), side burners, refrigerator, sink, storage cabinet count, and counter material (poured concrete, natural stone, or porcelain slab)
+- **Fire feature type:** gas pit, gas table, linear fire wall, or fire bowl — and gas source (natural gas line vs. propane tank, which changes NFPA 58 tank setback requirements)
+- **Hardscape adjacency:** whether the kitchen and fire feature sit on the same paver field as the dining and lounge zones, or occupy their own grade-separated pads
+- **Design intent:** modern (large-format porcelain, linear patterns, Corten steel accents), traditional (natural stone, running bond, brick surround), or Mediterranean (textured pavers, stucco kitchen surround, terracotta accents)
+
+Contractors who receive a written scope return bids on the same project. Contractors who receive a verbal description return bids on whatever they imagined the project to be — and comparing those bids is meaningless. See [how we budget large paver projects](/blog/budgeting-a-large-paver-patio-in-2026) for a line-item breakdown framework you can adapt for outdoor kitchen scoping.
+
+---
+
+## Step 2: Source Outdoor-Living Specialists, Not Generic Patio Installers
+
+Search for outdoor living contractors who specifically advertise paver outdoor kitchen and fire pit installations as a core service — not patio installers who occasionally subcontract kitchen work to a third party.
+
+The difference shows up in their portfolio. A contractor who builds outdoor kitchens regularly has photos of 10 to 20 installed kitchens across different sites, with different appliance configurations and different paver tie-in details. A contractor who subcontracts it occasionally has two or three photos where the kitchen looks slightly disconnected from the surrounding hardscape.
+
+Ask for three reference projects with outdoor kitchens — not just patios — and call those references. Ask specifically: did the kitchen and patio feel designed as one thing, or did they look like they were installed separately?
+
+Verify ICPI certification for the hardscape competency. ICPI (the Interlocking Concrete Pavement Institute) is the U.S. trade body that sets installation standards for interlocking concrete pavers, certifying installers in base prep, drainage, and pattern installation. A crew without ICPI certification on a multi-feature project is a material risk.
+
+Confirm the contractor has installed at least five outdoor kitchens in the prior 24 months. That volume indicates a repeatable process rather than an improvised one — which matters when gas, electrical, and hardscape have to sequence correctly across a six-week install.
+
+Lamorinda Pavers builds paver outdoor kitchens and fire pits across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville) as a core service line — not as occasional add-ons. You can review completed projects at our [project gallery](/projects) before reaching out.
+
+---
+
+## Step 3: Verify Multi-Trade Licensing and Subcontractor Relationships
+
+For paver outdoor kitchens and fire pits, verify both the primary contractor's California CSLB license AND the licensing status of every trade sub touching the project — gas, electrical, plumbing.
+
+The license structure for a complete patio and hardscape contractor engagement:
+
+| Trade | CSLB License Class | Scope |
+|---|---|---|
+| Primary contractor (hardscape) | C-27 (landscape) or B (general building) | Excavation, base prep, paver installation, structural elements |
+| Gas line installation | C-36 (plumbing contractor) | Gas line run, BTU sizing, shutoff valves, appliance connection |
+| Electrical installation | C-10 (electrical contractor) | New circuits, GFCI outlets, outdoor lighting, refrigerator power |
+| Plumbing (if sink included) | C-36 (plumbing contractor) | Water supply rough-in, drain routing, sink connection |
+
+Every sub needs workers' compensation insurance and at minimum $1 million in general liability coverage — separately from the primary contractor's policy. Ask the primary contractor to provide certificates of insurance for every sub before you sign anything. A certificate of insurance from the GC's policy alone doesn't cover a C-10 sub's electrical work.
+
+The International Residential Code (IRC) — the model code adopted by most Contra Costa and Alameda County jurisdictions — requires GFCI protection on all 15- and 20-amp outdoor receptacles. That's a C-10 scope item. A patio contractor running outlet wiring without a licensed C-10 sub and the associated permit is cutting a corner that can surface during a home sale inspection or an insurance claim.
+
+Verify every license at [cslb.ca.gov](https://www.cslb.ca.gov) before contracts sign. It takes two minutes. [How Steve runs Lamorinda Pavers](/about) includes CA License #1092749 — verifiable there directly.
+
+---
+
+## Step 4: Confirm Design Coordination Ownership
+
+Outdoor kitchen and fire pit projects fail at the seams between trades — confirm in writing who owns the design coordination for utility routing, paver tie-ins, and structural elements.
+
+The design coordination questions that need explicit answers before excavation starts:
+
+- Who specifies the gas line BTU sizing relative to the appliance load? (A 48-inch built-in grill and a gas fire pit on the same line need a correctly sized run — undersizing produces low-pressure performance failures.)
+- Who locates the GFCI outlets relative to grill clearance and refrigerator placement? (NFPA 58 requires specific clearances between gas appliances and electrical sources.)
+- Who sites the fire pit relative to NFPA 58 setback requirements and local fire department rules?
+- Who details the paver tie-in at the kitchen base — expansion gap width, flashing material, and edge restraint termination?
+
+A good answer: the contractor provides a signed or stamped design drawing showing all utility routing, trade hand-off points, and structural details before the first shovel goes in.
+
+A red flag: "we'll figure it out during the build." That phrase means the seams get negotiated under field pressure — which is when expensive mistakes happen on a Moraga hillside lot where the gas trench has to route around an existing [retaining wall](/services/retaining-walls).
+
+---
+
+## Step 5: Pin Down Permits, Utility Planning, and Code Compliance
+
+Paver outdoor kitchens and fire pits in the East Bay typically require gas, electrical, and sometimes building permits — pin these down in writing before contract signing, including who pulls them and timeline expectations.
+
+Gas line permits are required in Lafayette, Orinda, Moraga, Walnut Creek, and Danville for any new gas appliance run — no exceptions for outdoor installations. Electrical permits are required for any new circuit, including the dedicated 20-amp circuits that outdoor refrigerators and ice makers require.
+
+Fire features are subject to two separate compliance layers. NFPA 58 governs the gas system design — line sizing, shutoff valve placement, appliance setbacks from combustibles, and fuel storage. Local fire authorities govern physical setbacks from structures, fences, and property lines — and those distances vary. Orinda Fire Protection District, Lafayette's fire authority, and Contra Costa County each publish their own distance requirements. A 10-foot setback from a wood structure is a common minimum, but hillside lots with irregular geometry sometimes require a site-specific review before a permit issues.
+
+**Combined gas and electrical permits in East Bay jurisdictions typically take 2–4 weeks from submittal to issuance.** That window should be built into the project schedule before any work begins — it's not a variable a good outdoor kitchen builder should be surprised by.
+
+Building permits may also apply if the kitchen structure exceeds a height threshold or the countertop installation qualifies as a permanent structure under local zoning definitions. In Lafayette and Orinda, that threshold is worth confirming during the design phase rather than discovering at a framing inspection.
+
+The contract should name the contractor as the party responsible for pulling and managing all permits. If that language isn't in the contract, it defaults to ambiguous — which typically means it defaults to you.
+
+---
+
+## Step 6: Vet Hardscape Integration Capability
+
+The biggest quality failure on paver outdoor kitchen and fire pit projects is the hardscape-to-built-structure tie-in — kitchen bases that crack the surrounding paver field, fire pits that settle differently than the patio, expansion gaps that open or close across seasons.
+
+The core issue is differential movement. A paver field is designed to flex — the interlocking system accommodates seasonal clay expansion and contraction across East Bay soil. A concrete kitchen base or masonry fire pit surround is rigid. Where they meet, thermal and moisture-driven movement has to go somewhere. Without a designed expansion gap detail, it goes into cracking the paver field edge. This is the same base-integrity issue covered in detail in [what paver base compaction actually means](/blog/what-is-paver-base-compaction-and-why-it-matters) — and it's amplified at any rigid structure interface.
+
+Ask any candidate contractor: "How do you handle the paver tie-in at the kitchen base?" A credible answer involves:
+
+- A separate concrete footing or compacted aggregate pier under the kitchen base, isolated from the paver field subgrade
+- A 1/2-inch expansion gap between the kitchen base and the adjacent paver field
+- Stainless steel L-flashing or a backer rod and flexible sealant filling the gap — not grout, which will crack
+- Edge restraint termination at the gap rather than run tight against the structure
+
+A contractor who hasn't thought through this detail will give you a vague answer about using the same base. That's a failure interface waiting to open up after the first wet winter on an Orinda clay lot.
+
+---
+
+## Step 7: Compare Line-Item Bids and Confirm Trade Sequencing
+
+Compare paver outdoor kitchen and fire pit bids by line item — hardscape, kitchen counter and cabinetry, kitchen appliances, fire feature, gas utility work, electrical utility work, plumbing if applicable, permits, and contingency — and confirm the proposed trade sequencing before signing.
+
+A lump-sum bid on a project this complex tells you nothing about where cost lives, what's included in each trade's scope, or what happens when a buried condition changes one line item. Every credible outdoor kitchen builder for this type of project should produce a bid that breaks those categories separately.
+
+The correct install sequence for a paver outdoor kitchen and fire pit:
+
+1. Excavation and subgrade prep — full footprint including kitchen pad and fire feature location
+2. Utility rough-in — gas trench, electrical conduit, plumbing rough-in before any aggregate goes down
+3. Base aggregate placement and compaction in 3-inch lifts, with French drain installation if required by site drainage
+4. Kitchen base footing pour or compacted aggregate pier construction
+5. Paver field placement, edge restraint installation, pattern sequencing at kitchen and fire feature perimeters
+6. Kitchen counter and cabinetry framing and finish
+7. Fire feature masonry or prefab unit installation
+8. Gas line tie-in and pressure test (C-36 scope)
+9. Electrical circuit connection, GFCI outlet installation, appliance wiring (C-10 scope)
+10. Appliance installation and function test
+11. Polymeric joint sand application across paver field (weather-window dependent — 50–80°F, 36-hour clear forecast required)
+12. Permit finals and inspection sign-offs
+
+**The realistic timeline for a full paver outdoor kitchen and fire pit project in the East Bay is 4–8 weeks, depending on permit timing and trade scheduling.** That range isn't a hedge: a simple outdoor kitchen on a flat Danville lot with pre-permitted gas can install in 3.5 weeks. A sloped Orinda property with a fire wall, a full kitchen, and a French drain routed around an existing retaining wall takes 7–8 weeks when permit timing is included.
+
+Bad sequencing example: pouring the kitchen slab footing before the gas trench is excavated. That's a rebuild situation — you're either cutting through new concrete or rerouting the gas line around the slab, neither of which was in the bid.
+
+For a deeper look at installation sequencing and what correctly installed paver work looks like day by day, see [how to install a level paver patio that won't shift](/blog/how-to-install-a-level-paver-patio-that-wont-shift).
+
+---
+
+## 8 Vetting Questions Specifically for Outdoor Kitchen and Fire Pit Contractors
+
+These 8 questions surface the specific competencies outdoor kitchen and fire pit projects require — beyond the general paver installer vetting checklist. [The 9 general patio installer vetting questions](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) still apply; use these 8 as a supplement for any project that includes gas, electrical, or built kitchen structures.
+
+**1. "How many outdoor kitchens have you installed in the last 24 months, and can I see addresses?"**
+Addresses let you drive by and look at the paver tie-in, countertop finish, and visual integration from the street. Five or more in 24 months indicates a repeatable process.
+
+**2. "Who's pulling the gas, electrical, and fire feature permits, and how long does that take in my city?"**
+The correct answer names the GC or a specific licensed sub as the responsible party and gives a realistic 2–4 week timeline. Vague answers here mean ambiguous responsibility later.
+
+**3. "Walk me through how you handle the paver tie-in at the kitchen base."**
+Listen for: separate footing, expansion gap detail, edge restraint termination. Anything that doesn't address differential movement between rigid and flexible structures is a gap.
+
+**4. "What specific gas BTU and electrical load calculations have you done for projects like mine?"**
+A contractor who has done this correctly can explain how they sized the gas line to serve both the grill and the fire pit simultaneously, and how they determined the circuit load for refrigeration and outlets.
+
+**5. "Which fire feature manufacturers and gas appliance brands do you specify, and why?"**
+For gas appliances: Lynx, Hestan, and DCS are the consistent specifications in the Lafayette and Walnut Creek luxury market. For fire features, look for experience with gas systems from recognized manufacturers rather than one-off custom burner builds.
+
+**6. "What's your NFPA 58 and local fire-setback approach for the fire feature placement?"**
+A confident answer references the local fire authority's specific distance requirements and explains how the fire feature location was derived from them — not approximated.
+
+**7. "What's your trade-sub insurance verification process?"**
+The answer should describe collecting certificates of insurance from every sub before work begins — not "we work with the same guys we always work with."
+
+**8. "Show me a stamped or signed design drawing from a similar past project."**
+A design drawing showing utility routing, trade hand-off points, and structural details is evidence of pre-build coordination. Its absence is evidence of improvisation.
+
+---
+
+## How Lamorinda Pavers Structures Outdoor Kitchen and Fire Pit Projects
+
+A transparent outdoor living contractor for paver kitchens and fire pits structures the project with single-source design coordination, line-item bidding, verified trade subs, and written permit pull responsibility — all under one accountable GC relationship.
+
+[How Steve runs Lamorinda Pavers](/about) reflects that structure in practice. Every outdoor kitchen and fire pit project is bid with all trades line-itemed — hardscape, gas, electrical, plumbing if applicable, permits, and contingency — so you can see where cost lives before you sign anything. The ICPI-certified hardscape crew handles base prep, paver field, and structural tie-ins. Licensed C-36 and C-10 subs handle gas and electrical, with insurance certificates provided before work begins. Permit responsibility is written into the contract — not implied, not verbal.
+
+Design coordination doesn't get handed off. Steve works directly through utility routing, paver tie-in details, and fire feature placement relative to NFPA 58 and local setback requirements before excavation starts. That coordination is documented in a design drawing, not negotiated under field pressure.
+
+Every integrated outdoor kitchen and fire pit build at Lamorinda Pavers is covered under a 5-year workmanship warranty — covering drainage failure, base settlement, edge restraint movement, joint sand failure, and hardscape-to-structure tie-in failure attributable to installation defect. That warranty covers the integrated build, not just the paver field.
+
+Lamorinda Pavers serves outdoor kitchen and fire pit projects across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville) with this single-source structure. See our [full project gallery](/projects) for completed outdoor kitchen and fire feature installations across the East Bay.
+
+---
+
+## Frequently Asked Questions
+
+### How do I find a good outdoor kitchen contractor in California?
+
+Search for outdoor living contractors who specifically list paver outdoor kitchen and fire pit installation as a core service, then verify their CSLB license at [cslb.ca.gov](https://www.cslb.ca.gov) and confirm they carry or coordinate licensed C-36 (gas) and C-10 (electrical) subs with their own insurance certificates. Ask for five outdoor kitchen reference projects with addresses from the last 24 months. [The 9 general patio installer vetting questions](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) give you a baseline; the 8 specialty questions in this post cover the kitchen- and fire-pit-specific competencies.
+
+### What license does an outdoor kitchen installer need?
+
+The primary contractor should hold a C-27 (landscape contractor) or B (general building contractor) CSLB license for hardscape and structural work. Gas line installation requires a separate C-36 (plumbing contractor) license — not an add-on to a C-27. Electrical circuits and GFCI outlets require a C-10 (electrical contractor) license. All three license types are verifiable at [cslb.ca.gov](https://www.cslb.ca.gov). A contractor who can't clearly identify their C-36 and C-10 subs is either unlicensed on those trades or hasn't organized their sub relationships.
+
+### Do I need a permit to install a fire pit in the East Bay?
+
+Yes — any gas-fed fire feature requires a permit in every East Bay jurisdiction. Lafayette, Orinda, Moraga, Walnut Creek, and Danville all require a gas permit for new appliance runs. Fire features must also comply with NFPA 58 setback and fuel-storage requirements and local fire authority distance rules from structures and property lines. Some jurisdictions require a building permit for permanently installed masonry fire feature structures. Confirm requirements with your city's building department, and ensure your contractor takes written permit responsibility in the contract.
+
+### Should I hire a landscape designer or a contractor for my outdoor kitchen?
+
+It depends on your project budget and tolerance for managing trade coordination. For projects under $100,000, a single full-service outdoor living contractor who designs and builds is typically most efficient. For projects at $150,000 and above with complex design requirements, a hybrid model — [landscape designer](/services/landscape-design) for drawings, full-service GC for build — provides design depth without sacrificing trade coordination control. Owner-managed multi-contractor builds are legitimate for experienced owners who want to save the 15–25% GC coordination premium and have the capacity to manage trade scheduling themselves.
+
+### How much does an outdoor kitchen and fire pit cost installed?
+
+A built-in paver outdoor kitchen runs $15,000–$40,000 depending on appliance spec, countertop material, and utility rough-in complexity. A gas fire feature runs $3,000–$15,000 for a fire pit or table; fire walls and larger masonry installations reach $25,000. Combined on a paver patio foundation, a full outdoor kitchen and fire pit project in the East Bay typically lands $65,000–$120,000, including base patio, drainage engineering, kitchen, fire feature, and all trade utility work. Estate-scale appliance specs and complex hillside terrain run higher.
+
+### How long does outdoor kitchen and fire pit installation take?
+
+The realistic timeline for a full paver outdoor kitchen and fire pit project in the East Bay is 4–8 weeks, including permit issuance. The construction phase itself typically runs 8–12 working days on a complex multi-feature project. Combined gas and electrical permits take 2–4 weeks from submittal to issuance in most Contra Costa County jurisdictions — in a well-managed project, that window runs concurrently with design finalization, not after construction starts.
+
+---
+
+## Plan Your Project With a Contractor Who Owns the Whole Scope
+
+If you're planning a paver outdoor kitchen or fire pit project in the East Bay, start with an on-site estimate rather than a phone number and a ballpark. Lamorinda Pavers offers free site visits across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville).
+
+We'll walk the property, work through every step in this guide with you — contractor model, scope definition, licensing structure, permit timeline, trade sequencing — and send a single-source bid within 48 hours. That bid covers all trades line-itemed, permit responsibility assigned in writing, and Lamorinda's 5-year workmanship warranty on the integrated build — not just the pavers, but the drainage, the base, the edge restraints, and the hardscape-to-structure tie-ins. Nothing deferred to after you sign.
+
+[Contact us](/contact) to schedule your site visit. Or start with the [paver outdoor kitchen installation](/services/outdoor-kitchens) and [fire pit and fire feature installation](/services/fire-pits-and-fire-features) service pages for full scope detail on what a design-build engagement covers from first site walk through final permit inspection.
+    `.trim(),
+  },
+
+  {
     slug: "12-features-full-service-paver-patios-should-include",
     featuredImage: "/images/blog-12-features-full-service-paver-patios-should-include.png",
     title: "12 Features Full-Service Paver Patios Should Include",
