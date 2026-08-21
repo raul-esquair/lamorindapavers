@@ -6,6 +6,15 @@
 // with the Planning counter (925-253-4210) before relying on any single
 // number on a real submittal.
 
+// Curated blog guides for the Orinda page. Tied to Orinda's soil/base lead
+// hook (compaction + settling) plus one ROI angle — a DIFFERENT set and a
+// different on-page placement than Lafayette's, per the anti-doorway rules.
+export const orindaGuideSlugs = [
+  "what-is-paver-base-compaction-and-why-it-matters",
+  "how-to-prevent-paver-patio-sinking-2026",
+  "paver-outdoor-living-roi-for-home-resale-in-2026",
+];
+
 export const orindaNeighborhoods = [
   {
     name: "Sleepy Hollow",

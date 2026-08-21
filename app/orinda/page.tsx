@@ -5,8 +5,10 @@ import {
   FAQJsonLd,
   ServiceJsonLd,
 } from "@/components/seo/JsonLd";
+import { getPostBySlug } from "@/lib/blog/data";
+import type { BlogPost } from "@/lib/blog/types";
 import OrindaContent from "./OrindaContent";
-import { orindaFaqs } from "./content";
+import { orindaFaqs, orindaGuideSlugs } from "./content";
 
 export const metadata: Metadata = {
   title: "Paver Installation in Orinda, CA | Lamorinda Pavers",
@@ -18,6 +20,10 @@ export const metadata: Metadata = {
 };
 
 export default function OrindaPage() {
+  const guides = orindaGuideSlugs
+    .map((slug) => getPostBySlug(slug))
+    .filter((p): p is BlogPost => Boolean(p));
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -35,7 +41,7 @@ export default function OrindaPage() {
         url={`${company.domain}/orinda`}
       />
       <FAQJsonLd faqs={orindaFaqs} />
-      <OrindaContent />
+      <OrindaContent guides={guides} />
     </>
   );
 }
