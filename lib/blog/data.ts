@@ -15,6 +15,7 @@ import type { BlogPost } from "./types";
 export const BLOG_POSTS: BlogPost[] = [
   {
     slug: "do-paver-patios-increase-home-value-in-the-east-bay",
+    featuredImage: "/images/blog-do-paver-patios-increase-home-value-in-the-east-bay.png",
     title: "Do Paver Patios Increase Home Value in the East Bay?",
     excerpt:
       "Paver patios increase East Bay home value by 60-75% of project cost on average, recovering $20K-$45K of value on a typical $30K-$60K install — but only with proper installation, neutral design, and 1-3 year aging. Here's the data, the paver-vs-concrete value gap, and the design choices that protect resale outcomes.",
@@ -275,6 +276,7 @@ Across [Walnut Creek](/walnut-creek), [Lafayette](/lafayette), [Orinda](/orinda)
 
   {
     slug: "paver-outdoor-living-roi-for-home-resale-in-2026",
+    featuredImage: "/images/blog-paver-outdoor-living-roi-for-home-resale-in-2026.png",
     title: "Paver Outdoor Living ROI for Home Resale in 2026",
     excerpt:
       "Paver outdoor living improvements in East Bay luxury markets return 50-85% of cost at resale in 2026 — paver driveways recover highest (70-85%), backyard features lower (30-65%). Here's the ROI range by feature, how East Bay appraisers actually value hardscape, and which design choices preserve resale value vs. hurt it.",
@@ -542,6 +544,7 @@ Across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Cr
 
   {
     slug: "13-hidden-outdoor-paver-kitchen-costs-in-2026",
+    featuredImage: "/images/blog-13-hidden-outdoor-paver-kitchen-costs-in-2026.png",
     title: "13 Hidden Outdoor Paver Kitchen Costs in 2026",
     excerpt:
       "Outdoor paver kitchen bids miss 13 specific cost line items that surface during construction — gas line BTU upsizing, electrical sub-panel work, backflow preventers, permit fees, soil disposal, stone fabrication waste, and seven more. Here's each one explained with typical cost range and how to surface it in your bid before signing.",
@@ -854,6 +857,7 @@ Across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Cr
 
   {
     slug: "outdoor-paver-kitchen-cost-overruns-in-2026",
+    featuredImage: "/images/blog-outdoor-paver-kitchen-cost-overruns-in-2026.png",
     title: "Outdoor Paver Kitchen Cost Overruns in 2026",
     excerpt:
       "Outdoor paver kitchen projects in the East Bay run over their initial budget by 20-40% on average — driven by scope creep, mid-build material upgrades, underbid utility work, buried subgrade conditions, and permit-driven engineering changes. Here's the cost-control playbook with line-item estimating, scope discipline, and the specific material and labor drivers that move the kitchen budget most.",
@@ -1115,6 +1119,7 @@ Across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Cr
 
   {
     slug: "10-outdoor-living-build-coordination-bottlenecks",
+    featuredImage: "/images/blog-10-outdoor-living-build-coordination-bottlenecks.png",
     title: "10 Outdoor Living Build Coordination Bottlenecks",
     excerpt:
       "Outdoor living projects in the East Bay miss their schedule for 10 specific reasons — incomplete permit submittals, failed inspections, sub no-shows, material backorders, weather windows, hidden subgrade conditions, and four more. Here's each bottleneck explained with the time-and-cost impact and the practical fix.",
@@ -1370,6 +1375,7 @@ Across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Cr
 
   {
     slug: "how-to-coordinate-an-outdoor-living-build-in-2026",
+    featuredImage: "/images/blog-how-to-coordinate-an-outdoor-living-build-in-2026.png",
     title: "How to Coordinate an Outdoor Living Build in 2026",
     excerpt:
       "Outdoor living builds in 2026 take 12-20 weeks from contract to walk-through and involve 3-5 trades, multiple permit pulls, and material lead times that can stretch 2-12 weeks. Here's the homeowner-side coordination plan that keeps your East Bay project on schedule, on budget, and on scope.",
@@ -1663,6 +1669,7 @@ Across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Cr
 
   {
     slug: "hiring-contractors-for-paver-kitchens-and-fire-pits",
+    featuredImage: "/images/blog-hiring-contractors-for-paver-kitchens-and-fire-pits.png",
     title: "Hiring Contractors for Paver Kitchens and Fire Pits",
     excerpt:
       "Hiring outdoor living contractors for paver kitchens and fire pits requires different vetting than hiring a basic paver patio installer — these projects involve gas, electrical, and code compliance work most patio contractors aren't licensed for. Here's the 7-step guide to scoping, vetting, and bidding it correctly.",
