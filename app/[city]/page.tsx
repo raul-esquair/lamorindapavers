@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cities, getCityBySlug } from "@/lib/data/cities";
+import { getCityTemplateGuides } from "@/lib/blog/service-guides";
 import CityPageContent from "./CityPageContent";
 
 interface Props {
@@ -37,5 +38,7 @@ export default async function CityPage({ params }: Props) {
   const cityData = getCityBySlug(city);
   if (!cityData) notFound();
 
-  return <CityPageContent city={cityData} />;
+  const guides = getCityTemplateGuides();
+
+  return <CityPageContent city={cityData} guides={guides} />;
 }
