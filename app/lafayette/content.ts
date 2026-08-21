@@ -1,3 +1,12 @@
+// Curated blog guides for the Lafayette page (value / cost / hiring — commercial
+// intent). Deliberately DIFFERENT from Orinda's and Martinez's sets per the
+// anti-doorway-page rules: each city links a distinct mix, not the same list.
+export const lafayetteGuideSlugs = [
+  "do-paver-patios-increase-home-value-in-the-east-bay",
+  "budgeting-a-large-paver-patio-in-2026",
+  "9-questions-to-vet-a-paver-installer-for-big-patios",
+];
+
 export const lafayetteNeighborhoods = [
   {
     name: "Burton Valley",

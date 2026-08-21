@@ -16,6 +16,7 @@ import QuoteButton from "@/components/ui/QuoteButton";
 import FAQAccordion from "@/components/ui/FAQAccordion";
 import PaverCrossSection from "@/components/ui/PaverCrossSection";
 import FinalCTA from "@/components/sections/FinalCTA";
+import type { BlogPost } from "@/lib/blog/types";
 import { lafayetteNeighborhoods, lafayetteFaqs } from "./content";
 
 const featuredServiceSlugs = [
@@ -52,7 +53,11 @@ const localTestimonials = testimonials.filter((t) =>
   ["Pleasant Hill, CA", "Concord, CA"].includes(t.city),
 );
 
-export default function LafayetteContent() {
+export default function LafayetteContent({
+  guides = [],
+}: {
+  guides?: BlogPost[];
+}) {
   return (
     <>
       {/* Hero */}
@@ -652,6 +657,64 @@ export default function LafayetteContent() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* Planning Guides */}
+      {guides.length > 0 && (
+        <section className="py-16 md:py-24 bg-warm-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ScrollReveal className="mb-10 max-w-3xl">
+              <SectionLabel>Planning Guides</SectionLabel>
+              <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3 mb-4">
+                Planning a Paver Project in Lafayette?
+              </h2>
+              <p className="text-warm-gray-500 font-sans leading-relaxed">
+                Before you request a bid, it&apos;s worth understanding{" "}
+                <Link
+                  href="/blog/do-paver-patios-increase-home-value-in-the-east-bay"
+                  className="text-brand-blue font-medium underline decoration-brand-blue/30 underline-offset-2 hover:decoration-brand-blue transition-colors"
+                >
+                  how much value a paver patio adds to an East Bay home
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/blog/budgeting-a-large-paver-patio-in-2026"
+                  className="text-brand-blue font-medium underline decoration-brand-blue/30 underline-offset-2 hover:decoration-brand-blue transition-colors"
+                >
+                  what a large paver patio actually costs
+                </Link>
+                . Steve wrote these from 1,000+ Lafayette-area installs.
+              </p>
+            </ScrollReveal>
+
+            <m.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              {guides.map((guide) => (
+                <m.div key={guide.slug} variants={fadeUp}>
+                  <Link
+                    href={`/blog/${guide.slug}`}
+                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                  >
+                    <h3 className="text-lg font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="text-sm font-sans text-warm-gray-500 line-clamp-2 mb-4">
+                      {guide.excerpt}
+                    </p>
+                    <span className="mt-auto text-sm font-sans font-medium text-brand-blue">
+                      Read the guide →
+                    </span>
+                  </Link>
+                </m.div>
+              ))}
+            </m.div>
+          </div>
+        </section>
+      )}
 
       {/* Nearby Cities */}
       <section className="py-16 md:py-24 bg-warm-white border-t border-warm-gray-200">
