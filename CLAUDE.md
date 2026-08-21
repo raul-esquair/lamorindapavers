@@ -203,10 +203,15 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 ## SEO Infrastructure
 - JSON-LD: `LocalBusiness` schema on every page (root layout), `FAQPage` schema on service detail pages
 - Metadata: unique title + description on every page via Next.js Metadata API
-- Sitemap: auto-generated at `app/sitemap.ts`
+- Sitemap: auto-generated at `app/sitemap.ts`. **`lastmod` hygiene:** static/service/city pages use a stable `LAST_CONTENT_UPDATE` constant (NOT build-time `now`, which churns every URL's `lastmod` on each deploy and trains Google to ignore it — bump the constant only on material content change); blog posts use `dateModified ?? date`.
 - Robots: `app/robots.ts`
 - Favicon: dynamic "LP" icon at `app/icon.tsx`
 - Open Graph + Twitter card meta tags
+- **Entity graph (`lib/seo/entities.ts`):** ONE authoritative Steve Barsanti `Person` (`@id` `#steve`, with CSLB license as `hasCredential`). `LocalBusiness` (`@id` `#business`) declares him as `founder`; blog `BlogPosting.author` and `publisher` reference those same `@id`s. Do NOT revert blog author to a bare/Organization value — the shared-`@id` graph is what makes Google trust "Steve Barsanti, author" = "owner of Lamorinda Pavers."
+- **Self-referencing canonicals:** homepage sets `alternates.canonical: "/"` in `app/page.tsx` (fixed an http/https index split). ⚠️ `/services/[slug]` still lacks a canonical — see TODO.
+- **Blog internal linking (`lib/blog/service-guides.ts`):** curated, commercial-intent-first, cannibalization-aware maps of service-slug → post-slugs (NOT an auto-dump of all `relatedService` posts — 11 of 14 tag `patios`). Rendered as in-prose contextual links (highest weight) + a "Guides" card module on service pages, `/lafayette`, `/orinda`, and the `[city]` template. Each bespoke city gets a **distinct** set + placement (anti-doorway). Homepage `LatestGuides` module (`components/sections/LatestGuides.tsx`) links the 3 newest posts (daily-crawl discovery path). Blog data is resolved server-side and passed as props — never bundle the 3.7k-line `BLOG_POSTS` into client components.
+- **GSC (Google Search Console):** property is a **Domain property** (`sc-domain:lamorindapaving.com`), not URL-prefix. `scripts/fetch-gsc-data.ts` honors a `GSC_PROPERTY_URL` env override for this. `scripts/print-gsc-report.ts` prints a live report. Service account `seo-proposal-bot@gadget-construction-seo` is a Full user on the property (shared bot). See memory `project_gsc_access.md`.
+- **Discovery pipeline (on publish):** `weekly-publish.yml` pings Netlify → waits → `scripts/resubmit-sitemap.ts` (authenticated `sitemaps.submit` — the only legit re-crawl nudge; anonymous ping died in 2023, and there is NO force-index API) → `scripts/submit-indexnow.ts` (Bing/Yandex; Google ignores IndexNow). IndexNow key lives at `public/<key>.txt`. Both steps are `continue-on-error`.
 
 ## Header Behavior
 - Transparent on hero with white logo (brightness-0 invert), white nav links, white hamburger
@@ -233,10 +238,12 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 
 ### Where content lives
 - **Posts:** `lib/blog/data.ts` — a `BLOG_POSTS` array of `BlogPost` objects (slug, title, excerpt, date, content markdown, faqs, optional `featuredImage`). **Posts are NOT `.md`/`.mdx` files** — they're TS objects in this one file. Types in `lib/blog/types.ts`, read helpers in `lib/blog/data.ts` (`getPublishedPosts`, `getPostBySlug`).
-- **Queue:** `content/post-queue.json` — array of briefs with `status: queued | drafted | published | proposed`. As of last session: 14 drafted (published), 9 queued.
-- **Config:** `blog.config.ts` (repo root) — brand strings, services, voice, geography, review recipients. Loaded via `lib/blog-config.ts`. Committed despite private repo because CI needs it.
-- **Render:** `app/blog/page.tsx` (index → `components/blog/BlogCard.tsx`), `app/blog/[slug]/page.tsx` (detail, with `BlogPosting` JSON-LD + byline + OG image). `components/blog/BlogCTA.tsx` is the shared CTA.
-- **Publish gating:** a post is visible only once its `date` field has passed. `weekly-publish.yml` (Mon) pings a Netlify build hook so newly-due posts appear.
+- **Queue:** `content/post-queue.json` — array of briefs with `status: queued | drafted | published | proposed`. As of Aug 2026: 14 drafted (all published), 9 queued (~9 wks runway). Status stops at `drafted` — it never flips to `published`; visibility is purely `date <= today` + a Monday rebuild.
+- **Config:** `blog.config.ts` (repo root) — brand strings, services, voice, geography, review recipients, and an optional **`author`** block (name/title/credential/experience). Loaded via `lib/blog-config.ts` (zod-validated). Committed despite private repo because CI needs it.
+- **Render:** `app/blog/page.tsx` (index → `components/blog/BlogCard.tsx`), `app/blog/[slug]/page.tsx` (detail, with `BlogPosting` JSON-LD + **credentialed byline** "By Steve Barsanti, Owner · CA Lic. #1092749" + OG image). `components/blog/BlogCTA.tsx` is the shared CTA. The byline + author schema live in the render layer, so **all future posts inherit Steve authorship automatically**.
+- **E-E-A-T authorship:** posts are authored by Steve as a real `Person` (see entity graph in SEO Infrastructure). `generate-post.ts` injects an experiential-authorship directive from the config `author` block so new posts are drafted in the credentialed operator's voice (field-level specifics; NO fabricated customers/projects/anecdotes).
+- **Publish gating:** a post is visible only once its `date` field has passed. `weekly-publish.yml` (Mon) pings a Netlify build hook, waits, then resubmits the sitemap + submits new URLs to IndexNow (see SEO Infrastructure → Discovery pipeline).
+- ⚠️ **No human content gate:** `auto-merge-drafts` merges any post that *builds* (only quality bar is the in-script SEO critique pass). A `reviewedBy`/Steve-review step is the natural next gap. See memory `project_blog_discovery_eeat.md`.
 
 ### Pipeline scripts (`scripts/`)
 - `generate-post.ts` — takes the next `queued` brief, writes the post via Claude (Sonnet) + critique pass, generates a featured image (**Haiku brand-prompt → OpenAI `gpt-image-1`**), inserts into `data.ts`, opens a draft PR. **The image step is non-fatal** — if OpenAI fails, the post ships text-only with no `featuredImage`. Image helpers are exported; `main()` is guarded to run only on direct execution.
@@ -245,10 +252,10 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - `fetch-gsc-data.ts`, `build-site-inventory.ts`, `setup.ts` — supporting.
 
 ### CI workflows (`.github/workflows/`)
-`weekly-draft` (Fri, generate next post PR) · `weekly-publish` (Mon, Netlify rebuild) · `auto-propose-batch` + `merge-proposed-briefs` + `auto-merge-proposals` (brief proposal flow) · `auto-merge-drafts` (gated by `pipeline-pr-check`) · `gsc-report` · `backfill-featured-images` (on-demand).
+`weekly-draft` (Fri, generate next post PR) · `weekly-publish` (Mon, Netlify rebuild → sitemap resubmit → IndexNow) · `auto-propose-batch` + `merge-proposed-briefs` + `auto-merge-proposals` (brief proposal flow) · `auto-merge-drafts` (gated by `pipeline-pr-check`) · `gsc-report` · `backfill-featured-images` (on-demand).
 
 ### Secrets / dependencies
-`ANTHROPIC_API_KEY` (posts + image prompts), `OPENAI_API_KEY` (`gpt-image-1`, org `esquair` — **auto top-up enabled**, shared across client blog engines), `RESEND_API_KEY` (review emails), `NETLIFY_BUILD_HOOK_URL`.
+`ANTHROPIC_API_KEY` (posts + image prompts), `OPENAI_API_KEY` (`gpt-image-1`, org `esquair` — **auto top-up enabled**, shared across client blog engines), `RESEND_API_KEY` (review emails), `NETLIFY_BUILD_HOOK_URL`, `GSC_SERVICE_ACCOUNT_JSON_BASE64` + `GSC_PROPERTY_URL` (GSC reads + publish-time sitemap resubmit; both now set in Actions secrets — before Aug 2026 the service-account secret was missing and `auto-propose-batch` silently ran without GSC data).
 
 ### Related skills
 `monthly-seo-doc` (client-facing Word doc of upcoming posts) and `next-content-batch` (propose next brief batch → PR). Cross-repo engine-sync plan: memory `project_engine_sync.md`.
@@ -266,6 +273,11 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - Connect custom domain on Netlify
 - Set up redirects from old WordPress URLs to new routes
 - ~~Blog content~~ **DONE / ongoing** — AI blog engine is live and publishing weekly. See "Blog Engine" section. Remaining briefs drain automatically; next content batch is proposed via the `next-content-batch` skill / `auto-propose-batch` workflow.
+- ~~Blog was invisible to Google (ghost pages)~~ **DONE (Aug 2026)** — diagnosed all 14 posts uncrawled/unindexed; rebuilt discovery + authority: E-E-A-T authorship, entity graph, internal links from authority pages, sitemap submitted, http/https canonical fix, homepage `LatestGuides`, auto-discovery pipeline. See memory `project_blog_discovery_eeat.md` + `project_gsc_access.md`.
+- ⚠️ **Steve-dependent E-E-A-T (highest remaining leverage):** his real photo → author bio box on posts + `Person.image` (also fixes the About-page placeholder); a genuine review pass on the AI-authored posts he's now credited for; a `reviewedBy` + review-date signal.
+- ⚠️ **`/services/[slug]` missing canonical** — same fix already shipped for the homepage (`alternates.canonical`); service detail `page.tsx` uses raw title+description metadata only.
+- **Deferred blog work:** AEO/AI-Overview optimization pass on existing posts; internal-link "Page 6/7" — homepage `LatestGuides` shipped, but `/services` hub + `/about` → blog links were skipped.
+- **Esquair sales PDF** (agency collateral, on Desktop, NOT in repo): `Esquair-AI-Blog-Engine.pdf` sells the blog engine to new clients. Source HTML in the session scratchpad. Has placeholder pricing ($600/$1,200/$2,400/mo) + contact (`hello@esquair.com`) awaiting real values. See memory `reference_esquair_sales_pdf.md`.
 - **Optional polish:** upgrade Process section's `<img>` tags to `next/image` to activate the (already-generated) blur entries for those WebPs.
 - **Optional polish:** retrofit the "From the Owner" signed-paragraph pattern to `/lafayette` for parity with Moraga and Orinda.
 - **Optional polish:** drop in real Moraga and Orinda project photos and add a "Featured Project" section to each city page (mirror Lafayette's pattern). Currently both pages skip this section.
