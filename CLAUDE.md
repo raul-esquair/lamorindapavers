@@ -82,7 +82,7 @@ This section uses plain `<img>` (not `next/image`) because of how the layered cr
 - `/areas` — Service areas hub, groups cities by county (Contra Costa, Alameda); each card links to `/[city]`
 - `/about` — Steve's story, values, credentials
 - `/contact` — Multi-step quote form (also accessible via modal from any page)
-- `/blog` — Coming soon shell (structure only, no content yet)
+- `/blog` — Live AI-generated blog index (14 posts published, more queued). `/blog/[slug]` renders each post. See "Blog Engine" section below.
 - `/[city]` — 12 city SEO landing pages
 - `/sitemap.xml` — Auto-generated
 - `/robots.txt` — Crawl directives
@@ -228,19 +228,44 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 11. **Bespoke city pages must vary, not replicate** — `/lafayette`, `/moraga`, and `/orinda` each have a unique lead hook, a different featured-service mix, varied section ordering, and a 100-word signed paragraph from Steve. The Materials/brands section appears only on Lafayette. Nearby-cities sections link adjacent-only, not all 11 others. See "City Page Architecture" section for the full rule set — these are anti-doorway-page rules, not stylistic preferences.
 12. **Signed owner paragraphs are load-bearing E-E-A-T** — every bespoke city page renders a `cityNameSteveNote` constant ending with `— Steve Barsanti, Owner`. JSX strips the suffix via `.replace()` and renders it as the figcaption. Don't refactor to flatten this into a single paragraph — the byline-as-figcaption pattern is what makes the signal trustworthy.
 
+## Blog Engine (AI content pipeline)
+The blog is a fully automated AI content engine (installed from `esquair-blog-starter`), **not** a manual/MDX blog. It publishes AEO-tuned posts weekly with zero touch.
+
+### Where content lives
+- **Posts:** `lib/blog/data.ts` — a `BLOG_POSTS` array of `BlogPost` objects (slug, title, excerpt, date, content markdown, faqs, optional `featuredImage`). **Posts are NOT `.md`/`.mdx` files** — they're TS objects in this one file. Types in `lib/blog/types.ts`, read helpers in `lib/blog/data.ts` (`getPublishedPosts`, `getPostBySlug`).
+- **Queue:** `content/post-queue.json` — array of briefs with `status: queued | drafted | published | proposed`. As of last session: 14 drafted (published), 9 queued.
+- **Config:** `blog.config.ts` (repo root) — brand strings, services, voice, geography, review recipients. Loaded via `lib/blog-config.ts`. Committed despite private repo because CI needs it.
+- **Render:** `app/blog/page.tsx` (index → `components/blog/BlogCard.tsx`), `app/blog/[slug]/page.tsx` (detail, with `BlogPosting` JSON-LD + byline + OG image). `components/blog/BlogCTA.tsx` is the shared CTA.
+- **Publish gating:** a post is visible only once its `date` field has passed. `weekly-publish.yml` (Mon) pings a Netlify build hook so newly-due posts appear.
+
+### Pipeline scripts (`scripts/`)
+- `generate-post.ts` — takes the next `queued` brief, writes the post via Claude (Sonnet) + critique pass, generates a featured image (**Haiku brand-prompt → OpenAI `gpt-image-1`**), inserts into `data.ts`, opens a draft PR. **The image step is non-fatal** — if OpenAI fails, the post ships text-only with no `featuredImage`. Image helpers are exported; `main()` is guarded to run only on direct execution.
+- `propose-next-batch.ts` — proposes the next batch of briefs (reads GSC data + existing queue) → PR.
+- `backfill-featured-images.ts` — idempotent one-shot: regenerates images for published posts missing a `featuredImage`. Run via the `backfill-featured-images.yml` workflow (`gh workflow run backfill-featured-images.yml`). See memory `project_blog_featured_images.md`.
+- `fetch-gsc-data.ts`, `build-site-inventory.ts`, `setup.ts` — supporting.
+
+### CI workflows (`.github/workflows/`)
+`weekly-draft` (Fri, generate next post PR) · `weekly-publish` (Mon, Netlify rebuild) · `auto-propose-batch` + `merge-proposed-briefs` + `auto-merge-proposals` (brief proposal flow) · `auto-merge-drafts` (gated by `pipeline-pr-check`) · `gsc-report` · `backfill-featured-images` (on-demand).
+
+### Secrets / dependencies
+`ANTHROPIC_API_KEY` (posts + image prompts), `OPENAI_API_KEY` (`gpt-image-1`, org `esquair` — **auto top-up enabled**, shared across client blog engines), `RESEND_API_KEY` (review emails), `NETLIFY_BUILD_HOOK_URL`.
+
+### Related skills
+`monthly-seo-doc` (client-facing Word doc of upcoming posts) and `next-content-batch` (propose next brief batch → PR). Cross-repo engine-sync plan: memory `project_engine_sync.md`.
+
 ## TODO (Not Yet Done)
 - ⚠️ **Confirm placeholder editorial fields** (`scope`, `duration`, `year`, `materials`) on the 4 real projects with Steve before launch. TODO block at top of `lib/data/projects.ts`.
 - ⚠️ **Confirm Steve's signed paragraphs** on `/moraga` and `/orinda`. Drafts are in `app/moraga/content.ts` (`moragaSteveNote`) and `app/orinda/content.ts` (`orindaSteveNote`) — published with Steve's name, so the words should be his. Edit to his voice.
 - ⚠️ **Confirm Moraga patio thresholds** — the town doesn't publish a sf/grade trigger; the FAQ in `app/moraga/content.ts` is conservative. Verify with the Moraga planning counter (925-888-7040).
 - ⚠️ **Confirm Orinda Downs HOA scope** — HOA exists but it's unclear whether driveway/patio scope triggers ARC review. Currently the Orinda page mentions HOA review for Wilder, Orindawoods, and OCC only.
-- Wire contact/quote form to email backend via Resend Server Action — **paused** awaiting `lamorindapaving.com` DNS verification on Resend. Plan: send from `quotes@lamorindapaving.com`, recipient is Steve's personal email, `replyTo: customer_email` on notifications. See memory file `project_form_routing.md` for full plan.
+- ~~Wire contact/quote form to email backend~~ **DONE** — Resend Server Action is live (`lib/actions/submit-quote.ts`); quote modal + `/contact` send to Steve with `replyTo: customer_email`, plus ntfy push. See memory file `project_form_routing.md`.
 - Add real project photos for project-5 (Outdoor Kitchen) and project-6 (Putting Green) — currently render gradient "Photo coming soon" fallback in the gallery.
 - Add remaining 3 service images (putting greens, water features, arbors) + their icons
 - Add Steve's photo for About page and homepage About Preview (currently uses placeholder spots)
 - Set up Google Analytics 4 + Vercel Analytics
 - Connect custom domain on Netlify
 - Set up redirects from old WordPress URLs to new routes
-- Blog content (structure is ready)
+- ~~Blog content~~ **DONE / ongoing** — AI blog engine is live and publishing weekly. See "Blog Engine" section. Remaining briefs drain automatically; next content batch is proposed via the `next-content-batch` skill / `auto-propose-batch` workflow.
 - **Optional polish:** upgrade Process section's `<img>` tags to `next/image` to activate the (already-generated) blur entries for those WebPs.
 - **Optional polish:** retrofit the "From the Owner" signed-paragraph pattern to `/lafayette` for parity with Moraga and Orinda.
 - **Optional polish:** drop in real Moraga and Orinda project photos and add a "Featured Project" section to each city page (mirror Lafayette's pattern). Currently both pages skip this section.
