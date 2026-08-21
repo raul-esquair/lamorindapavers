@@ -125,8 +125,12 @@ function rowToQuery(
 
 export async function fetchGscReport(): Promise<GscReport> {
   const config = await loadBlogConfig();
-  // GSC expects the URL with trailing slash for domain-prefix properties.
-  const siteUrl = config.site.url.endsWith("/") ? config.site.url : `${config.site.url}/`;
+  // Property identifier for the Search Console API. Prefer an explicit override
+  // (needed for Domain properties, which use the `sc-domain:example.com` form);
+  // otherwise fall back to the URL-prefix form with trailing slash.
+  const siteUrl =
+    process.env.GSC_PROPERTY_URL ??
+    (config.site.url.endsWith("/") ? config.site.url : `${config.site.url}/`);
 
   let queryRows: Array<{ keys: string[]; clicks: number; impressions: number; ctr: number; position: number }> = [];
   let pageRows: typeof queryRows = [];
