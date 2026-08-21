@@ -26,3 +26,31 @@ jobs:
           curl --fail --show-error -X POST -d '{}' "$HOOK_URL"
           echo ""
           echo "Rebuild triggered. Monitor progress in the Netlify dashboard."
+
+      - name: Checkout (for discovery scripts)
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Give Netlify a head start so re-fetched URLs serve the new build.
+      - name: Wait for deploy to propagate
+        run: sleep 120
+
+      # Best-effort discovery nudges — never fail the publish over them.
+      - name: Resubmit sitemap to Google
+        continue-on-error: true
+        env:
+          GSC_SERVICE_ACCOUNT_JSON_BASE64: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON_BASE64 }}
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+        run: npx tsx scripts/resubmit-sitemap.ts
+
+      - name: Submit new URLs to IndexNow (Bing/Yandex)
+        continue-on-error: true
+        run: npx tsx scripts/submit-indexnow.ts
