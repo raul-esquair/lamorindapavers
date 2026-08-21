@@ -411,7 +411,7 @@ ${escapedContent}
 
 // ──────────── Featured image generation ────────────
 
-function buildImagePromptSystem(config: BlogConfig): string {
+export function buildImagePromptSystem(config: BlogConfig): string {
   const services = config.services.map((s) => s.name).join(", ");
   return `# Role
 You are an expert image prompt generator for blog featured images on ${config.site.brand.full}'s website${services ? ` — services: ${services}` : ""}. The brand is a high-end residential paver contractor serving affluent East Bay homeowners. Visual identity is warm, design-forward, and polished — borrowed from Architectural Digest / Veranda / House Beautiful, NOT from B2B engineering or news editorial.
@@ -475,7 +475,7 @@ When the post has a headline number, pick ONE single memorable number to render 
 - The reader should look at the image and feel: "this is the kind of work I want done on my home."`;
 }
 
-async function generateImagePrompt(config: BlogConfig, brief: Brief): Promise<string> {
+export async function generateImagePrompt(config: BlogConfig, brief: Brief): Promise<string> {
   const client = new Anthropic();
   const userMessage = `Blog post details:
 
@@ -504,7 +504,7 @@ Generate the image prompt per the output rules.`;
   return prompt;
 }
 
-async function generateFeaturedImage(
+export async function generateFeaturedImage(
   config: BlogConfig,
   brief: Brief,
 ): Promise<{ imagePath: string; localPath: string; prompt: string }> {
@@ -541,7 +541,7 @@ async function generateFeaturedImage(
   return { imagePath: publicPath, localPath, prompt };
 }
 
-function addFeaturedImageToBlogData(slug: string, imagePath: string): void {
+export function addFeaturedImageToBlogData(slug: string, imagePath: string): void {
   const file = readFileSync(BLOG_DATA_PATH, "utf8");
   const pattern = new RegExp(`(\\s+)(slug: "${slug.replace(/-/g, "\\-")}",)`, "m");
   const match = file.match(pattern);
@@ -902,7 +902,11 @@ async function main(): Promise<void> {
   console.log("\nDone. Review and merge the PR before the scheduled publish date.");
 }
 
-main().catch((err) => {
-  console.error("FAILED:", err);
-  process.exit(1);
-});
+// Only run the full draft pipeline when executed directly (not when imported,
+// e.g. by scripts/backfill-featured-images.ts which reuses the image helpers).
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  main().catch((err) => {
+    console.error("FAILED:", err);
+    process.exit(1);
+  });
+}
