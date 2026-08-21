@@ -3,6 +3,7 @@
 import { m } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
+import type { BlogPost } from "@/lib/blog/types";
 import Image from "next/image";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
@@ -18,9 +19,14 @@ import { FAQJsonLd } from "@/components/seo/JsonLd";
 interface Props {
   service: Service;
   relatedServices: Service[];
+  relatedGuides?: BlogPost[];
 }
 
-export default function ServiceDetailContent({ service, relatedServices }: Props) {
+export default function ServiceDetailContent({
+  service,
+  relatedServices,
+  relatedGuides = [],
+}: Props) {
   const contraCostaCities = cities.filter((c) => c.county === "Contra Costa");
   const alamedaCities = cities.filter((c) => c.county === "Alameda");
 
@@ -131,6 +137,41 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
                 </m.ul>
               </ScrollReveal>
 
+              {/* Planning guides — in-content contextual links (top 2 curated) */}
+              {relatedGuides.length > 0 && (
+                <ScrollReveal>
+                  <div className="mb-12 rounded-xl border-l-2 border-brand-gold bg-cream/60 px-6 py-5">
+                    <p className="text-warm-gray-600 font-sans leading-relaxed">
+                      Planning a {service.name.toLowerCase()} project? Steve&apos;s
+                      guides walk through the details before you get a bid —
+                      {relatedGuides[0] && (
+                        <>
+                          {" "}
+                          <Link
+                            href={`/blog/${relatedGuides[0].slug}`}
+                            className="text-brand-blue font-medium underline decoration-brand-blue/30 underline-offset-2 hover:decoration-brand-blue transition-colors"
+                          >
+                            {relatedGuides[0].title.replace(/\?$/, "")}
+                          </Link>
+                        </>
+                      )}
+                      {relatedGuides[1] && (
+                        <>
+                          {" "}and{" "}
+                          <Link
+                            href={`/blog/${relatedGuides[1].slug}`}
+                            className="text-brand-blue font-medium underline decoration-brand-blue/30 underline-offset-2 hover:decoration-brand-blue transition-colors"
+                          >
+                            {relatedGuides[1].title.replace(/\?$/, "")}
+                          </Link>
+                        </>
+                      )}
+                      .
+                    </p>
+                  </div>
+                </ScrollReveal>
+              )}
+
               {/* FAQ */}
               {service.faqs.length > 0 && (
                 <ScrollReveal>
@@ -203,6 +244,52 @@ export default function ServiceDetailContent({ service, relatedServices }: Props
           </div>
         </div>
       </section>
+
+      {/* Planning Guides — related blog posts (curated, commercial-first) */}
+      {relatedGuides.length > 0 && (
+        <section className="py-16 md:py-24 bg-warm-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ScrollReveal className="mb-12 max-w-2xl">
+              <SectionLabel>Planning Guides</SectionLabel>
+              <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3 mb-4">
+                Read Before You Build
+              </h2>
+              <p className="text-warm-gray-500 font-sans">
+                Cost, hiring, and design guides from Steve Barsanti for your{" "}
+                {service.name.toLowerCase()} project — written from 1,000+ East
+                Bay installs.
+              </p>
+            </ScrollReveal>
+
+            <m.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            >
+              {relatedGuides.map((guide) => (
+                <m.div key={guide.slug} variants={fadeUp}>
+                  <Link
+                    href={`/blog/${guide.slug}`}
+                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                  >
+                    <h3 className="text-lg font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="text-sm font-sans text-warm-gray-500 line-clamp-2 mb-4">
+                      {guide.excerpt}
+                    </p>
+                    <span className="mt-auto text-sm font-sans font-medium text-brand-blue">
+                      Read the guide →
+                    </span>
+                  </Link>
+                </m.div>
+              ))}
+            </m.div>
+          </div>
+        </section>
+      )}
 
       {/* Related Services */}
       {relatedServices.length > 0 && (

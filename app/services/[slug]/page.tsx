@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { services, getServiceBySlug, getRelatedServices } from "@/lib/data/services";
+import { getServiceGuides } from "@/lib/blog/service-guides";
 import ServiceDetailContent from "./ServiceDetailContent";
 
 interface Props {
@@ -30,6 +31,13 @@ export default async function ServiceDetailPage({ params }: Props) {
   if (!service) notFound();
 
   const related = getRelatedServices(service.relatedSlugs);
+  const guides = getServiceGuides(service.slug);
 
-  return <ServiceDetailContent service={service} relatedServices={related} />;
+  return (
+    <ServiceDetailContent
+      service={service}
+      relatedServices={related}
+      relatedGuides={guides}
+    />
+  );
 }
