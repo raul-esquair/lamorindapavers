@@ -7,7 +7,9 @@ import AboutPreview from "@/components/sections/AboutPreview";
 import Testimonials from "@/components/sections/Testimonials";
 import Process from "@/components/sections/Process";
 import ServiceArea from "@/components/sections/ServiceArea";
+import LatestGuides from "@/components/sections/LatestGuides";
 import FinalCTA from "@/components/sections/FinalCTA";
+import { getPublishedPosts } from "@/lib/blog/data";
 
 // Self-referencing canonical. Resolves against metadataBase (set in the root
 // layout) to https://lamorindapaving.com/ — the single signal that consolidates
@@ -19,6 +21,8 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
+  const latestPosts = getPublishedPosts().slice(0, 3);
+
   return (
     <>
       <Hero />
@@ -29,6 +33,7 @@ export default function Home() {
       <Testimonials />
       <Process />
       <ServiceArea />
+      <LatestGuides posts={latestPosts} />
       <FinalCTA />
     </>
   );
