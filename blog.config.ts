@@ -35,6 +35,14 @@ export const blogConfig: BlogConfig = {
     anchorPosts: 2,
   },
 
+  author: {
+    name: "Steve Barsanti",
+    title: "Owner",
+    credential: "California CSLB Contractor License #1092749",
+    experience:
+      "1,000+ paver installs across the East Bay; personally oversees every project; specializes in Orinda Formation expansive-clay base engineering, hillside drainage, and permit-compliant work in Lamorinda",
+  },
+
   services: [
     { slug: "paver-driveways", name: "Paver Driveways", summary: "Elevate your home's curb appeal with a custom-designed paver driveway built to last." },
     { slug: "retaining-walls", name: "Retaining Walls", summary: "Functional and beautiful retaining walls that transform sloped terrain into usable outdoor space." },

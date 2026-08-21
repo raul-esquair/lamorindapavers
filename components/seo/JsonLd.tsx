@@ -1,10 +1,13 @@
 import { company } from "@/lib/data/company";
+import { BUSINESS_ID, STEVE_ID, stevePerson } from "@/lib/seo/entities";
 
 export function LocalBusinessJsonLd() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HomeAndConstructionBusiness",
+    "@id": BUSINESS_ID,
     name: company.name,
+    founder: stevePerson,
     description: company.description,
     url: company.domain,
     telephone: company.phone,
@@ -124,23 +127,13 @@ export function ArticleJsonLd({
     description,
     datePublished: date,
     dateModified: dateModified ?? date,
-    author: {
-      "@type": "Person",
-      name: company.owner,
-      url: `${company.domain}/about`,
-      jobTitle: "Owner",
-      worksFor: { "@type": "Organization", name: company.name, url: company.domain },
-      knowsAbout: [
-        "Paver installation",
-        "Hardscape construction",
-        "Outdoor living design",
-        "Retaining walls",
-        "Paver driveways",
-      ],
-      sameAs: [company.social.yelp],
-    },
+    // Reference the canonical Steve entity by @id — the full Person is defined
+    // on the same page via LocalBusinessJsonLd.founder, so Google resolves the
+    // author to the business's founder rather than an orphan name.
+    author: { "@id": STEVE_ID },
     publisher: {
       "@type": "Organization",
+      "@id": BUSINESS_ID,
       name: company.name,
       url: company.domain,
       logo: { "@type": "ImageObject", url: `${company.domain}/images/logo.png` },
