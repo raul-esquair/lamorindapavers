@@ -124,7 +124,21 @@ export function ArticleJsonLd({
     description,
     datePublished: date,
     dateModified: dateModified ?? date,
-    author: { "@type": "Organization", name: company.name, url: company.domain },
+    author: {
+      "@type": "Person",
+      name: company.owner,
+      url: `${company.domain}/about`,
+      jobTitle: "Owner",
+      worksFor: { "@type": "Organization", name: company.name, url: company.domain },
+      knowsAbout: [
+        "Paver installation",
+        "Hardscape construction",
+        "Outdoor living design",
+        "Retaining walls",
+        "Paver driveways",
+      ],
+      sameAs: [company.social.yelp],
+    },
     publisher: {
       "@type": "Organization",
       name: company.name,
