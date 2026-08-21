@@ -43,6 +43,18 @@ export const BlogConfigSchema = z.object({
     anchorPosts: z.number().int().min(0).max(5).default(2),
   }),
 
+  // The credentialed human the blog is published under. Drives the drafting
+  // prompt's experiential framing so content matches the author schema/byline
+  // the site renders. Optional so other engines can omit it.
+  author: z
+    .object({
+      name: z.string().min(1),
+      title: z.string().min(1),
+      credential: z.string().optional(),
+      experience: z.string().optional(),
+    })
+    .optional(),
+
   services: z.array(ServiceSchema).default([]),
   geography: z.array(GeographySchema).optional(),
 

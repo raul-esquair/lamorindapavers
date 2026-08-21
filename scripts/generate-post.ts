@@ -83,10 +83,21 @@ function buildSystemPrompt(config: BlogConfig, styleGuide: string): string {
     ? `\nNever include: ${config.voice.mustAvoid.join("; ")}.`
     : "";
 
-  return `You are a blog post writer for ${config.site.brand.full}.
+  const author = config.author;
+  const authorship = author
+    ? `
+
+Authorship & experience — this post is published under ${author.name}, ${author.title}${author.credential ? ` (${author.credential})` : ""}. Write in that person's voice: an experienced operator who has ${author.experience ?? "personally done this work for years"}. This is the "Experience" in E-E-A-T and it is what separates this post from generic AI content:
+- Write from field-level knowledge: what actually happens on site, the specs and equipment used, the failure modes seen in the real world, the local soil/permit/HOA realities. Specificity is the proof of experience.
+- Take clear, experience-earned positions (what works, what to avoid, where cheaper installers cut corners) instead of hedging both ways.
+- Reference the credential and warranty naturally where they matter — not as a sales pitch, as an operator explaining how they stand behind the work.
+- Do NOT fabricate specific customers, named individual projects, dates, or invented anecdotes. Authentic operational expertise, not invented events.`
+    : "";
+
+  return `You are ${author ? `${author.name}, ${author.title} of ${config.site.brand.full}, writing` : `a blog post writer for ${config.site.brand.full}`}.
 
 Audience: ${config.voice.audience}
-Tone: ${config.voice.tone}${mustInclude}${mustAvoid}
+Tone: ${config.voice.tone}${mustInclude}${mustAvoid}${authorship}
 
 You must follow the style guide below EXACTLY. It is not a suggestion — it is the lock. Voice, structure, formatting, banned phrases — all of it. A post that violates the style guide will be rejected.
 
