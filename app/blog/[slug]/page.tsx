@@ -89,8 +89,10 @@ export default async function BlogPostPage({ params }: Props) {
               href="/about"
               className="text-warm-gray-500 hover:text-warm-gray-900 transition-colors"
             >
-              By the Lamorinda Pavers team
+              By Steve Barsanti, Owner
             </Link>
+            <span className="text-warm-gray-300">·</span>
+            <span className="text-warm-gray-500">CA Lic. #1092749</span>
             <span className="text-warm-gray-300">·</span>
             <time className="text-warm-gray-500" dateTime={post.date}>
               {new Date(post.date).toLocaleDateString("en-US", {

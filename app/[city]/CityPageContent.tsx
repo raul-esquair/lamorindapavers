@@ -3,6 +3,7 @@
 import { m } from "framer-motion";
 import Link from "next/link";
 import type { City } from "@/lib/data/cities";
+import type { BlogPost } from "@/lib/blog/types";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
@@ -13,7 +14,13 @@ import Button from "@/components/ui/Button";
 import QuoteButton from "@/components/ui/QuoteButton";
 import FinalCTA from "@/components/sections/FinalCTA";
 
-export default function CityPageContent({ city }: { city: City }) {
+export default function CityPageContent({
+  city,
+  guides = [],
+}: {
+  city: City;
+  guides?: BlogPost[];
+}) {
   const sameCountyCities = cities.filter(
     (c) => c.county === city.county && c.slug !== city.slug,
   );
@@ -137,6 +144,64 @@ export default function CityPageContent({ city }: { city: City }) {
           </div>
         </div>
       </section>
+
+      {/* Planning Guides */}
+      {guides.length > 0 && (
+        <section className="py-16 md:py-24 bg-warm-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <ScrollReveal className="mb-10 max-w-3xl">
+              <SectionLabel>Planning Guides</SectionLabel>
+              <h2 className="text-3xl md:text-4xl text-warm-gray-900 mt-3 mb-4">
+                Planning a Paver Project in {city.name}?
+              </h2>
+              <p className="text-warm-gray-500 font-sans leading-relaxed">
+                Before you get a bid, it helps to know{" "}
+                <Link
+                  href="/blog/how-to-coordinate-an-outdoor-living-build-in-2026"
+                  className="text-brand-blue font-medium underline decoration-brand-blue/30 underline-offset-2 hover:decoration-brand-blue transition-colors"
+                >
+                  how an outdoor living build is coordinated
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/blog/budgeting-a-large-paver-patio-in-2026"
+                  className="text-brand-blue font-medium underline decoration-brand-blue/30 underline-offset-2 hover:decoration-brand-blue transition-colors"
+                >
+                  what a large paver patio costs
+                </Link>
+                . Steve wrote these from 1,000+ East Bay installs.
+              </p>
+            </ScrollReveal>
+
+            <m.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+            >
+              {guides.map((guide) => (
+                <m.div key={guide.slug} variants={fadeUp}>
+                  <Link
+                    href={`/blog/${guide.slug}`}
+                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                  >
+                    <h3 className="text-lg font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
+                      {guide.title}
+                    </h3>
+                    <p className="text-sm font-sans text-warm-gray-500 line-clamp-2 mb-4">
+                      {guide.excerpt}
+                    </p>
+                    <span className="mt-auto text-sm font-sans font-medium text-brand-blue">
+                      Read the guide →
+                    </span>
+                  </Link>
+                </m.div>
+              ))}
+            </m.div>
+          </div>
+        </section>
+      )}
 
       {/* Nearby Cities */}
       {sameCountyCities.length > 0 && (
