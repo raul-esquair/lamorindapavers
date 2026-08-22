@@ -34,5 +34,7 @@ export const company = {
   },
   social: {
     yelp: "https://www.yelp.com/biz/lamorinda-pavers-lafayette",
+    // Google Business Profile "write a review" short link. Used by /feedback.
+    googleReview: "https://g.page/r/CW9yQwyt0hweEBM/review",
   },
 } as const;
