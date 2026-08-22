@@ -4,6 +4,7 @@ import { LazyMotion, domAnimation } from "framer-motion";
 import SmoothScroll from "@/components/animations/SmoothScroll";
 import CustomCursor from "@/components/animations/CustomCursor";
 import MobileBottomBar from "@/components/layout/MobileBottomBar";
+import ChromeSlot from "@/components/layout/ChromeSlot";
 import { QuoteModalProvider } from "@/components/ui/QuoteModal";
 
 export default function ClientProviders({
@@ -22,7 +23,9 @@ export default function ClientProviders({
         <SmoothScroll>
           <CustomCursor />
           {children}
-          <MobileBottomBar />
+          <ChromeSlot>
+            <MobileBottomBar />
+          </ChromeSlot>
         </SmoothScroll>
       </QuoteModalProvider>
     </LazyMotion>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ClientProviders from "@/components/layout/ClientProviders";
+import ChromeSlot from "@/components/layout/ChromeSlot";
 import { LocalBusinessJsonLd } from "@/components/seo/JsonLd";
 
 const playfair = Playfair_Display({
@@ -53,9 +54,13 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <LocalBusinessJsonLd />
         <ClientProviders>
-          <Header />
+          <ChromeSlot>
+            <Header />
+          </ChromeSlot>
           <main className="flex-1">{children}</main>
-          <Footer />
+          <ChromeSlot>
+            <Footer />
+          </ChromeSlot>
         </ClientProviders>
       </body>
     </html>
