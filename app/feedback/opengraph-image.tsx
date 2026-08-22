@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { ImageResponse } from "next/og";
 import { company } from "@/lib/data/company";
 
@@ -12,7 +14,6 @@ const BLUE = "#3B7DD8";
 const RED = "#C94141";
 const ORANGE = "#D98C4A";
 const GOLD = "#E8A83E";
-const WHITE = "#FAF8F5";
 
 // Same four faces as the page itself, inlined as SVG data URIs. Satori
 // renders <img> data URIs reliably; keep them in sync with MOUTHS in
@@ -36,6 +37,11 @@ const FACES = [
 ];
 
 export default async function OpengraphImage() {
+  // Inline the real logo lockup. Satori cannot resolve app-relative URLs, so
+  // the file is read off disk at build time and embedded as a data URI.
+  const logo = await readFile(join(process.cwd(), "public/images/logo.png"));
+  const logoSrc = `data:image/png;base64,${logo.toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -52,31 +58,8 @@ export default async function OpengraphImage() {
         }}
       >
         {/* Brand lockup */}
-        <div style={{ display: "flex", alignItems: "center", gap: 22 }}>
-          <div
-            style={{
-              width: 68,
-              height: 68,
-              background: BLUE,
-              borderRadius: 12,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 34,
-              fontWeight: 800,
-              color: WHITE,
-              letterSpacing: -1,
-            }}
-          >
-            LP
-          </div>
-          <div style={{ display: "flex", flexDirection: "column" }}>
-            <div style={{ width: 64, height: 3, background: RED, marginBottom: 8 }} />
-            <div style={{ fontSize: 27, fontWeight: 800, letterSpacing: 4, color: INK }}>
-              LAMORINDA PAVERS
-            </div>
-            <div style={{ width: 46, height: 3, background: GOLD, marginTop: 8 }} />
-          </div>
+        <div style={{ display: "flex" }}>
+          <img src={logoSrc} width={470} height={120} alt={company.name} />
         </div>
 
         {/* Headline */}
