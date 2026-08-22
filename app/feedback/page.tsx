@@ -8,7 +8,7 @@ import FeedbackPageContent from "./FeedbackPageContent";
 // crawled, so Google would never see the noindex below.
 export const metadata: Metadata = {
   title: "Share Your Experience",
-  description: "Tell us how your project went.",
+  description: "Tell Steve how your project went — it takes about thirty seconds.",
   robots: {
     index: false,
     follow: false,
