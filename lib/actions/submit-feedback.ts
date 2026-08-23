@@ -9,6 +9,8 @@ export interface FeedbackSubmission {
   email: string;
   phone: string;
   details: string;
+  /** Set when the customer came from a tracked review-request email. */
+  token?: string | null;
 }
 
 export type FeedbackResult = { ok: true } | { ok: false; error: string };
@@ -67,6 +69,8 @@ export async function submitFeedback(data: FeedbackSubmission): Promise<Feedback
     `A customer left private feedback on the website.`,
     ``,
     `Rating: ${ratingLabel} (${rating} of 4)`,
+    ``,
+    data.token ? `(Matched to a tracked review request.)` : `(Arrived without a tracking link.)`,
     ``,
     `Name: ${name}`,
     `Phone: ${phone || "Not provided"}`,

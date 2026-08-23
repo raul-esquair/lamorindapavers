@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { m, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
@@ -8,6 +9,7 @@ import { company } from "@/lib/data/company";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Button from "@/components/ui/Button";
 import { submitFeedback } from "@/lib/actions/submit-feedback";
+import { recordFeedbackResponse, getFeedbackPrefill } from "@/lib/actions/feedback-response";
 import { blurProps } from "@/lib/blur";
 
 type Mode = "pick" | "review" | "form" | "done";
@@ -75,11 +77,39 @@ export default function FeedbackPageContent() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FormData>();
+
+  /**
+   * Present when the customer arrived from a tracked review-request email.
+   * Read client-side so the page itself stays static.
+   */
+  const token = useSearchParams().get("t");
+
+  // Prefill name and email when we already know who this is — fewer fields to
+  // retype on a phone means more completed forms. Deliberately after mount and
+  // non-blocking: the form isn't shown until a face is picked, so there is
+  // plenty of headroom, and a slow or failed lookup costs nothing.
+  useEffect(() => {
+    if (!token) return;
+    let cancelled = false;
+    getFeedbackPrefill(token).then((prefill) => {
+      if (cancelled || !prefill) return;
+      reset({ name: prefill.name, email: prefill.email, phone: "", details: "" });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [token, reset]);
 
   const choose = (value: number) => {
     setRating(value);
     setMode(value >= 3 ? "review" : "form");
+
+    // Fire and forget. Deliberately not awaited — the customer's next screen
+    // must never wait on a database write, and the action swallows its own
+    // errors. Worst case they receive one more email than they should.
+    if (token) void recordFeedbackResponse(token, value);
   };
 
   const restart = () => {
@@ -92,7 +122,7 @@ export default function FeedbackPageContent() {
     if (rating === null) return;
     setSubmitting(true);
     setSubmitError(null);
-    const result = await submitFeedback({ ...data, rating });
+    const result = await submitFeedback({ ...data, rating, token });
     setSubmitting(false);
     if (result.ok) {
       setMode("done");
