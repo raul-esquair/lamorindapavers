@@ -1,6 +1,7 @@
 import { company } from "@/lib/data/company";
 import type { ReviewRequest } from "@/lib/db/schema";
 import type { TouchNumber } from "./schedule";
+import { daysBetween, todayInBusinessTz } from "./dates";
 
 export interface RenderedEmail {
   subject: string;
@@ -13,11 +14,34 @@ function firstName(full: string): string {
   return full.trim().split(/\s+/)[0] || full.trim();
 }
 
+/** "paver driveway" — singular, lowercase. Null when Steve didn't set one. */
+function projectNoun(request: ReviewRequest): string | null {
+  const p = request.projectType?.trim();
+  return p ? p.toLowerCase().replace(/s$/, "") : null;
+}
+
 /** "your paver driveway" — falls back to something neutral. */
 function projectPhrase(request: ReviewRequest): string {
-  const p = request.projectType?.trim();
-  if (!p) return "your project";
-  return `your ${p.toLowerCase().replace(/s$/, "")}`;
+  const noun = projectNoun(request);
+  return noun ? `your ${noun}` : "your project";
+}
+
+/**
+ * Touch 1's opening line has to match how long ago the job actually finished.
+ * With same-day sends now possible, "has had a few days to settle" is wrong
+ * as often as it's right.
+ */
+function openingLine(request: ReviewRequest, phrase: string, today: string): string {
+  const completed = request.completedAt;
+  const age = completed ? daysBetween(completed, today) : null;
+
+  if (age !== null && age <= 0) {
+    return `Steve here from ${company.name}. We wrapped up ${phrase} today.`;
+  }
+  if (age !== null && age <= 7) {
+    return `Steve here from ${company.name}. We finished ${phrase} a few days ago.`;
+  }
+  return `Steve here from ${company.name}. We finished ${phrase} a little while back, and I wanted to follow up.`;
 }
 
 function escape(s: string) {
@@ -51,31 +75,43 @@ ${bodyHtml}
 </div>`.trim();
 }
 
-export function renderReviewEmail(request: ReviewRequest, touch: TouchNumber): RenderedEmail {
+export function renderReviewEmail(
+  request: ReviewRequest,
+  touch: TouchNumber,
+  today: string = todayInBusinessTz(),
+): RenderedEmail {
   const name = firstName(request.name);
   const project = projectPhrase(request);
+  const noun = projectNoun(request);
   const feedbackUrl = `${company.domain}/feedback?t=${request.token}`;
   const unsubscribeUrl = `${company.domain}/unsubscribe?t=${request.token}`;
 
   let subject: string;
   let lines: string[];
 
+  /**
+   * Subject lines assume the work is good rather than asking whether it was.
+   * "How did it turn out?" reads as a tradesman unsure of his own job — the
+   * ask isn't whether the driveway is good, it's whether they'd say so
+   * publicly. Each of the three also has to look distinct in an inbox; three
+   * near-identical lines from one sender read as automation.
+   */
   if (touch === 1) {
-    subject = `How did ${project} turn out?`;
+    subject = noun ? `A favor about your new ${noun}` : `A favor to ask you`;
     lines = [
       `Hi ${name},`,
-      `Steve here from ${company.name}. Now that ${project} has had a few days to settle, I wanted to check that you're happy with how it came out.`,
-      `If you have thirty seconds, would you let me know? It goes straight to me.`,
+      openingLine(request, project, today),
+      `I'd be grateful if you'd take thirty seconds to say how it went. It goes straight to me, and word of mouth is how a small crew like ours keeps working.`,
     ];
   } else if (touch === 2) {
-    subject = `Quick follow-up on ${project}`;
+    subject = `Still hoping to hear from you, ${name}`;
     lines = [
       `Hi ${name},`,
       `I know how easily an email like this gets buried, so I wanted to send one more.`,
       `If anything about ${project} isn't right, I'd genuinely rather hear it from you than not hear it at all.`,
     ];
   } else {
-    subject = `Last note from me`;
+    subject = `Last one from me, I promise`;
     lines = [
       `Hi ${name},`,
       `This is the last time I'll ask, I promise.`,

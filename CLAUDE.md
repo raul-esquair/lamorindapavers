@@ -181,6 +181,8 @@ A standalone post-job feedback link handed to customers directly (texts, invoice
 
 **Notifications** (`lib/actions/submit-feedback.ts`) mirror `submit-quote.ts`: Resend email with `replyTo` set to the customer, plus ntfy push. ntfy fires at **priority 5 with a warning tag** (quote leads are 4) since an unhappy customer is time-sensitive. Requires a phone **or** an email — a complaint with no way to reach the person back is the one failure mode that makes the page pointless. A missing `NTFY_TOPIC` no-ops silently rather than failing the submission.
 
+**Subject lines assume the work is good** rather than asking whether it was. The original "How did your paver driveway turn out?" reads as a tradesman unsure of his own job — the ask isn't whether the driveway is good, it's whether they'd say so publicly. The three subjects must also look distinct in an inbox; three near-identical lines from one sender read as automation. Touch 1's opening line varies by elapsed days since completion (`openingLine()` in `emails.ts`) — with same-day sends possible, "has had a few days to settle" is wrong as often as it's right.
+
 **Faces** are hand-drawn inline SVG, not emoji (emoji render differently per device/OS). The mouth paths live in `MOUTHS` in `FeedbackPageContent.tsx` and are **duplicated** in `app/feedback/opengraph-image.tsx` as SVG data URIs — change one, change both. Comments on both sides flag this.
 
 **Indexing.** `noindex, nofollow` via metadata, and kept out of `app/sitemap.ts`. Deliberately **NOT** added to `robots.ts` disallow — a blocked URL can't be crawled, so Google would never see the noindex and would leave the bare URL indexed. If you add more private routes, follow the same pattern.
@@ -216,7 +218,11 @@ Automated post-job review requests: up to 3 emails, with any response killing th
 3. The customer clicks a face on `/feedback?t=<token>` → **kill switch fires** → remaining touches never send.
 
 ### Cadence (`lib/reviews/schedule.ts`)
-Touches fire at `startAt` + **0 / 5 / 14** days. With the default `startAt = completedAt + 2`, that's day 2, 7, and 16 after the job.
+Touches fire at `startAt` + **0 / 5 / 14** days.
+
+**Same-day first touch.** If `completedAt` equals today, `startAt` is today — Steve is marking the job complete at the walkthrough, and review requests convert best at the point of maximum satisfaction. That sequence runs day 0 / 5 / 14. Any other completion date keeps `completedAt + 2`, so the sequence is day 2 / 7 / 16.
+
+⚠️ The daily cron caps how literal "today" is: a job entered after the 10am PT run goes out the following morning. Moving to an hourly business-hours cron would close that gap — deliberately deferred (see TODO).
 
 **`startAt` is deliberately separate from `completedAt`.** A job completed more than 14 days ago (`BACKFILL_THRESHOLD_DAYS`) anchors to *tomorrow* instead, so importing a batch of past customers doesn't fire every touch at once. `resolveStartAt()` also clamps forward so nothing is ever scheduled into the past.
 
@@ -362,6 +368,13 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 ## TODO (Not Yet Done)
 - ⚠️ **Neon `neondb_owner` password was exposed in a screenshot (Aug 2026) and NOT rotated** — owner chose to proceed. Rotate via Neon console → Roles → Reset password, then update `.env` and the Netlify variable.
 - ⚠️ **Deploy previews share the production database** — one `DATABASE_URL` across all contexts. The cron won't fire from previews (scheduled functions only run on published deploys) and the dashboard is password-gated, but a preview can read/write real customer data. Neon's branch-per-preview would close this.
+- **Review system — competitive gaps (researched Aug 2026, deferred by owner).** Ordered by expected return:
+  1. **SMS as touch 1** — converts to completed Google reviews at ~3–5× email (CTR 25–40% vs 5–12%). NiceJob, the closest comparable product, sends one text then up to three email follow-ups; we built only the email half. Needs Twilio + documented TCPA consent.
+  2. **Review velocity guard** — review *recency* is now the strongest local ranking factor (<30 days = full weight, >180 days = 10–20%), with a "recency cliff" at ~18–21 days without a new review. Reframes the goal from collecting reviews to never going 3 weeks without one, and makes batch-sending past customers actively harmful. Needs the Google Business Profile API.
+  3. **Review monitoring + replies** — response rate and speed are themselves ranking factors; there's currently zero visibility. Same API work as #2.
+  4. **QR card for the walkthrough** — in-person ask + digital follow-up is the highest-converting combination. Dashboard "Copy link" already covers the digital half.
+  5. **Live reviews on the site** — `testimonials.ts` is still 4 hardcoded Yelp quotes, so every new review is invisible on the site.
+  6. **Hourly business-hours cron** — would make same-day sends actually same-hour (see Cadence). ~10 runs/day instead of 1; watch Neon free-tier compute.
 - **Review system — not yet built:** `/feedback` doesn't read the `?t=` token yet, so the kill switch never fires. Leads aren't written to the `leads` table from `submit-quote.ts`. Resend bounce webhooks aren't wired (manual stop covers it meanwhile).
 - ⚠️ **Verify `NTFY_TOPIC` is set in Netlify env** before `/feedback` is handed out. Without it, `submit-feedback.ts` still emails Steve but the push silently no-ops — and the push is what turns an unhappy customer into a same-day callback. Fails quietly by design (a missing topic must not fail the submission), so nothing surfaces the gap.
 - ⚠️ **Live-test `/feedback` from a phone** — confirm the OG card renders in a message thread, and that the `g.page/r/` link opens Google's review composer rather than the profile page. Redirect chain was traced and resolves correctly, but only an authenticated tap on a real device fully counts. Messaging apps cache OG data hard; append `?v=N` to force a fresh preview.

@@ -10,7 +10,11 @@ export const TOUCH_OFFSET_DAYS: Record<1 | 2 | 3, number> = { 1: 0, 2: 5, 3: 14 
 export const TOUCH_NUMBERS = [1, 2, 3] as const;
 export type TouchNumber = (typeof TOUCH_NUMBERS)[number];
 
-/** Default gap between a job finishing and the first email. */
+/**
+ * Gap between a job finishing and the first email, for jobs entered on a day
+ * other than the day they finished. A job marked complete *on* the day it
+ * finished sends same-day instead — see resolveStartAt.
+ */
 export const DEFAULT_DELAY_AFTER_COMPLETION = 2;
 
 /**
@@ -26,6 +30,17 @@ export const BACKFILL_THRESHOLD_DAYS = 14;
  */
 export function resolveStartAt(completedAt: string | null, today: string): string {
   if (!completedAt) return addDays(today, 1);
+
+  /**
+   * Finished today — Steve is marking it complete at the walkthrough, so send
+   * while the work is still in front of the customer. Review requests convert
+   * best at the point of maximum satisfaction, and two days later that moment
+   * has passed.
+   *
+   * Note the daily cron caps how literal "today" can be: a job entered after
+   * the 10am Pacific run goes out the following morning.
+   */
+  if (completedAt === today) return today;
 
   const age = daysBetween(completedAt, today);
   if (age > BACKFILL_THRESHOLD_DAYS) return addDays(today, 1);
