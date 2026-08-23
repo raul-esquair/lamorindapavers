@@ -232,7 +232,12 @@ export default function FeedbackPageContent() {
                 </svg>
               </Button>
 
-              <p className="mt-8 text-sm font-sans text-warm-gray-500">
+              <p className="mx-auto mt-6 max-w-md text-sm font-sans text-warm-gray-500">
+                If you can mention what we built and where &mdash; and add a photo &mdash;
+                it helps the next neighbor find us.
+              </p>
+
+              <p className="mt-6 text-sm font-sans text-warm-gray-500">
                 Prefer Yelp?{" "}
                 <a
                   href={company.social.yelp}

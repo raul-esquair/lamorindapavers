@@ -20,7 +20,13 @@ check("daysBetween negative", daysBetween("2026-08-26", "2026-08-21"), -5);
 
 console.log("\n— resolveStartAt —");
 check("fresh job -> completed + 2", resolveStartAt("2026-08-20", TODAY), "2026-08-22");
-check("job finished today -> +2", resolveStartAt(TODAY, TODAY), "2026-08-23");
+
+// Same-day: Steve is marking it complete at the walkthrough, so send while
+// the work is still in front of the customer.
+check("finished TODAY -> sends today", resolveStartAt(TODAY, TODAY), TODAY);
+check("  same-day beats the +2 default", resolveStartAt(TODAY, TODAY) !== addDays(TODAY, 2), true);
+check("finished yesterday -> NOT same-day", resolveStartAt("2026-08-20", TODAY), "2026-08-22");
+check("future date -> still +2", resolveStartAt("2026-08-25", TODAY), "2026-08-27");
 check("no completion date -> tomorrow", resolveStartAt(null, TODAY), "2026-08-22");
 check("backfill (6 months old) -> tomorrow", resolveStartAt("2026-02-14", TODAY), "2026-08-22");
 // Inside the backfill window, but its natural date (08-10) has already passed.
@@ -29,6 +35,15 @@ check("13 days old -> clamps to tomorrow", resolveStartAt("2026-08-08", TODAY), 
 check("  never schedules into the past", daysBetween(resolveStartAt("2026-08-08", TODAY), TODAY) <= 0, true);
 // A job finished yesterday is inside the window AND still in the future.
 check("1 day old -> natural (no clamp)", resolveStartAt("2026-08-20", TODAY), "2026-08-22");
+
+console.log("\n— same-day sequence lands on day 0 / 5 / 14 —");
+{
+  const start = resolveStartAt(TODAY, TODAY);
+  check("touch 1 today", touchDueDate(start, 1), TODAY);
+  check("touch 2 at +5", touchDueDate(start, 2), "2026-08-26");
+  check("touch 3 at +14", touchDueDate(start, 3), "2026-09-04");
+  check("touch 1 is due immediately", nextDueTouch(start, [], TODAY), 1);
+}
 
 console.log("\n— touch due dates (startAt 2026-08-22) —");
 check("touch 1", touchDueDate("2026-08-22", 1), "2026-08-22");
