@@ -4,11 +4,22 @@ import { usePathname } from "next/navigation";
 
 // Routes that render without the site chrome (header nav, footer, mobile
 // bottom bar). /feedback is a single-decision page handed directly to
-// customers — every competing link on it costs a response.
-const BARE_ROUTES = new Set(["/feedback"]);
+// customers — every competing link on it costs a response. /unsubscribe
+// renders its own logo, and showing someone a "Get a Free Estimate" CTA
+// while they opt out is the wrong note. The dashboard is an internal tool
+// with its own header.
+const BARE_ROUTES = new Set(["/feedback", "/unsubscribe"]);
+
+// Everything beneath these paths is bare, including nested routes.
+const BARE_PREFIXES = ["/dashboard"];
+
+function isBare(pathname: string): boolean {
+  if (BARE_ROUTES.has(pathname)) return true;
+  return BARE_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
+}
 
 export function useIsBareRoute() {
-  return BARE_ROUTES.has(usePathname());
+  return isBare(usePathname());
 }
 
 /**
