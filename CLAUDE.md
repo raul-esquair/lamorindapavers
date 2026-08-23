@@ -20,6 +20,7 @@ Paver Driveways, Retaining Walls, Patios, Artificial Turf, Landscape Design, Fir
 - **Animations:** Framer Motion via `LazyMotion` + `m.*` (NOT `motion.*` — see below), GSAP + ScrollTrigger (available but not yet used), Lenis (smooth scroll)
 - **Image blurs:** `plaiceholder` (build-time blur generation, output at `lib/blur-map.json`)
 - **Forms:** React Hook Form
+- **Database:** Neon (serverless Postgres) via Drizzle ORM — see "Database" section
 - **Deployment:** Netlify (config in `netlify.toml`)
 - **Repo:** https://github.com/raul-esquair/lamorindapavers
 
@@ -72,7 +73,7 @@ Complex sticky scroll storytelling with separate desktop and mobile implementati
 
 This section uses plain `<img>` (not `next/image`) because of how the layered cross-fade is built. Blur map entries for these images exist but are unused here — they would activate if the section were upgraded to `next/image`.
 
-## Page Structure (36 pages)
+## Page Structure (37 pages)
 
 ### Routes
 - `/` — Homepage (9 sections)
@@ -84,6 +85,10 @@ This section uses plain `<img>` (not `next/image`) because of how the layered cr
 - `/contact` — Multi-step quote form (also accessible via modal from any page)
 - `/blog` — Live AI-generated blog index (14 posts published, more queued). `/blog/[slug]` renders each post. See "Blog Engine" section below.
 - `/[city]` — 12 city SEO landing pages
+- `/feedback` — Customer reputation page (noindex, no site chrome). Sentiment picker routes to Google review or a private form. See "Reputation Page" section below.
+- `/dashboard` — Internal tool (password-gated, noindex, no site chrome). Review-request pipeline. See "Review Request System" below.
+- `/unsubscribe` — Email opt-out confirmation (noindex, no site chrome).
+- `/api/review-requests/dispatch` — Protected cron endpoint (bearer token). Sends due review emails.
 - `/sitemap.xml` — Auto-generated
 - `/robots.txt` — Crawl directives
 
@@ -162,12 +167,104 @@ The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set
 - 3-step form: service select → project details → contact info
 - Triggered by `QuoteButton` component — used in: Hero, Header, mobile menu, mobile bottom bar, FinalCTA, service detail sidebar, city pages
 - The `/contact` page has its own inline form for direct URL traffic / SEO
-- Form backend is NOT wired yet (logs to console) — TODO
+- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy). See memory `project_form_routing.md`.
+
+### Reputation Page (`/feedback`)
+A standalone post-job feedback link handed to customers directly (texts, invoices, email signatures) — **not** a page anyone navigates to from the site.
+
+**Flow.** Four sentiment faces → `rating` 1–4.
+- **3–4 (Happy / Delighted)** → Google review CTA (`company.social.googleReview`), Yelp as secondary.
+- **1–2 (Not happy / Could be better)** → private form → `lib/actions/submit-feedback.ts`.
+- The positive path also carries a low-key "tell Steve privately" link. Taking it keeps the **originally chosen** rating in the email rather than relabeling a happy customer as unhappy.
+
+⚠️ **This is review gating** — routing negative sentiment away from Google violates Google's review policies and is the practice the FTC's consumer reviews rule (16 CFR 465) covers. Enforcement risk lands on the Google Business Profile, which is new. Built this way at the owner's explicit direction after the tradeoff was raised. **Reverting to a compliant flow is a one-line change** in `FeedbackPageContent.tsx`: `value >= 3` → `true` (everyone sees the Google link, everyone also gets the private channel). Don't "fix" this silently in either direction — it's a business decision, not an oversight.
+
+**Notifications** (`lib/actions/submit-feedback.ts`) mirror `submit-quote.ts`: Resend email with `replyTo` set to the customer, plus ntfy push. ntfy fires at **priority 5 with a warning tag** (quote leads are 4) since an unhappy customer is time-sensitive. Requires a phone **or** an email — a complaint with no way to reach the person back is the one failure mode that makes the page pointless. A missing `NTFY_TOPIC` no-ops silently rather than failing the submission.
+
+**Faces** are hand-drawn inline SVG, not emoji (emoji render differently per device/OS). The mouth paths live in `MOUTHS` in `FeedbackPageContent.tsx` and are **duplicated** in `app/feedback/opengraph-image.tsx` as SVG data URIs — change one, change both. Comments on both sides flag this.
+
+**Indexing.** `noindex, nofollow` via metadata, and kept out of `app/sitemap.ts`. Deliberately **NOT** added to `robots.ts` disallow — a blocked URL can't be crawled, so Google would never see the noindex and would leave the bare URL indexed. If you add more private routes, follow the same pattern.
+
+**OG card** (`app/feedback/opengraph-image.tsx`). The page is noindex but the link gets texted, so the iMessage/WhatsApp preview is the first thing a customer sees. Built with `next/og` at build time, cream background matching the page. The real logo is read off disk (`public/images/logo.png`) and inlined as a base64 data URI — satori can't resolve app-relative URLs, and fetching over the network at build time is fragile. **Satori gotcha:** any `<div>` with more than one child needs explicit `display`. Interpolating `{company.owner}` next to bare text creates *two* nodes and fails the build with a confusing error — build such copy as a single template string.
+
+### Bare Routes (`components/layout/ChromeSlot.tsx`)
+`ChromeSlot` is a client component holding a `BARE_ROUTES` set (exact paths: `/feedback`, `/unsubscribe`) and a `BARE_PREFIXES` list (everything under `/dashboard`). It renders its children on normal routes and `null` on listed ones. Wired in two places:
+- `app/layout.tsx` — around `<Header />` and `<Footer />`
+- `components/layout/ClientProviders.tsx` — around `<MobileBottomBar />`
+
+The mobile bar is included deliberately: its floating "Get a Free Estimate" button would otherwise sit directly on top of `/feedback`'s Google review CTA.
+
+Children may be server components (`Footer` is one) — they're passed through as an RSC payload. **To add a bare route, add its path to `BARE_ROUTES`** — that's the whole change. A bare route should render its own branding (`/feedback` shows the logo at the top of the page) or it reads as a phishing form.
+
+## Database (Neon + Drizzle)
+Postgres on **Neon**, accessed with **Drizzle ORM**. Chosen over Netlify Blobs because the dashboard is expected to grow (leads, projects, warranty tracking) and those are relations, which a KV store can't express.
+
+- **Schema:** `lib/db/schema.ts` — 4 tables: `review_requests`, `review_touches`, `email_suppressions`, `leads`.
+- **Client:** `lib/db/index.ts` exports `getDb()`. **Lazy on purpose** — the site prerenders 50+ static pages that never touch the database, so resolving the connection at import time would fail every build without the env var. Verified: `npm run build` succeeds with zero env vars set.
+- **Driver:** `@neondatabase/serverless` over HTTP (`drizzle-orm/neon-http`). No TCP pool, so there's no connection-exhaustion failure mode in serverless. **Always use the pooled connection string** (host contains `-pooler`).
+- **Migrations:** `drizzle/*.sql`, committed. Generate with `npm run db:generate`; apply with drizzle-kit migrate.
+- **`.env` gotcha:** values must be **double-quoted** — Neon URLs contain `&`, which breaks `source .env` in zsh. Migration commands need Node's parser: `node --env-file=.env ./node_modules/drizzle-kit/bin.cjs migrate`.
+
+Payload CMS was evaluated and deferred (see git history). It runs on Postgres via Drizzle too, so adopting it later means adding tables to this same Neon instance — none of this work is wasted. Put Payload in its own Postgres schema if that happens, to keep migrations from colliding.
+
+## Review Request System
+Automated post-job review requests: up to 3 emails, with any response killing the remainder. Steve manages it from `/dashboard`.
+
+### Flow
+1. Steve adds a customer at `/dashboard` after a job wraps.
+2. A daily cron sends touch 1, then 2, then 3 — unless stopped.
+3. The customer clicks a face on `/feedback?t=<token>` → **kill switch fires** → remaining touches never send.
+
+### Cadence (`lib/reviews/schedule.ts`)
+Touches fire at `startAt` + **0 / 5 / 14** days. With the default `startAt = completedAt + 2`, that's day 2, 7, and 16 after the job.
+
+**`startAt` is deliberately separate from `completedAt`.** A job completed more than 14 days ago (`BACKFILL_THRESHOLD_DAYS`) anchors to *tomorrow* instead, so importing a batch of past customers doesn't fire every touch at once. `resolveStartAt()` also clamps forward so nothing is ever scheduled into the past.
+
+This module is **pure — no database imports** — so the rules that decide who gets emailed are testable in isolation. `npm run check:schedule` runs 29 assertions and needs no connection. Keep it that way.
+
+### Idempotency (do not weaken)
+`review_touches` has a **unique index on `(request_id, n)`**. A duplicate send is impossible at the database level, not merely guarded in application code.
+
+`dispatch.ts` **claims the touch before sending**. If the process dies mid-run, a customer misses one email — invisible and recoverable. Recording *after* the send would risk sending twice, which is neither. Don't "fix" this ordering.
+
+`findDueRequests` returns **at most one touch per request per run**, so a badly overdue sequence catches up a day at a time rather than firing three emails at once.
+
+### Kill switch
+`markResponded(token, rating)` sets `respondedAt`, `status: stopped`, `stoppedReason: responded`. It's guarded by `respondedAt is null`, so a second click never overwrites the original rating.
+
+Fires on the **face click**, not form submit — most people who pick a positive face go straight to Google and never return to the page. Three other stop paths: manual (dashboard), unsubscribe, bounce.
+
+### Suppression
+`email_suppressions` is keyed by **email, not request** — an unsubscribe has to outlive the request it came from, or the customer's next project would email them again.
+
+### Sending (`lib/reviews/dispatch.ts`)
+- From `Steve Barsanti <steve@lamorindapaving.com>`, `replyTo` his iCloud address (where he actually reads mail).
+- **Batch cap** (`REVIEW_BATCH_LIMIT`, default 8) — a domain that normally sends a handful of transactional emails suddenly emitting 40 reads as a compromised account. Also keeps runs inside Netlify's 30s scheduled-function timeout.
+- Emails are **deliberately plain text-ish** (`lib/reviews/emails.ts`) — no logo banner, no button graphics. They read as one person writing to another, which converts better here and filters less.
+- Missing `RESEND_API_KEY` returns **before** claiming touches, so a misconfigured deploy doesn't silently burn them.
+
+### Cron
+`netlify/functions/review-dispatch.mts`, daily at **17:00 UTC** (10am PT). Netlify scheduled functions **can't be invoked by URL** and time out at 30s, so it's a thin trigger that calls `/api/review-requests/dispatch` — where the real logic lives with normal imports, and which *can* be run by hand:
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" \
+  "https://lamorindapaving.com/api/review-requests/dispatch?dryRun=1"
+```
+`dryRun=1` reports what would send without sending or claiming.
+
+### Dashboard auth (`lib/auth/`)
+Single shared password → HMAC-signed, httpOnly session cookie (14 days). No user table — Steve is the only user. Swappable for real auth when there's a second.
+
+**Every Server Action re-checks the session itself** (`requireAuth()` in `lib/actions/review-requests.ts`). The layout gate protects the *page*; Server Actions are independently reachable HTTP endpoints. Never rely on the layout alone.
+
+**No rate limiting, deliberately** — serverless instances don't share memory, so a counter is bypassed with parallel requests. There's a fixed 600ms cost per attempt; the real defence is a long random password. Don't replace it with something memorable.
+
+### Environment variables
+`DATABASE_URL`, `DASHBOARD_PASSWORD`, `DASHBOARD_SESSION_SECRET`, `CRON_SECRET` (plus the existing `RESEND_API_KEY`). On Netlify: mark **secret**, scope to **Functions only** — nothing needs them at build time. Marking secret is **irreversible**, and `DASHBOARD_PASSWORD` is the one a human needs to read back, so store it before setting the flag.
 
 ## Data Architecture
 All data lives in `lib/data/`:
 - `services.ts` — 11 services with: slug, name, icon, image, imagePosition, shortDescription, description, features, FAQs, relatedSlugs
-- `company.ts` — Business info, service area cities, contact details (uses `as const`)
+- `company.ts` — Business info, service area cities, contact details (uses `as const`). `social.googleReview` is the GBP write-a-review short link used by `/feedback`.
 - `testimonials.ts` — 4 real Yelp reviews (Ashley N., Marie D., Wade P., Sharon B.), lightly trimmed for the carousel display size. Full reviews at the Yelp URL in `company.ts`.
 - `projects.ts` — 6 projects (4 featured with real images, 2 non-featured placeholders)
 - `cities.ts` — 12 cities with unique descriptions and meta descriptions
@@ -232,6 +329,8 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 10. **Curtain handoff is image-aligned, not text-aligned** — On `/projects`, the curtain reveals the next chapter's image at `scale: 1.06` so it lines up with the next chapter's entry-zoom origin. No visual pop at pin handoff. Don't change this geometry.
 11. **Bespoke city pages must vary, not replicate** — `/lafayette`, `/moraga`, and `/orinda` each have a unique lead hook, a different featured-service mix, varied section ordering, and a 100-word signed paragraph from Steve. The Materials/brands section appears only on Lafayette. Nearby-cities sections link adjacent-only, not all 11 others. See "City Page Architecture" section for the full rule set — these are anti-doorway-page rules, not stylistic preferences.
 12. **Signed owner paragraphs are load-bearing E-E-A-T** — every bespoke city page renders a `cityNameSteveNote` constant ending with `— Steve Barsanti, Owner`. JSX strips the suffix via `.replace()` and renders it as the figcaption. Don't refactor to flatten this into a single paragraph — the byline-as-figcaption pattern is what makes the signal trustworthy.
+13. **`/feedback` sentiment routing is a deliberate business decision, not a bug** — the two negative faces route away from Google. This is review gating and carries real Google-policy and FTC exposure; it was shipped at the owner's explicit direction. See the "Reputation Page" section. Don't change the routing in either direction without discussion.
+14. **Bare routes render their own branding** — pages in `ChromeSlot`'s `BARE_ROUTES` have no Header, Footer, or MobileBottomBar. They must show the logo themselves, and carry a trust line (name + CA license + phone) in place of the removed footer. A stranger arriving from a text has no other signal the page is legitimate.
 
 ## Blog Engine (AI content pipeline)
 The blog is a fully automated AI content engine (installed from `esquair-blog-starter`), **not** a manual/MDX blog. It publishes AEO-tuned posts weekly with zero touch.
@@ -261,6 +360,12 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 `monthly-seo-doc` (client-facing Word doc of upcoming posts) and `next-content-batch` (propose next brief batch → PR). Cross-repo engine-sync plan: memory `project_engine_sync.md`.
 
 ## TODO (Not Yet Done)
+- ⚠️ **Neon `neondb_owner` password was exposed in a screenshot (Aug 2026) and NOT rotated** — owner chose to proceed. Rotate via Neon console → Roles → Reset password, then update `.env` and the Netlify variable.
+- ⚠️ **Deploy previews share the production database** — one `DATABASE_URL` across all contexts. The cron won't fire from previews (scheduled functions only run on published deploys) and the dashboard is password-gated, but a preview can read/write real customer data. Neon's branch-per-preview would close this.
+- **Review system — not yet built:** `/feedback` doesn't read the `?t=` token yet, so the kill switch never fires. Leads aren't written to the `leads` table from `submit-quote.ts`. Resend bounce webhooks aren't wired (manual stop covers it meanwhile).
+- ⚠️ **Verify `NTFY_TOPIC` is set in Netlify env** before `/feedback` is handed out. Without it, `submit-feedback.ts` still emails Steve but the push silently no-ops — and the push is what turns an unhappy customer into a same-day callback. Fails quietly by design (a missing topic must not fail the submission), so nothing surfaces the gap.
+- ⚠️ **Live-test `/feedback` from a phone** — confirm the OG card renders in a message thread, and that the `g.page/r/` link opens Google's review composer rather than the profile page. Redirect chain was traced and resolves correctly, but only an authenticated tap on a real device fully counts. Messaging apps cache OG data hard; append `?v=N` to force a fresh preview.
+- ⚠️ **Watch the Google Business Profile for policy notices** — `/feedback` gates reviews (see "Reputation Page"). Enforcement, if it comes, lands on the GBP, which is new and is the main local-search asset.
 - ⚠️ **Confirm placeholder editorial fields** (`scope`, `duration`, `year`, `materials`) on the 4 real projects with Steve before launch. TODO block at top of `lib/data/projects.ts`.
 - ⚠️ **Confirm Steve's signed paragraphs** on `/moraga` and `/orinda`. Drafts are in `app/moraga/content.ts` (`moragaSteveNote`) and `app/orinda/content.ts` (`orindaSteveNote`) — published with Steve's name, so the words should be his. Edit to his voice.
 - ⚠️ **Confirm Moraga patio thresholds** — the town doesn't publish a sf/grade trigger; the FAQ in `app/moraga/content.ts` is conservative. Verify with the Moraga planning counter (925-888-7040).
@@ -290,6 +395,9 @@ npm run build     # Production build — verify before pushing.
 npm run blur:gen  # Manually regenerate lib/blur-map.json from /public/images.
                   # Run this after adding/changing/removing images.
 npm run lint      # ESLint
+npm run check:schedule  # 29 assertions on review-request cadence (no DB needed)
+npm run db:generate     # Generate a migration from lib/db/schema.ts
+
 ```
 
 Always run `npm run build` before pushing to verify zero TypeScript errors and successful static generation.
