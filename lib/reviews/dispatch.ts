@@ -1,6 +1,11 @@
 import { Resend } from "resend";
 import { renderReviewEmail } from "./emails";
-import { closeCompletedSequences, findDueRequests, recordTouch } from "./queries";
+import {
+  attachProviderId,
+  closeCompletedSequences,
+  findDueRequests,
+  recordTouch,
+} from "./queries";
 
 const FROM = `Steve Barsanti <steve@lamorindapaving.com>`;
 /** Replies go where Steve actually reads mail. */
@@ -99,6 +104,16 @@ export async function dispatchReviewEmails(
         result.failed++;
         result.errors.push(`${request.email} touch ${touch}: ${sendResult.error.message}`);
         continue;
+      }
+
+      // Backfill the message id now that we have it. Best-effort — the email
+      // is already out, so a failure here must not be reported as a failure.
+      if (sendResult.data?.id) {
+        try {
+          await attachProviderId(request.id, touch, sendResult.data.id);
+        } catch (err) {
+          console.error(`Could not record provider id for ${request.email}:`, err);
+        }
       }
 
       result.sent++;

@@ -116,6 +116,26 @@ export async function recordTouch(
   return inserted.length > 0;
 }
 
+/**
+ * Fill in the provider's message id after a successful send.
+ *
+ * The touch row is written *before* the send (see dispatch.ts) so a crash
+ * can't cause a duplicate — which means the id isn't known yet at insert
+ * time. This backfills it so a specific email can be traced in Resend.
+ * Best-effort: a failure here must never fail the send.
+ */
+export async function attachProviderId(
+  requestId: string,
+  n: TouchNumber,
+  providerId: string,
+): Promise<void> {
+  const db = getDb();
+  await db
+    .update(reviewTouches)
+    .set({ providerId })
+    .where(and(eq(reviewTouches.requestId, requestId), eq(reviewTouches.n, n)));
+}
+
 export interface DueRequest {
   request: ReviewRequest;
   touch: TouchNumber;
