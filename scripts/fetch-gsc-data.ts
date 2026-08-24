@@ -134,11 +134,14 @@ export async function fetchGscReport(): Promise<GscReport> {
 
   let queryRows: Array<{ keys: string[]; clicks: number; impressions: number; ctr: number; position: number }> = [];
   let pageRows: typeof queryRows = [];
+  let totalsRows: typeof queryRows = [];
 
   try {
-    [queryRows, pageRows] = await Promise.all([
+    [queryRows, pageRows, totalsRows] = await Promise.all([
       queryGsc(siteUrl, ["query", "page"]),
       queryGsc(siteUrl, ["page"]),
+      // Dimensionless query — the ONLY row that reflects true site totals.
+      queryGsc(siteUrl, []),
     ]);
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
@@ -168,13 +171,19 @@ export async function fetchGscReport(): Promise<GscReport> {
     .sort((a, b) => b.impressions - a.impressions)
     .slice(0, 10);
 
-  const totalClicks = topQueries.reduce((s, q) => s + q.clicks, 0);
-  const totalImpressions = topQueries.reduce((s, q) => s + q.impressions, 0);
-  const avgCtr = totalImpressions > 0 ? totalClicks / totalImpressions : 0;
-  const avgPosition =
-    topQueries.length > 0
-      ? topQueries.reduce((s, q) => s + q.position, 0) / topQueries.length
-      : 0;
+  // Totals come from the dimensionless row, NOT from summing topQueries.
+  // Summing query rows understates everything twice over: Search Console
+  // withholds low-volume queries for privacy (they simply aren't in the
+  // response), and MAX_ROWS truncates whatever survives. On the sibling
+  // gadgetconstruction property this read as 13 clicks / 215 impressions
+  // against a true 31 / 1,358 — a ~6x undercount, on the report that feeds
+  // content planning. Averaging the per-row `position` field was wrong for
+  // the same reason, and unweighted besides.
+  const totals = totalsRows[0];
+  const totalClicks = totals?.clicks ?? 0;
+  const totalImpressions = totals?.impressions ?? 0;
+  const avgCtr = totals?.ctr ?? 0;
+  const avgPosition = totals?.position ?? 0;
 
   return {
     newSite: totalImpressions === 0,
