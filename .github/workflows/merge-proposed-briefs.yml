@@ -1,14 +1,22 @@
 name: Merge proposed briefs into queue
 
-# When a proposals/* PR is merged to main, this workflow migrates briefs from
-# content/proposed-briefs.json into content/post-queue.json with status=queued,
-# then clears the proposal file. The Friday automation picks them up next.
+# When a proposals/* PR is merged to main by a human, this workflow migrates
+# briefs from content/proposed-briefs.json into content/post-queue.json with
+# status=queued, then clears the proposal file.
+#
+# NOTE: this push trigger only fires for human merges. A merge performed by
+# auto-merge-proposals.yml uses the default GITHUB_TOKEN, and GitHub does not
+# fire push-triggered workflows from a GITHUB_TOKEN push — so that workflow
+# runs scripts/migrate-proposed-briefs.mjs itself instead of relying on this
+# one. Both paths call the same script. workflow_dispatch is here for manual
+# recovery.
 
 on:
   push:
     branches: [main]
     paths:
       - "content/proposed-briefs.json"
+  workflow_dispatch:
 
 jobs:
   migrate:
@@ -20,50 +28,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Check for proposed briefs
-        id: check
-        run: |
-          if [ ! -s content/proposed-briefs.json ]; then
-            echo "content/proposed-briefs.json doesn't exist or is empty — nothing to migrate."
-            echo "skip=true" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          count=$(jq 'length' content/proposed-briefs.json 2>/dev/null || echo "0")
-          if [ "$count" = "0" ]; then
-            echo "proposed-briefs.json contains empty array — nothing to migrate."
-            echo "skip=true" >> $GITHUB_OUTPUT
-          else
-            echo "Found $count proposed brief(s) to migrate."
-          fi
-
       - name: Migrate briefs
-        if: steps.check.outputs.skip != 'true'
-        run: |
-          jq --slurpfile proposed content/proposed-briefs.json \
-            '. + ($proposed[0] | map(. + { status: "queued" }))' \
-            content/post-queue.json > /tmp/new-queue.json
-
-          mv /tmp/new-queue.json content/post-queue.json
-          echo "[]" > content/proposed-briefs.json
-
-          echo "Migrated briefs into post-queue.json. New tail:"
-          jq '.[-4:] | map({ slug, scheduledDate, status })' content/post-queue.json
+        run: node scripts/migrate-proposed-briefs.mjs
 
       - name: Commit + push
-        if: steps.check.outputs.skip != 'true'
         env:
           REPO_OWNER: ${{ github.repository_owner }}
         run: |
           git config user.email "${REPO_OWNER}-bot@users.noreply.github.com"
           git config user.name "Content Pipeline Bot"
-          git add content/post-queue.json content/proposed-briefs.json
+          git add content/post-queue.json content/proposed-briefs.json content/refresh-briefs.json
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 0
           fi
-          git commit -m "Migrate proposed briefs into content queue
-
-Automated migration — briefs from content/proposed-briefs.json are
-now in post-queue.json with status=queued. The Friday draft
-automation will pick them up on their scheduled dates."
+          git commit \
+            -m "Migrate proposed briefs into content queue" \
+            -m "Automated migration — briefs from content/proposed-briefs.json are now in post-queue.json with status=queued. The Friday draft automation will pick them up on their scheduled dates."
           git push

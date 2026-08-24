@@ -1,0 +1,42 @@
+name: GSC index coverage on demand
+
+# Manual trigger. Runs scripts/gsc-index-coverage.ts to pull sitemap status
+# and per-URL inspection results, then uploads the JSON as an artifact.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  fetch:
+    name: Fetch index coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run index coverage diagnostic
+        env:
+          GSC_SERVICE_ACCOUNT_JSON_BASE64: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON_BASE64 }}
+          GSC_PROPERTY_URL: ${{ secrets.GSC_PROPERTY_URL }}
+        run: |
+          mkdir -p .gsc-report
+          npx tsx scripts/gsc-index-coverage.ts > .gsc-report/index-coverage.json
+          echo "Report size: $(wc -c < .gsc-report/index-coverage.json) bytes"
+          echo "Summary block:"
+          node -e "const r=require('./.gsc-report/index-coverage.json'); console.log(JSON.stringify({totalUrlsInSitemap:r.totalUrlsInSitemap,summary:r.summary,byVerdict:r.byVerdict,byCoverage:r.byCoverage,sitemapStats:r.sitemapStats},null,2))"
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gsc-index-coverage
+          path: .gsc-report/index-coverage.json
+          retention-days: 7

@@ -1,8 +1,15 @@
 name: Auto-merge open content proposal PRs
 
 # Safety net. If the proposal PR opened by auto-propose-batch.yml on Tuesday
-# still hasn't been merged by Thursday night, this workflow auto-merges it.
-# That triggers merge-proposed-briefs.yml to migrate briefs into post-queue.json.
+# still hasn't been merged by Thursday night, this workflow auto-merges it and
+# then migrates the briefs into post-queue.json itself.
+#
+# It migrates inline rather than leaning on merge-proposed-briefs.yml: pushes
+# made with the default GITHUB_TOKEN do not fire push-triggered workflows, so
+# that workflow never runs for a bot merge. On the sibling gadgetconstruction
+# repo this silently starved the content queue for eight weeks while every
+# workflow still reported success. Both paths now call the same script,
+# scripts/migrate-proposed-briefs.mjs.
 
 on:
   schedule:
@@ -18,6 +25,11 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
       - name: Find and merge open proposal PRs
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -71,3 +83,25 @@ jobs:
               echo "   - PR #$other"
             done
           fi
+
+      - name: Migrate merged briefs into the queue
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+          node scripts/migrate-proposed-briefs.mjs
+
+      - name: Commit + push migrated queue
+        env:
+          REPO_OWNER: ${{ github.repository_owner }}
+        run: |
+          git config user.email "${REPO_OWNER}-bot@users.noreply.github.com"
+          git config user.name "Content Pipeline Bot"
+          git add content/post-queue.json content/proposed-briefs.json content/refresh-briefs.json
+          if git diff --cached --quiet; then
+            echo "Nothing to migrate — queue unchanged."
+            exit 0
+          fi
+          git commit \
+            -m "Migrate proposed briefs into content queue" \
+            -m "Automated migration following the auto-merge of the weekly proposal PR. Briefs are now in post-queue.json with status=queued for the Friday draft run."
+          git push
