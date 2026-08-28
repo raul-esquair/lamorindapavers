@@ -242,6 +242,48 @@ Payload CMS was evaluated and deferred (see git history). It runs on Postgres vi
 ## Review Request System
 Automated post-job review requests: up to 3 emails, with any response killing the remainder. Steve manages it from `/dashboard`.
 
+### ⚑ Current state — as of 2026-08-23 (read this first)
+
+**Live in production and verified with real data.** Do not rebuild any of it:
+
+| Piece | State |
+|---|---|
+| `/dashboard` + login + add/stop/copy-link | Live |
+| 3-email sequence, daily cron 17:00 UTC | Live |
+| Kill switch on `/feedback?t=` | Live — **confirmed firing in production** (a real click recorded `stopped / responded / rating 4`) |
+| `/unsubscribe` | Live |
+| Same-day touch 1, Set A subject lines | Live |
+| Neon database + migration `0000_init_review_system` | Applied |
+
+**Env vars are set in both places.** Netlify (marked *secret*, scoped to **Functions only** — nothing is needed at build time, verified) and local `.env`: `DATABASE_URL`, `DASHBOARD_PASSWORD`, `DASHBOARD_SESSION_SECRET`, `CRON_SECRET`, plus the pre-existing `RESEND_API_KEY`.
+
+**A full end-to-end run has already happened:** customer added via dashboard → email sent → link clicked → face picked → remaining touches cancelled. The system works; the next work is additive.
+
+**Checks to run before touching any of it:**
+```bash
+npm run check:schedule   # 36 assertions, no DB needed
+npm run build            # must stay green; /feedback must stay ○ static
+```
+
+### ⚑ Decisions already made — do NOT re-open without asking
+
+A fresh session will be tempted to "fix" several of these. They are deliberate:
+
+1. **Review gating is intentional.** Negative sentiment routes away from Google. The owner was told the Google-policy and FTC exposure in detail and chose to proceed. NiceJob (the market-leading contractor product) does the identical thing. Reverting is one line — `value >= 3` → `true` in `FeedbackPageContent.tsx` — but it is a **business decision, not a bug**.
+2. **Neon + Drizzle, not Netlify Blobs.** The dashboard is expected to grow into leads/projects/warranty, which are relations a KV store can't express.
+3. **Payload CMS evaluated and deferred.** It runs on Postgres via Drizzle, so adopting it later means adding tables to the same Neon instance — nothing here is wasted. Trigger to revisit: the owner genuinely committing to editing site copy himself. Give it its own Postgres schema if adopted.
+4. **Drizzle over Prisma** — lighter serverless cold starts, and Payload uses Drizzle internally.
+5. **Timing = Option A** (same-day constant only). The hourly business-hours cron was costed and deliberately deferred.
+6. **Subject lines = Set A** ("the confident favor"). Lines like *"I forgot to ask you something"* were rejected as dishonest — a scheduled system sent it.
+7. **Email only; SMS deferred.** Owner's call. Quoted to the client at **$49/mo** (see memory `project_review_system_status.md`).
+8. **Neon `neondb_owner` password was exposed in a screenshot and NOT rotated.** Raised twice, owner chose to proceed. Still outstanding.
+9. **No login rate limiting.** Serverless instances don't share memory, so a counter is bypassed by parallel requests. Fixed 600ms per attempt + a 24-char random password is the mitigation. Don't replace the password with something memorable.
+
+### ⚑ Next up (highest value first)
+
+1. **Write quote submissions to the `leads` table.** The table exists and is empty; `submit-quote.ts` still only emails. **Data is being lost right now** — this is the cheapest remaining win and stops active bleeding. Also capture the source page for attribution (nothing currently tells you which of the 12 city / 11 service / 14 blog pages produce work).
+2. Everything in the "competitive gaps" TODO list, in the order given there.
+
 ### Flow
 1. Steve adds a customer at `/dashboard` after a job wraps.
 2. A daily cron sends touch 1, then 2, then 3 — unless stopped.
