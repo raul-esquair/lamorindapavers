@@ -17,6 +17,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
   const cardRef = useRef<HTMLAnchorElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  const [isPressed, setIsPressed] = useState(false);
 
   // Parallax: image moves slower than scroll
   const { scrollYProgress } = useScroll({
@@ -37,6 +38,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
   const handleMouseLeave = () => {
     setTilt({ x: 0, y: 0 });
     setIsHovering(false);
+    setIsPressed(false);
   };
 
   return (
@@ -50,6 +52,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
         animate={{
           rotateX: tilt.x,
           rotateY: tilt.y,
+          scale: isPressed ? 0.98 : 1,
         }}
         transition={{ type: "spring", stiffness: 200, damping: 20 }}
         className="h-full w-full"
@@ -62,6 +65,10 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
           onMouseMove={handleMouseMove}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={handleMouseLeave}
+          onPointerDown={() => setIsPressed(true)}
+          onPointerUp={() => setIsPressed(false)}
+          onPointerCancel={() => setIsPressed(false)}
+          onPointerLeave={() => setIsPressed(false)}
         >
           {/* Parallax image container */}
           {service.image ? (

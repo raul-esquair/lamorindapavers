@@ -131,3 +131,58 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
+
+/* ---------------------------------------------------------------------------
+   Press feedback
+
+   Hover does nothing on a touch screen, and most of this site's traffic is
+   touch. Without a pointer-down state every button is silent between
+   finger-down and the modal/navigation appearing, so the interface reads as
+   unresponsive even when it isn't. Feedback belongs on the press, not the
+   release.
+
+   `.press` owns the whole `transition` shorthand rather than layering onto
+   Tailwind's `transition-all`: this file is unlayered, so it wins over the
+   `utilities` layer, and a partial declaration here would be silently
+   clobbered by the shorthand. Movement is transform-only, so it stays on the
+   compositor.
+
+   Fast in, relaxed out — the press must register instantly, the release can
+   settle. Deliberately kept under `prefers-reduced-motion`: a 3% scale caused
+   directly by the user's own finger is not vestibular motion, and dropping it
+   would remove the feedback rather than gentle it.
+--------------------------------------------------------------------------- */
+.press {
+  transition:
+    transform 180ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    background-color 300ms ease,
+    border-color 300ms ease,
+    color 300ms ease,
+    opacity 300ms ease;
+}
+
+.press:active {
+  transform: scale(0.97);
+  transition-duration: 80ms;
+}
+
+/* Wide surfaces need a smaller ratio — the same 3% across a full-width bar
+   reads as the whole layout lurching rather than a button depressing. */
+.press-wide:active {
+  transform: scale(0.99);
+}
+
+/* A disabled control must not answer the press — feedback there would promise
+   something that isn't going to happen. */
+.press:disabled:active,
+.press[aria-disabled="true"]:active {
+  transform: none;
+}
+
+/* iOS home-indicator inset. `env()` resolves to 0px unless the document opts
+   in with `viewport-fit=cover`, which this site does not — so today this is a
+   no-op preserving the existing `py-3`. Defined rather than deleted so the
+   fixed bottom bar is already correct if cover is ever adopted. */
+.safe-area-bottom {
+  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}

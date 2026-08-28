@@ -30,7 +30,7 @@ export default function BlogCTA({
         </p>
         <Link
           href={buttonHref}
-          className="inline-block bg-brand-gold hover:bg-brand-gold-dark text-warm-gray-900 font-medium px-8 py-4 rounded-md transition-colors font-sans"
+          className="press inline-block bg-brand-gold hover:bg-brand-gold-dark text-warm-gray-900 font-medium px-8 py-4 rounded-md font-sans"
         >
           {buttonText}
         </Link>

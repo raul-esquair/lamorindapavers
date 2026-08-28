@@ -20,7 +20,7 @@ export default function FAQAccordion({ faqs }: { faqs: FAQ[] }) {
         >
           <button
             onClick={() => setOpenIndex(openIndex === i ? null : i)}
-            className="w-full flex items-center justify-between p-5 text-left hover:bg-cream transition-colors"
+            className="w-full flex items-center justify-between p-5 text-left hover:bg-cream active:bg-warm-gray-100 active:duration-75 transition-colors"
           >
             <span className="font-sans font-medium text-warm-gray-800 pr-4">
               {faq.question}
