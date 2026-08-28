@@ -55,6 +55,22 @@ All animations are tied to scroll position via Framer Motion `useScroll` + `useT
 ### Critical: Use `m.*` not `motion.*`
 The entire app is wrapped in `<LazyMotion features={domAnimation}>` (in `components/layout/ClientProviders.tsx`). Every component uses `import { m } from "framer-motion"` and renders `<m.div>` etc. **Never write `motion.*` in new code** — it works at runtime but forces the full motion bundle to load synchronously, defeating the ~20 KB savings. If you accidentally introduce `motion.*`, run `node scripts/migrate-motion-to-m.mjs` to fix.
 
+### Press feedback — `.press`, not a bare `hover:`
+Hover does nothing on a touch screen and most traffic here is touch, so a hover-only button is silent between finger-down and the modal or navigation appearing. **Every new tappable surface gets the `.press` utility** (bottom of `app/globals.css`), not just a `hover:` class.
+
+`.press` deliberately owns the whole `transition` shorthand instead of layering onto Tailwind's `transition-all` — `globals.css` is unlayered, so it beats the `utilities` layer, and a partial declaration would be silently clobbered. It carries the colour transitions too, so **remove `transition-all` / `transition-colors` when you add it**, or you get one or the other rather than both.
+
+Two documented exceptions:
+- **Full-width rows** (`FAQAccordion`) answer in colour instead — a 3% scale across a full-width bar reads as the layout lurching, not a button depressing. Use `active:bg-*` + `active:duration-75`.
+- **Elements already carrying a transform** (`ServiceCard`) fold the press into their existing `animate` object. A competing CSS transform on `ServiceCard`'s inner `<Link>` would flatten the 3D context its `translateZ` children depend on.
+
+Press feedback is intentionally **kept under `prefers-reduced-motion`** — a 3% scale caused directly by the user's own finger is not vestibular motion, and removing it takes away the feedback rather than gentling it.
+
+### Gestures are hand-rolled on Pointer Events — do NOT switch to `domMax`
+`LazyMotion features={domAnimation}` does not include framer's `drag` gesture. Enabling `drag` means `domMax`, which gives back the bundle saving this whole codebase is written around (see the `m.*` rule above).
+
+So drag lives in `lib/hooks/use-drag-dismiss.ts`, on raw Pointer Events. It is not a stopgap — it implements what framer's `drag` does not give you for free: grab-offset preservation, an 80ms velocity window, exponential-decay momentum projection (`(v/1000)·d/(1−d)`, `d ≈ 0.998` — **not** the textbook `v²/2a`; they disagree noticeably at the velocities a thumb produces), release-velocity handoff into the spring, and rubber-banding at the boundary. Reuse this hook for any future sheet rather than reaching for `drag`.
+
 ### Lenis is exposed via `getLenis()`
 `components/animations/SmoothScroll.tsx` stores its Lenis instance in a module-level singleton. Read it live at click time via `getLenis()` — NOT a hook. Used for programmatic scrolls (`ProjectShelf` thumb clicks, `ProjectsClient` filter-change scroll). Never use native `scrollIntoView` for in-page navigation while Lenis is active — the smooth motion gets double-applied.
 
@@ -166,8 +182,22 @@ The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set
 - Blurred backdrop (12px blur + dark overlay)
 - 3-step form: service select → project details → contact info
 - Triggered by `QuoteButton` component — used in: Hero, Header, mobile menu, mobile bottom bar, FinalCTA, service detail sidebar, city pages
-- The `/contact` page has its own inline form for direct URL traffic / SEO
-- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy). See memory `project_form_routing.md`.
+- The `/contact` page has its own inline form for direct URL traffic / SEO. **It shares this modal's step and radio markup — a fix to one usually belongs in both.**
+- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy). See memory `project_form_routing.md`. ⚠️ Submissions are **not** written to the `leads` table yet — see TODO.
+
+**Two-layer panel.** The presence layer (framer `initial`/`animate`/`exit`) and the drag layer (`style={{ y }}` from `useDragDismiss`) are separate elements on purpose. One motion value per transform, or framer's exit animation and the gesture fight over the same property.
+
+**The backdrop blur is static CSS; only opacity animates.** Transitioning `backdrop-filter` from `blur(0px)` to `blur(12px)` re-rasterises the entire viewport every frame, on the highest-stakes interaction on the site. Don't reintroduce it.
+
+**Springs, not durations.** Enter/exit are critically damped (ratio 1.0, response 0.35s → `stiffness: 322, damping: 35.9`) — the modal opens from a click, which carries no momentum, so overshoot would be motion the user never put there. The drag release *does* get bounce (ratio 0.8), because a gesture with momentum preceded it.
+
+**`data-lenis-prevent` on the scroll container is load-bearing.** Lenis intercepts wheel events globally; without it a trackpad cannot scroll the modal at all.
+
+**Focus management is not decoration here.** `role="dialog"` + `aria-modal` + `aria-labelledby`; focus moves into the panel on open, Tab is trapped inside it, and focus returns to the triggering button on close. The trigger is captured inside `open()` at click time, **not** on unmount — the mobile menu closes itself when its CTA is tapped, taking the button with it. The Tab handler only intervenes at the first and last focusable element; in between, the browser's own order is correct and better than a reimplementation (the 11 service radios are correctly **one** tab stop, not eleven).
+
+⚠️ **`inert` is deliberately not used.** The modal renders *inside* `ClientProviders`, which also wraps Header/main/Footer, so no element contains the page but not the modal — making `inert` work would mean portaling the modal out of the tree. `aria-modal` plus the Tab trap covers the same ground.
+
+⚠️ **`sr-only` inputs need the focus ring on their `<label>`.** The service picker's radios are `sr-only` (clipped to 1px), so the browser focuses them invisibly and the tab stop reads as skipped. The label carries `has-[:focus-visible]:ring-2`. Same pattern and same fix on `/contact`. Any future visually-hidden input needs this.
 
 ### Reputation Page (`/feedback`)
 A standalone post-job feedback link handed to customers directly (texts, invoices, email signatures) — **not** a page anyone navigates to from the site.
@@ -337,6 +367,9 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 12. **Signed owner paragraphs are load-bearing E-E-A-T** — every bespoke city page renders a `cityNameSteveNote` constant ending with `— Steve Barsanti, Owner`. JSX strips the suffix via `.replace()` and renders it as the figcaption. Don't refactor to flatten this into a single paragraph — the byline-as-figcaption pattern is what makes the signal trustworthy.
 13. **`/feedback` sentiment routing is a deliberate business decision, not a bug** — the two negative faces route away from Google. This is review gating and carries real Google-policy and FTC exposure; it was shipped at the owner's explicit direction. See the "Reputation Page" section. Don't change the routing in either direction without discussion.
 14. **Bare routes render their own branding** — pages in `ChromeSlot`'s `BARE_ROUTES` have no Header, Footer, or MobileBottomBar. They must show the logo themselves, and carry a trust line (name + CA license + phone) in place of the removed footer. A stranger arriving from a text has no other signal the page is legitimate.
+15. **`.press` on every tappable surface** — hover is dead on touch, and this site is mostly touch traffic. New buttons, links, and cards get `.press`, not a bare `hover:`. See "Press feedback" under Animation Architecture for the two exceptions. Kept under `prefers-reduced-motion` on purpose.
+16. **Gestures use Pointer Events, never framer's `drag`** — `drag` requires `domMax` and forfeits the LazyMotion bundle saving. Reuse `lib/hooks/use-drag-dismiss.ts`. See "Gestures are hand-rolled on Pointer Events".
+17. **The quote modal's accessibility is load-bearing** — dialog semantics, focus trap, focus restore, and the `sr-only`-radio focus ring. Without them a keyboard user tabs out of the modal into the page behind the backdrop, and can activate a link and lose everything they typed — on the site's only conversion path.
 
 ## Blog Engine (AI content pipeline)
 The blog is a fully automated AI content engine (installed from `esquair-blog-starter`), **not** a manual/MDX blog. It publishes AEO-tuned posts weekly with zero touch.
@@ -396,6 +429,14 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - ⚠️ **`/services/[slug]` missing canonical** — same fix already shipped for the homepage (`alternates.canonical`); service detail `page.tsx` uses raw title+description metadata only.
 - **Deferred blog work:** AEO/AI-Overview optimization pass on existing posts; internal-link "Page 6/7" — homepage `LatestGuides` shipped, but `/services` hub + `/about` → blog links were skipped.
 - **Esquair sales PDF** (agency collateral, on Desktop, NOT in repo): `Esquair-AI-Blog-Engine.pdf` sells the blog engine to new clients. Source HTML in the session scratchpad. Has placeholder pricing ($600/$1,200/$2,400/mo) + contact (`hello@esquair.com`) awaiting real values. See memory `reference_esquair_sales_pdf.md`.
+- **Motion / a11y audit findings (Aug 2026), remaining.** Tier 1 shipped (press feedback, quote-modal springs + drag-dismiss + focus trap). Still open, ranked:
+  1. ⚠️ **Reduced motion is honored in exactly one file** (`ProjectChapter.tsx`). `globals.css` has no `@media (prefers-reduced-motion)` block at all, Lenis hijacks scroll regardless of the setting, the hero runs a 20s `infinite alternate` Ken Burns on a full-viewport background, and every `ScrollReveal` / `ScrollStagger` / `TextReveal` / parallax still moves. This is the one with a correctness argument rather than a taste argument. (`.press` is a deliberate exception — see Animation Architecture.)
+  2. **15 `whileInView` call sites contradict design decision #3** — `TextReveal.tsx` (used site-wide) plus `/about`, `/services`, `/services/[slug]`, `[city]`, `/lafayette`, `/moraga`, `/orinda`. Homepage and `/projects` are correctly scroll-scrubbed; most other pages are fire-on-enter at a fixed 0.8s.
+  3. **Testimonials carousel is direction-blind** — prev and next produce identical motion, and `mode="wait"` adds a ~0.5s window where clicking again does nothing. No swipe gesture. The direction-aware `custom`/`variants` pattern from `QuoteModal`'s steps drops straight in.
+  4. **`FAQAccordion` animates `height: 0 → auto`** — layout-driven, not compositor-driven.
+  5. **Headings share one `letter-spacing: -0.02em`** across h1–h6 in `globals.css`. Correct at `text-8xl`, too tight at `text-xl` (ServiceCard titles). Tracking should be size-specific.
+  6. **`CustomCursor` never sets `cursor: none`** — the native cursor renders alongside the custom one. It is also the only spring-driven element outside the modal, on the least important thing on screen.
+  7. **Dead code:** `components/animations/PageTransition.tsx` is imported nowhere; `ScrollReveal`'s `once` prop is declared and never used.
 - **Optional polish:** upgrade Process section's `<img>` tags to `next/image` to activate the (already-generated) blur entries for those WebPs.
 - **Optional polish:** retrofit the "From the Owner" signed-paragraph pattern to `/lafayette` for parity with Moraga and Orinda.
 - **Optional polish:** drop in real Moraga and Orinda project photos and add a "Featured Project" section to each city page (mirror Lafayette's pattern). Currently both pages skip this section.
