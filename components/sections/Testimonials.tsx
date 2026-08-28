@@ -73,7 +73,7 @@ export default function Testimonials() {
           <div className="flex items-center justify-center gap-4 mt-10">
             <button
               onClick={prevTestimonial}
-              className="w-12 h-12 rounded-full border border-warm-gray-600 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold transition-colors"
+              className="press w-12 h-12 rounded-full border border-warm-gray-600 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold"
               aria-label="Previous testimonial"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -96,7 +96,7 @@ export default function Testimonials() {
 
             <button
               onClick={nextTestimonial}
-              className="w-12 h-12 rounded-full border border-warm-gray-600 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold transition-colors"
+              className="press w-12 h-12 rounded-full border border-warm-gray-600 flex items-center justify-center hover:border-brand-gold hover:text-brand-gold"
               aria-label="Next testimonial"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -34,7 +34,7 @@ export default function QuoteButton({
     <button
       onClick={open}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold transition-all duration-300 cursor-pointer",
+        "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold cursor-pointer press",
         variants[variant],
         sizes[size],
         className

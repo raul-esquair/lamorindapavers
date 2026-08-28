@@ -104,7 +104,7 @@ export default function Header() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden relative z-10 w-10 h-10 flex items-center justify-center"
+              className="press lg:hidden relative z-10 w-10 h-10 flex items-center justify-center"
               aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
               <div className="w-6 flex flex-col gap-1.5">
@@ -158,7 +158,7 @@ export default function Header() {
                   <Link
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className="text-3xl font-serif text-white hover:text-brand-gold transition-colors"
+                    className="press text-3xl font-serif text-white hover:text-brand-gold"
                   >
                     {link.label}
                   </Link>

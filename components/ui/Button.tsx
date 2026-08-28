@@ -39,7 +39,7 @@ export default function Button({
   disabled = false,
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold transition-all duration-300",
+    "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold press",
     variants[variant],
     sizes[size],
     disabled && "opacity-60 cursor-not-allowed pointer-events-none",

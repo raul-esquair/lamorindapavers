@@ -148,7 +148,7 @@ export default function ContactPageContent() {
                         {services.map((service) => (
                           <label
                             key={service.slug}
-                            className={`flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer transition-all text-center text-sm font-sans ${
+                            className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer text-center text-sm font-sans ${
                               selectedService === service.slug
                                 ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
                                 : "border-warm-gray-200 hover:border-warm-gray-300 text-warm-gray-600"
