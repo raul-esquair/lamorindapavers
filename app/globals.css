@@ -28,6 +28,15 @@
   --foreground: #1A1A1A;
   --muted: var(--color-warm-gray-400);
   --border: var(--color-warm-gray-200);
+
+  /* Motion curves. Strong ease-out for anything arriving on screen — the
+     user's attention is on the first frame, so that is where the speed
+     belongs. Strong ease-in-out only for things moving between two on-screen
+     positions. These replace the site's former single curve,
+     cubic-bezier(0.25, 0.1, 0.25, 1), which is the CSS `ease` keyword
+     verbatim: a slow-start curve, wrong for entrances. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 @theme inline {
@@ -61,6 +70,13 @@
   /* Fonts */
   --font-serif: var(--font-playfair);
   --font-sans: var(--font-dm-sans);
+
+  /* Motion. These names shadow Tailwind's built-in `ease-out` /
+     `ease-in-out` utilities on purpose: nothing in this codebase used the
+     built-in versions, and having `ease-out` mean one thing in CSS and
+     another in a class name would be worse than overriding. */
+  --ease-out: var(--ease-out);
+  --ease-in-out: var(--ease-in-out);
 }
 
 /* Base styles */
@@ -88,25 +104,22 @@ html.lenis body {
   overflow: hidden;
 }
 
-/* Custom cursor styles */
-.custom-cursor {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 1.5px solid var(--color-brand-blue);
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
-  transform: translate(-50%, -50%);
-  mix-blend-mode: difference;
-}
+/* The custom cursor (components/animations/CustomCursor.tsx) draws its own
+   pointer, so the native arrow must go or the user sees two. Gated to fine
+   pointers: the component returns null on touch, and hiding the cursor on a
+   device that has a real mouse plugged in alongside a touchscreen would leave
+   that mouse invisible.
 
-.custom-cursor.hovering {
-  width: 48px;
-  height: 48px;
-  background-color: rgba(59, 125, 216, 0.1);
-  border-color: var(--color-brand-gold);
+   `html *` is deliberate: without it, every element that sets its own `cursor`
+   (cursor-pointer on links, cursor-grab on the modal's drag handle,
+   cursor-not-allowed on disabled buttons) re-shows the native arrow, which
+   reintroduces the double cursor on exactly the elements users interact with
+   most. */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  html * {
+    cursor: none;
+  }
 }
 
 /* Selection color */
@@ -154,7 +167,7 @@ h1, h2, h3, h4, h5, h6 {
 --------------------------------------------------------------------------- */
 .press {
   transition:
-    transform 180ms cubic-bezier(0.25, 0.1, 0.25, 1),
+    transform 180ms var(--ease-out),
     background-color 300ms ease,
     border-color 300ms ease,
     color 300ms ease,
@@ -185,4 +198,30 @@ h1, h2, h3, h4, h5, h6 {
    fixed bottom bar is already correct if cover is ever adopted. */
 .safe-area-bottom {
   padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion
+
+   A user who turns on "Reduce Motion" is reporting a physical symptom, not a
+   preference. Looping and self-starting animation is the category that causes
+   it, so that is what this block removes.
+
+   Transitions are deliberately left alone. This site's transitions are colour,
+   shadow, and opacity — comprehension aids, not vestibular motion — and
+   `.press` is a documented exception (see the Press feedback block above): a
+   3% depress caused by the user's own finger is feedback, and removing it
+   would leave the button silent rather than calm.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  html {
+    scroll-behavior: auto !important;
+  }
 }

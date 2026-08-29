@@ -50,10 +50,24 @@ All colors are defined as CSS custom properties in `app/globals.css` and exposed
 ## Animation Architecture
 
 ### Critical Pattern: Scroll-Position-Linked
-All animations are tied to scroll position via Framer Motion `useScroll` + `useTransform`. Elements do NOT animate entirely upon barely entering the screen. Animation progress maps 1:1 with the user's scroll movement. This is a core design decision — do not regress to `whileInView` trigger-based animations.
+All animations are tied to scroll position via Framer Motion `useScroll` + `useTransform`. Elements do NOT animate entirely upon barely entering the screen. Animation progress maps 1:1 with the user's scroll movement. This is a core design decision — do not regress to `whileInView` trigger-based animations. As of Aug 2026 there are **zero** `whileInView` call sites left; keep it that way.
 
 ### Critical: Use `m.*` not `motion.*`
 The entire app is wrapped in `<LazyMotion features={domAnimation}>` (in `components/layout/ClientProviders.tsx`). Every component uses `import { m } from "framer-motion"` and renders `<m.div>` etc. **Never write `motion.*` in new code** — it works at runtime but forces the full motion bundle to load synchronously, defeating the ~20 KB savings. If you accidentally introduce `motion.*`, run `node scripts/migrate-motion-to-m.mjs` to fix.
+
+### Motion curves live in tokens — never hand-type a cubic-bezier
+`--ease-out: cubic-bezier(0.23, 1, 0.32, 1)` and `--ease-in-out` are defined in `:root` and re-exported through `@theme inline` (so Tailwind emits `ease-out` / `ease-in-out` utilities), and mirrored in TS as `EASE_OUT` / `EASE_IN_OUT` in `lib/animations.ts`. The TS mirror exists because framer cannot read a CSS custom property for `ease` — **edit the two together.**
+
+These deliberately shadow Tailwind's built-in `ease-out` / `ease-in-out`; nothing used the built-ins. The site previously had one hand-typed curve, `[0.25, 0.1, 0.25, 1]`, at 14 sites — which is the CSS `ease` keyword verbatim, a slow-start curve, wrong on the entrances it was used for.
+
+**Never `transition-all`.** It animates `box-shadow` off-GPU and, on the header, `backdrop-filter` — which re-rasterises the viewport every frame. Name the properties: `transition-[background-color,box-shadow]`. Hover responses get `duration-200`, focus rings `duration-150`.
+
+### Reduced motion is honoured in three layers
+1. `@media (prefers-reduced-motion: reduce)` at the bottom of `globals.css` neutralises looping `animation`s. It deliberately does **not** touch `transition-*` — the common `transition-duration: 0.01ms !important` blanket would silently kill `.press`, every colour transition, and the focus rings.
+2. `useReducedMotion()` in `Hero`, `ScrollReveal`, `ScrollStagger`, `TextReveal`, `ParallaxImage`, `ServiceCard`, `TrustBar`, `ProjectChapter`. The pattern is to collapse a `useTransform` output range to an identity pair — **never** move a hook inside a conditional.
+3. `SmoothScroll` does not instantiate Lenis at all. `getLenis()` then returns `null`, which every caller already handles. Their `scrollIntoView` fallbacks are **also** gated, because an explicit `behavior: "smooth"` overrides the CSS `scroll-behavior`.
+
+Opacity fades stay; position and scale changes go. `.press` stays — see below.
 
 ### Press feedback — `.press`, not a bare `hover:`
 Hover does nothing on a touch screen and most traffic here is touch, so a hover-only button is silent between finger-down and the modal or navigation appearing. **Every new tappable surface gets the `.press` utility** (bottom of `app/globals.css`), not just a `hover:` class.
@@ -76,7 +90,7 @@ So drag lives in `lib/hooks/use-drag-dismiss.ts`, on raw Pointer Events. It is n
 
 ### Key Components
 - **`ScrollReveal`** (`components/animations/ScrollReveal.tsx`) — Fade + translate tied to scroll. Supports `direction` prop: `up`, `left`, `right`, `none`. Uses `useScroll` with offset `["start 0.95", "start 0.4"]`.
-- **`ScrollStagger`** (`components/animations/ScrollStagger.tsx`) — Wraps children; each child tracks its own viewport position independently via its own `useScroll` ref. Do NOT share a parent scroll progress across children.
+- **`ScrollStagger`** (`components/animations/ScrollStagger.tsx`) — Wraps children; each child tracks its own viewport position independently via its own `useScroll` ref. Do NOT share a parent scroll progress across children. Takes `as="ul"` to render a semantic list: container and item switch to `<ul>`/`<li>` **together**, because a `<div>` between them is invalid HTML and breaks the list for assistive tech. Used by `/services/[slug]`'s "What's Included".
 - **`ServiceCard`** (`components/ui/ServiceCard.tsx`) — Parallax image (shifts with scroll), 3D tilt on hover (spring physics), cursor-following shine effect. Icon badge turns from white to original red on hover.
 - **`ProjectRevealCard`** (in `FeaturedProjects.tsx`) — Clip-path curtain reveal scrubbed to scroll. Alternating directions (left, right, bottom). Curtain colors cycle through logo colors (blue, red, gold). Text fades in after image is 70% revealed.
 
@@ -478,14 +492,11 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - ⚠️ **`/services/[slug]` missing canonical** — same fix already shipped for the homepage (`alternates.canonical`); service detail `page.tsx` uses raw title+description metadata only.
 - **Deferred blog work:** AEO/AI-Overview optimization pass on existing posts; internal-link "Page 6/7" — homepage `LatestGuides` shipped, but `/services` hub + `/about` → blog links were skipped.
 - **Esquair sales PDF** (agency collateral, on Desktop, NOT in repo): `Esquair-AI-Blog-Engine.pdf` sells the blog engine to new clients. Source HTML in the session scratchpad. Has placeholder pricing ($600/$1,200/$2,400/mo) + contact (`hello@esquair.com`) awaiting real values. See memory `reference_esquair_sales_pdf.md`.
-- **Motion / a11y audit findings (Aug 2026), remaining.** Tier 1 shipped (press feedback, quote-modal springs + drag-dismiss + focus trap). Still open, ranked:
-  1. ⚠️ **Reduced motion is honored in exactly one file** (`ProjectChapter.tsx`). `globals.css` has no `@media (prefers-reduced-motion)` block at all, Lenis hijacks scroll regardless of the setting, the hero runs a 20s `infinite alternate` Ken Burns on a full-viewport background, and every `ScrollReveal` / `ScrollStagger` / `TextReveal` / parallax still moves. This is the one with a correctness argument rather than a taste argument. (`.press` is a deliberate exception — see Animation Architecture.)
-  2. **15 `whileInView` call sites contradict design decision #3** — `TextReveal.tsx` (used site-wide) plus `/about`, `/services`, `/services/[slug]`, `[city]`, `/lafayette`, `/moraga`, `/orinda`. Homepage and `/projects` are correctly scroll-scrubbed; most other pages are fire-on-enter at a fixed 0.8s.
-  3. **Testimonials carousel is direction-blind** — prev and next produce identical motion, and `mode="wait"` adds a ~0.5s window where clicking again does nothing. No swipe gesture. The direction-aware `custom`/`variants` pattern from `QuoteModal`'s steps drops straight in.
-  4. **`FAQAccordion` animates `height: 0 → auto`** — layout-driven, not compositor-driven.
-  5. **Headings share one `letter-spacing: -0.02em`** across h1–h6 in `globals.css`. Correct at `text-8xl`, too tight at `text-xl` (ServiceCard titles). Tracking should be size-specific.
-  6. **`CustomCursor` never sets `cursor: none`** — the native cursor renders alongside the custom one. It is also the only spring-driven element outside the modal, on the least important thing on screen.
-  7. **Dead code:** `components/animations/PageTransition.tsx` is imported nowhere; `ScrollReveal`'s `once` prop is declared and never used.
+- **Motion / a11y audit (Aug 2026) — Tier 2 shipped.** Tier 1 was press feedback, quote-modal springs + drag-dismiss + focus trap. Tier 2 (see `plans/`) shipped motion tokens, site-wide reduced-motion support, the `transition-all` sweep, the cursor rewrite, the direction-aware carousel, scroll-scrubbed reveals, and the FAQ accordion. **Still open:**
+  1. **`lib/animations.ts` is now mostly unused.** Only `EASE_OUT` and `animateCounter` have consumers; `EASE_IN_OUT`, `defaultTransition`, `springTransition`, `slowReveal`, `fadeUp`, `fadeIn`, `slideInLeft/Right`, `scaleUp`, `staggerContainer`, and `textLineReveal` have none, since the `whileInView` conversion removed every caller. Kept as a preset library rather than pruned — decide deliberately.
+  2. **Headings share one `letter-spacing: -0.02em`** across h1–h6 in `globals.css`. Correct at `text-8xl`, too tight at `text-xl` (ServiceCard titles). Tracking should be size-specific. *(Untouched by Tier 2.)*
+  3. **No swipe gesture on the testimonials carousel.** Must be built on `lib/hooks/use-drag-dismiss.ts` and raw Pointer Events — framer's `drag` requires `domMax`.
+  4. **`Process.tsx:116,221` progress dots animate `width`**, and seven "Learn more →" links animate `gap`. Both are layout properties; the correct fixes need markup changes. `ServiceCard.tsx:110`'s hover shine is still 500ms.
 - **Optional polish:** upgrade Process section's `<img>` tags to `next/image` to activate the (already-generated) blur entries for those WebPs.
 - **Optional polish:** retrofit the "From the Owner" signed-paragraph pattern to `/lafayette` for parity with Moraga and Orinda.
 - **Optional polish:** drop in real Moraga and Orinda project photos and add a "Featured Project" section to each city page (mirror Lafayette's pattern). Currently both pages skip this section.

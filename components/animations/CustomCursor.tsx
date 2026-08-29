@@ -23,7 +23,7 @@ export default function CustomCursor() {
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -68,39 +68,63 @@ export default function CustomCursor() {
       document.documentElement.removeEventListener("mouseleave", handleMouseLeave);
       document.documentElement.removeEventListener("mouseenter", handleMouseEnter);
     };
-  }, [cursorX, cursorY, isVisible]);
+  }, [cursorX, cursorY]);
 
   if (isMobile) return null;
 
   return (
     <m.div
-      className="fixed top-0 left-0 pointer-events-none z-[9999] rounded-full border-[1.5px] border-brand-blue mix-blend-difference"
+      className="fixed top-0 left-0 pointer-events-none z-[9999] mix-blend-difference"
       style={{
         x,
         y,
         translateX: "-50%",
         translateY: "-50%",
       }}
-      // Explicit `initial` so framer-motion doesn't read the DOM's default
-      // `backgroundColor: transparent` — "transparent" isn't interpolatable as
-      // a color, only alpha is. Same applies to `borderColor`.
-      initial={{
-        width: 20,
-        height: 20,
-        opacity: 0,
-        backgroundColor: "rgba(59, 125, 216, 0)",
-        borderColor: "#3B7DD8",
-      }}
-      animate={{
-        width: isHovering ? 48 : 20,
-        height: isHovering ? 48 : 20,
-        opacity: isVisible ? 1 : 0,
-        backgroundColor: isHovering
-          ? "rgba(59, 125, 216, 0.1)"
-          : "rgba(59, 125, 216, 0)",
-        borderColor: isHovering ? "#E8A83E" : "#3B7DD8",
-      }}
-      transition={{ duration: 0.3, ease: "easeOut" }}
-    />
+    >
+      {/* Rendered once at its largest size and scaled between states.
+          Animating width/height would force layout on every hover — and this
+          element carries mix-blend-difference, so a layout pass here also
+          re-composites everything behind it. scale and opacity stay on the
+          compositor.
+
+          An SVG rather than a bordered div: `vectorEffect` keeps the ring
+          exactly 1.5px at every scale, where a CSS border would thin to
+          0.6px at rest.
+
+          `initial` is stated explicitly because framer-motion cannot
+          interpolate the keyword `transparent` — only an alpha value. The same
+          applies to the stroke. */}
+      <m.svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        initial={{ scale: 20 / 48, opacity: 0 }}
+        animate={{
+          scale: isHovering ? 1 : 20 / 48,
+          opacity: isVisible ? 1 : 0,
+        }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+      >
+        <m.circle
+          cx="24"
+          cy="24"
+          r="23.25"
+          strokeWidth="1.5"
+          vectorEffect="non-scaling-stroke"
+          initial={{
+            fill: "rgba(59, 125, 216, 0)",
+            stroke: "#3B7DD8",
+          }}
+          animate={{
+            fill: isHovering
+              ? "rgba(59, 125, 216, 0.1)"
+              : "rgba(59, 125, 216, 0)",
+            stroke: isHovering ? "#E8A83E" : "#3B7DD8",
+          }}
+          transition={{ duration: 0.2, ease: "easeOut" }}
+        />
+      </m.svg>
+    </m.div>
   );
 }

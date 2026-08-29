@@ -2,15 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { m } from "framer-motion";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
 import { testimonials } from "@/lib/data/testimonials";
-import { staggerContainer, fadeUp } from "@/lib/animations";
 import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import ScrollStagger from "@/components/animations/ScrollStagger";
 import Button from "@/components/ui/Button";
 import QuoteButton from "@/components/ui/QuoteButton";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -242,18 +241,11 @@ export default function MoragaContent() {
             </p>
           </ScrollReveal>
 
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
+          <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {moragaNeighborhoods.map((n) => (
-              <m.div
+              <div
                 key={n.name}
-                variants={fadeUp}
-                className="p-6 rounded-xl bg-warm-white border border-warm-gray-200"
+                className="p-6 rounded-xl bg-warm-white border border-warm-gray-200 h-full"
               >
                 <h3 className="text-xl font-serif text-warm-gray-900 mb-2">
                   {n.name}
@@ -261,9 +253,9 @@ export default function MoragaContent() {
                 <p className="text-warm-gray-600 font-sans text-sm leading-relaxed">
                   {n.note}
                 </p>
-              </m.div>
+              </div>
             ))}
-          </m.div>
+          </ScrollStagger>
         </div>
       </section>
 
@@ -567,7 +559,7 @@ export default function MoragaContent() {
               <ScrollReveal key={c.slug}>
                 <Link
                   href={`/${c.slug}`}
-                  className="group block p-6 rounded-xl bg-cream border border-warm-gray-200 hover:border-brand-blue/40 hover:shadow-sm transition-all h-full"
+                  className="group block p-6 rounded-xl bg-cream border border-warm-gray-200 hover:border-brand-blue/40 hover:shadow-sm transition-[color,background-color,border-color,box-shadow] duration-200 ease-out h-full"
                 >
                   <h3 className="text-xl font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
                     {c.name}

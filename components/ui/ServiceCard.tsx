@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { m, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 import type { Service } from "@/lib/data/services";
@@ -18,16 +18,22 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
+  const reducedMotion = useReducedMotion();
 
   // Parallax: image moves slower than scroll
   const { scrollYProgress } = useScroll({
     target: cardRef,
     offset: ["start end", "end start"],
   });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
+  const imageY = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reducedMotion ? ["0%", "0%"] : ["-8%", "8%"],
+  );
 
   // 3D tilt on hover
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (reducedMotion) return;
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
@@ -87,12 +93,12 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
               />
             </m.div>
           ) : (
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-all duration-500" />
+            <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-[color,background-color,border-color,box-shadow] duration-200 ease-out" />
           )}
 
           {/* Overlay */}
           <div
-            className={`absolute inset-0 transition-all duration-500 ${
+            className={`absolute inset-0 transition-[color,background-color,border-color,box-shadow] duration-200 ease-out ${
               service.image
                 ? "bg-gradient-to-t from-warm-gray-900/80 via-warm-gray-900/20 to-warm-gray-900/5 group-hover:from-warm-gray-900/90 group-hover:via-warm-gray-900/30"
                 : ""
@@ -112,13 +118,13 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
           {/* Icon badge */}
           {service.icon && (
             <div
-              className="absolute top-4 left-4 md:top-5 md:left-5 w-10 h-10 md:w-12 md:h-12 rounded-lg bg-white/15 group-hover:bg-white/90 backdrop-blur-sm flex items-center justify-center transition-all duration-500"
+              className="absolute top-4 left-4 md:top-5 md:left-5 w-10 h-10 md:w-12 md:h-12 rounded-lg bg-white/15 group-hover:bg-white/90 backdrop-blur-sm flex items-center justify-center transition-[color,background-color,border-color,box-shadow] duration-200 ease-out"
               style={{ transform: "translateZ(30px)" }}
             >
               <img
                 src={service.icon}
                 alt=""
-                className="w-6 h-6 md:w-7 md:h-7 brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all duration-500"
+                className="w-6 h-6 md:w-7 md:h-7 brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-[filter] duration-200 ease-out"
               />
             </div>
           )}
@@ -135,7 +141,7 @@ export default function ServiceCard({ service, className = "", sizes }: ServiceC
               {service.shortDescription}
             </p>
 
-            <div className="flex items-center gap-1 mt-3 text-brand-gold text-sm font-sans font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+            <div className="flex items-center gap-1 mt-3 text-brand-gold text-sm font-sans font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-[opacity,transform] duration-200 ease-out">
               Learn More
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

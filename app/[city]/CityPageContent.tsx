@@ -1,15 +1,14 @@
 "use client";
 
-import { m } from "framer-motion";
 import Link from "next/link";
 import type { City } from "@/lib/data/cities";
 import type { BlogPost } from "@/lib/blog/types";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
-import { staggerContainer, fadeUp } from "@/lib/animations";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import ScrollStagger from "@/components/animations/ScrollStagger";
 import Button from "@/components/ui/Button";
 import QuoteButton from "@/components/ui/QuoteButton";
 import FinalCTA from "@/components/sections/FinalCTA";
@@ -58,27 +57,21 @@ export default function CityPageContent({
             </p>
           </ScrollReveal>
 
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
+          <ScrollStagger className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
-              <m.div key={service.slug} variants={fadeUp}>
+              <div key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group flex items-center gap-4 p-4 rounded-lg bg-cream border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-sm transition-all"
+                  className="group flex items-center gap-4 p-4 rounded-lg bg-cream border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-sm transition-[color,background-color,border-color,box-shadow] duration-200 ease-out h-full"
                 >
                   <div className="w-2 h-2 rounded-full bg-brand-gold shrink-0" />
                   <span className="font-sans text-warm-gray-700 group-hover:text-brand-blue transition-colors">
                     {service.name}
                   </span>
                 </Link>
-              </m.div>
+              </div>
             ))}
-          </m.div>
+          </ScrollStagger>
         </div>
       </section>
 
@@ -173,18 +166,12 @@ export default function CityPageContent({
               </p>
             </ScrollReveal>
 
-            <m.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
+            <ScrollStagger className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {guides.map((guide) => (
-                <m.div key={guide.slug} variants={fadeUp}>
+                <div key={guide.slug}>
                   <Link
                     href={`/blog/${guide.slug}`}
-                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-[color,background-color,border-color,box-shadow] duration-200 ease-out"
                   >
                     <h3 className="text-lg font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
                       {guide.title}
@@ -196,9 +183,9 @@ export default function CityPageContent({
                       Read the guide →
                     </span>
                   </Link>
-                </m.div>
+                </div>
               ))}
-            </m.div>
+            </ScrollStagger>
           </div>
         </section>
       )}

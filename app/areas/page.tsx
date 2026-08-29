@@ -51,7 +51,7 @@ export default function AreasPage() {
               <ScrollReveal key={city.slug}>
                 <Link
                   href={`/${city.slug}`}
-                  className="group block bg-cream rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500 p-6 h-full"
+                  className="group block bg-cream rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-[color,background-color,border-color,box-shadow] duration-200 ease-out p-6 h-full"
                 >
                   <div className="flex items-center gap-2 mb-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
@@ -106,7 +106,7 @@ export default function AreasPage() {
                 <ScrollReveal key={city.slug}>
                   <Link
                     href={`/${city.slug}`}
-                    className="group block bg-warm-white rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500 p-6 h-full"
+                    className="group block bg-warm-white rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-[color,background-color,border-color,box-shadow] duration-200 ease-out p-6 h-full"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-brand-blue/60" />
@@ -163,7 +163,7 @@ export default function AreasPage() {
               <ScrollReveal key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group flex items-center gap-4 p-4 rounded-lg bg-cream border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-sm transition-all"
+                  className="group flex items-center gap-4 p-4 rounded-lg bg-cream border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-sm transition-[color,background-color,border-color,box-shadow] duration-200 ease-out"
                 >
                   <div className="w-2 h-2 rounded-full bg-brand-gold shrink-0" />
                   <span className="font-sans text-warm-gray-700 group-hover:text-brand-blue transition-colors">
