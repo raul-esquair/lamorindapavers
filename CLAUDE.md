@@ -427,6 +427,10 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 16. **Gestures use Pointer Events, never framer's `drag`** — `drag` requires `domMax` and forfeits the LazyMotion bundle saving. Reuse `lib/hooks/use-drag-dismiss.ts`. See "Gestures are hand-rolled on Pointer Events".
 17. **The quote modal's accessibility is load-bearing** — dialog semantics, focus trap, focus restore, and the `sr-only`-radio focus ring. Without them a keyboard user tabs out of the modal into the page behind the backdrop, and can activate a link and lose everything they typed — on the site's only conversion path.
 
+18. **Motion curves are tokens; never hand-type a cubic-bezier** — `--ease-out` / `--ease-in-out` in `globals.css` (declared in `:root`, re-exported via `@theme inline`), mirrored as `EASE_OUT` / `EASE_IN_OUT` in `lib/animations.ts` because framer cannot read a CSS custom property for `ease`. **Edit the pair together.** They deliberately shadow Tailwind's built-ins. And never `transition-all` — name the properties, or you animate `box-shadow` off-GPU and `backdrop-filter` on the header. See "Motion curves live in tokens".
+19. **Reduced motion is three layers, and deliberately spares transitions** — the `@media (prefers-reduced-motion: reduce)` block neutralises looping `animation`s only. Do NOT add the common `transition-duration: 0.01ms !important` blanket: it silently kills `.press`, every colour transition, and the focus rings. Opacity fades stay; position and scale go. Lenis does not instantiate at all, and the `scrollIntoView` fallbacks are gated too, because an explicit `behavior: "smooth"` overrides the CSS `scroll-behavior`. See "Reduced motion is honoured in three layers".
+20. **Zero `whileInView` call sites** — design decision #3 now holds site-wide. `ScrollStagger`'s `as="ul"` switches container and item to `<ul>`/`<li>` **together**; a `<div>` between them is invalid HTML and breaks the list for assistive tech.
+
 ## Blog Engine (AI content pipeline)
 The blog is a fully automated AI content engine (installed from `esquair-blog-starter`), **not** a manual/MDX blog. It publishes AEO-tuned posts weekly with zero touch.
 
@@ -484,7 +488,7 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - Add remaining 3 service images (putting greens, water features, arbors) + their icons
 - Add Steve's photo for About page and homepage About Preview (currently uses placeholder spots)
 - Set up Google Analytics 4 + Vercel Analytics
-- Connect custom domain on Netlify
+- ~~Connect custom domain on Netlify~~ **DONE** — `lamorindapaving.com` serves the production deploy (verified Aug 2026: identical asset hashes to the `delightful-sundae-2ddcbc.netlify.app` origin).
 - Set up redirects from old WordPress URLs to new routes
 - ~~Blog content~~ **DONE / ongoing** — AI blog engine is live and publishing weekly. See "Blog Engine" section. Remaining briefs drain automatically; next content batch is proposed via the `next-content-batch` skill / `auto-propose-batch` workflow.
 - ~~Blog was invisible to Google (ghost pages)~~ **DONE (Aug 2026)** — diagnosed all 14 posts uncrawled/unindexed; rebuilt discovery + authority: E-E-A-T authorship, entity graph, internal links from authority pages, sitemap submitted, http/https canonical fix, homepage `LatestGuides`, auto-discovery pipeline. See memory `project_blog_discovery_eeat.md` + `project_gsc_access.md`.
