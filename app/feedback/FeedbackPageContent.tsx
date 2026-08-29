@@ -65,7 +65,7 @@ function Face({ variant }: { variant: FaceVariant }) {
 }
 
 const inputClass =
-  "w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white";
+  "w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white";
 const labelClass = "block text-sm font-sans font-medium text-warm-gray-700 mb-2";
 
 export default function FeedbackPageContent() {

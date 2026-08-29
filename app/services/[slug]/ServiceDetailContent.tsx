@@ -11,6 +11,7 @@ import { staggerContainer, fadeUp } from "@/lib/animations";
 import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import ScrollStagger from "@/components/animations/ScrollStagger";
 import Button from "@/components/ui/Button";
 import QuoteButton from "@/components/ui/QuoteButton";
 import FAQAccordion from "@/components/ui/FAQAccordion";
@@ -261,18 +262,12 @@ export default function ServiceDetailContent({
               </p>
             </ScrollReveal>
 
-            <m.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-1 md:grid-cols-2 gap-6"
-            >
+            <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {relatedGuides.map((guide) => (
-                <m.div key={guide.slug} variants={fadeUp}>
+                <div key={guide.slug}>
                   <Link
                     href={`/blog/${guide.slug}`}
-                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                    className="group flex flex-col h-full bg-cream rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-[color,background-color,border-color,box-shadow] duration-200 ease-out"
                   >
                     <h3 className="text-lg font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
                       {guide.title}
@@ -284,9 +279,9 @@ export default function ServiceDetailContent({
                       Read the guide →
                     </span>
                   </Link>
-                </m.div>
+                </div>
               ))}
-            </m.div>
+            </ScrollStagger>
           </div>
         </section>
       )}
@@ -301,18 +296,12 @@ export default function ServiceDetailContent({
               </h2>
             </ScrollReveal>
 
-            <m.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-1 md:grid-cols-3 gap-6"
-            >
+            <ScrollStagger className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedServices.map((related) => (
-                <m.div key={related.slug} variants={fadeUp}>
+                <div key={related.slug}>
                   <Link
                     href={`/services/${related.slug}`}
-                    className="group block bg-warm-white rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                    className="group block bg-warm-white rounded-xl p-6 border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-[color,background-color,border-color,box-shadow] duration-200 ease-out h-full"
                   >
                     <h3 className="text-lg font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
                       {related.name}
@@ -321,9 +310,9 @@ export default function ServiceDetailContent({
                       {related.shortDescription}
                     </p>
                   </Link>
-                </m.div>
+                </div>
               ))}
-            </m.div>
+            </ScrollStagger>
           </div>
         </section>
       )}
@@ -387,7 +376,7 @@ export default function ServiceDetailContent({
           <div className="mt-10">
             <Link
               href="/areas"
-              className="inline-flex items-center gap-2 text-brand-blue font-sans font-medium hover:gap-3 transition-all"
+              className="inline-flex items-center gap-2 text-brand-blue font-sans font-medium hover:gap-3 transition-[gap] duration-200 ease-out"
             >
               View all service areas
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

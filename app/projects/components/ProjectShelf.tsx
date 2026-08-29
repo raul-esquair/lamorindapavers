@@ -48,7 +48,16 @@ export default function ProjectShelf({ projects, stackRef }: Props) {
     if (lenis) {
       lenis.scrollTo(target, { offset: 0 });
     } else {
-      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      target.scrollIntoView({
+        // Explicit "smooth" overrides the CSS scroll-behavior, so the
+        // reduced-motion check has to happen here too — otherwise
+        // skipping Lenis just swaps one smooth scroll for another.
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+          .matches
+          ? "auto"
+          : "smooth",
+        block: "start",
+      });
     }
   };
 

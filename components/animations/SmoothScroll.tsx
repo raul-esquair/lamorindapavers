@@ -21,6 +21,15 @@ export default function SmoothScroll({
   children: React.ReactNode;
 }) {
   useEffect(() => {
+    // Lenis replaces native scrolling with an eased, decelerating one. That is
+    // precisely the sensation reduced-motion users are asking to avoid, and
+    // unlike a decorative animation it cannot be gentled — so the whole
+    // instance is skipped. getLenis() then returns null, which every caller
+    // already handles, and the browser's own scrolling takes over.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),

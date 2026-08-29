@@ -192,7 +192,7 @@ export default function ContactPageContent() {
                             {...register("details")}
                             rows={4}
                             placeholder="Describe your project — size, current condition, any specific ideas or materials you have in mind..."
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                           />
                         </div>
                         <div>
@@ -201,7 +201,7 @@ export default function ContactPageContent() {
                           </label>
                           <select
                             {...register("timeline")}
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 bg-white"
+                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 bg-white"
                           >
                             <option value="">Select timeline...</option>
                             <option value="asap">As soon as possible</option>
@@ -242,7 +242,7 @@ export default function ContactPageContent() {
                             type="text"
                             {...register("name", { required: "Name is required" })}
                             placeholder="Your name"
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                           />
                           {errors.name && (
                             <p className="text-brand-red text-sm mt-1 font-sans">{errors.name.message}</p>
@@ -257,7 +257,7 @@ export default function ContactPageContent() {
                               type="tel"
                               {...register("phone", { required: "Phone is required" })}
                               placeholder="(925) 555-0000"
-                              className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                              className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                             />
                             {errors.phone && (
                               <p className="text-brand-red text-sm mt-1 font-sans">{errors.phone.message}</p>
@@ -271,7 +271,7 @@ export default function ContactPageContent() {
                               type="email"
                               {...register("email", { required: "Email is required" })}
                               placeholder="you@email.com"
-                              className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                              className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                             />
                             {errors.email && (
                               <p className="text-brand-red text-sm mt-1 font-sans">{errors.email.message}</p>
@@ -286,7 +286,7 @@ export default function ContactPageContent() {
                             type="text"
                             {...register("city")}
                             placeholder="e.g., Lafayette, Walnut Creek"
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                           />
                         </div>
                       </div>

@@ -1,11 +1,10 @@
 "use client";
 
-import { m } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
-import { staggerContainer, fadeUp } from "@/lib/animations";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import ScrollStagger from "@/components/animations/ScrollStagger";
 import FinalCTA from "@/components/sections/FinalCTA";
 
 export default function ServicesPageContent({ services }: { services: Service[] }) {
@@ -30,21 +29,15 @@ export default function ServicesPageContent({ services }: { services: Service[] 
       {/* Services Grid */}
       <section className="py-16 md:py-24 bg-warm-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
+          <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service) => (
-              <m.div key={service.slug} variants={fadeUp}>
+              <div key={service.slug}>
                 <Link
                   href={`/services/${service.slug}`}
-                  className="group block bg-cream rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-all duration-500"
+                  className="group block bg-cream rounded-xl overflow-hidden border border-warm-gray-200 hover:border-brand-blue/30 hover:shadow-lg transition-[color,background-color,border-color,box-shadow] duration-200 ease-out h-full"
                 >
                   {/* Image placeholder */}
-                  <div className="h-48 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-all duration-500" />
+                  <div className="h-48 bg-gradient-to-br from-brand-blue/10 to-brand-gold/10 group-hover:from-brand-blue/20 group-hover:to-brand-gold/20 transition-[color,background-color,border-color,box-shadow] duration-200 ease-out" />
 
                   <div className="p-6">
                     <h2 className="text-xl font-serif text-warm-gray-900 group-hover:text-brand-blue transition-colors mb-2">
@@ -61,9 +54,9 @@ export default function ServicesPageContent({ services }: { services: Service[] 
                     </span>
                   </div>
                 </Link>
-              </m.div>
+              </div>
             ))}
-          </m.div>
+          </ScrollStagger>
         </div>
       </section>
 

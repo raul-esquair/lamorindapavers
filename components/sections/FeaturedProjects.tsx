@@ -157,7 +157,7 @@ export default function FeaturedProjects() {
             </h2>
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 text-brand-blue font-sans font-semibold hover:gap-3 transition-all shrink-0"
+              className="inline-flex items-center gap-2 text-brand-blue font-sans font-semibold hover:gap-3 transition-[gap] duration-200 ease-out shrink-0"
             >
               View Full Portfolio
               <svg

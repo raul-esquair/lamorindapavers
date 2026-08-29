@@ -1,9 +1,15 @@
 import type { Variants, Transition } from "framer-motion";
 
+// Motion curves, mirroring the --ease-* custom properties in app/globals.css.
+// Framer Motion cannot read a CSS custom property for `ease`, so the two
+// definitions must be edited together. Keep the numbers identical.
+export const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+export const EASE_IN_OUT = [0.77, 0, 0.175, 1] as const;
+
 // Default transition presets
 export const defaultTransition: Transition = {
-  duration: 0.8,
-  ease: [0.25, 0.1, 0.25, 1], // cubic-bezier for luxury feel
+  duration: 0.6,
+  ease: EASE_OUT,
 };
 
 export const springTransition: Transition = {
@@ -14,7 +20,7 @@ export const springTransition: Transition = {
 
 export const slowReveal: Transition = {
   duration: 1.2,
-  ease: [0.25, 0.1, 0.25, 1],
+  ease: EASE_OUT,
 };
 
 // Fade up animation (most common scroll reveal)
@@ -78,13 +84,17 @@ export const scaleUp: Variants = {
   },
 };
 
-// Stagger children container
+// Stagger children container.
+// 60ms reads as a cascade; past ~80ms it reads as a queue the user is waiting
+// on. Most scroll reveals now use ScrollStagger instead, which derives its
+// cascade from each item's own scroll position rather than a timer — prefer
+// that for anything tied to scrolling.
 export const staggerContainer: Variants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.12,
-      delayChildren: 0.1,
+      staggerChildren: 0.06,
+      delayChildren: 0,
     },
   },
 };
@@ -98,7 +108,7 @@ export const imageReveal: Variants = {
     clipPath: "inset(0 0% 0 0)",
     transition: {
       duration: 1.2,
-      ease: [0.25, 0.1, 0.25, 1],
+      ease: EASE_OUT,
     },
   },
 };
@@ -114,7 +124,7 @@ export const textLineReveal: Variants = {
     opacity: 1,
     transition: {
       duration: 0.8,
-      ease: [0.25, 0.1, 0.25, 1],
+      ease: EASE_OUT,
     },
   },
 };

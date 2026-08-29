@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { m, useScroll, useTransform, useInView } from "framer-motion";
+import { m, useScroll, useTransform, useInView, useReducedMotion } from "framer-motion";
 import { company } from "@/lib/data/company";
 import { animateCounter } from "@/lib/animations";
 
@@ -22,17 +22,22 @@ function AnimatedStat({ stat }: { stat: StatItem }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
   const [count, setCount] = useState(0);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (isInView) {
-      animateCounter(0, stat.value, 2, setCount);
-    }
-  }, [isInView, stat.value]);
+    if (!isInView || reducedMotion) return;
+    animateCounter(0, stat.value, 2, setCount);
+  }, [isInView, stat.value, reducedMotion]);
+
+  // Derived rather than written from the effect: the count-up is a flourish,
+  // the information is the final value. Setting state synchronously in the
+  // effect instead would be a cascading render for no gain.
+  const displayed = reducedMotion ? stat.value : count;
 
   return (
     <div className="flex flex-col items-center text-center px-4">
       <span ref={ref} className="text-3xl md:text-4xl font-serif text-brand-blue font-bold">
-        {count}
+        {displayed}
         {stat.suffix}
       </span>
       <span className="text-sm font-sans text-warm-gray-500 mt-1">{stat.label}</span>
@@ -42,13 +47,14 @@ function AnimatedStat({ stat }: { stat: StatItem }) {
 
 export default function TrustBar() {
   const ref = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start 0.95", "start 0.5"],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [30, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [30, 0]);
 
   return (
     <section ref={ref} className="py-12 md:py-16 bg-cream border-y border-warm-gray-200">

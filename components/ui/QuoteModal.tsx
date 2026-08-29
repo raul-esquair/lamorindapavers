@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useId, createContext, useContext, useCallback } from "react";
 import { m, AnimatePresence } from "framer-motion";
+import { EASE_OUT } from "@/lib/animations";
 import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
@@ -109,7 +110,7 @@ const stepVariants = {
   exit: (direction: number) => ({ opacity: 0, x: direction * -24 }),
 };
 
-const stepTransition = { duration: 0.18, ease: [0.25, 0.1, 0.25, 1] } as const;
+const stepTransition = { duration: 0.18, ease: EASE_OUT } as const;
 
 function QuoteModalContent({ onClose }: { onClose: () => void }) {
   const [step, setStep] = useState(1);
@@ -394,7 +395,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                 {...register("details")}
                                 rows={3}
                                 placeholder="Size, current condition, ideas you have in mind..."
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                               />
                             </div>
                             <div>
@@ -403,7 +404,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                               </label>
                               <select
                                 {...register("timeline")}
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 bg-white"
+                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 bg-white"
                               >
                                 <option value="">When are you looking to start?</option>
                                 <option value="asap">As soon as possible</option>
@@ -452,7 +453,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                 type="text"
                                 {...register("name", { required: "Name is required" })}
                                 placeholder="Your name"
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                               />
                               {errors.name && (
                                 <p className="text-brand-red text-xs mt-1 font-sans">
@@ -469,7 +470,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                   type="tel"
                                   {...register("phone", { required: "Phone is required" })}
                                   placeholder="(925) 555-0000"
-                                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                                 />
                                 {errors.phone && (
                                   <p className="text-brand-red text-xs mt-1 font-sans">
@@ -485,7 +486,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                   type="email"
                                   {...register("email", { required: "Email is required" })}
                                   placeholder="you@email.com"
-                                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                                  className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                                 />
                                 {errors.email && (
                                   <p className="text-brand-red text-xs mt-1 font-sans">
@@ -502,7 +503,7 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                 type="text"
                                 {...register("city")}
                                 placeholder="e.g., Lafayette, Walnut Creek"
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                               />
                             </div>
                           </div>

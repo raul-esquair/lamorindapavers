@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { company } from "@/lib/data/company";
 import { blurProps } from "@/lib/blur";
+import { EASE_OUT } from "@/lib/animations";
 import QuoteButton from "@/components/ui/QuoteButton";
 
 const navLinks = [
@@ -45,8 +46,12 @@ export default function Header() {
       <m.header
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        transition={{ duration: 0.5, ease: EASE_OUT }}
+        // backdrop-filter is intentionally absent from this list: animating it
+        // re-rasterises everything behind a full-width fixed bar, every frame,
+        // on every scroll past 50px. It snaps; the background colour carries
+        // the transition. Same reasoning as the quote modal's backdrop.
+        className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,box-shadow] duration-300 ease-out ${
           isScrolled
             ? "bg-warm-white/90 backdrop-blur-md shadow-sm"
             : "bg-transparent"
@@ -62,7 +67,7 @@ export default function Header() {
                 width={220}
                 height={60}
                 priority
-                className={`h-12 lg:h-16 w-auto transition-all duration-500 ${
+                className={`h-12 lg:h-16 w-auto transition-[filter] duration-300 ease-out ${
                   isScrolled ? "" : "brightness-0 invert"
                 }`}
                 {...blurProps("/images/logo.png")}
@@ -152,7 +157,7 @@ export default function Header() {
                   transition={{
                     duration: 0.4,
                     delay: i * 0.08,
-                    ease: [0.25, 0.1, 0.25, 1],
+                    ease: EASE_OUT,
                   }}
                 >
                   <Link

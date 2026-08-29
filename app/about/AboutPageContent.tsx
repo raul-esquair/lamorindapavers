@@ -1,10 +1,9 @@
 "use client";
 
-import { m } from "framer-motion";
 import { company } from "@/lib/data/company";
-import { staggerContainer, fadeUp, slideInLeft, slideInRight } from "@/lib/animations";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import ScrollStagger from "@/components/animations/ScrollStagger";
 import Button from "@/components/ui/Button";
 import FinalCTA from "@/components/sections/FinalCTA";
 
@@ -53,25 +52,15 @@ export default function AboutPageContent() {
       <section className="py-16 md:py-24 bg-warm-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <m.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={slideInLeft}
-            >
+            <ScrollReveal direction="left">
               <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gradient-to-br from-warm-gray-200 to-warm-gray-300">
                 <div className="w-full h-full flex items-center justify-center text-warm-gray-400 font-sans text-lg">
                   Steve Barsanti
                 </div>
               </div>
-            </m.div>
+            </ScrollReveal>
 
-            <m.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={slideInRight}
-            >
+            <ScrollReveal direction="right">
               <SectionLabel>Meet the Owner</SectionLabel>
               <h2 className="text-4xl md:text-5xl text-warm-gray-900 mt-4 mb-6">
                 Steve Barsanti
@@ -99,7 +88,7 @@ export default function AboutPageContent() {
                   every inch of our work.
                 </p>
               </div>
-            </m.div>
+            </ScrollReveal>
           </div>
         </div>
       </section>
@@ -114,18 +103,11 @@ export default function AboutPageContent() {
             </h2>
           </ScrollReveal>
 
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
+          <ScrollStagger className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {values.map((value) => (
-              <m.div
+              <div
                 key={value.title}
-                variants={fadeUp}
-                className="bg-warm-white rounded-xl p-8 border border-warm-gray-200"
+                className="bg-warm-white rounded-xl p-8 border border-warm-gray-200 h-full"
               >
                 <h3 className="text-xl font-serif text-warm-gray-900 mb-3">
                   {value.title}
@@ -133,9 +115,9 @@ export default function AboutPageContent() {
                 <p className="text-warm-gray-500 font-sans leading-relaxed">
                   {value.description}
                 </p>
-              </m.div>
+              </div>
             ))}
-          </m.div>
+          </ScrollStagger>
         </div>
       </section>
 
@@ -148,14 +130,8 @@ export default function AboutPageContent() {
             </h2>
           </ScrollReveal>
 
-          <m.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto"
-          >
-            <m.div variants={fadeUp} className="text-center p-6">
+          <ScrollStagger className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+            <div className="text-center p-6">
               <div className="w-16 h-16 rounded-full bg-brand-blue/10 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-brand-blue" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -163,9 +139,9 @@ export default function AboutPageContent() {
               </div>
               <h3 className="font-sans font-semibold text-warm-gray-900 mb-1">Licensed</h3>
               <p className="text-sm font-sans text-warm-gray-500">CA License #{company.license}</p>
-            </m.div>
+            </div>
 
-            <m.div variants={fadeUp} className="text-center p-6">
+            <div className="text-center p-6">
               <div className="w-16 h-16 rounded-full bg-brand-gold/10 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-brand-gold" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 1l2.928 6.856L20 8.588l-5 5.012L16.18 20 10 16.428 3.82 20 5 13.6 0 8.588l7.072-.732L10 1z" clipRule="evenodd" />
@@ -173,9 +149,9 @@ export default function AboutPageContent() {
               </div>
               <h3 className="font-sans font-semibold text-warm-gray-900 mb-1">Warranted</h3>
               <p className="text-sm font-sans text-warm-gray-500">{company.warranty}</p>
-            </m.div>
+            </div>
 
-            <m.div variants={fadeUp} className="text-center p-6">
+            <div className="text-center p-6">
               <div className="w-16 h-16 rounded-full bg-brand-red/10 flex items-center justify-center mx-auto mb-4">
                 <svg className="w-8 h-8 text-brand-red" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
@@ -183,8 +159,8 @@ export default function AboutPageContent() {
               </div>
               <h3 className="font-sans font-semibold text-warm-gray-900 mb-1">Insured</h3>
               <p className="text-sm font-sans text-warm-gray-500">Fully Insured &amp; Bonded</p>
-            </m.div>
-          </m.div>
+            </div>
+          </ScrollStagger>
         </div>
       </section>
 

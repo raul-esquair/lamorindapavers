@@ -15,7 +15,7 @@ interface FormValues {
 }
 
 const inputClass =
-  "w-full px-3 py-2.5 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-all font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white";
+  "w-full px-3 py-2.5 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white";
 const labelClass = "block font-sans text-xs font-medium text-warm-gray-600 mb-1.5";
 
 export default function AddRequestForm({ today }: { today: string }) {

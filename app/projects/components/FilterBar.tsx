@@ -28,7 +28,7 @@ export default function FilterBar({
   };
 
   const baseClass =
-    "px-4 py-2 rounded-full text-sm font-sans font-medium transition-all duration-300";
+    "px-4 py-2 rounded-full text-sm font-sans font-medium transition-[color,background-color,border-color,box-shadow] duration-200 ease-out";
   const activeClass = "bg-brand-blue text-white";
   const idleClass = "bg-cream text-warm-gray-600 hover:bg-warm-gray-100";
 

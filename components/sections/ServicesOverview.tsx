@@ -77,7 +77,7 @@ export default function ServicesOverview() {
         <ScrollReveal className="text-center mt-12">
           <Link
             href="/services"
-            className="inline-flex items-center gap-2 text-brand-blue font-sans font-semibold hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-brand-blue font-sans font-semibold hover:gap-3 transition-[gap] duration-200 ease-out"
           >
             View All Services
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

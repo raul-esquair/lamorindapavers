@@ -39,7 +39,7 @@ export default function LatestGuides({ posts }: { posts: BlogPost[] }) {
         <ScrollReveal className="mt-12">
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-brand-blue font-sans font-medium hover:gap-3 transition-all"
+            className="inline-flex items-center gap-2 text-brand-blue font-sans font-medium hover:gap-3 transition-[gap] duration-200 ease-out"
           >
             View all guides
             <svg

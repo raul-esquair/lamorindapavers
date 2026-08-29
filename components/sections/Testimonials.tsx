@@ -5,6 +5,7 @@ import { m, AnimatePresence } from "framer-motion";
 import { testimonials } from "@/lib/data/testimonials";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
+import { EASE_OUT } from "@/lib/animations";
 
 function StarRating({ rating }: { rating: number }) {
   return (
@@ -23,15 +24,55 @@ function StarRating({ rating }: { rating: number }) {
   );
 }
 
+function TestimonialBody({
+  testimonial,
+}: {
+  testimonial: (typeof testimonials)[number];
+}) {
+  return (
+    <>
+      <StarRating rating={testimonial.rating} />
+      <blockquote className="text-xl md:text-2xl lg:text-3xl font-serif text-warm-gray-100 mt-6 mb-8 leading-relaxed">
+        &ldquo;{testimonial.text}&rdquo;
+      </blockquote>
+      <div>
+        <p className="font-sans font-semibold text-white">{testimonial.name}</p>
+        <p className="text-sm font-sans text-warm-gray-400">
+          {testimonial.city} &middot; {testimonial.service}
+        </p>
+      </div>
+    </>
+  );
+}
+
+// A quote enters from the side it is travelling from and leaves toward the
+// side it is travelling to, so Previous reads as the inverse of Next rather
+// than an identical slide. Same pattern as the quote modal's form steps.
+const testimonialVariants = {
+  enter: (direction: number) => ({ opacity: 0, x: direction * 40 }),
+  center: { opacity: 1, x: 0 },
+  exit: (direction: number) => ({ opacity: 0, x: direction * -40 }),
+};
+
+const testimonialTransition = { duration: 0.25, ease: EASE_OUT } as const;
+
 export default function Testimonials() {
   const [active, setActive] = useState(0);
+  const [direction, setDirection] = useState(1);
 
   const nextTestimonial = () => {
+    setDirection(1);
     setActive((prev) => (prev + 1) % testimonials.length);
   };
 
   const prevTestimonial = () => {
+    setDirection(-1);
     setActive((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
+  const goTo = (i: number) => {
+    setDirection(i > active ? 1 : -1);
+    setActive(i);
   };
 
   return (
@@ -45,29 +86,43 @@ export default function Testimonials() {
         </ScrollReveal>
 
         <div className="relative">
-          <AnimatePresence mode="wait">
-            <m.div
-              key={active}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="text-center"
-            >
-              <StarRating rating={testimonials[active].rating} />
-              <blockquote className="text-xl md:text-2xl lg:text-3xl font-serif text-warm-gray-100 mt-6 mb-8 leading-relaxed">
-                &ldquo;{testimonials[active].text}&rdquo;
-              </blockquote>
-              <div>
-                <p className="font-sans font-semibold text-white">
-                  {testimonials[active].name}
-                </p>
-                <p className="text-sm font-sans text-warm-gray-400">
-                  {testimonials[active].city} &middot; {testimonials[active].service}
-                </p>
+          {/* The stage is a 1x1 grid and every child sits in that one cell,
+              so they stack. The invisible copies below reserve the height of
+              the tallest quote at the current width, which is what keeps the
+              section from resizing as quotes change — and, unlike a hand-tuned
+              min-height, it stays correct when a quote is edited or the text
+              rewraps at a different breakpoint. */}
+          <div className="relative grid">
+            {testimonials.map((t, i) => (
+              <div
+                key={`spacer-${i}`}
+                aria-hidden
+                className="col-start-1 row-start-1 invisible text-center"
+              >
+                <TestimonialBody testimonial={t} />
               </div>
-            </m.div>
-          </AnimatePresence>
+            ))}
+
+            {/* No `mode="wait"`: holding the incoming quote until the outgoing
+                one has fully left creates a window where the arrows look
+                clickable and do nothing. Both occupy the same grid cell, so
+                they cross over in place and a second click is answered
+                immediately. */}
+            <AnimatePresence custom={direction} initial={false}>
+              <m.div
+                key={active}
+                custom={direction}
+                variants={testimonialVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={testimonialTransition}
+                className="col-start-1 row-start-1 text-center"
+              >
+                <TestimonialBody testimonial={testimonials[active]} />
+              </m.div>
+            </AnimatePresence>
+          </div>
 
           {/* Navigation */}
           <div className="flex items-center justify-center gap-4 mt-10">
@@ -85,12 +140,22 @@ export default function Testimonials() {
               {testimonials.map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => setActive(i)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    i === active ? "bg-brand-gold w-6" : "bg-warm-gray-600"
-                  }`}
+                  onClick={() => goTo(i)}
+                  className="press w-6 h-2 flex items-center"
                   aria-label={`Go to testimonial ${i + 1}`}
-                />
+                  aria-current={i === active ? "true" : undefined}
+                >
+                  {/* The pill is always 24px wide and scaled down when
+                      inactive, rather than resized. Animating `width` on a flex
+                      row reflows every sibling dot on every change. */}
+                  <span
+                    className={`h-2 w-6 rounded-full origin-left transition-[transform,background-color] duration-200 ease-out ${
+                      i === active
+                        ? "bg-brand-gold scale-x-100"
+                        : "bg-warm-gray-600 scale-x-[0.3333]"
+                    }`}
+                  />
+                </button>
               ))}
             </div>
 

@@ -156,7 +156,7 @@ export default async function BlogPostPage({ params }: Props) {
           <div className="mt-16 pt-8 border-t border-warm-gray-200">
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 text-sm font-medium text-brand-gold-dark hover:gap-3 transition-all font-sans"
+              className="inline-flex items-center gap-2 text-sm font-medium text-brand-gold-dark hover:gap-3 transition-[gap] duration-200 ease-out font-sans"
             >
               <ArrowLeft size={14} />
               Back to all articles

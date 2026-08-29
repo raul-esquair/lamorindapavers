@@ -1,6 +1,7 @@
 "use client";
 
-import { m } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
+import { EASE_OUT } from "@/lib/animations";
 
 interface TextRevealProps {
   children: string;
@@ -18,6 +19,7 @@ export default function TextReveal({
   once = true,
 }: TextRevealProps) {
   const words = children.split(" ");
+  const reducedMotion = useReducedMotion();
 
   return (
     <Tag className={className}>
@@ -29,7 +31,7 @@ export default function TextReveal({
           hidden: {},
           visible: {
             transition: {
-              staggerChildren: 0.05,
+              staggerChildren: reducedMotion ? 0 : 0.05,
               delayChildren: delay,
             },
           },
@@ -41,13 +43,13 @@ export default function TextReveal({
             <m.span
               className="inline-block"
               variants={{
-                hidden: { y: "100%", opacity: 0 },
+                hidden: { y: reducedMotion ? "0%" : "100%", opacity: 0 },
                 visible: {
                   y: "0%",
                   opacity: 1,
                   transition: {
                     duration: 0.6,
-                    ease: [0.25, 0.1, 0.25, 1],
+                    ease: EASE_OUT,
                   },
                 },
               }}

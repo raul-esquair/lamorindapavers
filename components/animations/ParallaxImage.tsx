@@ -1,6 +1,6 @@
 "use client";
 
-import { m, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
 import { blurProps } from "@/lib/blur";
@@ -21,12 +21,17 @@ export default function ParallaxImage({
   priority = false,
 }: ParallaxImageProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
 
-  const y = useTransform(scrollYProgress, [0, 1], [`-${speed * 100}%`, `${speed * 100}%`]);
+  const y = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reducedMotion ? ["0%", "0%"] : [`-${speed * 100}%`, `${speed * 100}%`],
+  );
 
   return (
     <div ref={ref} className={`overflow-hidden ${className}`}>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { m, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import React from "react";
 
 interface ScrollStaggerProps {
@@ -26,6 +26,7 @@ export default function ScrollStagger({
 
 function StaggerItem({ children }: { children: React.ReactNode }) {
   const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -33,7 +34,7 @@ function StaggerItem({ children }: { children: React.ReactNode }) {
   });
 
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [50, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], reducedMotion ? [0, 0] : [50, 0]);
 
   return (
     <m.div ref={ref} style={{ opacity, y }}>

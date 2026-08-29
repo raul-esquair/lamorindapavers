@@ -12,7 +12,7 @@ export default function BlogCard({ post }: BlogCardProps) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group block rounded-xl border border-warm-gray-200 overflow-hidden bg-warm-white transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5"
+      className="group block rounded-xl border border-warm-gray-200 overflow-hidden bg-warm-white transition-[color,background-color,border-color,box-shadow,transform] duration-200 ease-out hover:shadow-lg hover:-translate-y-0.5"
     >
       <div className="aspect-[16/9] bg-cream relative overflow-hidden">
         {post.featuredImage ? (
@@ -57,7 +57,7 @@ export default function BlogCard({ post }: BlogCardProps) {
           {post.excerpt}
         </p>
 
-        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-gold-dark group-hover:gap-2.5 transition-all font-sans">
+        <span className="inline-flex items-center gap-1.5 text-sm font-medium text-brand-gold-dark group-hover:gap-2.5 transition-[gap] duration-200 ease-out font-sans">
           Read more
           <ArrowRight size={14} />
         </span>
