@@ -20,11 +20,13 @@ Nothing here has been implemented.
 | [007](007-faq-accordion-height.md) | Stop the FAQ accordion animating `height` | LOW | Performance | 1 file, ~25 lines | **DONE** |
 | [008](008-dead-motion-code.md) | Delete dead motion code | LOW | Cohesion | 3 files | PARTIAL² |
 
-¹ 14 of 15 sites; `ServiceDetailContent.tsx:120` is an `<m.ul>`/`<m.li>` list
-that `ScrollStagger` cannot wrap without emitting invalid HTML. See that plan's
-Execution note.
-² `ParallaxImage.tsx` and `TextReveal.tsx` turned out to also be dead code —
-left for the owner to decide. See that plan's Execution note.
+¹ Initially 14 of 15; the last site (`ServiceDetailContent.tsx:120`, an
+`<m.ul>`/`<m.li>` list) was converted in a follow-up by adding an `as="ul"` prop
+to `ScrollStagger`, which switches container and item to `<ul>`/`<li>` together.
+**Zero `whileInView` call sites remain.**
+² Resolved in a follow-up: `ParallaxImage.tsx` and `TextReveal.tsx` were
+confirmed dead and deleted, alongside `PageTransition.tsx`. `components/animations/`
+now holds only the four components that are actually consumed.
 
 **All plans executed 2026-08-28. Every mechanical gate passed** (`npm run
 build` clean, `npm run lint` at its pre-existing baseline of 8 problems).

@@ -1,13 +1,11 @@
 "use client";
 
-import { m } from "framer-motion";
 import Link from "next/link";
 import type { Service } from "@/lib/data/services";
 import type { BlogPost } from "@/lib/blog/types";
 import Image from "next/image";
 import { cities } from "@/lib/data/cities";
 import { company } from "@/lib/data/company";
-import { staggerContainer, fadeUp } from "@/lib/animations";
 import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
@@ -116,26 +114,16 @@ export default function ServiceDetailContent({
                 <h2 className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
                   What&apos;s Included
                 </h2>
-                <m.ul
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={staggerContainer}
-                  className="space-y-4 mb-12"
-                >
+                <ScrollStagger as="ul" className="space-y-4 mb-12">
                   {service.features.map((feature) => (
-                    <m.li
-                      key={feature}
-                      variants={fadeUp}
-                      className="flex items-start gap-3"
-                    >
+                    <div key={feature} className="flex items-start gap-3">
                       <svg className="w-5 h-5 text-brand-gold mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                       <span className="text-warm-gray-600 font-sans">{feature}</span>
-                    </m.li>
+                    </div>
                   ))}
-                </m.ul>
+                </ScrollStagger>
               </ScrollReveal>
 
               {/* Planning guides — in-content contextual links (top 2 curated) */}

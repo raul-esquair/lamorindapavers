@@ -50,7 +50,7 @@ All colors are defined as CSS custom properties in `app/globals.css` and exposed
 ## Animation Architecture
 
 ### Critical Pattern: Scroll-Position-Linked
-All animations are tied to scroll position via Framer Motion `useScroll` + `useTransform`. Elements do NOT animate entirely upon barely entering the screen. Animation progress maps 1:1 with the user's scroll movement. This is a core design decision — do not regress to `whileInView` trigger-based animations.
+All animations are tied to scroll position via Framer Motion `useScroll` + `useTransform`. Elements do NOT animate entirely upon barely entering the screen. Animation progress maps 1:1 with the user's scroll movement. This is a core design decision — do not regress to `whileInView` trigger-based animations. As of Aug 2026 there are **zero** `whileInView` call sites left; keep it that way.
 
 ### Critical: Use `m.*` not `motion.*`
 The entire app is wrapped in `<LazyMotion features={domAnimation}>` (in `components/layout/ClientProviders.tsx`). Every component uses `import { m } from "framer-motion"` and renders `<m.div>` etc. **Never write `motion.*` in new code** — it works at runtime but forces the full motion bundle to load synchronously, defeating the ~20 KB savings. If you accidentally introduce `motion.*`, run `node scripts/migrate-motion-to-m.mjs` to fix.
@@ -90,7 +90,7 @@ So drag lives in `lib/hooks/use-drag-dismiss.ts`, on raw Pointer Events. It is n
 
 ### Key Components
 - **`ScrollReveal`** (`components/animations/ScrollReveal.tsx`) — Fade + translate tied to scroll. Supports `direction` prop: `up`, `left`, `right`, `none`. Uses `useScroll` with offset `["start 0.95", "start 0.4"]`.
-- **`ScrollStagger`** (`components/animations/ScrollStagger.tsx`) — Wraps children; each child tracks its own viewport position independently via its own `useScroll` ref. Do NOT share a parent scroll progress across children.
+- **`ScrollStagger`** (`components/animations/ScrollStagger.tsx`) — Wraps children; each child tracks its own viewport position independently via its own `useScroll` ref. Do NOT share a parent scroll progress across children. Takes `as="ul"` to render a semantic list: container and item switch to `<ul>`/`<li>` **together**, because a `<div>` between them is invalid HTML and breaks the list for assistive tech. Used by `/services/[slug]`'s "What's Included".
 - **`ServiceCard`** (`components/ui/ServiceCard.tsx`) — Parallax image (shifts with scroll), 3D tilt on hover (spring physics), cursor-following shine effect. Icon badge turns from white to original red on hover.
 - **`ProjectRevealCard`** (in `FeaturedProjects.tsx`) — Clip-path curtain reveal scrubbed to scroll. Alternating directions (left, right, bottom). Curtain colors cycle through logo colors (blue, red, gold). Text fades in after image is 70% revealed.
 
@@ -451,11 +451,10 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - **Deferred blog work:** AEO/AI-Overview optimization pass on existing posts; internal-link "Page 6/7" — homepage `LatestGuides` shipped, but `/services` hub + `/about` → blog links were skipped.
 - **Esquair sales PDF** (agency collateral, on Desktop, NOT in repo): `Esquair-AI-Blog-Engine.pdf` sells the blog engine to new clients. Source HTML in the session scratchpad. Has placeholder pricing ($600/$1,200/$2,400/mo) + contact (`hello@esquair.com`) awaiting real values. See memory `reference_esquair_sales_pdf.md`.
 - **Motion / a11y audit (Aug 2026) — Tier 2 shipped.** Tier 1 was press feedback, quote-modal springs + drag-dismiss + focus trap. Tier 2 (see `plans/`) shipped motion tokens, site-wide reduced-motion support, the `transition-all` sweep, the cursor rewrite, the direction-aware carousel, scroll-scrubbed reveals, and the FAQ accordion. **Still open:**
-  1. **Two `whileInView` sites remain.** `TextReveal.tsx:28` and `ServiceDetailContent.tsx:120`. The latter is an `<m.ul>`/`<m.li>` list — `ScrollStagger` wraps each child in a `<div>`, which would sit between `<ul>` and `<li>`. Converting it needs an `as` prop on `ScrollStagger`.
-  2. **`ParallaxImage.tsx` and `TextReveal.tsx` are dead code** — imported nowhere. Only `ScrollReveal`, `ScrollStagger`, `SmoothScroll`, and `CustomCursor` are consumed. Left in place pending a decision; `PageTransition.tsx` was deleted.
-  3. **Headings share one `letter-spacing: -0.02em`** across h1–h6 in `globals.css`. Correct at `text-8xl`, too tight at `text-xl` (ServiceCard titles). Tracking should be size-specific. *(Untouched by Tier 2.)*
-  4. **No swipe gesture on the testimonials carousel.** Must be built on `lib/hooks/use-drag-dismiss.ts` and raw Pointer Events — framer's `drag` requires `domMax`.
-  5. **`Process.tsx:116,221` progress dots animate `width`**, and seven "Learn more →" links animate `gap`. Both are layout properties; the correct fixes need markup changes. `ServiceCard.tsx:110`'s hover shine is still 500ms.
+  1. **`lib/animations.ts` is now mostly unused.** Only `EASE_OUT` and `animateCounter` have consumers; `EASE_IN_OUT`, `defaultTransition`, `springTransition`, `slowReveal`, `fadeUp`, `fadeIn`, `slideInLeft/Right`, `scaleUp`, `staggerContainer`, and `textLineReveal` have none, since the `whileInView` conversion removed every caller. Kept as a preset library rather than pruned — decide deliberately.
+  2. **Headings share one `letter-spacing: -0.02em`** across h1–h6 in `globals.css`. Correct at `text-8xl`, too tight at `text-xl` (ServiceCard titles). Tracking should be size-specific. *(Untouched by Tier 2.)*
+  3. **No swipe gesture on the testimonials carousel.** Must be built on `lib/hooks/use-drag-dismiss.ts` and raw Pointer Events — framer's `drag` requires `domMax`.
+  4. **`Process.tsx:116,221` progress dots animate `width`**, and seven "Learn more →" links animate `gap`. Both are layout properties; the correct fixes need markup changes. `ServiceCard.tsx:110`'s hover shine is still 500ms.
 - **Optional polish:** upgrade Process section's `<img>` tags to `next/image` to activate the (already-generated) blur entries for those WebPs.
 - **Optional polish:** retrofit the "From the Owner" signed-paragraph pattern to `/lafayette` for parity with Moraga and Orinda.
 - **Optional polish:** drop in real Moraga and Orinda project photos and add a "Featured Project" section to each city page (mirror Lafayette's pattern). Currently both pages skip this section.
