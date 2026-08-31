@@ -14,6 +14,242 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "driveway-pavers-cracking-or-uneven-in-2026",
+    featuredImage: "/images/blog-driveway-pavers-cracking-or-uneven-in-2026.png",
+    title: "Driveway Pavers Cracking or Uneven in 2026",
+    excerpt:
+      "Driveway pavers crack or settle unevenly for 5 specific reasons — inadequate base compaction for vehicle loads, drainage failure beneath the base, edge restraint failure, wrong joint sand for vehicular use, and vehicle weight exceeding the base spec. Here's the diagnostic guide with fix-vs-rebuild decision criteria for East Bay clay-soil driveways.",
+    date: "2026-08-31",
+    readingTime: "17 min read",
+    relatedService: "paver-driveways",
+    faqs: [
+      {
+        "question": "Why are my driveway pavers cracking?",
+        "answer": "Driveway paver cracking is caused by one of two things: pavers manufactured for pedestrian use and installed on a vehicular surface, or a failed base allowing paver units to flex beyond their load rating. In most East Bay driveway paver installation problems, base failure — inadequate compaction depth, drainage saturation, or absent edge restraints — is the primary driver. Isolated cracking of a few units on an otherwise solid driveway is often a unit replacement; widespread cracking almost always indicates a systemic base problem requiring rebuild."
+      },
+      {
+        "question": "How do I fix uneven driveway pavers?",
+        "answer": "Fixing uneven driveway pavers starts with identifying the cause of the unevenness. Settling in tire paths points to base compaction failure; settling near a downspout or drainage low point points to drainage failure; lateral spreading at the perimeter points to edge restraint failure. The fix for localized settling is lifting the affected pavers, re-prepping the base aggregate underneath, and resetting — typically $2,500–$8,000 for a defined zone. Widespread unevenness across the driveway requires full rebuild at $20,000–$45,000."
+      },
+      {
+        "question": "Can you repair a paver driveway or does it need a full rebuild?",
+        "answer": "Many driveway paver repair situations are resolvable without full rebuild — specifically, failures affecting under 30% of the surface with a base that's otherwise sound. Spot repairs run $500–$2,500; mid-scale zone repairs run $2,500–$8,000; joint resand and reseal runs $1,500–$4,000. Full rebuild is required when failure is widespread, when the hollow-tap test returns dull thuds across multiple zones, or when edge restraints are absent throughout. The diagnostic visit determines which scope applies."
+      },
+      {
+        "question": "How long should a paver driveway last?",
+        "answer": "A properly installed paver driveway lasts 25–50 years with reseal every 5–7 years. The paver units themselves are rated for 100+ years of vehicular service — longevity is determined by the base, not the pavers. On East Bay clay-soil lots, the critical variables are base depth (8–10 inches of compacted Class II aggregate), drainage engineering, and consistent joint sand maintenance. A driveway built to these specs on a Moraga or Lafayette clay lot outlasts concrete and doesn't develop clay-movement cracking."
+      },
+      {
+        "question": "What's the difference between paver settling and paver cracking?",
+        "answer": "Paver settling is downward movement of paver units caused by failure of the aggregate base or subgrade beneath them — the pavers themselves are usually undamaged. Paver cracking is structural failure of individual paver units, where the unit has fractured through its body. Settling is typically repairable by lifting and re-basing; widespread cracking often indicates pavers under-rated for vehicular load and may require full replacement. Misdiagnosing settling as a paver-quality problem leads to replacing units that will settle again because the base was never fixed."
+      },
+      {
+        "question": "How much does it cost to repair driveway pavers?",
+        "answer": "Driveway paver repair costs in 2026 range from $500 for a single-unit spot repair to $8,000 for a mid-scale zone repair, with joint resand and reseal at $1,500–$4,000 and edge restraint reinstall at $1,200–$3,500. Full driveway rebuild runs $20,000–$45,000 depending on square footage, slope, and base prep requirements. The repair scope — and therefore the cost — is determined by which failure causes are active and how much of the driveway surface is affected. A free on-site diagnostic is the only honest way to quote driveway paver repair before knowing what's happening below the surface."
+      }
+    ],
+    content: `
+## The Short Answer
+
+Driveway paver installation problems — cracking, settling, and surface failure — trace to five specific causes: inadequate base compaction for vehicle loads, drainage failure beneath the base, edge restraint failure, wrong joint sand for vehicular use, and vehicle weight exceeding the original base spec. The fix depends on which cause is active. Localized settling is usually repairable for $500–$8,000, while widespread cracking or base failure signals a full rebuild at $20,000–$45,000. Most failed driveways combine two or three of these causes simultaneously, which is why a proper diagnostic comes before any repair quote.
+
+---
+
+## Why Driveway Paver Problems Are Different (and More Serious) Than Patio Problems
+
+Driveway paver failures are more serious than patio failures for three reasons — vehicle loads concentrate 2,000–6,000 lbs per wheel on a small contact patch, daily traffic patterns create predictable failure zones, and the driveway is the first thing buyers, neighbors, and the homeowner see every day.
+
+The load math matters. A 4,000 lb sedan distributes roughly 1,000 lbs per tire across a contact patch of about 30 square inches — approximately 33 PSI in the tire paths, concentrated and repeated every single day. An SUV or pickup running 5,500–7,000 lbs pushes that number considerably higher.
+
+**Driveway pavers carry roughly 20–60x the per-square-foot load of patio pavers, which is why driveway base specs are deeper than patio base specs.**
+
+Load cycling compounds the problem. Every drive-on and drive-off is a compression-and-rebound event. Over years, that cycling fatigues the base aggregate, works the joint sand loose, and concentrates movement at the weakest point in the system — usually the perimeter edge or the low point where water collects.
+
+Visibility is its own category of consequence. A cracked paver patio behind a fence doesn't affect how a buyer reads a property. A cracked or uneven driveway tells a story before anyone gets out of the car. On a Lafayette or Orinda hillside home, a deteriorating driveway isn't just a maintenance issue — it's a first-impression problem that opens offer negotiations before anyone has walked the backyard. For data on how paver condition affects resale, [10 paver upgrades that raise East Bay resale value](/blog/10-paver-upgrades-that-raise-east-bay-resale-value) lays out the specific ROI ranges.
+
+For the parallel failure-mode picture on patios, [the parallel paver patio failure-mode guide](/blog/how-to-prevent-paver-patio-sinking-2026) covers much of the same base and drainage physics — but the load tolerances and repair economics are different enough that driveways warrant their own diagnostic.
+
+---
+
+## The 5 Causes of Driveway Paver Cracking and Settling
+
+Five mechanisms cause driveway pavers to crack or settle — and most failed driveways combine two or three of them. Understanding which mechanism is active is the only way to choose the right repair scope. Treating a drainage problem as a compaction problem, or vice versa, produces a repair that fails again within two seasons.
+
+### Inadequate Base Compaction for Vehicle Loads
+
+Inadequate base compaction is the cause of driveway paver installation problems more often than anything else — by a significant margin.
+
+The minimum spec for a residential paver driveway on an East Bay clay-soil lot is 8–10 inches of Class II aggregate. **Class II aggregate is a graded crushed stone or gravel blend, sized to compact tightly and maintain bearing capacity under load, that forms the structural foundation beneath the bedding sand and paver surface.** That 8–10 inches needs to be installed in 3-inch lifts with 4–6 passes of a plate compactor per lift, verified to Proctor density.
+
+ICPI Tech Spec 2 (Construction of Interlocking Concrete Pavements) is the installation standard that governs these specifications — it's the benchmark inspectors and appraisers reference when assessing whether a driveway was built to hold vehicular load.
+
+What actually gets installed on many failed driveways: a single 4–6 inch layer of base, loosely compacted in one pass, on top of unmodified clay subgrade. That base consolidates under vehicle weight over the first few wet seasons, and the pavers follow it down — unevenly, because traffic loads concentrate in tire paths.
+
+**The fix for compaction failure is not a surface patch.** A failed paver base cannot be fixed without removing the pavers, re-prepping the base to spec, and reinstalling — there's no workaround for inadequate compaction. [The paver base compaction deep-dive](/blog/what-is-paver-base-compaction-and-why-it-matters) covers the physics and verification process in full detail.
+
+### Drainage Failure Beneath the Base
+
+Drainage failure beneath the base is often the accelerant that turns a marginal installation into a failed one within two or three wet seasons.
+
+Water that infiltrates beneath the base aggregate — through washed-out joints, through perimeter gaps where edge restraints failed, or through a subgrade that doesn't drain — saturates the clay. **A paver base loses 30–50% of its compressive strength when saturated.** On the Orinda Formation clay that underlies most of Lafayette, Orinda, and Moraga, a wet winter doesn't just soften the surface — it temporarily liquefies the bearing layer beneath a poorly drained base. The pavers sink into the softened material and don't fully recover when it dries.
+
+The pattern is telling. If your driveway settles worst near the garage apron, a downspout outlet, or the low point at the street entry, drainage is almost certainly a contributing cause. Fix the drainage before you fix the surface, or the surface failure repeats.
+
+[Drainage mistakes that affect any paver install](/blog/11-diy-paver-patio-mistakes-that-ruin-drainage) covers the specific drainage engineering decisions that determine whether a paver system holds up over time — the principles apply equally to driveways.
+
+### Edge Restraint Failure at Perimeter or Center Joints
+
+Edge restraint failure allows the paver field to migrate laterally — and once lateral movement starts, joint sand works out, pavers cant, and the surface becomes both uneven and structurally compromised.
+
+A properly installed paver driveway uses PVC edge restraints spiked into the base aggregate at 10-inch maximum intervals along the full perimeter. Vehicle turning forces — the load generated when a car wheels from the street onto the driveway — concentrate at the perimeter edge. When the restraint isn't there, or when spikes were installed too far apart and have pulled free, the perimeter pavers splay outward and the interior field follows.
+
+This is one of the most common installation shortcuts on failed driveways across Lafayette and Walnut Creek. Edge restraints cost almost nothing to install correctly. Spiking them at 24-inch intervals instead of 10 — or skipping them entirely — transfers a multi-thousand-dollar repair cost to the homeowner within 7–10 years.
+
+### Wrong Joint Sand for Vehicular Applications
+
+Regular polymeric joint sand sold for patio applications isn't engineered for the load cycling that driveway pavers experience every day.
+
+Vehicular-rated polymeric joint sand — Techniseal HP NextGel and Alliance Gator Maxx are the two products specified for driveway applications — uses a different polymer chemistry that maintains joint integrity under repeated compression and shear loads. Standard patio-grade polymeric sand hardens well for foot traffic but softens and crumbles under the mechanical stress of vehicle tires. Once joint sand fails, water infiltrates more easily, ants and weeds establish in the joints, and the individual pavers lose the lateral confinement that makes an interlocking system work.
+
+A driveway that's level but shows washed-out joint lines, ant hills between pavers, or visible sand loss in the tire paths — without structural settling — often needs joint resand with a vehicular-rated product before it progresses to something more expensive.
+
+### Vehicle Weight Exceeding the Original Base Spec
+
+A base designed for a household of two sedans fails under regular use by an F-250, a loaded pickup with trailer hitch, or repeated delivery vehicle traffic — not immediately, but within several seasons.
+
+The base spec adequate for a 3,500 lb vehicle requires revision upward for consistent loads above 6,000 lbs. This comes up on Danville and Walnut Creek properties where the original driveway was built for a different household, or on any driveway where delivery truck or concrete mixer traffic wasn't anticipated in the original design. The failure mode looks identical to base compaction failure — because mechanically it is — but the cause is a spec mismatch rather than a poor installation. The distinction affects how the rebuild is scoped.
+
+---
+
+## How to Diagnose Your Driveway Paver Problem — The 4-Step Homeowner Diagnostic
+
+Diagnose a failing paver driveway in four observable steps — map the failure pattern, inspect the joints, check the edge restraints, and listen for hollow spots underfoot. Running all four steps before calling anyone gives you enough information to evaluate any repair scope you're quoted.
+
+1. **Map the failure pattern.** Walk the full driveway and identify where failure is occurring, how severe it is, and when it started. Settling concentrated in tire paths points to base compaction or drainage failure under load. Perimeter splay and gaps at the edge point to edge restraint failure. Cracking or shattering of individual paver units points to pavers under-rated for vehicular loads or manufacturing defects. Settling near a downspout discharge or the garage apron low point points to drainage. When it started matters too — failure that appeared after the first wet winter after installation points to drainage; failure that developed gradually over 8–12 years points to cumulative load fatigue.
+
+2. **Inspect the joints.** Get down and look at the joint lines between pavers. Intact polymeric joint sand should be firm, continuous, and flush to within about 1/8 inch of the paver surface. Washed-out joints — open gaps, visible aggregate beneath, loose sandy material — indicate joint sand failure. Previously refilled joints are easy to spot: the color and texture differ from the original install. Repeated joint failures often hide a deeper base problem that surface resanding won't solve.
+
+3. **Check the edge restraints.** At the perimeter of the driveway, pull back any adjacent gravel or planting material and look for a PVC restraint channel with metal spikes driven into the base. If there's no restraint visible — or if the restraint is there but the spikes have pulled free — the edge has failed. A field that's otherwise solid but spreading at the perimeter is almost always an edge restraint problem.
+
+4. **Walk for hollow spots.** Tap across the driveway surface with a framing hammer, especially in the tire paths and near any settled areas. A solid ring means the base is compact and the paver is well-bedded. A dull thud — hollow, slightly soft underfoot — means there's a void beneath the bedding sand or a zone of under-compacted aggregate. Multiple hollow spots across a driveway indicate a base failure more widespread than the visible settling suggests.
+
+Lamorinda Pavers walks this same 4-step diagnostic on every driveway repair assessment across [Lafayette paver driveway projects](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville) — it's how the written repair scope gets built before any pricing conversation happens.
+
+---
+
+## Cracking vs. Settling vs. Spalling — Three Different Driveway Paver Problems With Three Different Fixes
+
+Driveway paver failures are not all the same — cracking is paver-unit failure, settling is base failure, and spalling is surface or sealer failure, and each has a different fix path. Misidentifying the failure type leads directly to the wrong repair, which either fails again quickly or costs far more than necessary.
+
+**Paver cracking is structural failure of individual paver units, typically from manufacturing defects or pavers under-rated for vehicular load.** A cracked paver has fractured through its body — not just surface discoloration or edge chipping, but a break that compromises the unit's structural integrity. The fix is unit replacement. Isolated cracking on a driveway with a solid base is repairable. Widespread cracking across a driveway typically indicates pavers manufactured for pedestrian use and installed on a vehicular surface — that's a rebuild conversation.
+
+**Paver settling is downward movement of pavers caused by failure of the aggregate base or subgrade beneath them.** Settling looks like depressions in the tire paths, a rocking paver that moves underfoot, or a visible elevation difference between adjacent paver units. The paver units themselves are usually undamaged — the problem is below them. The fix is lifting the settled pavers, re-prepping the base to the correct depth and compaction, and resetting. Settling is often repairable without a full driveway rebuild if it's localized. [The paver base compaction deep-dive](/blog/what-is-paver-base-compaction-and-why-it-matters) covers the physics of why bases fail in detail.
+
+**Paver spalling is surface flaking caused by sealer failure, freeze-thaw cycles, or de-icing salt damage.** Spalling produces flakes or pits on the paver surface — the unit is structurally intact but the surface layer is delaminating. On East Bay driveways, freeze-thaw is infrequent enough that most spalling comes from aggressive sealer application trapping moisture beneath a film, or from road salt tracked in during rare frost events. The fix is typically stripping the failed sealer and resealing correctly — a cosmetic repair, not a structural one.
+
+The distinction matters because the repair cost ranges are completely different. Spalling is a reseal job ($1,500–$4,000). Settling is a lift-and-reset job ($2,500–$8,000 localized). Cracking is unit replacement or full rebuild depending on scope.
+
+---
+
+## When You Can Fix a Driveway Paver Problem (and When You Need a Full Rebuild)
+
+Localized driveway paver installation problems — single tire-path settling, perimeter edge failure, or isolated cracking — are typically repairable for $500–$8,000. Widespread settling, base failure, or full-driveway cracking requires rebuild at $20,000–$45,000.
+
+**Spot repair is viable when:** failure affects under 10% of the driveway surface, the hollow-tap test returns mostly solid ring across the rest of the driveway, and joint sand is otherwise intact away from the failure zone. A single settled area in the tire path near the garage apron — caused by a drainage concentration point — can be lifted, re-based with supplemental Class II aggregate, compacted, and reset without touching the rest of the driveway.
+
+**Mid-scale repair (lifting and resetting a 30–100 sq ft zone) is viable when:** failure is localized but extends through the joint lines in a defined area, the base needs supplementing rather than full replacement in the affected zone, and the surrounding field passes the hollow-tap test. This is the most common repair scope on Lafayette and Orinda driveways where one drainage-influenced zone has failed while the rest of the installation is holding.
+
+**Full rebuild is required when:** failure exceeds 30% of the driveway surface, the walk test produces hollow sounds across multiple zones, edge restraints are absent or failed throughout the perimeter, or cracking is present in the majority of paver units. A full rebuild means removing all pavers, excavating to the correct depth, re-prepping the subgrade, installing 8–10 inches of Class II aggregate in compacted lifts, resetting the paver field with new polymeric joint sand and continuous edge restraints. There's no surface patch for a failed base — and no honest contractor should tell you otherwise.
+
+---
+
+## How to Prevent Repeat Driveway Paver Failures
+
+Paver driveways that don't fail share five build characteristics — 8–10 inches of compacted Class II base over geotextile fabric, 1-inch-per-8-feet drainage slope, PVC edge restraints with 10-inch spike spacing, vehicular-rated polymeric joint sand, and a base spec sized for the heaviest vehicle the driveway will see.
+
+**8–10 inches of compacted Class II in 3-inch lifts is the proven driveway base spec for East Bay clay-soil lots — manufacturer minimums of 4–6 inches fail under vehicle load within 5–10 years** on the expansive-clay subgrades common in Lafayette, Moraga, and Orinda. Expansive clay is soil that swells when wet and shrinks when dry, with seasonal volume change of 5–10% — meaning the subgrade beneath an under-built base is actively moving beneath the pavers through every wet-dry cycle. The geotextile fabric layer beneath the aggregate prevents fine clay particles from migrating upward into the base under hydraulic pressure during wet winters — a detail that matters more on Orinda Formation soils than almost anywhere else in the East Bay.
+
+Drainage slope of at least 1 inch per 8 feet across the driveway surface keeps water moving off the surface and away from the structure. A flat driveway pools; a pooling driveway infiltrates at the joints; infiltration at the joints saturates the base. The slope isn't a preference — it's a drainage engineering requirement specified in ICPI Tech Spec 2.
+
+Vehicular-rated polymeric joint sand — Techniseal HP NextGel or Alliance Gator Maxx — installed per manufacturer specification and resealed every 5–7 years is the maintenance cadence that keeps the joint system intact under vehicle load cycling. Deferring reseal past 7 years lets UV degradation and joint sand erosion compound to the point where a simple reseal becomes a resand-and-reseal. [A correctly installed paver patio or driveway](/blog/how-to-install-a-level-paver-patio-that-wont-shift) follows the same base and drainage discipline — the phase-by-phase install process is the same reason a well-built driveway stays flat while a poorly built one fails.
+
+---
+
+## Cost Ranges for Driveway Paver Repair vs. Rebuild in 2026
+
+| Issue scale | Typical fix | Cost range (2026) | When this is the right call |
+|---|---|---|---|
+| Spot repair — under 10 sq ft | Lift, re-base, reset individual units | $500–$2,500 | Failure is localized, base sounds solid elsewhere, surrounding joints intact |
+| Joint resand and reseal only | Vehicular-rated polymeric resand + full surface reseal | $1,500–$4,000 | Pavers are level, no settling, joints washed out or degraded |
+| Edge restraint reinstall | Remove perimeter pavers, install PVC restraint with 10-inch spike spacing, reset | $1,200–$3,500 | Perimeter has spread laterally but interior field is otherwise solid |
+| Mid-scale repair — 10–100 sq ft | Partial lift and re-base of failure zone, reset pavers | $2,500–$8,000 | Localized failure extends through joints, base needs supplementing in the zone |
+| Full driveway rebuild | Full removal, subgrade prep, 8–10 inch compacted Class II base, new paver installation | $20,000–$45,000 | Failure exceeds 30% of surface, base hollow across multiple zones, edge restraints absent throughout |
+
+---
+
+## How Long Should a Properly Installed Paver Driveway Last?
+
+**A properly installed paver driveway in East Bay conditions lasts 25–50 years with periodic joint sand reseal every 5–7 years.** A poorly installed paver driveway fails visibly within 5–15 years regardless of paver quality.
+
+**Premium paver units themselves are rated for 100+ years of vehicular service — the lifespan of a paver driveway is determined by what's underneath the pavers, not the pavers themselves.** Belgard and Calstone concrete pavers are manufactured to ASTM C936 with compressive strengths of 8,000–9,000 PSI. They don't wear out under residential traffic. What wears out — or fails outright — is the base beneath them when it's underbuilt or poorly drained.
+
+The maintenance items that protect longevity: reseal every 5–7 years with a penetrating sealer suited for vehicular surfaces; inspect joint lines annually after wet winters and resand any washed-out sections before they progress; and keep downspouts directed away from the driveway surface. For context on how driveway condition affects the full picture of outdoor living value, [paver outdoor living ROI for home resale in 2026](/blog/paver-outdoor-living-roi-for-home-resale-in-2026) covers how appraisers value hardscape condition.
+
+Lamorinda Pavers backs every driveway installation and repair across Lafayette, [Orinda](/orinda), [Moraga](/moraga), Walnut Creek, and Danville with a 5-year transferable workmanship warranty — the base prep is what the warranty actually covers, because that's where failures originate. A buyer's inspector who asks about the driveway gets documentation with specific terms they can read, not a verbal assurance.
+
+---
+
+## How Lamorinda Pavers Diagnoses and Repairs Driveway Paver Problems
+
+A transparent paver driveway diagnosis identifies which of the 5 failure causes is active, what the realistic repair scope is, and whether spot repair or full rebuild is the right call — and that's how Lamorinda Pavers approaches every driveway assessment across Lafayette, Orinda, Moraga, Walnut Creek, and Danville.
+
+The assessment process: a free on-site visit where I walk the driveway personally and run the full 4-step diagnostic — failure pattern mapping, joint inspection, edge restraint check, and hollow-tap test across the full surface. On clay-soil lots in Orinda and Moraga, I'm also looking at the drainage situation around the perimeter and at the garage apron, because drainage and base compaction fail together more often than separately. On steeper lots along Happy Valley Road in Lafayette and in the Orinda hills, slope drainage gets its own review — water that runs off a hillside and pools at the garage apron is a different engineering problem than flat-lot drainage failure.
+
+The output is a written repair-vs-rebuild recommendation with a fixed-price proposal for each viable scope option. If spot repair is the honest answer, that's what the proposal says. Every repair or rebuild comes with the same 5-year transferable workmanship warranty covering base settlement, drainage failure, edge restraint movement, and joint sand failure attributable to the work performed.
+
+[Paver driveway installation and repair](/services/paver-driveways) covers the full scope of what we design and build — but if you're starting from a problem rather than a new installation, the diagnostic visit is where we start. You can also browse [completed projects](/projects) to see the standard of base prep and installation we bring to every driveway.
+
+---
+
+## Frequently Asked Questions
+
+### Why are my driveway pavers cracking?
+
+Driveway paver cracking is caused by one of two things: pavers manufactured for pedestrian use and installed on a vehicular surface, or a failed base allowing paver units to flex beyond their load rating. In most East Bay driveway paver installation problems, base failure — inadequate compaction depth, drainage saturation, or absent edge restraints — is the primary driver. Isolated cracking of a few units on an otherwise solid driveway is often a unit replacement; widespread cracking almost always indicates a systemic base problem requiring rebuild.
+
+### How do I fix uneven driveway pavers?
+
+Fixing uneven driveway pavers starts with identifying the cause of the unevenness. Settling in tire paths points to base compaction failure; settling near a downspout or drainage low point points to drainage failure; lateral spreading at the perimeter points to edge restraint failure. The fix for localized settling is lifting the affected pavers, re-prepping the base aggregate underneath, and resetting — typically $2,500–$8,000 for a defined zone. Widespread unevenness across the driveway requires full rebuild at $20,000–$45,000.
+
+### Can you repair a paver driveway or does it need a full rebuild?
+
+Many driveway paver repair situations are resolvable without full rebuild — specifically, failures affecting under 30% of the surface with a base that's otherwise sound. Spot repairs run $500–$2,500; mid-scale zone repairs run $2,500–$8,000; joint resand and reseal runs $1,500–$4,000. Full rebuild is required when failure is widespread, when the hollow-tap test returns dull thuds across multiple zones, or when edge restraints are absent throughout. The diagnostic visit determines which scope applies.
+
+### How long should a paver driveway last?
+
+A properly installed paver driveway lasts 25–50 years with reseal every 5–7 years. The paver units themselves are rated for 100+ years of vehicular service — longevity is determined by the base, not the pavers. On East Bay clay-soil lots, the critical variables are base depth (8–10 inches of compacted Class II aggregate), drainage engineering, and consistent joint sand maintenance. A driveway built to these specs on a Moraga or Lafayette clay lot outlasts concrete and doesn't develop clay-movement cracking.
+
+### What's the difference between paver settling and paver cracking?
+
+Paver settling is downward movement of paver units caused by failure of the aggregate base or subgrade beneath them — the pavers themselves are usually undamaged. Paver cracking is structural failure of individual paver units, where the unit has fractured through its body. Settling is typically repairable by lifting and re-basing; widespread cracking often indicates pavers under-rated for vehicular load and may require full replacement. Misdiagnosing settling as a paver-quality problem leads to replacing units that will settle again because the base was never fixed.
+
+### How much does it cost to repair driveway pavers?
+
+Driveway paver repair costs in 2026 range from $500 for a single-unit spot repair to $8,000 for a mid-scale zone repair, with joint resand and reseal at $1,500–$4,000 and edge restraint reinstall at $1,200–$3,500. Full driveway rebuild runs $20,000–$45,000 depending on square footage, slope, and base prep requirements. The repair scope — and therefore the cost — is determined by which failure causes are active and how much of the driveway surface is affected. A free on-site diagnostic is the only honest way to quote driveway paver repair before knowing what's happening below the surface.
+
+---
+
+## Get the Honest Diagnosis Before You Commit to Any Repair Scope
+
+If your paver driveway is cracking, settling, or showing edge failures, request a free on-site assessment from Lamorinda Pavers. I'll walk your driveway personally, run the 4-step diagnostic for driveway paver installation problems, identify which of the 5 failure causes are active, and send a written repair-vs-rebuild recommendation with fixed-price options for each scope in writing within 48 hours.
+
+Every assessment is diagnostic-first — the goal is the right scope for your driveway, not the largest project that could be justified. Spot repair, mid-scale zone repair, joint resand, and full rebuild are all on the table, priced separately, so you can make an informed decision. Every repair or rebuild comes with a 5-year transferable workmanship warranty covering base settlement, drainage failure, edge restraint movement, and joint sand failure attributable to the work.
+
+Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how driveway paver problems get diagnosed honestly and fixed correctly. [Contact us](/contact) to schedule your site visit.
+    `.trim(),
+  },
+
+  {
     slug: "10-paver-upgrades-that-raise-east-bay-resale-value",
     featuredImage: "/images/blog-10-paver-upgrades-that-raise-east-bay-resale-value.png",
     title: "10 Paver Upgrades That Raise East Bay Resale Value",
