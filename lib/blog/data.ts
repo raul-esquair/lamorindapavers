@@ -14,6 +14,306 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "11-driveway-paver-mistakes-that-cause-cracks",
+    featuredImage: "/images/blog-11-driveway-paver-mistakes-that-cause-cracks.png",
+    title: "11 Driveway Paver Mistakes That Cause Cracks",
+    excerpt:
+      "Paver driveway cracks and settling come from 11 specific installation mistakes — inadequate base depth for vehicle loads, skipped geotextile, wrong aggregate, missing edge restraints, non-vehicular joint sand, and six more. Here's each mistake explained with time-to-failure and the prevention step homeowners can use to vet installers.",
+    date: "2026-09-07",
+    readingTime: "18 min read",
+    relatedService: "paver-driveways",
+    faqs: [
+      {
+        "question": "Why is my paver driveway cracking?",
+        "answer": "Paver driveway cracking comes from two sources: pavers too thin or not rated for vehicular load (60mm patio-grade pavers cracking under vehicle weight), or a failed base allowing individual units to flex beyond their structural tolerance. In most East Bay driveway paver installation problems, base failure — inadequate depth, uncompacted subgrade, drainage saturation — is the underlying cause even when cracking looks like a paver-quality issue. Isolated cracking at the garage braking zone or turning area also points to pattern misalignment."
+      },
+      {
+        "question": "What causes a paver driveway to settle?",
+        "answer": "Paver driveway settling traces to three primary causes: inadequate base compaction (lifts too thick, too few passes, or wrong aggregate), drainage failure saturating the base and reducing compressive strength by 30–50%, or subgrade left uncompacted beneath the aggregate. On East Bay clay lots, seasonal expansive-clay movement compounds all three — a marginally adequate base on stable soil fails faster on Orinda or Moraga clay. The failure pattern identifies which cause is active."
+      },
+      {
+        "question": "How deep should the base be for a paver driveway?",
+        "answer": "A residential paver driveway on East Bay clay soil requires 8–10 inches of compacted Class II road base aggregate, installed in 3-inch lifts with 4–6 plate compactor passes per lift. The manufacturer minimum of 4–6 inches is a patio specification — it fails under vehicle load within 24–48 months on the expansive-clay subgrades common in Lafayette, Moraga, and Orinda. ICPI Tech Spec 2 governs the standard, and 8 inches is the residential vehicular floor."
+      },
+      {
+        "question": "Do I need polymeric sand for a paver driveway?",
+        "answer": "Yes — and specifically vehicular-rated polymeric sand. Regular silica sand washes out of driveway joints within 2–3 wet seasons. Patio-grade polymeric sand cracks under vehicle load cycling. Techniseal HP NextGel and Alliance Gator Maxx are the two products formulated and rated for vehicular driveway applications; both carry explicit vehicular-use ratings on the product label. Reseal every 5–7 years to maintain joint integrity."
+      },
+      {
+        "question": "How long does a paver driveway last?",
+        "answer": "A correctly installed paver driveway lasts 25–50 years with resealing every 5–7 years. Vehicular-rated paver units are manufactured to ASTM C936 with compressive strengths of 8,000–9,000 PSI and carry 100+ year vehicular service ratings. Longevity is determined by what's beneath the pavers — base depth, aggregate spec, drainage engineering, and subgrade compaction. A driveway built to spec on Lafayette or Orinda clay outlasts poured concrete and doesn't develop clay-movement cracking."
+      },
+      {
+        "question": "What's the right paver thickness for a driveway?",
+        "answer": "80mm (3.15 inches) is the minimum thickness for a vehicular-rated driveway paver. 60mm (2.36 inch) pavers are patio-grade — rated for pedestrian load, not the 1,000-plus pounds per tire a residential driveway sees daily. Belgard Holland Stone DCV, Calstone Country Manor 80mm, and Techo-Bloc Mista are vehicular-rated product lines in the 80mm range. Specify the SKU and vehicular rating in writing before installation begins."
+      },
+      {
+        "question": "Can I fix individual driveway paver installation problems, or do I need a full rebuild?",
+        "answer": "Individual problems — a failed edge zone, localized drainage issue, or joint sand loss — are repairable if the base beneath that zone is structurally sound. Base-wide failures from wrong aggregate, uncompacted subgrade, or missing geotextile typically require full excavation and rebuild because the cause is systemic. The driveway paver diagnostic guide covers the fix-vs-rebuild decision criteria with specific thresholds for each failure type."
+      }
+    ],
+    content: `
+## The Short Answer
+
+Paver driveway cracks and settling come from 11 specific driveway paver installation mistakes — inadequate base depth for vehicle loads, skipped geotextile fabric over expansive clay, wrong aggregate as base, compacting lifts that are too thick, specifying lightweight non-vehicular pavers, flat-grading instead of crowning, missing French drains on hillside lots, wrong-spec or missing edge restraints, non-vehicular joint sand, uncompacted subgrade, and pattern misalignment at high-stress zones. Each shows up between 18 months and 8 years post-install, depending on which failure mechanism is active and how wet the winter gets. Every one of them is preventable — and every one of them is writable into a contract before the first shovel goes in the ground.
+
+If your driveway is already showing symptoms rather than planning a new install, [the driveway paver diagnostic guide](/blog/driveway-pavers-cracking-or-uneven-in-2026) covers the 4-step homeowner assessment. This post is specifically about the installation mistakes that produce those symptoms.
+
+---
+
+## Why Driveway Paver Installation Mistakes Show Up Faster Than Patio Mistakes
+
+Driveway paver installation mistakes surface faster than patio mistakes because vehicle loads accelerate every failure mechanism — a flat-graded patio takes 5–7 years to show pooling; a flat-graded driveway shows tire-path settling within 18–36 months.
+
+**Driveway paver installation mistakes show first failures in 18–36 months under vehicle load; the same mistakes on a patio take 5–7 years to surface.**
+
+The physics are straightforward. A 4,500 lb SUV distributes roughly 1,100 lbs per tire onto a contact patch of about 30 square inches. That's concentrated, repeated compression and rebound — every single time the vehicle leaves and returns. Each drive-on event probes the base aggregate for weakness.
+
+On East Bay clay lots in [Lafayette](/lafayette), [Moraga](/moraga), and [Orinda](/orinda), the Orinda Formation expansive clay beneath the base adds seasonal volume change of 5–10% during wet-dry cycling. Expansive clay is soil that swells when wet and shrinks when dry, producing 5–10% seasonal volume change that exerts uplift and lateral force on any structure above it. Vehicle load plus seasonal clay movement is a compounding force that finds every shortcut in a base installation.
+
+The result: failure zones on driveways are predictable. Tire paths settle first, then the perimeter spreads, then the apron near the garage door cracks at the braking zone. The sequence is reliable enough that the failure pattern alone identifies what combination of mistakes was made. [The parallel patio installation mistakes guide](/blog/11-diy-paver-patio-mistakes-that-ruin-drainage) covers drainage failures on pedestrian surfaces — but driveway loads make these different problems, and the specs are meaningfully different.
+
+---
+
+## Mistake 1: Specifying Patio-Depth Base on a Driveway
+
+The most common driveway paver installation mistake is specifying a 4–6 inch base aggregate depth — the manufacturer minimum for patio applications — on a driveway that actually requires 8–10 inches for vehicle load capacity.
+
+What happens: a contractor copies their patio base spec to a driveway bid to compete on price. The resulting installation looks identical at the surface for the first season or two. Then tire-path settling starts — usually visible by month 24–48.
+
+**Time to failure: 24–48 months.** Tire-path depression is the first sign, followed by rocking pavers underfoot, then edge spread as the perimeter loses confinement.
+
+ICPI Tech Spec 2 (Construction of Interlocking Concrete Pavements) is explicit on this distinction: residential vehicular applications require a minimum of 8 inches of compacted aggregate base on stable subgrade. ICPI (the Interlocking Concrete Pavement Institute) is the U.S. trade body that sets installation standards for interlocking concrete pavers — its Tech Spec 2 document is the governing standard for driveway base preparation. On East Bay expansive-clay lots, 8 inches is the floor — not the target. Lamorinda Pavers builds to 8–10 inches on flat [Danville](/danville) and [Walnut Creek](/walnut-creek) lots, and to 10 inches on Lafayette and Orinda hillside properties where clay depth and seasonal moisture are highest.
+
+**Prevention step:** The contract must explicitly state "driveway-grade base, 8–10 inches compacted Class II road base in 3-inch lifts" as a line item. If a bid says "base aggregate to manufacturer spec" without specifying depth in inches, ask for the number. If you can't get a number, the spec wasn't designed for a driveway.
+
+For everything that happens to [paver driveway installation](/services/paver-driveways) when this spec is skipped — and how to verify a contractor is meeting it — the [paver base compaction deep-dive](/blog/what-is-paver-base-compaction-and-why-it-matters) covers the physics in full.
+
+---
+
+## Mistake 2: Skipping Non-Woven Geotextile Fabric Over Expansive Clay
+
+Skipping geotextile fabric between the East Bay clay subgrade and the Class II aggregate base lets clay migrate up into the aggregate over 2–5 seasons, destroying the base's compressive strength and causing widespread driveway paver settlement.
+
+**Geotextile fabric** is a permeable textile membrane placed between native soil and base aggregate to prevent fine clay particles from migrating upward into the aggregate under hydraulic pressure — it's structural separation, not landscaping fabric.
+
+What happens on the Orinda Formation clay that underlies most of Lafayette, Moraga, and Orinda: winter rainwater exerts upward hydraulic pressure through the saturated clay subgrade. Without a separation membrane, fine clay particles pump up into the aggregate voids through that pressure cycle. Over three to five wet seasons, the aggregate loses its angular particle interlock, its drainage capacity drops, and its compressive strength deteriorates across the full base. The pavers don't settle in one spot — they settle everywhere, unevenly.
+
+**Time to failure: 3–5 years.** Early signs are subtle: joint widening across the full field, minor rocking in multiple zones. By year five on an [Orinda](/orinda) or [Moraga](/moraga) clay lot, a geotextile-skipped installation often needs a full rebuild.
+
+**Prevention step:** The contract must specify "non-woven geotextile fabric with minimum 12-inch overlaps installed between subgrade and base aggregate." Ask to photograph it in place before aggregate placement begins. A photo of the white fabric on the ground takes two minutes and proves the step wasn't skipped.
+
+---
+
+## Mistake 3: Compacting Too-Thick Lifts
+
+Plate compactor vibration only penetrates 3–4 inches into Class II aggregate — when contractors place 6-inch lifts to save time, only the top half compacts to spec while the bottom half remains loose, causing driveway settling within 2–4 years.
+
+**Compactor vibration penetration limits lifts to 3 inches — 3-inch lifts are physics, not preference.**
+
+What happens: contractor pours full base depth in one or two thick passes to speed installation. The surface layer compacts fine. The bottom half of each thick lift never reaches density. Vehicle load then compresses the loose zone, and the pavers follow it down — unevenly, in the tire paths first, then spreading from there.
+
+**Time to failure: 24–48 months.** The failure pattern looks like base compaction failure because it is — caused by lift thickness rather than material spec.
+
+The correct sequence on every Lamorinda Pavers driveway across Lafayette, Orinda, Moraga, [Walnut Creek](/walnut-creek), and Danville: 3-inch lifts maximum, with 4–6 plate compactor passes per lift before the next lift goes down. That's three or four separate compaction events on a 10-inch base. It takes longer. There's no way around that math.
+
+**Prevention step:** The contract must specify "3-inch lifts maximum, plate-compacted to density between each lift, minimum 4 passes per lift." Ask to be present — or have photos sent — at each lift stage. A legitimate installer won't object to that.
+
+---
+
+## Mistake 4: Using Decomposed Granite or Crushed Misc as Base Aggregate
+
+Decomposed granite (DG), crushed misc, or generically labeled "driveway base" aggregate doesn't have the graded particle curve that Class II road base does — it compacts to lower density, holds water differently, and fails under vehicular load within 3–7 years.
+
+**Class II aggregate** is a graded crushed stone blend meeting Caltrans specification for particle size distribution, which allows tight angular interlock under compaction and maintains bearing capacity under load — it's a specific material with a documented spec, not a generic category.
+
+What happens: a contractor substitutes DG or "base rock" to reduce material cost by $0.50–$1.50 per square foot on the bid. It looks similar to Class II at pour time. Under vehicle load cycling and East Bay wet seasons, DG fines migrate, the particle interlock loosens, and the base loses bearing capacity in the tire paths. Crushed misc aggregate — often recycled concrete fines mixed with varying particle sizes — has inconsistent drainage characteristics and unpredictable compaction behavior.
+
+**Time to failure: 3–7 years.** The longer end is on flatter, drier lots. On [Moraga](/moraga) or Orinda clay with wet winters, the short end of that range is more common.
+
+**Prevention step:** The contract must name "Caltrans Class II road base" specifically. A bid that says "crushed base," "road base," or "compacted aggregate" without the Class II designation hasn't committed to the right material. Ask for the aggregate source if you want to verify — Class II is a documented product spec, not a marketing term.
+
+---
+
+## Mistake 5: Specifying Lightweight Non-Vehicular-Rated Pavers
+
+Pavers rated for pedestrian or patio use only — typically 60mm/2.36 inch thickness — crack under repeated vehicle load. Driveways require 80mm/3.15 inch thick pavers minimum, with a manufacturer's vehicular rating.
+
+**Driveways require 80mm/3.15" thick pavers minimum with manufacturer vehicular rating; 60mm/2.36" patio pavers crack under vehicle load.**
+
+What happens: patio-grade pavers cost $1–$3 per square foot less than vehicular-rated product. On a 1,000 square foot driveway, that's $1,000–$3,000 in material savings on the bid — meaningful in a competitive quote environment. The pavers look identical at installation. Under daily vehicle load, 60mm units flex at the joint edges beyond their rated tolerance, and cracking starts in the tire paths — usually concentrated at the high-stress zones near the garage door braking point and at driveway turning areas.
+
+Premium vehicular-rated paver lines are built for this. Belgard Holland Stone DCV (the DCV stands for driveway/commercial/vehicular), Calstone Country Manor 80mm, and Techo-Bloc Mista are the product lines specified for residential driveway applications with 100+ year vehicular service ratings when installed correctly. These are the SKUs that go into every Lamorinda Pavers driveway bid — named, not approximated.
+
+**Time to failure: 12–36 months.** Individual paver cracking in tire paths is the first sign. On pavers that are structurally undersized, this isn't repairable by unit replacement — the surviving units will follow.
+
+**Prevention step:** The contract must specify the paver by name and SKU, with the manufacturer's vehicular-use rating stated. "80mm paver" alone isn't enough — verify the specific product line is rated for vehicular traffic. This is one of the key reasons [paver upgrades significantly affect East Bay resale value](/blog/10-paver-upgrades-that-raise-east-bay-resale-value): vehicular-rated pavers hold their surface integrity across decades; patio-grade units don't.
+
+---
+
+## Mistake 6: Flat-Grading the Driveway Instead of Crowning for Drainage
+
+A driveway without proper crown or slope pools water at the lowest point during East Bay winter rains, saturating the base aggregate and reducing its compressive strength by 30–50% — leading to localized settling within 2–4 winters.
+
+**A paver base loses 30–50% of compressive strength when saturated; drainage failure compounds every other base failure mechanism.**
+
+What happens: a contractor grades the driveway surface flat for simplicity, without engineering a drainage path. On a [Walnut Creek](/walnut-creek) or [Danville](/danville) lot, standing water follows every rain event. That water infiltrates through the joints, saturates the base, and temporarily softens the clay subgrade beneath. The pavers settle into the softened material and don't fully recover when it dries. On hillside Lafayette and Orinda lots, a flat-graded driveway also concentrates water at the garage apron — the worst possible drainage destination.
+
+ICPI Tech Spec 2 specifies a minimum 1-inch-per-8-feet surface drainage slope. Crown grading — where the driveway is highest at the centerline and slopes toward drainage channels on both edges — is the standard approach on wider driveways. Side-slope grading works on narrower drives where one edge can daylight to a landscaped area.
+
+**Time to failure: 24–48 months.** Pooling is visible after the first winter; settling follows within 2–4 rain seasons.
+
+**Prevention step:** The contract must specify "minimum 1-inch-per-8-feet surface slope toward documented drainage outlet" with the drainage routing path identified. Ask the contractor to show you on a site sketch where the water goes after it leaves the driveway surface.
+
+---
+
+## Mistake 7: Missing French Drains on Hillside Lafayette and Orinda Lots
+
+Hillside paver driveways in [Lafayette](/lafayette), Orinda, and Moraga without French drain installation accumulate winter rainwater against the upslope edge — saturating the base from the uphill side and causing localized settling 3–5 years post-install.
+
+**A French drain** is a subsurface perforated pipe surrounded by clean gravel and wrapped in geotextile fabric, installed to intercept and redirect groundwater or surface runoff before it reaches a paved surface or structure.
+
+What happens on typical [Lafayette hillside driveway projects](/lafayette) along Happy Valley Road or in the Orinda hills above Route 24: winter storm runoff concentrates at the uphill edge of the driveway and has nowhere to go. Without a French drain intercept, that water infiltrates along the uphill edge, saturating the base aggregate from the side rather than the top. The failure zone appears at the upslope edge first — settling and edge-restraint failure together — then works inward across the base as saturation spreads.
+
+On lots with grade above 5%, a French drain is not optional — it's a drainage engineering requirement that flat-lot contractors sometimes skip because they're accustomed to flat-lot work. Hillside drainage in the Lamorinda area is genuinely different from [Danville](/danville) or Walnut Creek flatland drainage, and the spec should reflect that. The same principle governs [retaining wall](/services/retaining-walls) drainage engineering on these properties — subsurface water management is always the first design question on a sloped lot.
+
+**Time to failure: 3–5 years.** Earlier on lots with concentrated uphill runoff; longer on lots with moderate grade and permeable adjacent soil.
+
+**Prevention step:** The contract must identify lots with grade above 5% as requiring a French drain study, with documented installation including pipe diameter, depth, gravel wrap, and daylight outlet location.
+
+---
+
+## Mistake 8: Wrong-Spec Edge Restraint or Omitting It Entirely
+
+PVC spike-down edge restraints with 10-inch galvanized spikes at 10-inch spacing are the standard for paver driveways — concrete curbs, no restraint, or undersized spikes allow the paver field to migrate laterally and crack within 3–7 years.
+
+**PVC edge restraint spec for driveways: 10-inch galvanized spikes at 10-inch spacing.**
+
+What happens: contractor omits edge restraints to reduce cost, uses spikes that are too short (6-inch instead of 10-inch), or spaces them at 24 inches instead of 10 to save installation time. Vehicle turning forces — especially at the street apron where wheels sweep from the street onto the driveway — concentrate lateral shear at the perimeter edge. Without properly anchored restraints, perimeter pavers splay outward. Once lateral movement starts, joint sand works out, interior pavers cant, and the surface becomes both uneven and structurally compromised.
+
+Some contractors substitute concrete edge curb for PVC restraints. On East Bay clay lots, concrete curb sections crack at clay-movement joints — and once the curb cracks, it no longer contains the paver field.
+
+**Time to failure: 3–7 years.** Edge spread is slow to start and fast to compound once joint sand loss accelerates it.
+
+**Prevention step:** The contract must specify "PVC spike-down edge restraint with 10-inch galvanized spikes at maximum 10-inch spacing along full perimeter." Ask to inspect it before paver placement — it should be continuous around the perimeter with no gaps at corners.
+
+---
+
+## Mistake 9: Regular Silica Sand or Non-Vehicular Polymeric in Joints
+
+Regular silica sand washes out of driveway joints within 2–3 East Bay winters; non-vehicular-rated polymeric sand cracks under wheel-load cycling. Driveways require vehicular-rated polymeric sand — Techniseal HP NextGel or Alliance Gator Maxx — with a stated vehicular use rating.
+
+What happens: contractor uses standard patio-grade polymeric sand (or worse, regular play sand) to reduce material cost. Patio-grade polymeric hardens adequately for foot traffic but the polymer chemistry isn't formulated for the compression-and-rebound load cycling of vehicle tires. Under daily driveway use, patio-grade polymeric softens, crumbles, and washes out of the joints. Once joint sand fails, individual pavers lose the lateral confinement that makes an interlocking system structurally coherent — and water infiltrates freely into the base.
+
+Techniseal HP NextGel and Alliance Gator Maxx are the two joint sand products specifically formulated and tested for vehicular applications. Both carry explicit vehicular-use ratings on the product label. If a joint sand product doesn't state "vehicular" on the bag, it isn't rated for driveway use.
+
+**Time to failure: 2–5 years.** Joint failure is visible as open gaps, sand loss in tire paths, and weed or ant establishment between pavers.
+
+**Prevention step:** The contract must specify vehicular-rated polymeric sand by product name — Techniseal HP NextGel or Alliance Gator Maxx. Check the product bag if you're on-site during installation; the vehicular rating is printed on the packaging.
+
+---
+
+## Mistake 10: Subgrade Left Uncompacted Before Base Aggregate Placement
+
+Native clay subgrade left uncompacted before base aggregate installation creates a soft layer beneath the base — even properly compacted aggregate settles into soft subgrade under vehicle load, causing 1/2 to 2 inches of driveway settling within 2–4 years.
+
+What happens: contractor excavates to grade, places geotextile fabric, and pours aggregate without compacting the freshly-cut clay subgrade first. Freshly cut clay is at its most disturbed state — loose, moisture-variable, and structurally weakest. Vehicle load pressing down through the aggregate compresses the soft clay beneath, and the entire base drops with it.
+
+The compaction target is 95% Proctor density, verified by ASTM D698. **ASTM D698** is the standardized test method (Standard Proctor compaction test) that measures a soil's maximum dry density and optimal moisture content — 95% of that maximum is the industry-standard target for subgrade beneath vehicular paving. A walk test on freshly graded subgrade catches obvious soft spots, but it doesn't replace plate compaction. On Orinda Formation clay, a subgrade that feels firm after excavation can still be 15–20% below target density without compaction.
+
+**Time to failure: 2–4 years.** Settling is often uniform across the driveway rather than localized — which distinguishes it from drainage-related settling and points directly to subgrade compaction as the cause.
+
+**Prevention step:** The contract must specify "subgrade plate-compacted to 95% Proctor density before geotextile and base aggregate placement." A conscientious installer includes this step in the work sequence without being asked — but it still belongs in writing.
+
+---
+
+## Mistake 11: Pattern Misalignment at High-Stress Turning and Braking Zones
+
+Paver patterns oriented poorly at high-stress zones — driveway turning areas, garage door braking zones, transition points — concentrate shear forces along weak joint axes and cause cracking at specific tire-path locations within 3–6 years.
+
+What happens: installer lays herringbone or running bond without considering vehicle force vectors. Running bond oriented parallel to vehicle travel direction creates continuous joint lines that align with the shear forces from tire tracking — essentially, a crack guide. Herringbone laid at 90 degrees to the diagonal optimum creates similar stress concentrations at high-shear zones.
+
+ICPI installation guidance on pattern orientation for vehicular applications is clear: 45-degree herringbone is the strongest pattern for vehicular use, specifically because the diagonal orientation distributes vehicle load across the maximum number of joint edges rather than concentrating it along a single joint line. Running bond, when used on driveways, should run perpendicular to vehicle travel — not parallel.
+
+This matters most at two specific zones: the garage apron braking area (where tire deceleration applies forward shear) and driveway turning zones at the street entry (where wheel sweep applies lateral shear). Getting the pattern orientation right at these zones is a design decision, not an aesthetic one. It's also one of the factors that separates a full [paver driveway installation](/services/paver-driveways) from a basic paver placement job — design intent at the stress zones.
+
+**Time to failure: 3–6 years.** Cracking appears at predictable locations — the garage braking zone and the street-entry turning radius — rather than randomly across the field.
+
+**Prevention step:** Ask your installer to show the pattern layout plan, specifically how the pattern orientation is specified at the garage apron and turning zones. 45-degree herringbone should be the standard specification for these zones; running bond should be documented as perpendicular to vehicle travel if that's the chosen pattern.
+
+---
+
+## The 7 Questions to Ask Your Installer to Prevent All 11 Driveway Paver Installation Mistakes
+
+Vet your paver driveway installer with seven specific questions that surface whether they're committing any of the 11 install mistakes — and the answers should be specific enough to write directly into the contract.
+
+Vague answers to these questions aren't an installer being busy. They're a contractor who hasn't designed a driveway-spec installation.
+
+1. **What's the base aggregate spec and depth, by name?** Correct answer: "Caltrans Class II road base, 8–10 inches compacted in 3-inch lifts." Any answer that doesn't name Class II or specify inches is incomplete.
+
+2. **Is geotextile fabric included between subgrade and base?** Correct answer: yes, non-woven geotextile with 12-inch overlaps. Any answer involving "landscaping fabric" or "we don't typically do that" is a no.
+
+3. **How many compaction lifts and passes per lift?** Correct answer: three or more 3-inch lifts, 4–6 plate compactor passes per lift. An answer of "we compact the full base at the end" means they're doing it in one thick pour.
+
+4. **What's the paver SKU and is it vehicular-rated?** Correct answer: a named 80mm product — Belgard Holland Stone DCV, Calstone Country Manor 80mm, Techo-Bloc Mista, or equivalent — with vehicular rating stated. "80mm concrete paver" without a product name isn't a driveway-specific spec.
+
+5. **Is the polymeric joint sand vehicular-rated?** Correct answer: Techniseal HP NextGel or Alliance Gator Maxx. "Polymeric sand" without the vehicular designation is patio product.
+
+6. **What's the edge restraint spec — material, spike size, and spacing?** Correct answer: PVC spike-down, 10-inch galvanized spikes at 10-inch spacing. Any answer involving concrete curb or 24-inch spike spacing is below spec.
+
+7. **What's the drainage plan, including any French drain or crown specification?** Correct answer: a documented drainage slope of minimum 1 inch per 8 feet, with the outlet path identified — plus French drain specification if the lot grade exceeds 5%.
+
+These same vetting questions apply when hiring for any complex hardscape project — [the guide to vetting paver installers for large projects](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) covers the broader evaluation framework if you're scoping additional work alongside the driveway.
+
+Lamorinda Pavers answers all seven of these in writing on every driveway bid across Lafayette, Orinda, Moraga, Walnut Creek, and Danville. The base depth, lift count, paver SKU, polymeric sand SKU, edge restraint detail, and drainage plan go into the proposal as line items — not footnotes. Every installation is backed by a **5-year transferable workmanship warranty** covering base settlement, drainage failure, edge restraint movement, and joint sand failure attributable to the work.
+
+---
+
+## Frequently Asked Questions
+
+### Why is my paver driveway cracking?
+
+Paver driveway cracking comes from two sources: pavers that are too thin or not rated for vehicular load (60mm patio-grade pavers cracking under vehicle weight), or a failed base allowing individual units to flex beyond their structural tolerance. In most East Bay driveway paver installation problems, base failure — inadequate depth, uncompacted subgrade, drainage saturation — is the underlying cause even when cracking looks like a paver-quality issue. Isolated cracking at the garage braking zone or turning area also points to pattern misalignment at high-stress zones.
+
+### What causes a paver driveway to settle?
+
+Paver driveway settling traces to three primary causes: inadequate base compaction (lifts too thick, too few passes, or wrong aggregate), drainage failure saturating the base and reducing compressive strength by 30–50%, or subgrade left uncompacted beneath the aggregate. On East Bay clay lots, seasonal expansive-clay movement compounds all three — a marginally adequate base on stable soil fails faster on Orinda or Moraga clay. The failure pattern — where settling occurs — identifies which cause is active.
+
+### How deep should the base be for a paver driveway?
+
+A residential paver driveway on East Bay clay soil requires 8–10 inches of compacted Class II road base aggregate, installed in 3-inch lifts with 4–6 plate compactor passes per lift. The manufacturer minimum of 4–6 inches is a patio specification — it fails under vehicle load within 24–48 months on the expansive-clay subgrades common in Lafayette, Moraga, and Orinda. ICPI Tech Spec 2 governs the standard, and 8 inches is the residential vehicular floor, not a recommendation.
+
+### Do I need polymeric sand for a paver driveway?
+
+Yes — and specifically vehicular-rated polymeric sand. Regular silica sand washes out of driveway joints within 2–3 wet seasons. Patio-grade polymeric sand cracks under vehicle load cycling. Techniseal HP NextGel and Alliance Gator Maxx are the two products formulated and rated for vehicular driveway applications; both carry explicit vehicular-use ratings on the product label. Reseal every 5–7 years to maintain joint integrity.
+
+### How long does a paver driveway last?
+
+A correctly installed paver driveway lasts 25–50 years with resealing every 5–7 years. Vehicular-rated paver units are manufactured to ASTM C936 with compressive strengths of 8,000–9,000 PSI and carry 100+ year vehicular service ratings. Longevity is determined by what's beneath the pavers — base depth, aggregate spec, drainage engineering, and subgrade compaction. A driveway built to the specifications in this post on a Lafayette or Orinda clay lot outlasts poured concrete and doesn't develop clay-movement cracking.
+
+### What's the right paver thickness for a driveway?
+
+80mm (3.15 inches) is the minimum thickness for a vehicular-rated driveway paver. 60mm (2.36 inch) pavers are patio-grade — rated for pedestrian load, not the 1,000-plus pounds per tire that a residential driveway sees daily. Belgard Holland Stone DCV, Calstone Country Manor 80mm, and Techo-Bloc Mista are vehicular-rated product lines in the 80mm range. Specify the SKU and vehicular rating in writing before installation begins.
+
+### Can I fix individual driveway paver installation problems, or do I need a full rebuild?
+
+Individual problems — a failed edge zone, a localized drainage issue, joint sand loss — are repairable if the base beneath that zone is structurally sound. Base-wide failures (wrong aggregate, uncompacted subgrade, missing geotextile) typically require full excavation and rebuild because the cause is systemic. [The driveway paver diagnostic guide](/blog/driveway-pavers-cracking-or-uneven-in-2026) covers the fix-vs-rebuild decision criteria in detail.
+
+---
+
+## Get the Full Spec in Writing Before Any Work Begins
+
+If you're planning a new paver driveway or diagnosing problems with an existing one, request a free on-site estimate from Lamorinda Pavers. We'll walk the driveway personally, identify whether any of the 11 driveway paver installation mistakes above are present or planned for, and send a fixed-price proposal with the complete specification — base depth, lift count, aggregate name, paver SKU, polymeric sand SKU, edge restraint detail, and drainage plan — in writing within 48 hours.
+
+If you're evaluating an existing driveway problem rather than planning a new installation, [the driveway paver diagnostic guide](/blog/driveway-pavers-cracking-or-uneven-in-2026) covers the 4-step homeowner assessment before any contractor conversation. For the base compaction physics specifically, [the paver base compaction deep-dive](/blog/what-is-paver-base-compaction-and-why-it-matters) explains what proper density looks like and how to verify it on-site.
+
+Every Lamorinda Pavers driveway comes with named materials, documented lift counts, ICPI Tech Spec 2 build compliance, and a 5-year transferable workmanship warranty covering base settlement, drainage failure, edge restraint movement, and joint sand failure attributable to the work. [Lafayette hillside driveway projects](/lafayette) carry the same standard as flatland Danville and Walnut Creek installs — the clay engineering is different, the documentation is identical.
+
+Across Lafayette, Orinda, Moraga, Walnut Creek, and Danville, this is how paver driveways get installed correctly the first time. [Contact us](/contact) to schedule your site visit.
+    `.trim(),
+  },
+
+  {
     slug: "driveway-pavers-cracking-or-uneven-in-2026",
     featuredImage: "/images/blog-driveway-pavers-cracking-or-uneven-in-2026.png",
     title: "Driveway Pavers Cracking or Uneven in 2026",
