@@ -47,19 +47,22 @@ jobs:
       - name: Type-check
         run: npx tsc --noEmit
 
-      # Pure — no database, no network — and finishes in about a second, so it
-      # runs before the build: a broken scheduling rule should fail in seconds,
-      # not after a full `next build`.
+      # Both scripts are pure — no database, no network — and finish in about
+      # a second between them. They run before the build so a broken rule
+      # fails in seconds rather than after a full `next build`.
       #
-      # It guards the class of bug that neither a type-check nor a build can
-      # see, and that is invisible until a customer is affected: someone gets
-      # three review emails at once, or none at all.
+      # They guard the class of bug that neither a type-check nor a build can
+      # see, and that stays invisible until a customer is affected: someone
+      # gets three review emails at once or none at all; Steve is offered a
+      # day that is mostly driving; a booking lands an hour off across a DST
+      # boundary.
       #
-      # Add a step here for every future check script. `check:availability`
-      # arrives with the appointment-setting branch and gets its own step in
-      # that PR, alongside the script it introduces.
+      # Add a step here for every future check script.
       - name: Review-request cadence rules
         run: npm run check:schedule
+
+      - name: Appointment slot-proposal rules
+        run: npm run check:availability
 
       - name: Production build
         run: npm run build
