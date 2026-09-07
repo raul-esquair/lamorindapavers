@@ -1,7 +1,12 @@
 "use server";
 
+import { headers } from "next/headers";
 import { Resend } from "resend";
 import { services } from "@/lib/data/services";
+import { cityFromAddress } from "@/lib/appointments/availability";
+import { createLead } from "@/lib/leads/queries";
+import { SMS_CONSENT_TEXT } from "@/lib/leads/consent";
+import { SERVICE_UNSURE } from "@/lib/leads/form";
 
 export interface QuoteSubmission {
   service: string;
@@ -10,7 +15,14 @@ export interface QuoteSubmission {
   name: string;
   phone: string;
   email: string;
-  city: string;
+  /** Street address of the project. Optional — the SMS flow collects it if missing. */
+  address?: string;
+  /** Whether the SMS opt-in box was ticked. */
+  smsConsent?: boolean;
+  /** Page the form was submitted from, for attribution. */
+  sourcePath?: string;
+  /** "modal" | "contact-page" — which surface produced it. */
+  sourceKind?: string;
 }
 
 export type QuoteResult = { ok: true } | { ok: false; error: string };
@@ -47,17 +59,34 @@ export async function submitQuote(data: QuoteSubmission): Promise<QuoteResult> {
     return { ok: false, error: "Please enter a valid email address." };
   }
 
+  const address = data.address?.trim() || null;
+
+  /**
+   * Persist BEFORE the RESEND_API_KEY check, not after.
+   *
+   * A misconfigured deploy must not also lose the lead — the row is the only
+   * durable record, and "we couldn't email you and also forgot you existed" is
+   * strictly worse than "we couldn't email you". The write never throws
+   * (createLead swallows), so this is safe to start and settle later.
+   */
+  const leadPromise = persistLead({ data, name, phone, email, service, address });
+
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
     console.error("RESEND_API_KEY is not set");
+    await leadPromise;
     return { ok: false, error: "Email service is not configured." };
   }
 
   const resend = new Resend(apiKey);
 
-  const serviceName = services.find((s) => s.slug === service)?.name ?? service;
+  const serviceName =
+    service === SERVICE_UNSURE
+      ? "Not sure yet"
+      : services.find((s) => s.slug === service)?.name ?? service;
   const timelineLabel = data.timeline ? TIMELINE_LABELS[data.timeline] ?? data.timeline : "Not specified";
-  const city = data.city?.trim() || "Not specified";
+  const city = address ? cityFromAddress(address) ?? "Not specified" : "Not specified";
+  const location = address || city;
   const details = data.details?.trim() || "No additional details provided";
 
   const subject = `New quote request — ${serviceName} — ${name}`;
@@ -67,7 +96,7 @@ export async function submitQuote(data: QuoteSubmission): Promise<QuoteResult> {
     ``,
     `Service: ${serviceName}`,
     `Timeline: ${timelineLabel}`,
-    `City: ${city}`,
+    `Location: ${location}`,
     ``,
     `Name: ${name}`,
     `Phone: ${phone}`,
@@ -85,7 +114,7 @@ export async function submitQuote(data: QuoteSubmission): Promise<QuoteResult> {
       <table style="width:100%;border-collapse:collapse;font-size:14px;">
         <tr><td style="padding:6px 0;color:#666;width:110px;">Service</td><td style="padding:6px 0;font-weight:600;">${escape(serviceName)}</td></tr>
         <tr><td style="padding:6px 0;color:#666;">Timeline</td><td style="padding:6px 0;">${escape(timelineLabel)}</td></tr>
-        <tr><td style="padding:6px 0;color:#666;">City</td><td style="padding:6px 0;">${escape(city)}</td></tr>
+        <tr><td style="padding:6px 0;color:#666;">Location</td><td style="padding:6px 0;">${escape(location)}</td></tr>
         <tr><td colspan="2" style="padding:12px 0 6px;border-top:1px solid #eee;"></td></tr>
         <tr><td style="padding:6px 0;color:#666;">Name</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
         <tr><td style="padding:6px 0;color:#666;">Phone</td><td style="padding:6px 0;"><a href="tel:${escape(phone)}" style="color:#3B7DD8;">${escape(phone)}</a></td></tr>
@@ -109,10 +138,19 @@ export async function submitQuote(data: QuoteSubmission): Promise<QuoteResult> {
   const ntfyPromise = sendNtfy({ name, phone, email, city, serviceName, timelineLabel, details });
 
   try {
-    const [emailResult, ntfyResult] = await Promise.allSettled([emailPromise, ntfyPromise]);
+    const [emailResult, ntfyResult, leadResult] = await Promise.allSettled([
+      emailPromise,
+      ntfyPromise,
+      leadPromise,
+    ]);
 
+    // Neither the push nor the database write is allowed to fail the
+    // submission. Log and carry on — the email to Steve is the critical path.
     if (ntfyResult.status === "rejected") {
       console.error("ntfy error:", ntfyResult.reason);
+    }
+    if (leadResult.status === "rejected" || leadResult.value === null) {
+      console.error("lead not persisted:", leadResult.status === "rejected" ? leadResult.reason : "insert returned null");
     }
 
     if (emailResult.status === "rejected") {
@@ -165,4 +203,53 @@ async function sendNtfy(p: {
   if (!res.ok) {
     throw new Error(`ntfy ${res.status}: ${await res.text()}`);
   }
+}
+
+/**
+ * Write the lead row. Never throws — `createLead` swallows database failures
+ * and returns null, so a submission can never be lost to a Neon hiccup.
+ *
+ * The IP is read from request headers server-side and never accepted from the
+ * client: it exists as part of the TCPA consent record, and a value the
+ * browser could set would be worthless as evidence.
+ */
+async function persistLead(p: {
+  data: QuoteSubmission;
+  name: string;
+  phone: string;
+  email: string;
+  service: string;
+  address: string | null;
+}) {
+  const consented = p.data.smsConsent === true;
+
+  let ip: string | null = null;
+  try {
+    const h = await headers();
+    ip =
+      h.get("x-nf-client-connection-ip") ??
+      h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+      null;
+  } catch {
+    // headers() is unavailable outside a request scope. A null IP is fine;
+    // a wrong one would be worse than none.
+  }
+
+  return createLead({
+    name: p.name,
+    email: p.email,
+    phone: p.phone,
+    // "Not sure yet" is stored as null rather than a fake slug, so counting
+    // leads per service stays honest.
+    service: p.service === SERVICE_UNSURE ? null : p.service,
+    address: p.address,
+    city: cityFromAddress(p.address),
+    timeline: p.data.timeline?.trim() || null,
+    details: p.data.details?.trim() || null,
+    sourcePath: p.data.sourcePath?.trim() || null,
+    sourceKind: p.data.sourceKind?.trim() || null,
+    smsConsentAt: consented ? new Date() : null,
+    smsConsentText: consented ? SMS_CONSENT_TEXT : null,
+    smsConsentIp: consented ? ip : null,
+  });
 }

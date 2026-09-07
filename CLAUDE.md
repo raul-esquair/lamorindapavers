@@ -197,7 +197,7 @@ The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set
 - 3-step form: service select → project details → contact info
 - Triggered by `QuoteButton` component — used in: Hero, Header, mobile menu, mobile bottom bar, FinalCTA, service detail sidebar, city pages
 - The `/contact` page has its own inline form for direct URL traffic / SEO. **It shares this modal's step and radio markup — a fix to one usually belongs in both.**
-- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy). See memory `project_form_routing.md`. ⚠️ Submissions are **not** written to the `leads` table yet — see TODO.
+- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy), and submissions are persisted to the `leads` table with source-page attribution and an SMS consent snapshot. See memory `project_form_routing.md` and the SMS Appointment Setting section below.
 
 **Two-layer panel.** The presence layer (framer `initial`/`animate`/`exit`) and the drag layer (`style={{ y }}` from `useDragDismiss`) are separate elements on purpose. One motion value per transform, or framer's exit animation and the gesture fight over the same property.
 
@@ -253,6 +253,87 @@ Postgres on **Neon**, accessed with **Drizzle ORM**. Chosen over Netlify Blobs b
 
 Payload CMS was evaluated and deferred (see git history). It runs on Postgres via Drizzle too, so adopting it later means adding tables to this same Neon instance — none of this work is wasted. Put Payload in its own Postgres schema if that happens, to keep migrations from colliding.
 
+## SMS Appointment Setting
+Booking estimate visits over SMS with an AI setter — the missing middle between
+lead capture and the review sequence. Plans live in `plans/appointment-system/`
+(README has the phase order, dependency graph and open decisions).
+
+**Goal is two-audience**: book Steve more visits, AND serve as the Esquair
+reference implementation / case study. That second audience is why lead volume
+does **not** gate the build — under ~15 leads/month a pure ROI argument would
+stop at the templated auto-reply, and that argument is deliberately overruled.
+
+### Shipped (phase 001, Sep 2026)
+- **Leads are persisted.** `submit-quote.ts` writes every submission via
+  `lib/leads/queries.ts`, with `sourcePath` / `sourceKind` attribution.
+- **`/dashboard/leads`** — table plus a "Leads by page" breakdown, which is what
+  finally answers *which of the 37 pages produce work*.
+- **SMS consent capture.** Optional, unticked checkbox on both forms. The
+  **exact wording** is snapshotted per row (`lib/leads/consent.ts`), not a
+  version number — the copy will be edited and old rows must keep what was on
+  screen. ⚠️ That same string is filed with the carriers during A2P
+  registration, so changing it after filing puts the site out of step.
+- **Form restructure.** `city` (optional, step 3) became a full **project
+  address** on step 2. Net-zero field count; step 3 — where people hesitate —
+  got shorter. **Hold this loosely**: once the AI collects addresses
+  conversationally, this is the first field that should come back off the form.
+- **Service pre-select.** `open(service?)` / `<QuoteButton service>`. Only
+  `/services/[slug]` passes one today; everywhere else opens blank, because a
+  wrong pre-selection is worse than none. Step 1 was deliberately **not**
+  deleted — one tap with no typing is the easiest possible first ask, and
+  removing it makes the opening screen harder, not simpler.
+- **"Not sure yet / a few things"** 12th option, stored as `null` service so
+  per-service counts stay honest.
+
+### The rule that governs this whole system
+**A secondary failure must never fail a lead submission.** `createLead` returns
+`null` instead of throwing, and the write settles alongside email and ntfy in
+`Promise.allSettled`; only Resend can return `{ ok: false }`. The write is also
+started **before** the `RESEND_API_KEY` check, so a misconfigured deploy loses
+the email but not the lead. Verified by pointing `DATABASE_URL` at a dead host.
+
+### Foundations in place, not yet wired
+- **Schema** (migration `0001_past_frank_castle`, applied): `sms_conversations`,
+  `sms_messages`, `appointments`, `appointment_reminders`, `sms_suppressions`.
+  Duplicate protection is at the database level, mirroring `review_touches`:
+  unique `sms_messages.provider_sid` (**Twilio retries webhooks** — a retry must
+  be a no-op, not a second message the AI answers), unique
+  `(appointment_id, kind)` on reminders, and a **partial** unique index giving
+  at most one live conversation per phone. ⚠️ That partial index lists the
+  closed states literally; Postgres can't read `CLOSED_CONVERSATION_STATES`, so
+  adding a terminal state means editing both and generating a migration.
+- **`lib/appointments/availability.ts`** — pure slot proposal: travel zones,
+  busy-block subtraction, daily capacity, clustering-vs-soonness ranking,
+  one-per-day diversification. `npm run check:availability` (73 assertions, no
+  DB). ⚠️ `DEFAULT_RULES` (hours, visits/day, notice) are **invented** and
+  flagged in-file — confirm with Steve before anything books.
+- **`lib/appointments/time.ts`** — DST-safe local↔instant conversion. Day
+  granularity lets `lib/reviews/dates.ts` ignore this; wall-clock times cannot.
+
+### Decisions already made — do NOT re-open without asking
+1. **`aiEnabled` is a separate column from `state`.** Escalation can happen from
+   any state and must survive whatever the state becomes. Two voices texting one
+   customer from the same number is the worst thing this system can produce.
+2. **Everything runs in this app; no n8n.** The state lives in Postgres either
+   way, so an orchestrator would own nothing — pure added surface, a second
+   secret store, and business rules outside version control. If durable retries
+   are ever needed, reach for Inngest/Trigger.dev, not n8n.
+3. **Consent is optional, not required.** A lead that skips it still emails
+   Steve; it just never gets texted.
+4. **A2P 10DLC registration is the long pole** — carrier vetting, days to weeks,
+   rejectable, and it needs the consent wording live on the site first. Start it
+   immediately after 001, then build other phases while it queues.
+5. **Business-specific strings move to config at phase 004b.** Steve is client
+   #1 of N; the blog engine already taught this lesson (memory
+   `project_engine_sync.md`).
+
+### Gotcha
+A `"use server"` module may only export **async functions**. Exporting a plain
+const from `submit-quote.ts` fails the Turbopack build with an error pointing at
+the wrong line — hence `lib/leads/form.ts`. And note CI does not catch this:
+`pipeline-pr-check.yml` skips `feat/` branches, so `npm run build` locally is
+the only gate.
+
 ## Review Request System
 Automated post-job review requests: up to 3 emails, with any response killing the remainder. Steve manages it from `/dashboard`.
 
@@ -295,7 +376,7 @@ A fresh session will be tempted to "fix" several of these. They are deliberate:
 
 ### ⚑ Next up (highest value first)
 
-1. **Write quote submissions to the `leads` table.** The table exists and is empty; `submit-quote.ts` still only emails. **Data is being lost right now** — this is the cheapest remaining win and stops active bleeding. Also capture the source page for attribution (nothing currently tells you which of the 12 city / 11 service / 14 blog pages produce work).
+1. ~~**Write quote submissions to the `leads` table.**~~ **DONE (Sep 2026)** — `submit-quote.ts` persists every submission with `sourcePath`/`sourceKind`, and `/dashboard/leads` shows a leads-by-page breakdown. See "SMS Appointment Setting" below.
 2. Everything in the "competitive gaps" TODO list, in the order given there.
 
 ### Flow
@@ -475,7 +556,7 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
   4. **QR card for the walkthrough** — in-person ask + digital follow-up is the highest-converting combination. Dashboard "Copy link" already covers the digital half.
   5. **Live reviews on the site** — `testimonials.ts` is still 4 hardcoded Yelp quotes, so every new review is invisible on the site.
   6. **Hourly business-hours cron** — would make same-day sends actually same-hour (see Cadence). ~10 runs/day instead of 1; watch Neon free-tier compute.
-- **Review system — not yet built:** `/feedback` doesn't read the `?t=` token yet, so the kill switch never fires. Leads aren't written to the `leads` table from `submit-quote.ts`. Resend bounce webhooks aren't wired (manual stop covers it meanwhile).
+- **Review system — not yet built:** Resend bounce webhooks aren't wired (manual stop covers it meanwhile). (The `?t=` kill switch and the `leads` write are both done — see the state table above and "SMS Appointment Setting" below.)
 - ⚠️ **Verify `NTFY_TOPIC` is set in Netlify env** before `/feedback` is handed out. Without it, `submit-feedback.ts` still emails Steve but the push silently no-ops — and the push is what turns an unhappy customer into a same-day callback. Fails quietly by design (a missing topic must not fail the submission), so nothing surfaces the gap.
 - ⚠️ **Live-test `/feedback` from a phone** — confirm the OG card renders in a message thread, and that the `g.page/r/` link opens Google's review composer rather than the profile page. Redirect chain was traced and resolves correctly, but only an authenticated tap on a real device fully counts. Messaging apps cache OG data hard; append `?v=N` to force a fresh preview.
 - ⚠️ **Watch the Google Business Profile for policy notices** — `/feedback` gates reviews (see "Reputation Page"). Enforcement, if it comes, lands on the GBP, which is new and is the main local-search asset.
@@ -513,7 +594,8 @@ npm run build     # Production build — verify before pushing.
 npm run blur:gen  # Manually regenerate lib/blur-map.json from /public/images.
                   # Run this after adding/changing/removing images.
 npm run lint      # ESLint
-npm run check:schedule  # 29 assertions on review-request cadence (no DB needed)
+npm run check:schedule  # 36 assertions on review-request cadence (no DB needed)
+npm run check:availability  # 73 assertions on appointment slot proposal (no DB needed)
 npm run db:generate     # Generate a migration from lib/db/schema.ts
 
 ```

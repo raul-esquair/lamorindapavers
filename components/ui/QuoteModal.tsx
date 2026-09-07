@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
 import { submitQuote } from "@/lib/actions/submit-quote";
+import { SERVICE_UNSURE } from "@/lib/leads/form";
+import { SMS_CONSENT_LABEL } from "@/lib/leads/consent";
 import { useDragDismiss } from "@/lib/hooks/use-drag-dismiss";
 
 // Everything inside the dialog that can hold keyboard focus. Radio inputs are
@@ -23,7 +25,12 @@ const FOCUSABLE_SELECTOR = [
 
 // Context so any component can open the modal
 const QuoteModalContext = createContext<{
-  open: () => void;
+  /**
+   * `service` pre-selects step 1. Passed by entry points that already know the
+   * answer — the service-detail sidebar. Everywhere else opens blank, because
+   * a wrong pre-selection is worse than none.
+   */
+  open: (service?: string) => void;
   close: () => void;
   isOpen: boolean;
 }>({
@@ -40,21 +47,24 @@ interface FormData {
   service: string;
   details: string;
   timeline: string;
+  address: string;
   name: string;
   phone: string;
   email: string;
-  city: string;
+  smsConsent: boolean;
 }
 
 export function QuoteModalProvider({ children }: { children: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [presetService, setPresetService] = useState<string | undefined>(undefined);
   const triggerRef = useRef<HTMLElement | null>(null);
 
-  const open = useCallback(() => {
+  const open = useCallback((service?: string) => {
     // Captured at open time rather than on unmount: by then the trigger may be
     // gone. The mobile menu closes itself when its CTA is tapped, taking the
     // button with it.
     triggerRef.current = document.activeElement as HTMLElement | null;
+    setPresetService(service);
     setIsOpen(true);
   }, []);
   const close = useCallback(() => setIsOpen(false), []);
@@ -94,7 +104,7 @@ export function QuoteModalProvider({ children }: { children: React.ReactNode }) 
     <QuoteModalContext.Provider value={{ open, close, isOpen }}>
       {children}
       <AnimatePresence>
-        {isOpen && <QuoteModalContent onClose={close} />}
+        {isOpen && <QuoteModalContent onClose={close} presetService={presetService} />}
       </AnimatePresence>
     </QuoteModalContext.Provider>
   );
@@ -112,7 +122,13 @@ const stepVariants = {
 
 const stepTransition = { duration: 0.18, ease: EASE_OUT } as const;
 
-function QuoteModalContent({ onClose }: { onClose: () => void }) {
+function QuoteModalContent({
+  onClose,
+  presetService,
+}: {
+  onClose: () => void;
+  presetService?: string;
+}) {
   const [step, setStep] = useState(1);
   const [direction, setDirection] = useState(1);
   const [submitted, setSubmitted] = useState(false);
@@ -123,14 +139,22 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    // The modal mounts fresh on every open, so a default is enough to
+    // pre-select — no reset() or effect needed.
+    defaultValues: { service: presetService ?? "" },
+  });
 
   const selectedService = watch("service");
 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     setSubmitError(null);
-    const result = await submitQuote(data);
+    const result = await submitQuote({
+      ...data,
+      sourcePath: window.location.pathname,
+      sourceKind: "modal",
+    });
     setSubmitting(false);
     if (result.ok) {
       setSubmitted(true);
@@ -362,6 +386,26 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                 {service.name}
                               </label>
                             ))}
+                            {/*
+                              Some leads genuinely don't know what they want.
+                              Forcing a pick either loses them or produces junk
+                              data; this stores as null on the lead row.
+                            */}
+                            <label
+                              className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 col-span-2 flex items-center justify-center p-3 rounded-lg border-2 border-dashed cursor-pointer text-center text-sm font-sans ${
+                                selectedService === SERVICE_UNSURE
+                                  ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
+                                  : "border-warm-gray-200 hover:border-warm-gray-300 text-warm-gray-500"
+                              }`}
+                            >
+                              <input
+                                type="radio"
+                                value={SERVICE_UNSURE}
+                                {...register("service", { required: true })}
+                                className="sr-only"
+                              />
+                              Not sure yet / a few things
+                            </label>
                           </div>
                           <div className="mt-6 flex justify-end">
                             <button
@@ -412,6 +456,24 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                 <option value="3-6months">3-6 months</option>
                                 <option value="planning">Just getting quotes</option>
                               </select>
+                            </div>
+                            {/*
+                              Address lives on step 2, not the contact step.
+                              Here it reads as a question about the project;
+                              beside name/phone/email it reads as data
+                              collection, on the screen where people hesitate.
+                            */}
+                            <div>
+                              <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
+                                Project address
+                              </label>
+                              <input
+                                type="text"
+                                {...register("address")}
+                                placeholder="Street, city — where the work would happen"
+                                autoComplete="street-address"
+                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                              />
                             </div>
                           </div>
                           <div className="mt-6 flex justify-between">
@@ -495,17 +557,26 @@ function QuoteModalContent({ onClose }: { onClose: () => void }) {
                                 )}
                               </div>
                             </div>
-                            <div>
-                              <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
-                                City
-                              </label>
+                            {/*
+                              Deliberately optional and unticked. A lead that
+                              skips it still reaches Steve by email — it just
+                              never gets texted. Making consent a condition of
+                              using the form is both worse for conversion and
+                              the riskier reading of the rules.
+                            */}
+                            <label className="flex items-start gap-3 cursor-pointer rounded-lg p-1 -m-1 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2">
                               <input
-                                type="text"
-                                {...register("city")}
-                                placeholder="e.g., Lafayette, Walnut Creek"
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                                type="checkbox"
+                                {...register("smsConsent")}
+                                className="mt-0.5 h-4 w-4 shrink-0 rounded border-warm-gray-300 text-brand-blue focus:ring-brand-blue accent-brand-blue"
                               />
-                            </div>
+                              <span className="font-sans text-sm text-warm-gray-700">
+                                {SMS_CONSENT_LABEL}
+                                <span className="block text-xs text-warm-gray-500 mt-0.5">
+                                  Message and data rates may apply. Reply STOP to opt out.
+                                </span>
+                              </span>
+                            </label>
                           </div>
                           {submitError && (
                             <p className="text-brand-red text-sm mt-4 font-sans">

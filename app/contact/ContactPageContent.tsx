@@ -9,15 +9,18 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
 import { submitQuote } from "@/lib/actions/submit-quote";
+import { SERVICE_UNSURE } from "@/lib/leads/form";
+import { SMS_CONSENT_LABEL } from "@/lib/leads/consent";
 
 interface FormData {
   service: string;
   details: string;
   timeline: string;
+  address: string;
   name: string;
   phone: string;
   email: string;
-  city: string;
+  smsConsent: boolean;
 }
 
 export default function ContactPageContent() {
@@ -32,7 +35,11 @@ export default function ContactPageContent() {
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
     setSubmitError(null);
-    const result = await submitQuote(data);
+    const result = await submitQuote({
+      ...data,
+      sourcePath: "/contact",
+      sourceKind: "contact-page",
+    });
     setSubmitting(false);
     if (result.ok) {
       setSubmitted(true);
@@ -163,6 +170,22 @@ export default function ContactPageContent() {
                             {service.name}
                           </label>
                         ))}
+                        {/* Mirrors QuoteModal — see the comment there. */}
+                        <label
+                          className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 col-span-2 md:col-span-3 flex items-center justify-center p-4 rounded-lg border-2 border-dashed cursor-pointer text-center text-sm font-sans ${
+                            selectedService === SERVICE_UNSURE
+                              ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
+                              : "border-warm-gray-200 hover:border-warm-gray-300 text-warm-gray-500"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            value={SERVICE_UNSURE}
+                            {...register("service", { required: true })}
+                            className="sr-only"
+                          />
+                          Not sure yet / a few things
+                        </label>
                       </div>
                       <div className="mt-8 flex justify-end">
                         <Button onClick={nextStep} variant="primary">
@@ -209,6 +232,19 @@ export default function ContactPageContent() {
                             <option value="3-6months">3-6 months</option>
                             <option value="planning">Just planning / getting quotes</option>
                           </select>
+                        </div>
+                        {/* On step 2, not the contact step — see QuoteModal. */}
+                        <div>
+                          <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-2">
+                            Project address
+                          </label>
+                          <input
+                            type="text"
+                            {...register("address")}
+                            placeholder="Street, city — where the work would happen"
+                            autoComplete="street-address"
+                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                          />
                         </div>
                       </div>
                       <div className="mt-8 flex justify-between">
@@ -278,17 +314,20 @@ export default function ContactPageContent() {
                             )}
                           </div>
                         </div>
-                        <div>
-                          <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-2">
-                            City
-                          </label>
+                        {/* Optional and unticked — see QuoteModal. */}
+                        <label className="flex items-start gap-3 cursor-pointer rounded-lg p-1 -m-1 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2">
                           <input
-                            type="text"
-                            {...register("city")}
-                            placeholder="e.g., Lafayette, Walnut Creek"
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                            type="checkbox"
+                            {...register("smsConsent")}
+                            className="mt-1 h-4 w-4 shrink-0 rounded border-warm-gray-300 text-brand-blue focus:ring-brand-blue accent-brand-blue"
                           />
-                        </div>
+                          <span className="font-sans text-warm-gray-700">
+                            {SMS_CONSENT_LABEL}
+                            <span className="block text-sm text-warm-gray-500 mt-0.5">
+                              Message and data rates may apply. Reply STOP to opt out.
+                            </span>
+                          </span>
+                        </label>
                       </div>
                       {submitError && (
                         <p className="text-brand-red text-sm mt-6 font-sans">
