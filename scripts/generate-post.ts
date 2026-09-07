@@ -755,6 +755,32 @@ function createDraftPR(
   const pathsToAdd = ["lib/blog/data.ts", "content/post-queue.json"];
   if (imagePath) {
     pathsToAdd.push(`public${imagePath}`);
+
+    /**
+     * Regenerate the blur map so the new featured image has a placeholder in
+     * the SAME commit as the image itself.
+     *
+     * Without this the committed map drifts behind after every blog merge:
+     * `blur:gen` runs as `prebuild`, so Netlify regenerates it on deploy and
+     * production is fine, but the checked-in copy stays stale until someone
+     * builds locally, notices the churn and commits it by hand (ce1b24e, and
+     * again in #37). backfill-featured-images.yml already does this correctly
+     * — this is the same fix on the weekly path.
+     *
+     * Non-fatal, matching the image step itself: a missing blur placeholder
+     * costs a fade-in on one image, while a failed draft costs the week's
+     * post. Netlify regenerates it either way.
+     */
+    try {
+      console.log("Regenerating blur map for the new featured image");
+      run("npm run blur:gen");
+      pathsToAdd.push("lib/blur-map.json");
+    } catch (err) {
+      console.warn(
+        `Could not regenerate the blur map: ${err instanceof Error ? err.message : String(err)}`,
+      );
+      console.warn("Continuing — Netlify regenerates it at build time via prebuild.");
+    }
   }
   run(`git add ${pathsToAdd.join(" ")}`);
 
