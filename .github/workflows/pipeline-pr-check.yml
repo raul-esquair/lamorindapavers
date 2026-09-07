@@ -1,11 +1,24 @@
-name: PR check (drafts + proposals)
+name: PR check
 
-# Gate for the auto-merge pipeline. Runs on every PR whose head ref starts
-# with `drafts/` or `proposals/` — i.e. PRs opened by the weekly blog
-# pipeline. Fails if TypeScript errors are introduced or if `next build`
-# fails. The auto-merge workflows check this status before merging, so a
-# failed run here means the bad code does NOT land on main and break the
-# Monday Netlify rebuild.
+# Type-check + production build on EVERY pull request to main.
+#
+# This was previously gated on `startsWith(github.head_ref, 'drafts/') ||
+# startsWith(github.head_ref, 'proposals/')`, because it was written for the
+# blog pipeline. The effect was that any `feat/`, `fix/` or `docs/` branch
+# reported this check as SKIPPED — which GitHub treats as a pass — so a
+# hand-written PR could show all-green having never been type-checked or
+# built. The only other PR checks are Netlify's header/redirect rules, which
+# do not compile anything.
+#
+# That gap was not theoretical: PR #35 introduced a `export const` in a
+# `"use server"` module, which fails `next build` and would have landed with
+# green checks. It was caught only because the author happened to run the
+# build locally.
+#
+# It remains the gate for the auto-merge pipeline too. `auto-merge-drafts.yml`
+# calls `gh pr checks` (all checks, no name matching) before squash-merging, so
+# a failure here still stops bad code reaching main and breaking the Monday
+# Netlify rebuild.
 
 on:
   pull_request:
@@ -13,8 +26,10 @@ on:
 
 jobs:
   check:
+    # Job name is load-bearing: it is the check name shown on PRs and is what
+    # any branch-protection rule would reference. Renaming it silently detaches
+    # that rule, so leave it alone.
     name: Type-check + production build
-    if: startsWith(github.head_ref, 'drafts/') || startsWith(github.head_ref, 'proposals/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

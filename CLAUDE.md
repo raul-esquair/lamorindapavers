@@ -520,7 +520,11 @@ npm run db:generate     # Generate a migration from lib/db/schema.ts
 
 Always run `npm run build` before pushing to verify zero TypeScript errors and successful static generation.
 
-⚠️ **CI does not do this for you on most PRs.** `pipeline-pr-check.yml` — the "Type-check + production build" check — is gated on `if: startsWith(github.head_ref, 'drafts/') || startsWith(github.head_ref, 'proposals/')`. Any `feat/`, `fix/`, or `docs/` branch gets that check reported as **SKIPPED**, and the only other PR checks are Netlify's header/redirect rules. So a front-end PR can show all-green checks having never been type-checked or built. **The local `npm run build` is the actual gate.** Widening the branch filter would close this.
+**CI now runs this on every PR to main.** `pipeline-pr-check.yml` type-checks and builds every pull request, whatever the branch is called.
+
+⚠️ **It did not, until Sep 2026.** The job was gated on `startsWith(github.head_ref, 'drafts/') || startsWith(github.head_ref, 'proposals/')` because it was written for the blog pipeline, so any `feat/`, `fix/` or `docs/` branch reported the check as **SKIPPED** — which GitHub treats as a pass. A front-end PR could show all-green having never been type-checked or built, since the only other PR checks are Netlify's header/redirect rules. Worth knowing when reading PRs merged before that date: **their green checks did not include a build.**
+
+Still run `npm run build` locally before pushing — it is faster than waiting on CI, and it is what catches the class of error CI now also catches.
 
 ### Dev server gotcha
 Next.js 16 + Turbopack's dev cache can wedge with a misleading `ReferenceError: require is not defined` in server components (build still works, only dev 500s). Fix: stop the dev server, `rm -rf .next`, restart. Not a code issue.
