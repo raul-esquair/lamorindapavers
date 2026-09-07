@@ -1,6 +1,6 @@
 name: PR check
 
-# Type-check + production build on EVERY pull request to main.
+# Type-check, unit checks, and production build on EVERY pull request to main.
 #
 # This was previously gated on `startsWith(github.head_ref, 'drafts/') ||
 # startsWith(github.head_ref, 'proposals/')`, because it was written for the
@@ -46,6 +46,20 @@ jobs:
 
       - name: Type-check
         run: npx tsc --noEmit
+
+      # Pure — no database, no network — and finishes in about a second, so it
+      # runs before the build: a broken scheduling rule should fail in seconds,
+      # not after a full `next build`.
+      #
+      # It guards the class of bug that neither a type-check nor a build can
+      # see, and that is invisible until a customer is affected: someone gets
+      # three review emails at once, or none at all.
+      #
+      # Add a step here for every future check script. `check:availability`
+      # arrives with the appointment-setting branch and gets its own step in
+      # that PR, alongside the script it introduces.
+      - name: Review-request cadence rules
+        run: npm run check:schedule
 
       - name: Production build
         run: npm run build
