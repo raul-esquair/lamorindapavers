@@ -38,7 +38,7 @@ export default function MobileBottomBar() {
               Call Now
             </a>
             <button
-              onClick={open}
+              onClick={() => open()}
               className="press flex-1 flex items-center justify-center gap-2 py-3 bg-brand-gold text-white rounded-lg font-sans font-semibold text-sm"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -186,7 +186,7 @@ export default function ServiceDetailContent({
                       Contact us for a free, no-obligation consultation.
                     </p>
                     <div className="flex flex-col gap-3">
-                      <QuoteButton variant="secondary" className="w-full">
+                      <QuoteButton variant="secondary" className="w-full" service={service.slug}>
                         Request Estimate
                       </QuoteButton>
                       <Button href={company.phoneHref} variant="outline" external className="w-full">

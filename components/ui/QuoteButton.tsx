@@ -8,6 +8,12 @@ interface QuoteButtonProps {
   size?: "sm" | "md" | "lg";
   className?: string;
   children?: React.ReactNode;
+  /**
+   * Pre-selects step 1 of the modal. Pass it only where the page already knows
+   * the answer (the service-detail sidebar) — a wrong pre-selection is worse
+   * than a blank one.
+   */
+  service?: string;
 }
 
 const variants = {
@@ -27,12 +33,15 @@ export default function QuoteButton({
   size = "md",
   className,
   children = "Get a Free Estimate",
+  service,
 }: QuoteButtonProps) {
   const { open } = useQuoteModal();
 
   return (
     <button
-      onClick={open}
+      // Wrapped, not passed directly: `onClick={open}` hands React's click
+      // event to the `service` parameter.
+      onClick={() => open(service)}
       className={cn(
         "inline-flex items-center justify-center gap-2 rounded-lg font-sans font-semibold cursor-pointer press",
         variants[variant],

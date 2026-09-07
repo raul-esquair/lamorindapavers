@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { listRequests } from "@/lib/reviews/queries";
 import { company } from "@/lib/data/company";
 import AddRequestForm from "./AddRequestForm";
@@ -38,7 +39,15 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="text-3xl sm:text-4xl font-serif text-warm-gray-900">Review Requests</h1>
+        <div className="flex flex-wrap items-baseline justify-between gap-4">
+          <h1 className="text-3xl sm:text-4xl font-serif text-warm-gray-900">Review Requests</h1>
+          <Link
+            href="/dashboard/leads"
+            className="font-sans text-sm text-warm-gray-500 hover:text-brand-blue transition-colors duration-200"
+          >
+            Leads →
+          </Link>
+        </div>
         <p className="mt-2 font-sans text-warm-gray-500">
           Add a customer after a job wraps. They get up to three emails, and any response
           stops the rest automatically.
