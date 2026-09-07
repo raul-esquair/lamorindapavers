@@ -330,9 +330,10 @@ the email but not the lead. Verified by pointing `DATABASE_URL` at a dead host.
 ### Gotcha
 A `"use server"` module may only export **async functions**. Exporting a plain
 const from `submit-quote.ts` fails the Turbopack build with an error pointing at
-the wrong line — hence `lib/leads/form.ts`. And note CI does not catch this:
-`pipeline-pr-check.yml` skips `feat/` branches, so `npm run build` locally is
-the only gate.
+the wrong line — hence `lib/leads/form.ts`. CI catches this now, but did not
+when it was written: `pipeline-pr-check.yml` skipped `feat/` branches until
+Sep 2026 (fixed in #36), so the local `npm run build` was the only gate. Still
+run it before pushing — it is faster than waiting on CI.
 
 ## Review Request System
 Automated post-job review requests: up to 3 emails, with any response killing the remainder. Steve manages it from `/dashboard`.
