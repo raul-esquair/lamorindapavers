@@ -469,6 +469,7 @@ Every `<Image>` consumer spreads `{...blurProps(src)}` to apply a build-generate
 - Process images: convert source PNG to WebP at q=90 (`node -e "require('sharp')(src).webp({quality:90}).toFile(dst)"`), save to `/public/images/process/`
 - Use `imagePosition` field (e.g., `"center 70%"`) to control focal point
 - **After adding any image to a scanned folder, run `npm run blur:gen`** so the blur map includes it. (Auto-runs as `prebuild` before `npm run build`.)
+- Both automated image paths regenerate it themselves: `backfill-featured-images.yml` as a workflow step, and `generate-post.ts` inside the draft commit. Before Sep 2026 the weekly draft did **not**, so the committed map drifted behind after every blog merge until someone built locally and noticed the churn (`ce1b24e`, then #37).
 - Every `<Image>` should spread `{...blurProps(src)}` from `@/lib/blur` — see existing components.
 
 ## SEO Infrastructure

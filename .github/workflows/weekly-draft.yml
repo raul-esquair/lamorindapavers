@@ -4,6 +4,11 @@ name: Weekly blog draft
 # post and opens a PR for review. The script reads recipients from
 # blog.config.ts > email.reviewRecipients by default. Override via
 # DRAFT_REVIEW_EMAILS env var below if you want CI to use a different list.
+#
+# Note: `generate-post.ts` commits and opens the PR itself, so anything that
+# has to land IN the draft commit belongs in that script, not in a step here —
+# a step after it runs is too late. That is where the blur-map regeneration
+# lives (see the comment beside `pathsToAdd`).
 
 on:
   schedule:
