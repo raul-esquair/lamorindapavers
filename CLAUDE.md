@@ -223,7 +223,7 @@ A standalone post-job feedback link handed to customers directly (texts, invoice
 
 ⚠️ **This is review gating** — routing negative sentiment away from Google violates Google's review policies and is the practice the FTC's consumer reviews rule (16 CFR 465) covers. Enforcement risk lands on the Google Business Profile, which is new. Built this way at the owner's explicit direction after the tradeoff was raised. **Reverting to a compliant flow is a one-line change** in `FeedbackPageContent.tsx`: `value >= 3` → `true` (everyone sees the Google link, everyone also gets the private channel). Don't "fix" this silently in either direction — it's a business decision, not an oversight.
 
-**Notifications** (`lib/actions/submit-feedback.ts`) mirror `submit-quote.ts`: Resend email with `replyTo` set to the customer, plus ntfy push. ntfy fires at **priority 5 with a warning tag** (quote leads are 4) since an unhappy customer is time-sensitive. Requires a phone **or** an email — a complaint with no way to reach the person back is the one failure mode that makes the page pointless. A missing `NTFY_TOPIC` no-ops silently rather than failing the submission.
+**Notifications** (`lib/actions/submit-feedback.ts`) mirror `submit-quote.ts`: Resend email with `replyTo` set to the customer, plus ntfy push. ntfy fires at **priority 5 with a warning tag** (quote leads are 4) since an unhappy customer is time-sensitive. Requires a phone **or** an email — a complaint with no way to reach the person back is the one failure mode that makes the page pointless. A missing `NTFY_TOPIC` no-ops silently rather than failing the submission — which is exactly what has been happening: the variable was never set, so this alert has never fired. Moving to SMS (see SMS Appointment Setting below).
 
 **Subject lines assume the work is good** rather than asking whether it was. The original "How did your paver driveway turn out?" reads as a tradesman unsure of his own job — the ask isn't whether the driveway is good, it's whether they'd say so publicly. The three subjects must also look distinct in an inbox; three near-identical lines from one sender read as automation. Touch 1's opening line varies by elapsed days since completion (`openingLine()` in `emails.ts`) — with same-day sends possible, "has had a few days to settle" is wrong as often as it's right.
 
@@ -258,10 +258,30 @@ Booking estimate visits over SMS with an AI setter — the missing middle betwee
 lead capture and the review sequence. Plans live in `plans/appointment-system/`
 (README has the phase order, dependency graph and open decisions).
 
-**Goal is two-audience**: book Steve more visits, AND serve as the Esquair
-reference implementation / case study. That second audience is why lead volume
-does **not** gate the build — under ~15 leads/month a pure ROI argument would
-stop at the templated auto-reply, and that argument is deliberately overruled.
+⚠️ **Scope cut 2026-09-08.** After an owner conversation the system is
+**notify-only**: Steve does all customer contact himself and wants to vet
+appointments personally. He asked for a **text** with full lead details,
+because he is not on email consistently. Customer-facing SMS, the AI
+conversation engine, slot proposal, calendar booking and reminders are all
+**deferred, not deleted** — Twilio, A2P and outcome capture are shared with
+them, so returning is additive. See `plans/appointment-system/README.md`.
+
+**ntfy is not the answer — Steve wants a direct text, no app** (decided
+2026-09-08). `NTFY_TOPIC` was never set, so both ntfy pushes have been silently
+no-opping: the lead alert in `submit-quote.ts` AND the priority-5 unhappy-customer
+alert in `submit-feedback.ts`. The latter is the more time-critical of the two.
+Both move to SMS in the same phase. The ntfy code stays as an Esquair monitoring
+channel but is no longer part of Steve's path.
+
+⚠️ **Choose the number type deliberately.** For a single internal recipient,
+toll-free verification is generally far faster than 10DLC brand + campaign
+vetting, with no downside — Steve does not care that an alert comes from an 800
+number. Buy a local 10DLC number only if the deferred customer-facing work
+returns, which is when a local sender actually matters.
+
+**Goal is two-audience**: get leads to Steve instantly, AND serve as the
+Esquair reference implementation. That second audience is why lead volume does
+not gate the build.
 
 ### Shipped (phase 001, Sep 2026)
 - **Leads are persisted.** `submit-quote.ts` writes every submission via
@@ -292,6 +312,14 @@ stop at the templated auto-reply, and that argument is deliberately overruled.
 started **before** the `RESEND_API_KEY` check, so a misconfigured deploy loses
 the email but not the lead. Verified by pointing `DATABASE_URL` at a dead host.
 
+### Foundations in place — several now WITHOUT a consumer
+
+⚠️ After the 2026-09-08 cut, the slot-proposal module and most of the SMS
+schema have nothing calling them. Decision: **keep**, same as `lib/animations.ts`
+— the tables cost nothing empty and the module is pure and tested. But if any
+of it is still unused by **2027, delete it**: speculative code that survives a
+year stops being optionality and becomes maintenance.
+
 ### Foundations in place, not yet wired
 - **Schema** (migration `0001_past_frank_castle`, applied): `sms_conversations`,
   `sms_messages`, `appointments`, `appointment_reminders`, `sms_suppressions`.
@@ -314,6 +342,8 @@ the email but not the lead. Verified by pointing `DATABASE_URL` at a dead host.
 1. **`aiEnabled` is a separate column from `state`.** Escalation can happen from
    any state and must survive whatever the state becomes. Two voices texting one
    customer from the same number is the worst thing this system can produce.
+   *(Dormant after the 2026-09-08 cut — no AI texts customers. The reasoning
+   holds if the deferred work returns.)*
 2. **Everything runs in this app; no n8n.** The state lives in Postgres either
    way, so an orchestrator would own nothing — pure added surface, a second
    secret store, and business rules outside version control. If durable retries
@@ -321,8 +351,11 @@ the email but not the lead. Verified by pointing `DATABASE_URL` at a dead host.
 3. **Consent is optional, not required.** A lead that skips it still emails
    Steve; it just never gets texted.
 4. **A2P 10DLC registration is the long pole** — carrier vetting, days to weeks,
-   rejectable, and it needs the consent wording live on the site first. Start it
-   immediately after 001, then build other phases while it queues.
+   rejectable. Still required even for a single internal recipient on a 10DLC
+   number. Post-cut the campaign is simple (owner notifications, one recipient,
+   very low volume) and the **Sole Proprietor** brand path likely fits. ⚠️ The
+   brand is **Lamorinda Pavers, not Esquair** — the brand is the business whose
+   customers exist — and reusing another client's campaign is a suspension risk.
 5. **Business-specific strings move to config at phase 004b.** Steve is client
    #1 of N; the blog engine already taught this lesson (memory
    `project_engine_sync.md`).
@@ -559,7 +592,7 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
   5. **Live reviews on the site** — `testimonials.ts` is still 4 hardcoded Yelp quotes, so every new review is invisible on the site.
   6. **Hourly business-hours cron** — would make same-day sends actually same-hour (see Cadence). ~10 runs/day instead of 1; watch Neon free-tier compute.
 - **Review system — not yet built:** Resend bounce webhooks aren't wired (manual stop covers it meanwhile). (The `?t=` kill switch and the `leads` write are both done — see the state table above and "SMS Appointment Setting" below.)
-- ⚠️ **Verify `NTFY_TOPIC` is set in Netlify env** before `/feedback` is handed out. Without it, `submit-feedback.ts` still emails Steve but the push silently no-ops — and the push is what turns an unhappy customer into a same-day callback. Fails quietly by design (a missing topic must not fail the submission), so nothing surfaces the gap.
+- ⚠️ **The `/feedback` unhappy-customer alert has never fired.** `NTFY_TOPIC` was never set, and `submit-feedback.ts` no-ops silently by design (a missing topic must not fail the submission), so nothing surfaced the gap. The push is what turns an unhappy customer into a same-day callback — so as it stands, an unhappy customer produces an email Steve may not read for hours. **Superseded rather than fixed:** Steve wants direct SMS and won't run the ntfy app, so this alert moves to SMS alongside the lead alert — phase 003 in `plans/appointment-system/README.md`. Setting `NTFY_TOPIC` now would only help Esquair-side monitoring, not Steve.
 - ⚠️ **Live-test `/feedback` from a phone** — confirm the OG card renders in a message thread, and that the `g.page/r/` link opens Google's review composer rather than the profile page. Redirect chain was traced and resolves correctly, but only an authenticated tap on a real device fully counts. Messaging apps cache OG data hard; append `?v=N` to force a fresh preview.
 - ⚠️ **Watch the Google Business Profile for policy notices** — `/feedback` gates reviews (see "Reputation Page"). Enforcement, if it comes, lands on the GBP, which is new and is the main local-search asset.
 - ⚠️ **Confirm placeholder editorial fields** (`scope`, `duration`, `year`, `materials`) on the 4 real projects with Steve before launch. TODO block at top of `lib/data/projects.ts`.

@@ -1,6 +1,13 @@
 # 001 — Persist leads and capture SMS consent
 
-- **Status**: NOT STARTED
+- **Status**: DONE (Sep 2026, #35)
+
+> ⚠️ **Read after the 2026-09-08 scope cut.** This phase shipped in full and
+> nothing needs undoing. But two pieces of it now have no consumer: the SMS
+> consent checkbox (nothing texts customers) and the service pre-select's
+> relationship to the SMS flow. Both are kept deliberately — see "Now without
+> a consumer" in the README. The consent data is the demand signal that would
+> justify revisiting the deferred customer-facing work.
 - **Severity**: HIGH — data is being lost right now
 - **Blocks**: every other phase
 - **External wait**: none
