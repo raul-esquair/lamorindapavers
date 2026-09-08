@@ -8,7 +8,6 @@ import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
 import { submitQuote } from "@/lib/actions/submit-quote";
 import { SERVICE_UNSURE } from "@/lib/leads/form";
-import { SMS_CONSENT_LABEL } from "@/lib/leads/consent";
 import { useDragDismiss } from "@/lib/hooks/use-drag-dismiss";
 
 // Everything inside the dialog that can hold keyboard focus. Radio inputs are
@@ -51,7 +50,6 @@ interface FormData {
   name: string;
   phone: string;
   email: string;
-  smsConsent: boolean;
 }
 
 export function QuoteModalProvider({ children }: { children: React.ReactNode }) {
@@ -557,26 +555,6 @@ function QuoteModalContent({
                                 )}
                               </div>
                             </div>
-                            {/*
-                              Deliberately optional and unticked. A lead that
-                              skips it still reaches Steve by email — it just
-                              never gets texted. Making consent a condition of
-                              using the form is both worse for conversion and
-                              the riskier reading of the rules.
-                            */}
-                            <label className="flex items-start gap-3 cursor-pointer rounded-lg p-1 -m-1 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2">
-                              <input
-                                type="checkbox"
-                                {...register("smsConsent")}
-                                className="mt-0.5 h-4 w-4 shrink-0 rounded border-warm-gray-300 text-brand-blue focus:ring-brand-blue accent-brand-blue"
-                              />
-                              <span className="font-sans text-sm text-warm-gray-700">
-                                {SMS_CONSENT_LABEL}
-                                <span className="block text-xs text-warm-gray-500 mt-0.5">
-                                  Message and data rates may apply. Reply STOP to opt out.
-                                </span>
-                              </span>
-                            </label>
                           </div>
                           {submitError && (
                             <p className="text-brand-red text-sm mt-4 font-sans">

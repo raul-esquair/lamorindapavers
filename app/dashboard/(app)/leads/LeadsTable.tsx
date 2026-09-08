@@ -35,7 +35,6 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
             <th scope="col" className="px-4 py-3 font-medium">Service</th>
             <th scope="col" className="px-4 py-3 font-medium">Location</th>
             <th scope="col" className="px-4 py-3 font-medium">Came from</th>
-            <th scope="col" className="px-4 py-3 font-medium">Texts OK</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-warm-gray-100">
@@ -69,15 +68,6 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
                 )}
                 {lead.sourceKind && (
                   <span className="block text-xs text-warm-gray-400">{lead.sourceKind}</span>
-                )}
-              </td>
-              <td className="px-4 py-3">
-                {lead.smsConsentAt ? (
-                  <span className="inline-flex rounded-full bg-brand-blue/10 px-2 py-0.5 text-xs font-medium text-brand-blue">
-                    Yes
-                  </span>
-                ) : (
-                  <span className="text-xs text-warm-gray-400">No</span>
                 )}
               </td>
             </tr>

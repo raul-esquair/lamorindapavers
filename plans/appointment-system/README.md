@@ -103,10 +103,28 @@ capture are all shared with these, so they are additive rather than a rebuild.
 - Instant customer-facing acknowledgment
 - AI conversation engine
 - Slot proposal to customers, calendar read + write, booking, reminders
+- **SMS opt-in consent capture** (removed 2026-09-08 — see below)
 
 **Trigger to revisit:** Steve asking for it after seeing the alerts work — a
-common arc once an owner trusts the plumbing. The consent checkbox shipped in
-001 also quietly measures the demand side: what share of leads opt in.
+common arc once an owner trusts the plumbing.
+
+### The consent wording, preserved
+
+The checkbox was removed because it promised something the site does not do:
+a customer ticking *"text me about scheduling my estimate"* would never be
+texted. Collecting consent for a send that does not exist is a promise not
+kept, and no analytics value outweighs that.
+
+The `sms_consent_at` / `sms_consent_text` / `sms_consent_ip` columns remain and
+are never written. **If customer-facing SMS returns, restore the checkbox and
+the snapshot together** — consent without a stored record of the exact wording
+shown is worth nothing in a dispute. The wording that shipped, kept here so it
+is not lost:
+
+> Text me about scheduling my estimate. Message and data rates may apply.
+> Reply STOP to opt out. Consent is not a condition of purchase.
+
+Label: *Text me about scheduling my estimate*
 
 ## Now without a consumer — kept deliberately
 
@@ -118,7 +136,7 @@ carrying. Same call CLAUDE.md already records for `lib/animations.ts`.
 |---|---|
 | `lib/appointments/availability.ts` + `time.ts` | 73 assertions, `npm run check:availability`. Nothing proposes slots now. |
 | `sms_conversations`, `sms_messages`, `appointment_reminders`, `sms_suppressions`, `appointments` | Applied in migration 0001, empty |
-| SMS consent checkbox on both forms | Collects a signal nothing acts on. Wording is still accurate — Steve may text customers from his own phone. |
+| ~~SMS consent checkbox~~ | **REMOVED 2026-09-08.** It promised a text that never comes. Columns kept and never written — see "The consent wording, preserved". |
 
 ⚠️ If any of this is still unused by **2027**, delete it rather than carrying
 it further. Speculative code that survives a year stops being optionality and
