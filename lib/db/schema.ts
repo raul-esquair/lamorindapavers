@@ -139,6 +139,13 @@ export const leads = pgTable(
      * matters is when they agreed and to exactly what wording, so the copy
      * itself is snapshotted rather than referenced by version number (the
      * form text will be edited, and old rows must keep what was shown then).
+     *
+     * ⚠️ **Currently never written.** The opt-in checkbox was removed on
+     * 2026-09-08: the system is notify-only, nothing texts customers, and a
+     * box reading "text me about scheduling my estimate" was a promise the
+     * site does not keep. The columns stay for the deferred customer-facing
+     * work; if that returns, restore the checkbox and the snapshot together —
+     * consent without a stored record of the exact wording is worth nothing.
      */
     smsConsentAt: timestamp("sms_consent_at", { withTimezone: true }),
     smsConsentText: text("sms_consent_text"),

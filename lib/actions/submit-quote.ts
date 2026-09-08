@@ -1,11 +1,9 @@
 "use server";
 
-import { headers } from "next/headers";
 import { Resend } from "resend";
 import { services } from "@/lib/data/services";
 import { cityFromAddress } from "@/lib/appointments/availability";
 import { createLead } from "@/lib/leads/queries";
-import { SMS_CONSENT_TEXT } from "@/lib/leads/consent";
 import { SERVICE_UNSURE } from "@/lib/leads/form";
 
 export interface QuoteSubmission {
@@ -17,8 +15,6 @@ export interface QuoteSubmission {
   email: string;
   /** Street address of the project. Optional — the SMS flow collects it if missing. */
   address?: string;
-  /** Whether the SMS opt-in box was ticked. */
-  smsConsent?: boolean;
   /** Page the form was submitted from, for attribution. */
   sourcePath?: string;
   /** "modal" | "contact-page" — which surface produced it. */
@@ -209,9 +205,12 @@ async function sendNtfy(p: {
  * Write the lead row. Never throws — `createLead` swallows database failures
  * and returns null, so a submission can never be lost to a Neon hiccup.
  *
- * The IP is read from request headers server-side and never accepted from the
- * client: it exists as part of the TCPA consent record, and a value the
- * browser could set would be worthless as evidence.
+ * ⚠️ The `sms_consent_*` columns are deliberately left null. The opt-in
+ * checkbox was removed on 2026-09-08: the system is notify-only, so nothing
+ * texts customers, and a box promising "text me about scheduling my estimate"
+ * was a promise the site does not keep. The columns stay for the deferred
+ * customer-facing work — see plans/appointment-system/README.md — but nothing
+ * writes them, and nothing should until there is a real send behind them.
  */
 async function persistLead(p: {
   data: QuoteSubmission;
@@ -221,20 +220,6 @@ async function persistLead(p: {
   service: string;
   address: string | null;
 }) {
-  const consented = p.data.smsConsent === true;
-
-  let ip: string | null = null;
-  try {
-    const h = await headers();
-    ip =
-      h.get("x-nf-client-connection-ip") ??
-      h.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-      null;
-  } catch {
-    // headers() is unavailable outside a request scope. A null IP is fine;
-    // a wrong one would be worse than none.
-  }
-
   return createLead({
     name: p.name,
     email: p.email,
@@ -248,8 +233,5 @@ async function persistLead(p: {
     details: p.data.details?.trim() || null,
     sourcePath: p.data.sourcePath?.trim() || null,
     sourceKind: p.data.sourceKind?.trim() || null,
-    smsConsentAt: consented ? new Date() : null,
-    smsConsentText: consented ? SMS_CONSENT_TEXT : null,
-    smsConsentIp: consented ? ip : null,
   });
 }

@@ -21,8 +21,6 @@ export default async function LeadsPage() {
     loadError = "Could not reach the database. Check DATABASE_URL on the server.";
   }
 
-  const consented = leads.filter((l) => l.smsConsentAt !== null).length;
-
   /**
    * Which pages produce work — the question the site could not answer before
    * leads were persisted. Sorted by volume, not alphabetically.
@@ -37,7 +35,6 @@ export default async function LeadsPage() {
 
   const stats = [
     { label: "Total leads", value: String(leads.length) },
-    { label: "Texting allowed", value: String(consented) },
     { label: "Source pages", value: String(bySource.length) },
   ];
 
@@ -64,7 +61,7 @@ export default async function LeadsPage() {
         </p>
       )}
 
-      <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <dl className="grid grid-cols-2 gap-4">
         {stats.map((s) => (
           <div key={s.label} className="rounded-lg border border-warm-gray-200 bg-warm-white px-4 py-3">
             <dt className="font-sans text-xs uppercase tracking-wider text-warm-gray-500">{s.label}</dt>

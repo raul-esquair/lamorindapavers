@@ -10,7 +10,6 @@ import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
 import { submitQuote } from "@/lib/actions/submit-quote";
 import { SERVICE_UNSURE } from "@/lib/leads/form";
-import { SMS_CONSENT_LABEL } from "@/lib/leads/consent";
 
 interface FormData {
   service: string;
@@ -20,7 +19,6 @@ interface FormData {
   name: string;
   phone: string;
   email: string;
-  smsConsent: boolean;
 }
 
 export default function ContactPageContent() {
@@ -314,20 +312,6 @@ export default function ContactPageContent() {
                             )}
                           </div>
                         </div>
-                        {/* Optional and unticked — see QuoteModal. */}
-                        <label className="flex items-start gap-3 cursor-pointer rounded-lg p-1 -m-1 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2">
-                          <input
-                            type="checkbox"
-                            {...register("smsConsent")}
-                            className="mt-1 h-4 w-4 shrink-0 rounded border-warm-gray-300 text-brand-blue focus:ring-brand-blue accent-brand-blue"
-                          />
-                          <span className="font-sans text-warm-gray-700">
-                            {SMS_CONSENT_LABEL}
-                            <span className="block text-sm text-warm-gray-500 mt-0.5">
-                              Message and data rates may apply. Reply STOP to opt out.
-                            </span>
-                          </span>
-                        </label>
                       </div>
                       {submitError && (
                         <p className="text-brand-red text-sm mt-6 font-sans">
