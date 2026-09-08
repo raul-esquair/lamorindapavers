@@ -1,211 +1,183 @@
-# SMS appointment setting — implementation plan
+# Lead notification + follow-up — implementation plan
 
-Written 2026-09-07, against `main` at `e062e59`.
+Written 2026-09-07. **Scope substantially reduced 2026-09-08** after the owner
+conversation — see Change log.
 
-Wires an AI SMS appointment setter into the lead flow: a quote request comes
-in, the customer is texted within seconds, an estimate visit gets booked on
-Steve's calendar, and the outcome of that visit feeds the review sequence that
-already exists.
+Gets leads in front of Steve the moment they arrive, and closes the loop from
+a won job into the review sequence that already exists.
+
+## Change log
+
+**2026-09-08 — scope cut from "AI appointment setter" to "notify only."**
+Steve wants to be involved in vetting appointments and does all customer
+contact himself. He also asked for a **text** with full lead details, because
+he is not on email consistently.
+
+Removed: customer-facing SMS, the AI conversation engine, slot proposal to
+customers, calendar booking, appointment reminders. Kept as deferred, not
+deleted — see "Deferred."
+
+What this bought: no TCPA exposure (the only recipient is the business owner),
+no prompt-injection surface, no double-booking race, and `DEFAULT_RULES` stops
+being the riskiest number in the system because nothing books anything.
+
+**2026-09-08 (later) — ntfy is out. Steve wants a direct text, no app.**
+
+That settles the cheap-stopgap question: there isn't one. SMS is the only
+channel that reaches him, which puts carrier registration on the critical path
+with nothing to hand him while it queues.
+
+Two consequences:
+
+1. **Consider a toll-free number, not 10DLC.** For a single internal recipient,
+   toll-free verification skips the Campaign Registry brand + campaign vetting
+   and is generally much faster. Steve does not care that his alert comes from
+   an 800 number. If the deferred customer-facing work ever returns, buy a
+   local 10DLC number *then* — a local number is the right sender for
+   customers anyway, so this is a clean split rather than a compromise.
+   ⚠️ Verify current timelines against Twilio's own docs.
+2. **`/feedback` has the same broken alert.** `submit-feedback.ts` pushes at
+   ntfy **priority 5** when an unhappy customer submits — CLAUDE.md calls that
+   push "what turns an unhappy customer into a same-day callback." If Steve
+   won't run the app, that has never worked either, and it is more
+   time-critical than a lead. Same channel, one more sender. Folded into
+   phase 003.
+
+The ntfy code stays in place — it costs nothing and gives Esquair a monitoring
+channel — but it is no longer part of the answer for Steve.
 
 ## Goal
 
-Two audiences, and the second one changes the build.
+1. **Steve** — see every lead immediately, on the device he actually carries.
+2. **Esquair** — reference implementation for future clients.
 
-1. **Steve** — book more estimate visits with less phone tag.
-2. **Esquair** — this is the reference implementation and the case study for
-   selling the same system to future clients.
+The second is why lead volume does not gate this.
 
-The second is why lead volume does not gate this. Steve may run under 15
-leads/month, which would ordinarily argue for stopping at phase 004 (instant
-templated reply) and letting him call people back. That argument is
-**overruled**: the AI conversation and the calendar booking are the part that
-demonstrates, so the build goes through 009.
+## Shipped (phase 001, Sep 2026)
 
-Four consequences, each cheap now and expensive to retrofit:
-
-- **Instrument for the case study from the start.** Most of it already falls
-  out of the schema — lead-to-first-text latency is `leads.createdAt` against
-  the first outbound `sms_messages.createdAt`; booking rate falls out of
-  conversation states; outcomes come from `appointments.outcome`. The one gap
-  is **job value**, which has nowhere to live today. See open decisions.
-- **Business-specific strings go in config, not inline.** Steve is client #1 of
-  N. The blog engine already taught this lesson the hard way (see memory
-  `project_engine_sync.md`: the brand-string config refactor is the deferred
-  prerequisite for cross-repo sync, and `gadgetconstruction` ran silently
-  broken for eight weeks). Mirror `blog.config.ts`: business identity, service
-  list, travel zones, booking rules, message templates, escalation triggers.
-- **The dashboard is the case-study surface.** A prospect sees a screenshot,
-  not the code. It warrants more design investment than an internal tool
-  usually would.
-- **Demo mode is a feature, not a debugging aid.** Being able to run a full
-  conversation on a sales call, against a test number, without waiting for a
-  real lead — and reset it afterwards.
-
-⚠️ **The transcripts are Steve's customers' data, not Steve's.** Anonymise
-before anything goes in a deck, and get Steve's sign-off on being named.
-
-## Where this sits
-
-The site already has both ends of this funnel and nothing in the middle:
-
-```
-quote form → email + ntfy to Steve                      ← built (Aug 2026)
-                    ??? ← this plan
-job done → dashboard → 3-email sequence → /feedback     ← built (Aug 2026)
-```
-
-The review system is the reference implementation. Every phase below reuses its
-architecture rather than inventing one: a thin Netlify scheduled function
-calling an authenticated route handler, claim-before-send ordering, and
-duplicate protection enforced by a unique index rather than application code.
-When a phase says "mirror `lib/reviews/dispatch.ts`", it means literally that.
-
-## Already landed
-
-Schema and the slot calculator are in `main`'s working tree, unapplied:
-
-| Piece | Where | State |
-|---|---|---|
-| 4 new tables + 4 lead columns | `lib/db/schema.ts` | Written, **migration not applied** |
-| Migration | `drizzle/0001_past_frank_castle.sql` | Generated, **not run** |
-| Travel zones, slot ranking, DST-safe time | `lib/appointments/{availability,time}.ts` | Done, 63 assertions |
-| Check script | `npm run check:availability` | Passing |
-
-Nothing sends a text, reads a calendar, or writes a lead yet.
+- **Leads are persisted.** `submit-quote.ts` writes every submission via
+  `lib/leads/queries.ts`, with `sourcePath` / `sourceKind` attribution.
+- **`/dashboard/leads`** — table plus a "Leads by page" breakdown, which is
+  what finally answers *which of the 37 pages produce work*.
+- **SMS consent capture**, form restructure (address on step 2), service
+  pre-select, "Not sure yet" option. See `001-persist-leads.md`.
 
 ## Phases
 
 | # | Phase | Blocks | External wait | Rough scope |
 |---|---|---|---|---|
-| [001](001-persist-leads.md) | Persist leads + capture SMS consent | everything | — | ~6 files |
-| 002 | Twilio number + A2P 10DLC registration | 003 | **days–weeks** | account work, no code |
-| 003 | SMS plumbing: send, receive, STOP, delivery status | 004+ | — | ~5 files |
-| 004 | Instant templated auto-reply + Steve notification | — | — | ~3 files |
-| 004b | Extract business-specific strings into `appointments.config.ts` | portability | — | ~1 file + call sites |
-| 005 | Google Calendar read + slot preview in dashboard | 006 | Steve's answers | ~4 files |
-| 006 | AI conversation engine (no booking) | 007 | — | ~6 files |
-| 007 | Booking: calendar write + confirmation | 008 | — | ~4 files |
-| 008 | Reminders + calendar reconciliation | — | — | ~3 files |
-| 009 | Outcome capture → review-request handoff | — | — | ~3 files |
+| [001](001-persist-leads.md) | Persist leads + capture consent | everything | — | **DONE** |
+| 002 | Twilio number + carrier registration (**toll-free first**) | 003 | **days–weeks** | account work |
+| 003 | Alert SMS to Steve: new lead **and** unhappy `/feedback` | 004 | — | ~5 files |
+| 004 | Outcome capture: Steve replies won/quoted/lost | — | — | ~4 files |
+| 005 | Triage signals in the alert + dashboard | — | — | ~2 files |
 
 ## Execution order
 
-**001 → 002 (start, then wait) → 003 → 004 → 005 → 006 → 007 → 008 → 009**
+**002 → 003 → 004 → 005**
 
-Two things about this ordering that are not obvious:
+**002 is the critical path and there is no way around it.** Steve gets nothing
+until a number is verified, and there is no stopgap now that ntfy is out.
+Start it today; everything else is days of work waiting on weeks of vetting.
 
-**002 has external latency and must be started early, not done in order.**
-A2P 10DLC brand and campaign registration is carrier vetting, not a form
-submission — it takes days, sometimes weeks, and it can be rejected and need
-resubmitting. Unregistered traffic gets filtered by carriers, often silently,
-so there is no "test it now, register later" path. Registration also asks you
-to show the opt-in flow, which means **the consent language from 001 has to be
-live on the site before you can submit it.** So: finish 001, immediately open
-the 002 registration, then build 003–005 while it sits in review.
+**Spend ten minutes choosing the number type before registering.** Toll-free
+verification is generally far faster than 10DLC brand + campaign vetting, and
+for one internal recipient there is no downside. Picking 10DLC out of habit
+could cost weeks for nothing.
 
-**004 ships real value on its own and should not be skipped to reach 006.**
-Speed-to-lead is where most of the return in this whole system lives. The gap
-between a 4-hour callback and a 30-second acknowledgement dwarfs the gap
-between a templated text and a conversational one. Ship 004, live with it, and
-let it produce the corpus of real customer replies that 006's prompt should be
-written against — rather than against guesses about what people text back.
+**003 covers both alerts, not just leads.** The unhappy-customer path through
+`/feedback` currently pushes at ntfy priority 5 and therefore never arrives.
+It is the more time-critical of the two — a complaint decays faster than a
+lead — so it ships in the same phase, not later.
 
-## Dependency graph
+**004 is the highest-value phase after the alerts.** It closes lead → job →
+review request, which is the loop that makes this a system rather than a
+notification. It is also cheap: Steve replies one word to a text.
 
-```
-001 (leads + consent) ──┬──> 002 (A2P registration) ──> 003 (SMS plumbing) ──> 004 (auto-reply)
-                        │                                                          │
-                        └──> 005 (calendar read) ────────────────────┬─────────────┘
-                                                                      │
-                                                                      v
-                                                        006 (AI conversation)
-                                                                      │
-                                                                      v
-                                                        007 (booking) ──> 008 (reminders)
-                                                                      │
-                                                                      v
-                                                        009 (outcome → review request)
-```
+## Deferred, not deleted
 
-005 depends on 001 only for the lead's city; it can be built in parallel with
-003 by anyone with the calendar credentials.
+Everything below was designed and partly built, then cut on 2026-09-08. The
+door is deliberately left open: Twilio, A2P, the message log and outcome
+capture are all shared with these, so they are additive rather than a rebuild.
 
-## Open decisions — resolve before the phase that needs them
+- Instant customer-facing acknowledgment
+- AI conversation engine
+- Slot proposal to customers, calendar read + write, booking, reminders
 
-These are not implementation details. Each one changes what gets built.
+**Trigger to revisit:** Steve asking for it after seeing the alerts work — a
+common arc once an owner trusts the plumbing. The consent checkbox shipped in
+001 also quietly measures the demand side: what share of leads opt in.
+
+## Now without a consumer — kept deliberately
+
+Flagged so these do not rot silently. Decision: **keep**. The tables cost
+nothing empty, the module is pure and tested, and unwinding costs more than
+carrying. Same call CLAUDE.md already records for `lib/animations.ts`.
+
+| Asset | Note |
+|---|---|
+| `lib/appointments/availability.ts` + `time.ts` | 73 assertions, `npm run check:availability`. Nothing proposes slots now. |
+| `sms_conversations`, `sms_messages`, `appointment_reminders`, `sms_suppressions`, `appointments` | Applied in migration 0001, empty |
+| SMS consent checkbox on both forms | Collects a signal nothing acts on. Wording is still accurate — Steve may text customers from his own phone. |
+
+⚠️ If any of this is still unused by **2027**, delete it rather than carrying
+it further. Speculative code that survives a year stops being optionality and
+becomes maintenance.
+
+## Open decisions
 
 | Question | Needed by | Why it matters |
 |---|---|---|
-| **Steve's real bookable hours, visits/day, notice required** | 005 | `DEFAULT_RULES` in `availability.ts` is currently invented. A setter that books him at times he doesn't want to work gets switched off in week one. |
-| **Is his calendar personal Gmail or Workspace?** | 005 | Personal: share the calendar with a service account's email, no OAuth. Workspace: domain-wide delegation. |
-| **Does his personal life live on that calendar?** | 005 | If yes, use the FreeBusy API (busy intervals, no titles) rather than Events.list. If no, his availability data isn't trustworthy and clustering is guesswork. |
-| ~~**Address on the quote form, or collected over SMS?**~~ | ~~001~~ | **DECIDED**: on the form, replacing `city`, moved to step 2. Net-zero field count, off the worst step. Revisit after 006 — the AI may make it unnecessary. See 001. |
-| **Consent checkbox required or optional?** | 001 | Recommendation in 001: optional, default unchecked. Leads without it still email Steve, they just don't get texted. |
-| **Where does job value get captured?** | 009 | "Booked 12 visits" is a decent case-study line; "generated $X in booked work" is the one that sells. Nothing in the schema holds a number today. Cheapest option: an amount alongside `appointments.outcome`, entered by Steve when he marks a visit won. |
+| ~~**Will Steve install the ntfy app?**~~ | ~~002~~ | **DECIDED 2026-09-08**: no. He wants a direct text. There is no stopgap; carrier registration is the critical path. |
+| **Toll-free or 10DLC?** | 002 | Toll-free verification is generally much faster and has no downside for one internal recipient. Choosing 10DLC by default could cost weeks for nothing. |
+| **What goes in the alert, and how long can it be?** | 003 | SMS segments at 160 chars. Full details vs. a summary plus a dashboard link is a real trade — he is often in a truck. |
+| **Whose name goes on the brand?** | 002 | Lamorinda Pavers, not Esquair — the brand is the business whose customers exist. Do not reuse another client's campaign; a mismatch is a suspension risk. |
+| **Does Steve want to reply to the alert at all?** | 004 | Outcome capture assumes he will answer "won/lost". If he will not, that phase dies and `leads.status` stays a dashboard-only field. Worth asking in the same conversation as the alert format — he has now said no to one thing, and it is cheaper to find the second no now. |
+
+## Standing rules
+
+1. **`npm run build` before pushing.** CI now runs it on every PR (#36), but
+   local is faster than waiting.
+2. **Never fail a lead submission on a secondary failure.** The email to Steve
+   is the critical path. A database write, an ntfy push, or an SMS send that
+   throws must be logged and swallowed — the pattern is already in
+   `submit-quote.ts`, and phase 001 verified it against a dead `DATABASE_URL`.
+3. **Nothing business-specific hardcoded.** Steve is client #1 of N. The test
+   is whether a second client could be onboarded by editing one config file.
+   The blog engine already taught this lesson — see memory
+   `project_engine_sync.md`.
+4. **Quiet hours do not apply to the owner.** Steve wants leads when they
+   arrive, including at 11pm. This rule existed for customer-facing sends and
+   no longer has a subject.
+5. **Mirror the review system's architecture**, which is the working reference
+   implementation in this repo: thin scheduled function calling an
+   authenticated route handler, claim-before-send ordering, duplicate
+   protection enforced by a unique index rather than application code.
 
 ## Verification gates
 
-Every phase ends with something observable, not "the code compiles". No phase
-is done until its gate passes.
-
 | Phase | Gate |
 |---|---|
-| 001 | Submit a real quote from the live site; the row appears in Neon with source path and consent snapshot, **and the email still arrives**. |
-| 002 | Twilio console shows the campaign approved. |
-| 003 | Text the business number from a personal phone; the row appears in `sms_messages`. Reply STOP; the number lands in `sms_suppressions` and a subsequent send is refused. |
-| 004 | Submit a quote; a text arrives in under a minute. Reply; Steve's ntfy fires. |
-| 005 | Dashboard slot preview matches what Steve's actual calendar says he's free for, checked by eye against his phone. |
-| 006 | Steve runs a full conversation from his own phone without booking. Then a real lead, watched live. |
-| 007 | A booked slot appears on his calendar with the right address, at the right time — **verified across a DST boundary**, not just this week. |
-| 008 | Move an appointment on the phone; the database catches up on the next cron run and the reminder fires for the new time. |
-| 009 | Mark a visit won; a review request appears in `/dashboard` on its own. |
-
-## Standing rules for every phase
-
-1. **`npm run build` is the actual gate.** `pipeline-pr-check.yml` only runs on
-   `drafts/` and `proposals/` branches — a `feat/` branch shows all-green
-   having never been type-checked.
-2. **Never fail a lead submission on a secondary failure.** The email to Steve
-   is the critical path. A database write, an ntfy push, or an SMS send that
-   throws must be logged and swallowed, the way `sendNtfy` already is in
-   `submit-quote.ts`. A lead lost because Neon was briefly unreachable is a
-   worse outcome than every failure mode this system is meant to fix.
-3. **Treat inbound SMS as untrusted input.** It reaches an LLM holding tools
-   that write to the database and a calendar. Tools stay narrowly scoped and
-   server-validated; the model's output never decides whether it is authorised
-   to act.
-4. **Quiet hours.** Nothing automated sends between 9pm and 8am Pacific. A form
-   submitted at 11pm queues for morning.
-5. **Escalation silences the AI, from any state.** `aiEnabled` is a separate
-   column from `state` for exactly this reason. Two voices texting one customer
-   from the same number is the worst thing this system can produce.
-6. **Nothing business-specific gets hardcoded past 004b.** Steve's name, phone,
-   service list, hours, zones and copy live in config. The test is whether a
-   second client could be onboarded by editing one file. This is the rule the
-   blog engine skipped, and it cost eight weeks of silent breakage on a sibling
-   repo — see memory `project_engine_sync.md`.
-7. **Every phase leaves something screenshot-worthy.** The dashboard is where
-   this gets sold, not just operated.
+| 002 | Twilio console shows the number verified/approved for sending. |
+| 003 | Submit a quote; Steve's phone buzzes with the details in under a minute and the number is tappable. Then submit an unhappy `/feedback` rating; a second, visibly different alert arrives. |
+| 004 | Steve replies "won" to an alert; `leads.status` updates and a review request appears in `/dashboard`. |
+| 005 | Steve can say, unprompted, which alerts he acts on first. |
 
 ## Cost
 
-Roughly $25–45/month at plausible volume: Twilio number ~$2, A2P fees ~$2–15,
-~$0.01 per message each way, and LLM cost that rounds to nothing on Haiku for
-turn-taking. The same Twilio account and A2P registration also covers the
-deferred SMS review-request upgrade quoted to Steve at $49/mo — a decent
-argument for doing both at once.
+Roughly **$5–10/month** — a Twilio number (~$2), A2P fees, and a few cents of
+messages at this volume. Down from the $25–45 estimated for the customer-facing
+version, since there is no LLM and no per-conversation traffic.
 
-## Risks worth naming
+## Risks
 
-- **Low volume makes the numbers thin, not the build wrong.** Under ~15
-  leads/month a pure ROI argument would stop at 004; the case-study goal
-  overrules that (see Goal). The consequence to plan around is that the case
-  study will have a strong *narrative* and weak *statistics* — 5 bookings from
-  8 leads reads well as a story and badly as a percentage. Lean it on the
-  mechanism plus one real anonymised transcript, not on conversion rates.
 - **Deploy previews share the production database.** One `DATABASE_URL` across
-  all contexts (existing, documented in CLAUDE.md). A preview build can read and
-  write real customer conversations. Neon's branch-per-preview would close it;
-  until then, be careful what gets pointed at a preview URL.
-- **Review gating on `/feedback` already carries Google-policy exposure.** This
-  system increases traffic into that page. Not a new risk, but a growing one.
+  all Netlify contexts (existing, documented in CLAUDE.md). Neon's
+  branch-per-preview would close it.
+- **The case study is now much smaller.** "Instant lead notification" is a
+  weaker story than "AI books your appointments." Accepted deliberately — the
+  owner sets the scope. The deferred half is additive if he warms to it.
+- **Notification fatigue is the failure mode to watch.** If Steve starts
+  ignoring the alerts, the system is worse than useless because it creates the
+  illusion of coverage. Phase 006's triage signals exist to keep the alerts
+  worth reading.
