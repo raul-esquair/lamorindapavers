@@ -197,7 +197,7 @@ The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set
 - 3-step form: service select → project details → contact info
 - Triggered by `QuoteButton` component — used in: Hero, Header, mobile menu, mobile bottom bar, FinalCTA, service detail sidebar, city pages
 - The `/contact` page has its own inline form for direct URL traffic / SEO. **It shares this modal's step and radio markup — a fix to one usually belongs in both.**
-- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy), and submissions are persisted to the `leads` table with source-page attribution and an SMS consent snapshot. See memory `project_form_routing.md` and the SMS Appointment Setting section below.
+- Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy), and submissions are persisted to the `leads` table with source-page attribution. See memory `project_form_routing.md` and "Lead Notification" below. The SMS consent checkbox was **removed** 2026-09-08 — nothing texts customers, so the box promised something the site does not do.
 
 **Two-layer panel.** The presence layer (framer `initial`/`animate`/`exit`) and the drag layer (`style={{ y }}` from `useDragDismiss`) are separate elements on purpose. One motion value per transform, or framer's exit animation and the gesture fight over the same property.
 
@@ -245,7 +245,7 @@ Children may be server components (`Footer` is one) — they're passed through a
 ## Database (Neon + Drizzle)
 Postgres on **Neon**, accessed with **Drizzle ORM**. Chosen over Netlify Blobs because the dashboard is expected to grow (leads, projects, warranty tracking) and those are relations, which a KV store can't express.
 
-- **Schema:** `lib/db/schema.ts` — 4 tables: `review_requests`, `review_touches`, `email_suppressions`, `leads`.
+- **Schema:** `lib/db/schema.ts` — 9 tables. Live: `review_requests`, `review_touches`, `email_suppressions`, `leads`. Applied but empty and unused pending the notification work: `sms_conversations`, `sms_messages`, `appointments`, `appointment_reminders`, `sms_suppressions`.
 - **Client:** `lib/db/index.ts` exports `getDb()`. **Lazy on purpose** — the site prerenders 50+ static pages that never touch the database, so resolving the connection at import time would fail every build without the env var. Verified: `npm run build` succeeds with zero env vars set.
 - **Driver:** `@neondatabase/serverless` over HTTP (`drizzle-orm/neon-http`). No TCP pool, so there's no connection-exhaustion failure mode in serverless. **Always use the pooled connection string** (host contains `-pooler`).
 - **Migrations:** `drizzle/*.sql`, committed. Generate with `npm run db:generate`; apply with drizzle-kit migrate.
@@ -253,10 +253,15 @@ Postgres on **Neon**, accessed with **Drizzle ORM**. Chosen over Netlify Blobs b
 
 Payload CMS was evaluated and deferred (see git history). It runs on Postgres via Drizzle too, so adopting it later means adding tables to this same Neon instance — none of this work is wasted. Put Payload in its own Postgres schema if that happens, to keep migrations from colliding.
 
-## SMS Appointment Setting
-Booking estimate visits over SMS with an AI setter — the missing middle between
-lead capture and the review sequence. Plans live in `plans/appointment-system/`
-(README has the phase order, dependency graph and open decisions).
+## Lead Notification (was: SMS Appointment Setting)
+Getting leads to Steve the moment they arrive, and closing the loop from a won
+job into the review sequence. Plans live in `plans/appointment-system/` — the
+directory keeps its original name; the README is the current source of truth
+for phase order and open decisions.
+
+**Status 2026-09-08: paused at a clean checkpoint.** Phase 001 is shipped and
+verified. Everything after it is blocked on a verified Twilio number — there is
+no code to write until that clears. Resume at "Resume here" below.
 
 ⚠️ **Scope cut 2026-09-08.** After an owner conversation the system is
 **notify-only**: Steve does all customer contact himself and wants to vet
@@ -288,15 +293,21 @@ not gate the build.
   `lib/leads/queries.ts`, with `sourcePath` / `sourceKind` attribution.
 - **`/dashboard/leads`** — table plus a "Leads by page" breakdown, which is what
   finally answers *which of the 37 pages produce work*.
-- **SMS consent capture.** Optional, unticked checkbox on both forms. The
-  **exact wording** is snapshotted per row (`lib/leads/consent.ts`), not a
-  version number — the copy will be edited and old rows must keep what was on
-  screen. ⚠️ That same string is filed with the carriers during A2P
-  registration, so changing it after filing puts the site out of step.
+- ~~**SMS consent capture.**~~ **Removed 2026-09-08 (#40).** The checkbox read
+  "Text me about scheduling my estimate" and nothing texts customers, so it was
+  a promise the site does not keep. `lib/leads/consent.ts` is deleted. The
+  `sms_consent_at` / `sms_consent_text` / `sms_consent_ip` columns remain and
+  are **never written** — they make no promise to anyone, and dropping and
+  re-adding them is churn. The exact wording is preserved in
+  `plans/appointment-system/README.md`. ⚠️ If customer-facing SMS ever returns,
+  restore the checkbox **and** the per-row wording snapshot together: consent
+  without a stored record of what was shown is worth nothing in a dispute.
 - **Form restructure.** `city` (optional, step 3) became a full **project
   address** on step 2. Net-zero field count; step 3 — where people hesitate —
-  got shorter. **Hold this loosely**: once the AI collects addresses
-  conversationally, this is the first field that should come back off the form.
+  got shorter. ⚠️ It is **optional and often left blank** (the one real
+  submission skipped it). Steve calls customers directly so he can ask, but the
+  alert will frequently not say where the job is — decide whether to require it
+  before building the alert.
 - **Service pre-select.** `open(service?)` / `<QuoteButton service>`. Only
   `/services/[slug]` passes one today; everywhere else opens blank, because a
   wrong pre-selection is worse than none. Step 1 was deliberately **not**
@@ -320,7 +331,6 @@ schema have nothing calling them. Decision: **keep**, same as `lib/animations.ts
 of it is still unused by **2027, delete it**: speculative code that survives a
 year stops being optionality and becomes maintenance.
 
-### Foundations in place, not yet wired
 - **Schema** (migration `0001_past_frank_castle`, applied): `sms_conversations`,
   `sms_messages`, `appointments`, `appointment_reminders`, `sms_suppressions`.
   Duplicate protection is at the database level, mirroring `review_touches`:
@@ -338,6 +348,53 @@ year stops being optionality and becomes maintenance.
 - **`lib/appointments/time.ts`** — DST-safe local↔instant conversion. Day
   granularity lets `lib/reviews/dates.ts` ignore this; wall-clock times cannot.
 
+### ⚑ Resume here (paused 2026-09-08)
+
+**Blocked on one thing: a verified Twilio number.** No code can be written
+until it clears — every remaining phase sends a text. Nothing is half-finished;
+`main` is clean, all checks pass, and the last four PRs are merged.
+
+**To unblock, in order:**
+
+1. **Choose the number type — spend ten minutes here, not thirty seconds.**
+   For a single internal recipient, **toll-free verification** skips the
+   Campaign Registry brand + campaign vetting entirely and is generally far
+   faster. Steve does not care that an alert arrives from an 800 number.
+   Reaching for 10DLC by reflex could cost weeks for no benefit. Buy a local
+   10DLC number only if the deferred customer-facing work returns — that is
+   when a local sender actually matters.
+2. **Register the brand as Lamorinda Pavers, not Esquair.** The brand is the
+   business whose customers exist. ⚠️ Do **not** reuse a campaign registered to
+   another client — a mismatch is a suspension risk on the number you would
+   then be using for everyone.
+3. **Verify current specifics against Twilio's own docs.** Timelines and flows
+   in this space move faster than any note here.
+
+**Then build phase 003** (`plans/appointment-system/README.md`): one alert
+sender, two callers — `submit-quote.ts` for new leads and `submit-feedback.ts`
+for unhappy `/feedback` ratings. The second is more time-critical: a complaint
+decays faster than a lead, and that alert has **never once fired** because
+`NTFY_TOPIC` was never set.
+
+**Two questions for Steve before that build:**
+- Should the project address be **required** on the form? It is optional today
+  and gets skipped, so the alert often will not say where the job is.
+- Will he reply "won" / "lost" to an alert? Phase 004 assumes so, and it is the
+  phase that closes lead → job → review request. He has already said no to one
+  assumption; cheaper to find the second no now.
+
+**Verified state at the pause** — re-run these before trusting anything above:
+
+```bash
+npm run build               # clean; /contact and /feedback stay ○ static
+npm run check:schedule      # 36 passed
+npm run check:availability  # 73 passed
+npm run lint                # 8 problems — unchanged pre-existing baseline
+```
+
+`leads` is empty: the one real submission was a verification row, confirmed
+working (source `/ · modal`) and then deleted at the owner's request.
+
 ### Decisions already made — do NOT re-open without asking
 1. **`aiEnabled` is a separate column from `state`.** Escalation can happen from
    any state and must survive whatever the state becomes. Two voices texting one
@@ -348,8 +405,10 @@ year stops being optionality and becomes maintenance.
    way, so an orchestrator would own nothing — pure added surface, a second
    secret store, and business rules outside version control. If durable retries
    are ever needed, reach for Inngest/Trigger.dev, not n8n.
-3. **Consent is optional, not required.** A lead that skips it still emails
-   Steve; it just never gets texted.
+3. ~~**Consent is optional, not required.**~~ **Moot after 2026-09-08** — the
+   checkbox is gone entirely. If customer-facing SMS returns, the reasoning
+   still holds: optional and unticked, because making consent a condition of
+   using the form is both worse for conversion and the riskier reading.
 4. **A2P 10DLC registration is the long pole** — carrier vetting, days to weeks,
    rejectable. Still required even for a single internal recipient on a 10DLC
    number. Post-cut the campaign is simple (owner notifications, one recipient,
@@ -427,7 +486,7 @@ Touches fire at `startAt` + **0 / 5 / 14** days.
 
 **`startAt` is deliberately separate from `completedAt`.** A job completed more than 14 days ago (`BACKFILL_THRESHOLD_DAYS`) anchors to *tomorrow* instead, so importing a batch of past customers doesn't fire every touch at once. `resolveStartAt()` also clamps forward so nothing is ever scheduled into the past.
 
-This module is **pure — no database imports** — so the rules that decide who gets emailed are testable in isolation. `npm run check:schedule` runs 29 assertions and needs no connection. Keep it that way.
+This module is **pure — no database imports** — so the rules that decide who gets emailed are testable in isolation. `npm run check:schedule` runs 36 assertions and needs no connection. Keep it that way.
 
 ### Idempotency (do not weaken)
 `review_touches` has a **unique index on `(request_id, n)`**. A duplicate send is impossible at the database level, not merely guarded in application code.

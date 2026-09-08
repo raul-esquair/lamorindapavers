@@ -6,6 +6,16 @@ conversation — see Change log.
 Gets leads in front of Steve the moment they arrive, and closes the loop from
 a won job into the review sequence that already exists.
 
+## ⚑ Paused 2026-09-08 — waiting on a verified number
+
+Phase 001 is shipped and verified. **Everything after it is blocked on Twilio**
+— there is no code to write until a number is verified, because every remaining
+phase sends a text. `main` is clean and all checks pass; this is a deliberate
+stopping point, not an abandoned one.
+
+Pick up at phase 002 below. The number-type decision (toll-free vs 10DLC) is
+the first thing to settle and the easiest to get wrong by reflex.
+
 ## Change log
 
 **2026-09-08 — scope cut from "AI appointment setter" to "notify only."**
