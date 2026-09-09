@@ -21,6 +21,7 @@ import {
   orindaServiceCopy,
   orindaSteveNote,
   orindaFaqs,
+  orindaMaterialComparison,
 } from "./content";
 
 // Different featured-service mix from Lafayette and Moraga to avoid
@@ -243,6 +244,84 @@ export default function OrindaContent({
                 </ul>
               </div>
             </div>
+          </ScrollReveal>
+
+          {/* Material comparison. Lives inside the spec section on purpose —
+              see the note on orindaMaterialComparison in content.ts for why
+              the cost row is allowed to lose. */}
+          <ScrollReveal className="mt-16">
+            <h3 className="text-2xl md:text-3xl font-serif text-warm-gray-900 mb-3">
+              Pavers vs. Concrete vs. Asphalt on Orinda Clay
+            </h3>
+            <p className="text-warm-gray-500 font-sans leading-relaxed max-w-3xl mb-8">
+              Most Orinda driveways we replace are cracked concrete or rutted
+              asphalt. Here is how the three behave on this particular soil.
+            </p>
+
+            {/* Wide table scrolls inside its own container so the page body
+                never scrolls sideways on a phone. */}
+            <div className="overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
+              <table className="w-full min-w-[44rem] border-collapse text-left">
+                <caption className="sr-only">
+                  How pavers, poured concrete, and asphalt compare on Orinda
+                  Formation clay
+                </caption>
+                <thead>
+                  <tr className="border-b border-warm-gray-300">
+                    <th
+                      scope="col"
+                      className="label-text text-warm-gray-500 py-3 pr-6 align-bottom"
+                    >
+                      <span className="sr-only">Comparison factor</span>
+                    </th>
+                    {orindaMaterialComparison.columns.map((col, i) => (
+                      <th
+                        key={col}
+                        scope="col"
+                        className={`font-serif text-lg py-3 pr-6 align-bottom ${
+                          i === 0 ? "text-brand-blue" : "text-warm-gray-900"
+                        }`}
+                      >
+                        {col}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {orindaMaterialComparison.rows.map((row) => (
+                    <tr
+                      key={row.dimension}
+                      className="border-b border-warm-gray-200 align-top"
+                    >
+                      <th
+                        scope="row"
+                        className="font-sans font-semibold text-sm text-warm-gray-900 py-4 pr-6 w-48"
+                      >
+                        {row.dimension}
+                      </th>
+                      {row.values.map((value, i) => (
+                        <td
+                          key={i}
+                          className={`font-sans text-sm leading-relaxed py-4 pr-6 ${
+                            i === 0 ? "text-warm-gray-900" : "text-warm-gray-500"
+                          }`}
+                        >
+                          {value}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <p className="text-sm text-warm-gray-500 font-sans leading-relaxed max-w-3xl mt-6">
+              Service lives assume a correctly built base. A paver driveway on
+              a 4-inch base over uncompacted Orinda clay will fail faster than
+              well-laid concrete — the material does not rescue the prep, which
+              is the whole reason our spec here runs 6&ndash;8 inches over
+              geotextile.
+            </p>
           </ScrollReveal>
         </div>
       </section>
