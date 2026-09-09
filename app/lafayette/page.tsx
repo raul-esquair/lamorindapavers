@@ -11,7 +11,8 @@ import LafayetteContent from "./LafayetteContent";
 import { lafayetteFaqs, lafayetteGuideSlugs } from "./content";
 
 export const metadata: Metadata = {
-  title: "Paver Installation in Lafayette, CA | Lamorinda Pavers",
+  // Brand suffix comes from the root layout template — don't repeat it.
+  title: "Paver Installation in Lafayette, CA",
   description:
     "Paver driveways, patios & retaining walls in Lafayette, CA. Owner Steve Barsanti on every job. Lic. #1092749, 5-yr warranty. Free estimate: 925-389-0119.",
   alternates: {

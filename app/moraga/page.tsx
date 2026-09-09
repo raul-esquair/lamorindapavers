@@ -9,7 +9,8 @@ import MoragaContent from "./MoragaContent";
 import { moragaFaqs } from "./content";
 
 export const metadata: Metadata = {
-  title: "Paver Installation in Moraga, CA | Lamorinda Pavers",
+  // Brand suffix comes from the root layout template — don't repeat it.
+  title: "Paver Installation in Moraga, CA",
   description:
     "Paver driveways, retaining walls & patios in Moraga, CA. Pervious-paving expertise, GHAD coordination, hillside permitting. Lic. #1092749, 5-yr warranty. Free estimate: 925-389-0119.",
   alternates: {
