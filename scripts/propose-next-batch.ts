@@ -253,6 +253,12 @@ This site optimizes for answer-engine citation (ChatGPT, Perplexity, Google AI O
 - For "refresh" action briefs, include refreshesSlug pointing to the existing post.
 - Do NOT duplicate keywords or angles already covered in queue or published posts.
 - Include a "proposalRationale" field explaining WHY this post wins — cite GSC data, keyword volume, or cluster logic.
+- **metaTitle must be <=60 characters.** It becomes the page's <title>, and Google truncates
+  around 60. Lead with the primary keyword and do NOT append the brand — no separator followed
+  by "${ctx.config.site.brand.full}", "${ctx.config.site.brand.short}", or any abbreviation.
+  Blog posts render their title verbatim with no brand suffix, so those characters are wasted.
+  Several briefs already in the queue end with "| Lamorinda"; do not copy that pattern.
+  The longer editorial headline belongs in the "title" field, which stays the on-page H1.
 - targetWordCount typical range: 2000-3000. Cost guides 2200-2500. Comparisons 2500-3000. Symptom/troubleshooting guides 2500-2800.
 - Internal links: propose 3-5 per brief from real URLs that exist in the site (service pages, geography pages if any, published posts, other queued briefs).
 - Must-includes: reference specific facts to cover (real numbers, named locations, materials, jurisdictions, eras — whatever applies to this business) AND the 6 AEO lifts above.
