@@ -75,13 +75,77 @@ export const orindaServiceCopy: Record<string, string> = {
     "Orinda's mild climate and large lots make outdoor entertaining a year-round option. We build custom outdoor kitchens with built-in grills, granite or stone countertops, refrigerators, and integrated lighting — coordinated with electrical, plumbing, and gas line work and detailed to match the home's architecture rather than reading as a kit.",
 };
 
+// Pavers vs. the two things they usually replace, judged on Orinda clay
+// specifically. Two jobs: it answers the comparison question homeowners
+// actually ask, and it gives the page something relevant to say to
+// "asphalt paving contractor orinda" — 45 impressions at position 35.6 in
+// the 90 days to 2026-09-08, a query the page ranked for with nothing on it.
+//
+// ⚠️ Keep the up-front-cost row honest. Pavers lose it, and a table where one
+// column wins every line reads as marketing — which is exactly what stops an
+// answer engine citing it. Service lives assume a correctly built base; that
+// caveat renders under the table and should not be dropped.
+export const orindaMaterialComparison = {
+  columns: ["Pavers", "Poured concrete", "Asphalt"],
+  rows: [
+    {
+      dimension: "Seasonal clay movement",
+      values: [
+        "Flexible system — individual units take up movement and re-seat.",
+        "Rigid slab. Expansive clay cracks it, often within the first few wet–dry cycles.",
+        "Flexible but soft. Follows the movement, then ruts under vehicle load.",
+      ],
+    },
+    {
+      dimension: "Typical service life here",
+      values: [
+        "25–40+ years",
+        "15–25 years, less on hillside lots",
+        "10–20 years, with resurfacing every 7–10",
+      ],
+    },
+    {
+      dimension: "Repairing a failure",
+      values: [
+        "Lift the affected units, correct the base, re-lay the same pavers. No visible patch.",
+        "Saw-cut and re-pour. The patch never colour-matches.",
+        "Patch or resurface, with a visible seam either way.",
+      ],
+    },
+    {
+      dimension: "Hillside grades and drainage",
+      values: [
+        "Handles grade breaks without a control-joint pattern; permeable systems available.",
+        "Impervious. Needs engineered surface drainage on any slope.",
+        "Impervious, and softens in sustained heat on south-facing slopes.",
+      ],
+    },
+    {
+      dimension: "Creek-adjacent and stormwater lots",
+      values: [
+        "Permeable paving is a recognised compliance pathway.",
+        "Counts fully as impervious surface.",
+        "Counts fully as impervious surface.",
+      ],
+    },
+    {
+      dimension: "Up-front cost",
+      values: [
+        "Highest of the three.",
+        "Mid.",
+        "Lowest.",
+      ],
+    },
+  ],
+};
+
 export const orindaSteveNote = `Orinda is the type locality of the Orinda Formation — the same expansive clay bedrock that runs under Moraga and Lafayette, but with the steepest developed terrain of the three. The Association of Engineering Geologists has documented Orinda as having the highest landslide-induced property damage of any U.S. community over the past century. That's not a sales line — it's why our specs run 6–8 inches of compacted aggregate base over geotextile on every driveway here, why we engineer drainage on every hillside lot, and why our retaining walls always carry geogrid. Done right, pavers outlast both concrete and asphalt by decades on this soil. — Steve Barsanti, Owner`;
 
 export const orindaFaqs = [
   {
     question: "Do I need a permit to replace or expand my driveway in Orinda?",
     answer:
-      "Any work that touches the public-street connection — curb cuts, driveway aprons, sidewalk modifications — requires an Encroachment Permit from Public Works. A like-for-like paver replacement that doesn't touch the curb usually doesn't need a building permit, but expansions, grade changes, and any project that alters site drainage may. We pull the Encroachment Permit on every project that needs one and handle the entire submittal at the city counter.",
+      "Usually yes for anything beyond a like-for-like replacement. Any work that touches the public-street connection — curb cuts, driveway aprons, sidewalk modifications — requires an Encroachment Permit from Public Works. A like-for-like paver replacement that doesn't touch the curb usually doesn't need a building permit, but expansions, grade changes, and any project that alters site drainage may. We pull the Encroachment Permit on every project that needs one and handle the entire submittal at the city counter.",
   },
   {
     question: "My property is in the Ridgeline & Environmental Preservation Overlay. What extra review applies?",
@@ -106,7 +170,7 @@ export const orindaFaqs = [
   {
     question: "Will my new patio and walkways count toward Orinda's stormwater rules?",
     answer:
-      "Most single-family residential projects fall well below the 10,000 square feet of impervious creation/replacement that triggers full Provision C.3 review. But Orinda's creek-proximity lots and the city's overall watershed sensitivity mean pervious paver systems are still a recognized compliance pathway and good neighbor practice — especially in Sleepy Hollow and Lost Valley where homes back onto Lauterwasser or San Pablo Creek tributaries.",
+      "Almost certainly not. Full Provision C.3 review is triggered at 10,000 square feet of impervious surface created or replaced, and most single-family residential projects fall well below that. But Orinda's creek-proximity lots and the city's overall watershed sensitivity mean pervious paver systems are still a recognized compliance pathway and good neighbor practice — especially in Sleepy Hollow and Lost Valley where homes back onto Lauterwasser or San Pablo Creek tributaries.",
   },
   {
     question: "Are retaining walls allowed on the property line in Orinda?",
@@ -116,6 +180,6 @@ export const orindaFaqs = [
   {
     question: "Why does Orinda's clay soil need different paver base prep than flatter parts of the East Bay?",
     answer:
-      "Orinda is the type locality of the Orinda Formation — montmorillonite-rich expansive clay with documented landslide history and significant seasonal soil movement. Standard 4-inch aggregate base prep fails here within a few wet seasons. Our Orinda build spec uses a 6–8 inch compacted Class II aggregate base installed in lifts, geotextile separation fabric over compacted subgrade, edge restraints, and polymeric sand joints. Pavers flex with the soil; concrete cracks and asphalt ruts. That's why a properly built paver install on Orinda clay outlasts both alternatives by decades.",
+      "Because the ground underneath moves with the seasons, and a standard 4-inch base cannot absorb it. Orinda is the type locality of the Orinda Formation — montmorillonite-rich expansive clay with documented landslide history and significant seasonal soil movement, so standard 4-inch aggregate base prep fails here within a few wet seasons. Our Orinda build spec uses a 6–8 inch compacted Class II aggregate base installed in lifts, geotextile separation fabric over compacted subgrade, edge restraints, and polymeric sand joints. Pavers flex with the soil; concrete cracks and asphalt ruts. That's why a properly built paver install on Orinda clay outlasts both alternatives by decades.",
   },
 ];
