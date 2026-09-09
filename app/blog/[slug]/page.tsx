@@ -27,12 +27,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!post || !isPublished(post)) return {};
 
   return generatePageMetadata({
-    title: post.title,
+    title: post.metaTitle ?? post.title,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
     ogType: "article",
     publishedTime: post.date,
     ogImage: post.featuredImage,
+    // Blog titles are written to stand alone at ~60 chars. Appending the
+    // brand template pushed 16 of the first 17 posts past what Google
+    // renders, spending the tail on a suffix no searcher ever saw.
+    titleAbsolute: true,
   });
 }
 

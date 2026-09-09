@@ -9,6 +9,12 @@ interface PageMetadataOptions {
   ogType?: "website" | "article";
   publishedTime?: string;
   noindex?: boolean;
+  /**
+   * Bypass the root layout's `%s | <brand>` template so the whole ~60-char
+   * SERP budget belongs to `title`. Set for blog posts, whose titles are
+   * already written to stand alone.
+   */
+  titleAbsolute?: boolean;
 }
 
 export async function generatePageMetadata({
@@ -19,13 +25,16 @@ export async function generatePageMetadata({
   ogType = "website",
   publishedTime,
   noindex = false,
+  titleAbsolute = false,
 }: PageMetadataOptions): Promise<Metadata> {
   const config = await loadBlogConfig();
   const url = `${config.site.url}${path}`;
   const finalOgImage = ogImage ?? `${config.site.url}/opengraph-image`;
 
   return {
-    title,
+    // Only the <title> needs the {absolute} wrapper; the layout's title
+    // template does not apply to OG/Twitter, so those take the plain string.
+    title: titleAbsolute ? { absolute: title } : title,
     description,
     openGraph: {
       title,
