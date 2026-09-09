@@ -172,12 +172,12 @@ export function ServiceJsonLd({
     serviceType,
     description,
     url,
-    provider: {
-      "@type": "HomeAndConstructionBusiness",
-      name: company.name,
-      telephone: company.phone,
-      url: company.domain,
-    },
+    // Reference the canonical business by @id instead of redeclaring it.
+    // LocalBusinessJsonLd renders the full node on every page from the root
+    // layout, so this resolves. Spelling the provider out again emitted a
+    // SECOND, detached business entity — splitting the graph rather than
+    // feeding it, the same way a bare blog author would. Don't inline it back.
+    provider: { "@id": BUSINESS_ID },
     areaServed: {
       "@type": "City",
       name: `${cityName}, CA`,
