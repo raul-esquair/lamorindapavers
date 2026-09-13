@@ -26,14 +26,13 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
 
   return (
     <div className="overflow-x-auto rounded-lg border border-warm-gray-200 bg-warm-white">
-      <table className="w-full min-w-[46rem] text-left font-sans text-sm">
+      <table className="w-full min-w-[38rem] text-left font-sans text-sm">
         <thead className="border-b border-warm-gray-200 text-xs uppercase tracking-wider text-warm-gray-500">
           <tr>
             <th scope="col" className="px-4 py-3 font-medium">Received</th>
             <th scope="col" className="px-4 py-3 font-medium">Name</th>
             <th scope="col" className="px-4 py-3 font-medium">Contact</th>
             <th scope="col" className="px-4 py-3 font-medium">Service</th>
-            <th scope="col" className="px-4 py-3 font-medium">Location</th>
             <th scope="col" className="px-4 py-3 font-medium">Came from</th>
           </tr>
         </thead>
@@ -55,9 +54,6 @@ export default function LeadsTable({ leads }: { leads: Lead[] }) {
                 </a>
               </td>
               <td className="px-4 py-3 text-warm-gray-700">{serviceName(lead.service)}</td>
-              <td className="px-4 py-3 text-warm-gray-700">
-                {lead.address ?? lead.city ?? <span className="text-warm-gray-400">—</span>}
-              </td>
               <td className="px-4 py-3">
                 {lead.sourcePath ? (
                   <Link href={lead.sourcePath} className="text-warm-gray-500 hover:text-brand-blue hover:underline">

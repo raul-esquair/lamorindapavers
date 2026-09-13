@@ -195,7 +195,8 @@ The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set
 ### Quote Modal (`components/ui/QuoteModal.tsx`)
 - Global context provider wrapping the entire app via `ClientProviders`
 - Blurred backdrop (12px blur + dark overlay)
-- 3-step form: service select → project details → contact info
+- 2-step form (since 2026-09-13; was 3): **service select → name, phone, email + "Tell us about your project"**. Timeline and project address were removed — Steve calls every lead and asks both on the phone.
+- **Tapping a service advances by itself** (`pickService`, after `AUTO_ADVANCE_MS` = 200ms so the card visibly turns blue first). **Only a pointer tap does** — clicks whose target is the radio input are ignored, which covers both the label's re-dispatched click and keyboard selection (arrow keys fire a click on the newly checked radio). Without that, arrowing through the options would throw a keyboard user onto step 2 at the first keypress. Continue stays on step 1 for them and for anyone who came Back, disabled until something is picked. On every step change focus moves to the new step's `role="group"` container (`focusStep`), since the control that had focus unmounts with the old step.
 - Triggered by `QuoteButton` component — used in: Hero, Header, mobile menu, mobile bottom bar, FinalCTA, service detail sidebar, city pages
 - The `/contact` page has its own inline form for direct URL traffic / SEO. **It shares this modal's step and radio markup — a fix to one usually belongs in both.**
 - Form backend is wired: `lib/actions/submit-quote.ts` (Resend + ntfy), and submissions are persisted to the `leads` table with source-page attribution. See memory `project_form_routing.md` and "Lead Notification" below. The SMS consent checkbox was **removed** 2026-09-08 — nothing texts customers, so the box promised something the site does not do.
@@ -304,17 +305,22 @@ not gate the build.
   `plans/appointment-system/README.md`. ⚠️ If customer-facing SMS ever returns,
   restore the checkbox **and** the per-row wording snapshot together: consent
   without a stored record of what was shown is worth nothing in a dispute.
-- **Form restructure.** `city` (optional, step 3) became a full **project
-  address** on step 2. Net-zero field count; step 3 — where people hesitate —
-  got shorter. ⚠️ It is **optional and often left blank** (the one real
-  submission skipped it). Steve calls customers directly so he can ask, but the
-  alert will frequently not say where the job is — decide whether to require it
-  before building the alert.
+- ~~**Form restructure.**~~ **Superseded 2026-09-13.** The form briefly asked
+  for a full project address on step 2; it was optional and got skipped. The
+  form is now **two steps** and asks for neither address nor timeline (see
+  "Quote Modal"). `leads.address`, `leads.city` and `leads.timeline` stay in
+  the schema and are **never written** — same reasoning as the consent
+  columns. The dashboard's Location column was removed with them. ⚠️ So the
+  lead alert will **never** say where the job is; Steve asks on the call.
 - **Service pre-select.** `open(service?)` / `<QuoteButton service>`. Only
   `/services/[slug]` passes one today; everywhere else opens blank, because a
   wrong pre-selection is worse than none. Step 1 was deliberately **not**
   deleted — one tap with no typing is the easiest possible first ask, and
-  removing it makes the opening screen harder, not simpler.
+  removing it makes the opening screen harder, not simpler. **Since
+  2026-09-13 a preset skips it:** the modal opens on step 2, which shows
+  "Service: Patios · Change" so the user can see and undo a choice they never
+  made on screen. The preset is checked against real slugs; an unknown one
+  opens on step 1 as if none were passed.
 - **"Not sure yet / a few things"** 12th option, stored as `null` service so
   per-service counts stay honest.
 
@@ -378,9 +384,8 @@ for unhappy `/feedback` ratings. The second is more time-critical: a complaint
 decays faster than a lead, and that alert has **never once fired** because
 `NTFY_TOPIC` was never set.
 
-**Two questions for Steve before that build:**
-- Should the project address be **required** on the form? It is optional today
-  and gets skipped, so the alert often will not say where the job is.
+**One question for Steve before that build** (the other — should the address
+be required? — was settled 2026-09-13 by removing the field):
 - Will he reply "won" / "lost" to an alert? Phase 004 assumes so, and it is the
   phase that closes lead → job → review request. He has already said no to one
   assumption; cheaper to find the second no now.
