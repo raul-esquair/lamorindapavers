@@ -15,6 +15,13 @@
       "when": 1788818478882,
       "tag": "0001_past_frank_castle",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789336292018,
+      "tag": "0002_review_settings",
+      "breakpoints": true
     }
   ]
 }

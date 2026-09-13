@@ -1,9 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { isAuthenticated } from "@/lib/auth/guard";
+import { dashboardAuthError as requireAuth } from "@/lib/auth/guard";
 import {
   createReviewRequest,
+  getReviewSettings,
+  getSuppression,
+  lastContact,
   stopRequest,
   suppressEmail,
   type CreateRequestInput,
@@ -12,14 +15,35 @@ import {
 export type ActionResult = { ok: true } | { ok: false; error: string };
 
 /**
- * Server Actions are publicly reachable endpoints — the layout gate protects
- * the *page*, not the action. Every mutation re-checks the session itself.
+ * `canOverride` marks a repeat-customer warning: the form offers "Add anyway".
+ * An unsubscribe is never overridable.
  */
-async function requireAuth(): Promise<string | null> {
-  return (await isAuthenticated()) ? null : "Your session expired. Please sign in again.";
+export type AddResult = { ok: true } | { ok: false; error: string; canOverride?: boolean };
+
+function shortDate(d: Date): string {
+  return d.toLocaleDateString("en-US", {
+    timeZone: "America/Los_Angeles",
+    month: "numeric",
+    day: "numeric",
+    year: "2-digit",
+  });
 }
 
-export async function addReviewRequest(input: CreateRequestInput): Promise<ActionResult> {
+function windowLabel(days: number): string {
+  if (days % 365 === 0) return days === 365 ? "year" : `${days / 365} years`;
+  if (days % 30 === 0) return `${days / 30} months`;
+  return `${days} days`;
+}
+
+/**
+ * Server Actions are publicly reachable endpoints — the layout gate protects
+ * the *page*, not the action. Every mutation re-checks the session itself
+ * (requireAuth, from lib/auth/guard.ts).
+ */
+export async function addReviewRequest(
+  input: CreateRequestInput,
+  options: { allowRepeat?: boolean } = {},
+): Promise<AddResult> {
   const denied = await requireAuth();
   if (denied) return { ok: false, error: denied };
 
@@ -33,6 +57,44 @@ export async function addReviewRequest(input: CreateRequestInput): Promise<Actio
   }
 
   try {
+    const firstName = name.split(/\s+/)[0];
+
+    // An unsubscribe outlives the request it came from. Adding them anyway
+    // would create a row that sits "Active" forever and never sends.
+    const suppression = await getSuppression(email);
+    if (suppression) {
+      return {
+        ok: false,
+        error: `${firstName} unsubscribed from these emails on ${shortDate(suppression.createdAt)}, so they can't be asked again.`,
+      };
+    }
+
+    if (!options.allowRepeat) {
+      const { repeatWindowDays } = await getReviewSettings();
+      const contact = await lastContact(email);
+
+      if (contact.activeSince) {
+        return {
+          ok: false,
+          canOverride: true,
+          error: `${firstName} already has review emails going out (added ${shortDate(contact.activeSince)}). Adding them again starts a second set.`,
+        };
+      }
+
+      const windowMs = repeatWindowDays * 86_400_000;
+      if (
+        repeatWindowDays > 0 &&
+        contact.lastEmailedAt &&
+        Date.now() - contact.lastEmailedAt.getTime() < windowMs
+      ) {
+        return {
+          ok: false,
+          canOverride: true,
+          error: `${firstName} was last asked on ${shortDate(contact.lastEmailedAt)}. Your settings skip anyone asked in the last ${windowLabel(repeatWindowDays)}.`,
+        };
+      }
+    }
+
     await createReviewRequest({ ...input, name, email });
   } catch (err) {
     console.error("addReviewRequest failed:", err);

@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { listLeads } from "@/lib/leads/queries";
 import LeadsTable from "./LeadsTable";
 
@@ -41,15 +40,7 @@ export default async function LeadsPage() {
   return (
     <div className="space-y-10">
       <div>
-        <div className="flex flex-wrap items-baseline justify-between gap-4">
-          <h1 className="text-3xl sm:text-4xl font-serif text-warm-gray-900">Leads</h1>
-          <Link
-            href="/dashboard"
-            className="font-sans text-sm text-warm-gray-500 hover:text-brand-blue transition-colors duration-200"
-          >
-            Review requests →
-          </Link>
-        </div>
+        <h1 className="text-3xl sm:text-4xl font-serif text-warm-gray-900">Leads</h1>
         <p className="mt-2 font-sans text-warm-gray-500">
           Every quote form submission, newest first — including which page it came from.
         </p>

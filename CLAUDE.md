@@ -116,9 +116,10 @@ This section uses plain `<img>` (not `next/image`) because of how the layered cr
 - `/blog` — Live AI-generated blog index (14 posts published, more queued). `/blog/[slug]` renders each post. See "Blog Engine" section below.
 - `/[city]` — 12 city SEO landing pages
 - `/feedback` — Customer reputation page (noindex, no site chrome). Sentiment picker routes to Google review or a private form. See "Reputation Page" section below.
-- `/dashboard` — Internal tool (password-gated, noindex, no site chrome). Review-request pipeline. See "Review Request System" below.
+- `/dashboard` — Internal tool (password-gated, noindex, no site chrome). Review-request pipeline, `/dashboard/leads`, and `/dashboard/settings` (Steve's review-email settings). See "Review Request System" below.
 - `/unsubscribe` — Email opt-out confirmation (noindex, no site chrome).
 - `/api/review-requests/dispatch` — Protected cron endpoint (bearer token). Sends due review emails.
+- `/api/review-requests/health` — Protected (same bearer token). Polled daily by the `review-system-health.yml` GitHub Action.
 - `/sitemap.xml` — Auto-generated
 - `/robots.txt` — Crawl directives
 
@@ -217,11 +218,12 @@ The `[city]` route filters out the bespoke slugs via `customRouteSlugs = new Set
 A standalone post-job feedback link handed to customers directly (texts, invoices, email signatures) — **not** a page anyone navigates to from the site.
 
 **Flow.** Four sentiment faces → `rating` 1–4.
-- **3–4 (Happy / Delighted)** → Google review CTA (`company.social.googleReview`), Yelp as secondary.
+- **3–4 (Happy / Delighted)** → **straight to the Google review box** (`company.social.googleReview`), same tab, no second screen to tap through (since 2026-09-13, ported from Gadget — every extra tap loses reviews). The kill switch is **awaited first, capped at 1.5s** (`KILL_SWITCH_WAIT_MS`), because leaving the page can cancel the in-flight request and the customer would keep getting emails after reviewing. Same tab because a tab opened after an `await` is no longer a direct response to the tap, and phone browsers block it as a popup. The old review screen renders underneath with "Taking you to Google…" and stays the fallback — its button, the Yelp link and the "mention what we built and where, add a photo" prompt only show if the redirect is blocked or they come back; a `pageshow` handler resets it when Back restores the page from the bfcache.
 - **1–2 (Not happy / Could be better)** → private form → `lib/actions/submit-feedback.ts`.
-- The positive path also carries a low-key "tell Steve privately" link. Taking it keeps the **originally chosen** rating in the email rather than relabeling a happy customer as unhappy.
+- The review screen also carries a low-key "We'd love your feedback." link to the private form. Taking it keeps the **originally chosen** rating in the email rather than relabeling a happy customer as unhappy.
+- **The unhappy path no longer names Steve** (2026-09-13, matching Gadget at Raul's call): intro "Your feedback helps Lamorinda Pavers improve the experience for every customer…", button "Submit", "so we can reach you", and the thank-you screen "We'll use it to make things right…". The first screen still says Steve reads every response personally. Alerts can now go to addresses other than Steve's (settings pane), which is part of why the promise "He'll call you back himself" was dropped.
 
-⚠️ **This is review gating** — routing negative sentiment away from Google violates Google's review policies and is the practice the FTC's consumer reviews rule (16 CFR 465) covers. Enforcement risk lands on the Google Business Profile, which is new. Built this way at the owner's explicit direction after the tradeoff was raised. **Reverting to a compliant flow is a one-line change** in `FeedbackPageContent.tsx`: `value >= 3` → `true` (everyone sees the Google link, everyone also gets the private channel). Don't "fix" this silently in either direction — it's a business decision, not an oversight.
+⚠️ **This is review gating** — routing negative sentiment away from Google violates Google's review policies and is the practice the FTC's consumer reviews rule (16 CFR 465) covers. Enforcement risk lands on the Google Business Profile, which is new. Built this way at the owner's explicit direction after the tradeoff was raised. **Reverting to a compliant flow** happens in `choose()` in `FeedbackPageContent.tsx`: send every face to the review screen (`setMode("review")`), which offers both Google and the private channel, and keep the auto-redirect (`sendToGoogle`) for 3–4 only — auto-redirecting 1–2 would remove their private option. Don't "fix" this silently in either direction — it's a business decision, not an oversight.
 
 **Notifications** (`lib/actions/submit-feedback.ts`) mirror `submit-quote.ts`: Resend email with `replyTo` set to the customer, plus ntfy push. ntfy fires at **priority 5 with a warning tag** (quote leads are 4) since an unhappy customer is time-sensitive. Requires a phone **or** an email — a complaint with no way to reach the person back is the one failure mode that makes the page pointless. A missing `NTFY_TOPIC` no-ops silently rather than failing the submission — which is exactly what has been happening: the variable was never set, so this alert has never fired. Moving to SMS (see SMS Appointment Setting below).
 
@@ -245,7 +247,7 @@ Children may be server components (`Footer` is one) — they're passed through a
 ## Database (Neon + Drizzle)
 Postgres on **Neon**, accessed with **Drizzle ORM**. Chosen over Netlify Blobs because the dashboard is expected to grow (leads, projects, warranty tracking) and those are relations, which a KV store can't express.
 
-- **Schema:** `lib/db/schema.ts` — 9 tables. Live: `review_requests`, `review_touches`, `email_suppressions`, `leads`. Applied but empty and unused pending the notification work: `sms_conversations`, `sms_messages`, `appointments`, `appointment_reminders`, `sms_suppressions`.
+- **Schema:** `lib/db/schema.ts` — 10 tables. Live: `review_requests`, `review_touches`, `email_suppressions`, `review_settings`, `leads`. Applied but empty and unused pending the notification work: `sms_conversations`, `sms_messages`, `appointments`, `appointment_reminders`, `sms_suppressions`.
 - **Client:** `lib/db/index.ts` exports `getDb()`. **Lazy on purpose** — the site prerenders 50+ static pages that never touch the database, so resolving the connection at import time would fail every build without the env var. Verified: `npm run build` succeeds with zero env vars set.
 - **Driver:** `@neondatabase/serverless` over HTTP (`drizzle-orm/neon-http`). No TCP pool, so there's no connection-exhaustion failure mode in serverless. **Always use the pooled connection string** (host contains `-pooler`).
 - **Migrations:** `drizzle/*.sql`, committed. Generate with `npm run db:generate`; apply with drizzle-kit migrate.
@@ -387,7 +389,7 @@ decays faster than a lead, and that alert has **never once fired** because
 
 ```bash
 npm run build               # clean; /contact and /feedback stay ○ static
-npm run check:schedule      # 36 passed
+npm run check:schedule      # 36 passed (75 since the settings pane, 2026-09-13)
 npm run check:availability  # 73 passed
 npm run lint                # 8 problems — unchanged pre-existing baseline
 ```
@@ -442,6 +444,8 @@ Automated post-job review requests: up to 3 emails, with any response killing th
 | `/unsubscribe` | Live |
 | Same-day touch 1, Set A subject lines | Live |
 | Neon database + migration `0000_init_review_system` | Applied |
+| Settings pane `/dashboard/settings` + migration `0002_review_settings` | Built 2026-09-13 (PR `feat/review-settings`). Migration **applied to production ahead of the code**, table empty — no row means launch behaviour |
+| Daily health check (`review-system-health.yml`) | Built 2026-09-13. ⚠️ Needs `CRON_SECRET` added as a **GitHub Actions** secret — until then every run fails and emails raul@esquair.com saying so |
 
 **Env vars are set in both places.** Netlify (marked *secret*, scoped to **Functions only** — nothing is needed at build time, verified) and local `.env`: `DATABASE_URL`, `DASHBOARD_PASSWORD`, `DASHBOARD_SESSION_SECRET`, `CRON_SECRET`, plus the pre-existing `RESEND_API_KEY`.
 
@@ -449,7 +453,7 @@ Automated post-job review requests: up to 3 emails, with any response killing th
 
 **Checks to run before touching any of it:**
 ```bash
-npm run check:schedule   # 36 assertions, no DB needed
+npm run check:schedule   # 75 assertions (cadence, templates, settings validation), no DB needed
 npm run build            # must stay green; /feedback must stay ○ static
 ```
 
@@ -457,7 +461,7 @@ npm run build            # must stay green; /feedback must stay ○ static
 
 A fresh session will be tempted to "fix" several of these. They are deliberate:
 
-1. **Review gating is intentional.** Negative sentiment routes away from Google. The owner was told the Google-policy and FTC exposure in detail and chose to proceed. NiceJob (the market-leading contractor product) does the identical thing. Reverting is one line — `value >= 3` → `true` in `FeedbackPageContent.tsx` — but it is a **business decision, not a bug**.
+1. **Review gating is intentional.** Negative sentiment routes away from Google. The owner was told the Google-policy and FTC exposure in detail and chose to proceed. NiceJob (the market-leading contractor product) does the identical thing. Reverting is a small change in `choose()` in `FeedbackPageContent.tsx` (see "Reputation Page") — but it is a **business decision, not a bug**.
 2. **Neon + Drizzle, not Netlify Blobs.** The dashboard is expected to grow into leads/projects/warranty, which are relations a KV store can't express.
 3. **Payload CMS evaluated and deferred.** It runs on Postgres via Drizzle, so adopting it later means adding tables to the same Neon instance — nothing here is wasted. Trigger to revisit: the owner genuinely committing to editing site copy himself. Give it its own Postgres schema if adopted.
 4. **Drizzle over Prisma** — lighter serverless cold starts, and Payload uses Drizzle internally.
@@ -474,11 +478,15 @@ A fresh session will be tempted to "fix" several of these. They are deliberate:
 
 ### Flow
 1. Steve adds a customer at `/dashboard` after a job wraps.
-2. A daily cron sends touch 1, then 2, then 3 — unless stopped.
+2. A daily cron sends touch 1, then 2, then 3 — unless stopped. Steve can change the count, the gaps and the wording at `/dashboard/settings`.
 3. The customer clicks a face on `/feedback?t=<token>` → **kill switch fires** → remaining touches never send.
 
 ### Cadence (`lib/reviews/schedule.ts`)
-Touches fire at `startAt` + **0 / 5 / 14** days.
+By default touches land on `startAt` + **0 / 5 / 14** days. The cadence is a `Cadence` parameter (`emailCount`, `gapDays`, `skipWeekends`), never a module constant, because it comes from the settings row.
+
+**Each gap counts from the day the previous email actually went out** (`nextTouch()`), not from `startAt` (changed 2026-09-13, ported from Gadget). With offsets from `startAt`, anything that delayed an email — a pause, the batch cap, a skipped weekend — made the next one due immediately, so two emails landed a day apart. Now a delay can push the whole sequence later but never squeeze it. For on-time sends the dates are identical to the old 0 / 5 / 14.
+
+**Skip weekends:** `isSendDay()` blocks Saturday and Sunday entirely (an overdue Thursday email still waits for Monday), and `nextSendDay()` shifts due dates for display.
 
 **Same-day first touch.** If `completedAt` equals today, `startAt` is today — Steve is marking the job complete at the walkthrough, and review requests convert best at the point of maximum satisfaction. That sequence runs day 0 / 5 / 14. Any other completion date keeps `completedAt + 2`, so the sequence is day 2 / 7 / 16.
 
@@ -486,14 +494,14 @@ Touches fire at `startAt` + **0 / 5 / 14** days.
 
 **`startAt` is deliberately separate from `completedAt`.** A job completed more than 14 days ago (`BACKFILL_THRESHOLD_DAYS`) anchors to *tomorrow* instead, so importing a batch of past customers doesn't fire every touch at once. `resolveStartAt()` also clamps forward so nothing is ever scheduled into the past.
 
-This module is **pure — no database imports** — so the rules that decide who gets emailed are testable in isolation. `npm run check:schedule` runs 36 assertions and needs no connection. Keep it that way.
+This module is **pure — no database imports** — so the rules that decide who gets emailed are testable in isolation. `npm run check:schedule` runs 75 assertions and needs no connection. `settings.ts` and `emails.ts` are pure too — the settings page runs them in the browser. Keep it that way.
 
 ### Idempotency (do not weaken)
 `review_touches` has a **unique index on `(request_id, n)`**. A duplicate send is impossible at the database level, not merely guarded in application code.
 
 `dispatch.ts` **claims the touch before sending**. If the process dies mid-run, a customer misses one email — invisible and recoverable. Recording *after* the send would risk sending twice, which is neither. Don't "fix" this ordering.
 
-`findDueRequests` returns **at most one touch per request per run**, so a badly overdue sequence catches up a day at a time rather than firing three emails at once.
+`findDueRequests` returns **at most one touch per request per run**, and each gap counts from the real previous send, so a badly overdue sequence catches up with its full spacing rather than firing three emails at once.
 
 ### Kill switch
 `markResponded(token, rating)` sets `respondedAt`, `status: stopped`, `stoppedReason: responded`. It's guarded by `respondedAt is null`, so a second click never overwrites the original rating.
@@ -504,7 +512,8 @@ Fires on the **face click**, not form submit — most people who pick a positive
 `email_suppressions` is keyed by **email, not request** — an unsubscribe has to outlive the request it came from, or the customer's next project would email them again.
 
 ### Sending (`lib/reviews/dispatch.ts`)
-- From `Steve Barsanti <steve@lamorindapaving.com>`, `replyTo` his iCloud address (where he actually reads mail).
+- From `Steve Barsanti <steve@lamorindapaving.com>`, `replyTo` the address set in settings, else `DEFAULT_REPLY_TO` in `lib/reviews/recipients.ts` (his iCloud, where he actually reads mail).
+- **Reads settings first on every run and throws rather than guessing** if it can't — guessing "not paused" would send what Steve paused. Paused → returns `{ paused: true }` having considered nothing.
 - **Batch cap** (`REVIEW_BATCH_LIMIT`, default 8) — a domain that normally sends a handful of transactional emails suddenly emitting 40 reads as a compromised account. Also keeps runs inside Netlify's 30s scheduled-function timeout.
 - Emails are **deliberately plain text-ish** (`lib/reviews/emails.ts`) — no logo banner, no button graphics. They read as one person writing to another, which converts better here and filters less.
 - Missing `RESEND_API_KEY` returns **before** claiming touches, so a misconfigured deploy doesn't silently burn them.
@@ -515,17 +524,44 @@ Fires on the **face click**, not form submit — most people who pick a positive
 curl -H "Authorization: Bearer $CRON_SECRET" \
   "https://lamorindapaving.com/api/review-requests/dispatch?dryRun=1"
 ```
-`dryRun=1` reports what would send without sending or claiming.
+`dryRun=1` reports what would send without sending, claiming **or closing sequences** — it writes nothing (fixed 2026-09-13; before that a dry run still closed completed sequences, which Gadget had already fixed).
 
 ### Dashboard auth (`lib/auth/`)
 Single shared password → HMAC-signed, httpOnly session cookie (14 days). No user table — Steve is the only user. Swappable for real auth when there's a second.
 
-**Every Server Action re-checks the session itself** (`requireAuth()` in `lib/actions/review-requests.ts`). The layout gate protects the *page*; Server Actions are independently reachable HTTP endpoints. Never rely on the layout alone.
+**Every Server Action re-checks the session itself** (`dashboardAuthError()` in `lib/auth/guard.ts` — kept out of the `"use server"` files, where every export becomes a callable endpoint). The layout gate protects the *page*; Server Actions are independently reachable HTTP endpoints. Never rely on the layout alone.
 
 **No rate limiting, deliberately** — serverless instances don't share memory, so a counter is bypassed with parallel requests. There's a fixed 600ms cost per attempt; the real defence is a long random password. Don't replace it with something memorable.
 
+### Settings pane (`/dashboard/settings`, ported from Gadget 2026-09-13)
+Gadget built it after competitor research across NiceJob, Jobber, Housecall Pro, ServiceTitan, Birdeye, GatherUp, Grade.us and BrightLocal. What Steve controls:
+- **Pause all sending** — one switch, saves instantly (separate from the form so it can't wait on Save or be discarded with other edits). Due emails are held, never skipped. The dashboard shows a gold banner while paused.
+- **Emails per customer** (1–3) and **days between them** (2–30 each; the floor is NiceJob's minimum spacing), with a live example timeline.
+- **Skip weekends.**
+- **Email wording** — subject + body per email, with `{first_name}`, `{project}`, `{when_finished}` fields, live preview, "Send test" (sends the *unsaved* text, `[Test]` subject, empty token so links go to the bare `/feedback` and `/unsubscribe`) and "Reset to the original wording". The feedback link, signature, license line and unsubscribe footer are added by `renderReviewEmail()` and are not editable. Unknown `{fields}` are rejected on save. `{project}` comes from a hand-written `PROJECT_PHRASES` map keyed by service **name** ("your new fire pit", not "your fire pits & fire feature"); anything else falls back to the old lowercase-and-singularise.
+- **Repeat customers** — "don't ask again within" off / 3 / 6 (default) / 12 months. Checked when a customer is added (`addReviewRequest`); the form offers "Add anyway". An address that already has an active sequence also warns. An unsubscribed address is refused outright.
+- **Reply-to address** and **unhappy-customer alert addresses** (up to 3). Blank = `lib/reviews/recipients.ts`. `submitFeedback` falls back to the default if the settings read fails — that alert must always go somewhere.
+
+Deliberately **not** exposed: the 8/day batch cap, send time of day (one daily cron), SMS, and who sees the Google button (the gating decision stays a code change).
+
+Storage is one `review_settings` row (`id = 'default'`). **Every column except `paused` is nullable and null means "the default in code"** (`DEFAULT_SETTINGS` in `lib/reviews/settings.ts`). Templates are stored only when they differ from `DEFAULT_TEMPLATES`, so improving the default copy in code still reaches any email he never edited. No row = launch behaviour. `lib/reviews/settings.ts` is pure and shared by the page (inline errors) and the Server Action (`lib/actions/review-settings.ts`), which re-validates. Changes apply from the next send, including customers already mid-sequence.
+
+**Differs from Gadget on purpose:** Neon over HTTP, so Gadget's "never `Promise.all` two queries" rule (a Supavisor transaction-pooler hang) does not apply here — the dashboard page loads requests and settings in parallel. No RLS (Neon exposes no public Data API). And `lib/utils.ts`'s `cn` is plain `clsx` with no tailwind-merge, so conflicting classes don't override each other — `settings/controls.tsx` builds field classes with a function instead of appending.
+
+### Health check (`/api/review-requests/health` + `.github/workflows/review-system-health.yml`, ported 2026-09-13)
+Daily at **18:00 UTC**, an hour after the send, GitHub Actions calls the endpoint and emails raul@esquair.com through Resend if it fails. It alarms on:
+- **The database doesn't answer** (503).
+- **`RESEND_API_KEY` missing** on Netlify.
+- **The send isn't running** — touches overdue *and* nothing sent in 26h. Overdue alone is normal mid-backfill, so both are required. Stays quiet when silence is expected: paused, a skipped weekend day, or resumed inside the window. A pause is reported as `checks.paused` but never alerts — it's Steve's call.
+- **Resend rejecting sends** — touches claimed in the last 26h with no Resend id. The claim-before-send order means those customers skip that email for good.
+
+Three tries, 20s apart, before alerting. Test delivery with **Actions → Review system health check → Run workflow → "Send the alert email even if the check passes"**.
+- ⚠️ **The repo is public, so the logs are public.** The endpoint returns counts and generic messages only; raw DB errors go to the Netlify function log. Never add customer data to it.
+- ⚠️ **Needs `CRON_SECRET` as a GitHub Actions secret** (the same value as Netlify's). `RESEND_API_KEY` is already there.
+- ⚠️ GitHub disables scheduled workflows in a public repo after 60 days with no commits. The weekly blog pipeline keeps the repo active.
+
 ### Environment variables
-`DATABASE_URL`, `DASHBOARD_PASSWORD`, `DASHBOARD_SESSION_SECRET`, `CRON_SECRET` (plus the existing `RESEND_API_KEY`). On Netlify: mark **secret**, scope to **Functions only** — nothing needs them at build time. Marking secret is **irreversible**, and `DASHBOARD_PASSWORD` is the one a human needs to read back, so store it before setting the flag.
+`DATABASE_URL`, `DASHBOARD_PASSWORD`, `DASHBOARD_SESSION_SECRET`, `CRON_SECRET` (plus the existing `RESEND_API_KEY`). `CRON_SECRET` is also needed as a GitHub Actions secret for the health check. On Netlify: mark **secret**, scope to **Functions only** — nothing needs them at build time. Marking secret is **irreversible**, and `DASHBOARD_PASSWORD` is the one a human needs to read back, so store it before setting the flag.
 
 ## Data Architecture
 All data lives in `lib/data/`:
@@ -693,7 +729,7 @@ npm run build     # Production build — verify before pushing.
 npm run blur:gen  # Manually regenerate lib/blur-map.json from /public/images.
                   # Run this after adding/changing/removing images.
 npm run lint      # ESLint
-npm run check:schedule  # 36 assertions on review-request cadence (no DB needed)
+npm run check:schedule  # 75 assertions on review-request cadence, templates, settings validation (no DB needed)
 npm run check:availability  # 73 assertions on appointment slot proposal (no DB needed)
 npm run db:generate     # Generate a migration from lib/db/schema.ts
 

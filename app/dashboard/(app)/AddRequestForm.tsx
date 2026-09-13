@@ -22,6 +22,8 @@ export default function AddRequestForm({ today }: { today: string }) {
   const [open, setOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Set when the error is a repeat-customer warning Steve may override.
+  const [canOverride, setCanOverride] = useState(false);
   const [saved, setSaved] = useState<string | null>(null);
 
   const {
@@ -31,19 +33,23 @@ export default function AddRequestForm({ today }: { today: string }) {
     formState: { errors },
   } = useForm<FormValues>({ defaultValues: { completedAt: today } });
 
-  async function onSubmit(values: FormValues) {
+  async function submit(values: FormValues, allowRepeat: boolean) {
     setSubmitting(true);
     setError(null);
+    setCanOverride(false);
     setSaved(null);
 
-    const result = await addReviewRequest({
-      name: values.name,
-      email: values.email,
-      phone: values.phone || null,
-      projectType: values.projectType || null,
-      completedAt: values.completedAt || null,
-      notes: values.notes || null,
-    });
+    const result = await addReviewRequest(
+      {
+        name: values.name,
+        email: values.email,
+        phone: values.phone || null,
+        projectType: values.projectType || null,
+        completedAt: values.completedAt || null,
+        notes: values.notes || null,
+      },
+      { allowRepeat },
+    );
 
     setSubmitting(false);
 
@@ -53,6 +59,7 @@ export default function AddRequestForm({ today }: { today: string }) {
       return;
     }
     setError(result.error);
+    setCanOverride(!!result.canOverride);
   }
 
   if (!open) {
@@ -79,6 +86,7 @@ export default function AddRequestForm({ today }: { today: string }) {
           onClick={() => {
             setOpen(false);
             setError(null);
+            setCanOverride(false);
           }}
           className="font-sans text-sm text-warm-gray-400 hover:text-warm-gray-700 transition-colors"
         >
@@ -86,7 +94,7 @@ export default function AddRequestForm({ today }: { today: string }) {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit((values) => submit(values, false))} className="space-y-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label htmlFor="ar-name" className={labelClass}>
@@ -109,7 +117,11 @@ export default function AddRequestForm({ today }: { today: string }) {
             <input
               id="ar-email"
               type="email"
-              {...register("email", { required: "Required" })}
+              {...register("email", {
+                required: "Required",
+                // A warning about one address doesn't apply to another.
+                onChange: () => setCanOverride(false),
+              })}
               placeholder="jane@example.com"
               className={inputClass}
             />
@@ -171,11 +183,28 @@ export default function AddRequestForm({ today }: { today: string }) {
         </div>
 
         <p className="font-sans text-xs text-warm-gray-400">
-          First email goes out two days after completion. Older jobs start tomorrow instead,
-          so a batch of past customers doesn&apos;t all send at once.
+          A job finished today gets its first email at the next 10am send; otherwise two days
+          after it finished. Jobs over two weeks old start tomorrow instead, so a batch of past
+          customers doesn&apos;t all send at once.
         </p>
 
-        {error && <p className="font-sans text-sm text-brand-red">{error}</p>}
+        {error && (
+          <div role="alert" className="flex flex-wrap items-center gap-x-4 gap-y-2">
+            <p className={`font-sans text-sm ${canOverride ? "text-[#6b4d12]" : "text-brand-red"}`}>
+              {error}
+            </p>
+            {canOverride && (
+              <button
+                type="button"
+                onClick={handleSubmit((values) => submit(values, true))}
+                disabled={submitting}
+                className="press font-sans text-sm font-semibold text-brand-blue underline underline-offset-2 hover:text-brand-blue-dark disabled:opacity-50"
+              >
+                Add anyway
+              </button>
+            )}
+          </div>
+        )}
 
         <div className="flex items-center gap-3 pt-1">
           <button
