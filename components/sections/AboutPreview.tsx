@@ -1,9 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { company } from "@/lib/data/company";
+import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
+
+const OWNER_PHOTO = "/images/steve-barsanti-family.jpg";
 
 const differentiators = [
   {
@@ -32,10 +36,17 @@ export default function AboutPreview() {
           {/* Image Side */}
           <ScrollReveal direction="left">
             <div className="relative">
-              <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gradient-to-br from-warm-gray-200 to-warm-gray-300">
-                <div className="w-full h-full flex items-center justify-center text-warm-gray-400 font-sans">
-                  Owner Photo
-                </div>
+              {/* 4:3 to match the photo — it's a landscape group shot, and a
+                  portrait crop would cut off one of the three people. */}
+              <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-warm-gray-200">
+                <Image
+                  src={OWNER_PHOTO}
+                  alt={`${company.owner}, owner of ${company.name}, with his wife and son`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  {...blurProps(OWNER_PHOTO)}
+                />
               </div>
               {/* Floating badge */}
               <div className="absolute -bottom-4 -right-4 md:bottom-8 md:-right-6 bg-brand-blue text-white rounded-xl p-6 shadow-xl">
