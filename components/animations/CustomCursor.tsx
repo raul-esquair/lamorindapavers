@@ -92,6 +92,11 @@ export default function CustomCursor() {
           exactly 1.5px at every scale, where a CSS border would thin to
           0.6px at rest.
 
+          At rest the dot is filled solid: the native arrow is hidden
+          site-wide, so this is the only pointer on screen, and a bare 1.5px
+          ring was hard to track while moving. On hover it opens into a
+          near-transparent ring so the link text underneath stays readable.
+
           `initial` is stated explicitly because framer-motion cannot
           interpolate the keyword `transparent` — only an alpha value. The same
           applies to the stroke. */}
@@ -113,13 +118,13 @@ export default function CustomCursor() {
           strokeWidth="1.5"
           vectorEffect="non-scaling-stroke"
           initial={{
-            fill: "rgba(59, 125, 216, 0)",
+            fill: "rgba(59, 125, 216, 1)",
             stroke: "#3B7DD8",
           }}
           animate={{
             fill: isHovering
               ? "rgba(59, 125, 216, 0.1)"
-              : "rgba(59, 125, 216, 0)",
+              : "rgba(59, 125, 216, 1)",
             stroke: isHovering ? "#E8A83E" : "#3B7DD8",
           }}
           transition={{ duration: 0.2, ease: "easeOut" }}
