@@ -444,8 +444,8 @@ Automated post-job review requests: up to 3 emails, with any response killing th
 | `/unsubscribe` | Live |
 | Same-day touch 1, Set A subject lines | Live |
 | Neon database + migration `0000_init_review_system` | Applied |
-| Settings pane `/dashboard/settings` + migration `0002_review_settings` | Built 2026-09-13 (PR `feat/review-settings`). Migration **applied to production ahead of the code**, table empty — no row means launch behaviour |
-| Daily health check (`review-system-health.yml`) | Built 2026-09-13. ⚠️ Needs `CRON_SECRET` added as a **GitHub Actions** secret — until then every run fails and emails raul@esquair.com saying so |
+| Settings pane `/dashboard/settings` + migration `0002_review_settings` | Live 2026-09-13 (#45). Migration was applied to production ahead of the code; until Steve saves something there is no row, which means launch behaviour. Saving and pausing have not yet been exercised against the real database |
+| Daily health check (`review-system-health.yml`) | Live 2026-09-13. `CRON_SECRET` is set in GitHub Actions; a manual run against production passed (`ok: true`, no problems) |
 
 **Env vars are set in both places.** Netlify (marked *secret*, scoped to **Functions only** — nothing is needed at build time, verified) and local `.env`: `DATABASE_URL`, `DASHBOARD_PASSWORD`, `DASHBOARD_SESSION_SECRET`, `CRON_SECRET`, plus the pre-existing `RESEND_API_KEY`.
 
@@ -557,7 +557,7 @@ Daily at **18:00 UTC**, an hour after the send, GitHub Actions calls the endpoin
 
 Three tries, 20s apart, before alerting. Test delivery with **Actions → Review system health check → Run workflow → "Send the alert email even if the check passes"**.
 - ⚠️ **The repo is public, so the logs are public.** The endpoint returns counts and generic messages only; raw DB errors go to the Netlify function log. Never add customer data to it.
-- ⚠️ **Needs `CRON_SECRET` as a GitHub Actions secret** (the same value as Netlify's). `RESEND_API_KEY` is already there.
+- **Needs `CRON_SECRET` as a GitHub Actions secret** (the same value as Netlify's), alongside `RESEND_API_KEY`. Both are set; if the Netlify value is ever rotated, rotate this one too or every run fails with a 401.
 - ⚠️ GitHub disables scheduled workflows in a public repo after 60 days with no commits. The weekly blog pipeline keeps the repo active.
 
 ### Environment variables
