@@ -1,9 +1,11 @@
 "use server";
 
 import { Resend } from "resend";
+import { getReviewSettings } from "@/lib/reviews/queries";
+import { DEFAULT_ALERT_TO } from "@/lib/reviews/recipients";
 
 export interface FeedbackSubmission {
-  /** 1 = not happy … 4 = delighted. Only 1 and 2 reach this action. */
+  /** 1 = not happy … 4 = delighted. Mostly 1–2; 3–4 via the review screen's private-feedback link. */
   rating: number;
   name: string;
   email: string;
@@ -16,7 +18,6 @@ export interface FeedbackSubmission {
 export type FeedbackResult = { ok: true } | { ok: false; error: string };
 
 const FROM = "Lamorinda Pavers <quotes@lamorindapaving.com>";
-const TO = "stevebarsanti@icloud.com";
 
 const RATING_LABELS: Record<number, string> = {
   1: "Not happy",
@@ -51,7 +52,7 @@ export async function submitFeedback(data: FeedbackSubmission): Promise<Feedback
     return { ok: false, error: "Please enter a valid email address." };
   }
   if (!email && !phone) {
-    return { ok: false, error: "Please add a phone number or an email so Steve can reach you." };
+    return { ok: false, error: "Please add a phone number or an email so we can reach you." };
   }
 
   const apiKey = process.env.RESEND_API_KEY;
@@ -61,6 +62,7 @@ export async function submitFeedback(data: FeedbackSubmission): Promise<Feedback
   }
 
   const resend = new Resend(apiKey);
+  const to = await alertRecipients();
 
   const ratingLabel = RATING_LABELS[rating] ?? String(rating);
   const subject = `Customer feedback — ${ratingLabel} — ${name}`;
@@ -115,7 +117,7 @@ export async function submitFeedback(data: FeedbackSubmission): Promise<Feedback
 
   const emailPromise = resend.emails.send({
     from: FROM,
-    to: TO,
+    to,
     ...(email ? { replyTo: email } : {}),
     subject,
     text,
@@ -144,6 +146,21 @@ export async function submitFeedback(data: FeedbackSubmission): Promise<Feedback
   } catch (err) {
     console.error("submitFeedback threw:", err);
     return { ok: false, error: "Something went wrong. Please call us instead." };
+  }
+}
+
+/**
+ * Whoever Steve chose on the dashboard's settings page, else his own inbox.
+ * A database hiccup falls back to the default rather than losing the
+ * complaint — this is the one email that must always go somewhere.
+ */
+async function alertRecipients(): Promise<string[]> {
+  try {
+    const { alertEmails } = await getReviewSettings();
+    return alertEmails.length > 0 ? alertEmails : [DEFAULT_ALERT_TO];
+  } catch (err) {
+    console.error("submitFeedback: could not read alert recipients, using the default:", err);
+    return [DEFAULT_ALERT_TO];
   }
 }
 

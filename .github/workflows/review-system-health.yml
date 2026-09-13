@@ -1,0 +1,100 @@
+name: Review system health check
+
+# Once a day, an hour after the review-email send (17:00 UTC), ask the live
+# site whether the review-request system is healthy, and email Raul if not.
+# /api/review-requests/health checks that the database answers, the email
+# key exists on Netlify, overdue emails are actually going out, and Resend
+# isn't rejecting them — the failures that are otherwise silent.
+#
+# Alerts go to raul@esquair.com through Resend, because GitHub's own failure
+# emails only reach the account that owns the workflow. If the alert step
+# itself fails, that GitHub email is the fallback.
+#
+# ⚠️ This is a public repo, so these logs are public. The endpoint returns
+# counts only — never add customer data to its response.
+#
+# ⚠️ GitHub disables scheduled workflows in a public repo after 60 days with
+# no commits. The weekly blog pipeline keeps the repo active; if that ever
+# stops, re-enable this workflow from the Actions tab.
+
+on:
+  schedule:
+    # 18:00 UTC — an hour after netlify/functions/review-dispatch.mts runs.
+    - cron: '0 18 * * *'
+  workflow_dispatch:
+    inputs:
+      test_alert:
+        description: Send the alert email even if the check passes (confirms delivery)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  health:
+    name: Check review system
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Query the health endpoint
+        env:
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          HEALTH_URL: https://lamorindapaving.com/api/review-requests/health
+        run: |
+          if [ -z "$CRON_SECRET" ]; then
+            echo "The CRON_SECRET secret is missing from this repo (Settings → Secrets and variables → Actions)." > report.txt
+            echo "::error::$(cat report.txt)"
+            exit 1
+          fi
+
+          # Three tries, 20s apart, so a cold start or a network blip doesn't
+          # send a false alarm.
+          for attempt in 1 2 3; do
+            status=$(curl -sS -m 30 -o body.json -w '%{http_code}' \
+              -H "Authorization: Bearer $CRON_SECRET" "$HEALTH_URL") || status=000
+            if [ "$status" = "200" ] && jq -e '.ok == true' body.json > /dev/null 2>&1; then
+              break
+            fi
+            if [ "$attempt" -lt 3 ]; then sleep 20; fi
+          done
+
+          { echo "HTTP $status"; jq . body.json 2>/dev/null || cat body.json 2>/dev/null || true; } > report.txt
+          cat report.txt
+          { echo '```'; cat report.txt; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$status" != "200" ] || ! jq -e '.ok == true' body.json > /dev/null 2>&1; then
+            echo "::error::Review system health check failed — see the report above."
+            exit 1
+          fi
+
+      - name: Email alert to raul@esquair.com
+        if: failure() || inputs.test_alert
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ "$JOB_STATUS" = "success" ]; then
+            subject="Test alert: Lamorinda review system health check"
+            intro="This is a test. The check passed, and alerts reach this inbox."
+          else
+            subject="Lamorinda review system: health check failed"
+            intro="The daily check of the review-request system on lamorindapaving.com failed. Customers may not be getting review emails until this is fixed."
+          fi
+          report=$(cat report.txt 2>/dev/null || echo "No report: the check failed before producing one.")
+
+          jq -n \
+            --arg subject "$subject" \
+            --arg body "$intro"$'\n\n'"$report"$'\n\n'"Run log: $RUN_URL"$'\n'"Runbook: CLAUDE.md → Review Request System" \
+            '{
+              from: "Lamorinda Pavers <quotes@lamorindapaving.com>",
+              to: ["raul@esquair.com"],
+              subject: $subject,
+              text: $body
+            }' > email.json
+
+          curl -sS --fail-with-body -X POST https://api.resend.com/emails \
+            -H "Authorization: Bearer $RESEND_API_KEY" \
+            -H "Content-Type: application/json" \
+            --data @email.json

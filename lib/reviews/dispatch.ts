@@ -4,12 +4,12 @@ import {
   attachProviderId,
   closeCompletedSequences,
   findDueRequests,
+  getReviewSettings,
   recordTouch,
 } from "./queries";
+import { DEFAULT_REPLY_TO } from "./recipients";
 
-const FROM = `Steve Barsanti <steve@lamorindapaving.com>`;
-/** Replies go where Steve actually reads mail. */
-const REPLY_TO = "stevebarsanti@icloud.com";
+export const FROM = `Steve Barsanti <steve@lamorindapaving.com>`;
 
 /**
  * Per-run send cap. Two reasons it exists:
@@ -28,6 +28,8 @@ export interface DispatchResult {
   closed: number;
   errors: string[];
   dryRun: boolean;
+  /** Sending is paused from the dashboard — nothing was considered. */
+  paused: boolean;
 }
 
 export async function dispatchReviewEmails(
@@ -46,13 +48,23 @@ export async function dispatchReviewEmails(
     closed: 0,
     errors: [],
     dryRun,
+    paused: false,
   };
 
-  const due = await findDueRequests(limit);
+  // Read fresh on every run. If this throws, the run fails loudly (and the
+  // health check notices) rather than assuming "not paused".
+  const settings = await getReviewSettings();
+  if (settings.paused) {
+    result.paused = true;
+    return result;
+  }
+
+  const due = await findDueRequests(limit, settings);
   result.attempted = due.length;
 
+  // A dry run writes nothing — closing sequences included.
   if (due.length === 0) {
-    result.closed = await closeCompletedSequences();
+    if (!dryRun) result.closed = await closeCompletedSequences(settings);
     return result;
   }
 
@@ -66,7 +78,7 @@ export async function dispatchReviewEmails(
   const resend = apiKey ? new Resend(apiKey) : null;
 
   for (const { request, touch } of due) {
-    const email = renderReviewEmail(request, touch);
+    const email = renderReviewEmail(request, touch, undefined, settings.templates[touch]);
 
     if (dryRun) {
       result.sent++;
@@ -89,7 +101,7 @@ export async function dispatchReviewEmails(
       const sendResult = await resend!.emails.send({
         from: FROM,
         to: request.email,
-        replyTo: REPLY_TO,
+        replyTo: settings.replyTo ?? DEFAULT_REPLY_TO,
         subject: email.subject,
         text: email.text,
         html: email.html,
@@ -125,7 +137,7 @@ export async function dispatchReviewEmails(
     }
   }
 
-  result.closed = await closeCompletedSequences();
+  if (!dryRun) result.closed = await closeCompletedSequences(settings);
   return result;
 }
 

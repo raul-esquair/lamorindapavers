@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { m, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 import { company } from "@/lib/data/company";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Button from "@/components/ui/Button";
@@ -64,6 +65,13 @@ function Face({ variant }: { variant: FaceVariant }) {
   );
 }
 
+/**
+ * How long a happy customer waits for the kill switch before being sent to
+ * Google anyway. The write normally takes a few hundred ms; this only caps a
+ * slow or cold database.
+ */
+const KILL_SWITCH_WAIT_MS = 1500;
+
 const inputClass =
   "w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white";
 const labelClass = "block text-sm font-sans font-medium text-warm-gray-700 mb-2";
@@ -73,6 +81,8 @@ export default function FeedbackPageContent() {
   const [rating, setRating] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  // True while a happy customer is being sent on to Google.
+  const [redirecting, setRedirecting] = useState(false);
   const {
     register,
     handleSubmit,
@@ -102,14 +112,62 @@ export default function FeedbackPageContent() {
     };
   }, [token, reset]);
 
+  // Coming back from Google with the Back button can restore this page from
+  // the back/forward cache mid-"Taking you to Google…". Show the button again.
+  useEffect(() => {
+    const onPageShow = (e: PageTransitionEvent) => {
+      if (e.persisted) setRedirecting(false);
+    };
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
   const choose = (value: number) => {
     setRating(value);
-    setMode(value >= 3 ? "review" : "form");
+    // ⚠️ REVIEW GATING — a business decision, not an oversight. Only the two
+    // positive faces are sent to Google; the negative ones go straight to a
+    // private form. That breaks Google's review policy and falls under the
+    // FTC consumer-reviews rule (16 CFR 465), and enforcement would land on
+    // the Business Profile. Chosen deliberately at the owner's direction. The
+    // compliant flow: send every face to the review screen, which offers both
+    // Google and the private channel — i.e. `setMode("review")` here, with
+    // the 1–2 faces NOT auto-redirected (see sendToGoogle). Don't change it
+    // in either direction without asking.
+    if (value >= 3) {
+      setMode("review");
+      void sendToGoogle(value);
+      return;
+    }
+    setMode("form");
 
     // Fire and forget. Deliberately not awaited — the customer's next screen
     // must never wait on a database write, and the action swallows its own
     // errors. Worst case they receive one more email than they should.
     if (token) void recordFeedbackResponse(token, value);
+  };
+
+  /**
+   * Happy and Delighted go straight to the Google review box — no second
+   * screen to tap through (2026-09-13, ported from Gadget Construction).
+   * Every extra tap loses reviews.
+   *
+   * Same tab, not a new one: a tab opened after an await is no longer a direct
+   * response to the tap, and phone browsers block it as a popup. And the kill
+   * switch is awaited first (up to KILL_SWITCH_WAIT_MS), because leaving the
+   * page can cancel an in-flight request — the customer would then get the
+   * rest of the emails after already reviewing. The review screen renders
+   * underneath as the fallback, with its button, Yelp link and photo prompt,
+   * if the redirect is blocked or they come back.
+   */
+  const sendToGoogle = async (value: number) => {
+    setRedirecting(true);
+    if (token) {
+      await Promise.race([
+        recordFeedbackResponse(token, value),
+        new Promise((resolve) => setTimeout(resolve, KILL_SWITCH_WAIT_MS)),
+      ]);
+    }
+    window.location.assign(company.social.googleReview);
   };
 
   const restart = () => {
@@ -213,10 +271,22 @@ export default function FeedbackPageContent() {
               <h1 className="text-4xl md:text-5xl text-warm-gray-900 mb-5">
                 That means a lot.
               </h1>
-              <p className="text-lg text-warm-gray-500 font-sans max-w-lg mx-auto mb-10">
-                Would you take a minute to say it on Google? Word of mouth is how
-                a small crew like ours keeps working — and it helps the next
-                neighbor decide who to trust with their driveway.
+              <p className="text-lg text-warm-gray-500 font-sans max-w-lg mx-auto mb-10" aria-live="polite">
+                {redirecting ? (
+                  <>
+                    <Loader2
+                      className="inline-block w-5 h-5 mr-2 -mt-0.5 animate-spin motion-reduce:hidden"
+                      aria-hidden="true"
+                    />
+                    Taking you to Google so you can leave a review&hellip;
+                  </>
+                ) : (
+                  <>
+                    Would you take a minute to say it on Google? Word of mouth is how
+                    a small crew like ours keeps working — and it helps the next
+                    neighbor decide who to trust with their driveway.
+                  </>
+                )}
               </p>
 
               <Button
@@ -257,7 +327,7 @@ export default function FeedbackPageContent() {
                     onClick={() => setMode("form")}
                     className="text-brand-blue hover:underline"
                   >
-                    Tell {company.owner.split(" ")[0]} privately.
+                    We&apos;d love your feedback.
                   </button>
                 </p>
               </div>
@@ -277,8 +347,8 @@ export default function FeedbackPageContent() {
                   Tell us what went wrong.
                 </h1>
                 <p className="text-lg text-warm-gray-500 font-sans mb-10">
-                  This goes straight to {company.owner} — not to a form inbox
-                  nobody checks. He&apos;ll call you back himself.
+                  Your feedback helps {company.name} improve the experience for
+                  every customer and do our best work.
                 </p>
               </div>
 
@@ -326,7 +396,7 @@ export default function FeedbackPageContent() {
                   </div>
                 </div>
                 <p className="text-xs font-sans text-warm-gray-400 -mt-3">
-                  Add at least one so {company.owner.split(" ")[0]} can reach you.
+                  Add at least one so we can reach you.
                 </p>
 
                 <div>
@@ -357,7 +427,7 @@ export default function FeedbackPageContent() {
                     Back
                   </Button>
                   <Button type="submit" variant="primary" disabled={submitting}>
-                    {submitting ? "Sending…" : "Send to " + company.owner.split(" ")[0]}
+                    {submitting ? "Sending…" : "Submit"}
                   </Button>
                 </div>
               </form>
@@ -381,8 +451,8 @@ export default function FeedbackPageContent() {
                 Thank you — we got it.
               </h1>
               <p className="text-lg text-warm-gray-500 font-sans mb-8">
-                {company.owner} has been notified and will reach out personally.
-                If you&apos;d rather talk right now, call him at{" "}
+                We&apos;ll use it to make things right, and to do better for the
+                next homeowner. If you&apos;d rather talk now, call us at{" "}
                 <a href={company.phoneHref} className="text-brand-blue font-semibold">
                   {company.phone}
                 </a>
