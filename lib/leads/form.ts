@@ -12,3 +12,10 @@
  * honest — a lead that declined to pick is not a lead for a service.
  */
 export const SERVICE_UNSURE = "not-sure";
+
+/**
+ * Delay between tapping a service and step 2 sliding in. Long enough for the
+ * tapped card to visibly turn blue first, so the tap reads as "chosen" rather
+ * than "skipped past"; short enough that it doesn't feel like waiting.
+ */
+export const AUTO_ADVANCE_MS = 200;

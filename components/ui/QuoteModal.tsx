@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
 import { services } from "@/lib/data/services";
 import { submitQuote } from "@/lib/actions/submit-quote";
-import { SERVICE_UNSURE } from "@/lib/leads/form";
+import { AUTO_ADVANCE_MS, SERVICE_UNSURE } from "@/lib/leads/form";
 import { useDragDismiss } from "@/lib/hooks/use-drag-dismiss";
 
 // Everything inside the dialog that can hold keyboard focus. Radio inputs are
@@ -25,9 +25,10 @@ const FOCUSABLE_SELECTOR = [
 // Context so any component can open the modal
 const QuoteModalContext = createContext<{
   /**
-   * `service` pre-selects step 1. Passed by entry points that already know the
-   * answer — the service-detail sidebar. Everywhere else opens blank, because
-   * a wrong pre-selection is worse than none.
+   * `service` answers step 1, so the modal opens on step 2. Passed by entry
+   * points that already know the answer — the service-detail sidebar.
+   * Everywhere else opens blank on step 1, because a wrong pre-selection is
+   * worse than none.
    */
   open: (service?: string) => void;
   close: () => void;
@@ -45,8 +46,6 @@ export function useQuoteModal() {
 interface FormData {
   service: string;
   details: string;
-  timeline: string;
-  address: string;
   name: string;
   phone: string;
   email: string;
@@ -127,7 +126,12 @@ function QuoteModalContent({
   onClose: () => void;
   presetService?: string;
 }) {
-  const [step, setStep] = useState(1);
+  // A preset service means step 1 is already answered, so open on step 2 — the
+  // only thing step 1 would ask is a tap on the card that's already selected.
+  // Checked against the real slugs so a stale or mistyped preset falls back to
+  // the picker rather than skipping it with nothing chosen.
+  const hasPreset = services.some((s) => s.slug === presetService);
+  const [step, setStep] = useState(hasPreset ? 2 : 1);
   const [direction, setDirection] = useState(1);
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -140,10 +144,14 @@ function QuoteModalContent({
   } = useForm<FormData>({
     // The modal mounts fresh on every open, so a default is enough to
     // pre-select — no reset() or effect needed.
-    defaultValues: { service: presetService ?? "" },
+    defaultValues: { service: hasPreset ? presetService : "" },
   });
 
   const selectedService = watch("service");
+  const selectedServiceName =
+    selectedService === SERVICE_UNSURE
+      ? "Not sure yet"
+      : services.find((s) => s.slug === selectedService)?.name;
 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
@@ -161,13 +169,44 @@ function QuoteModalContent({
     }
   };
 
+  // When a step replaces another, the control that had focus leaves with it and
+  // focus falls to <body>. Land it on the new step instead, so a screen reader
+  // announces where the user is and Tab carries on from there. Skipped on first
+  // render — opening the modal focuses the panel itself (see the effect below).
+  const hasMoved = useRef(false);
+  const focusStep = useCallback((el: HTMLDivElement | null) => {
+    if (el && hasMoved.current) el.focus({ preventScroll: true });
+  }, []);
+
+  const advanceTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(advanceTimer.current), []);
+
   const nextStep = () => {
+    window.clearTimeout(advanceTimer.current);
+    hasMoved.current = true;
     setDirection(1);
-    setStep((s) => Math.min(s + 1, 3));
+    setStep(2);
   };
   const prevStep = () => {
+    hasMoved.current = true;
     setDirection(-1);
-    setStep((s) => Math.max(s - 1, 1));
+    setStep(1);
+  };
+
+  // Picking a service is the whole of step 1, so a tap moves on by itself —
+  // a Continue button after a one-tap question is a second tap for nothing.
+  //
+  // Only a pointer tap advances. The label's click is re-dispatched to its
+  // radio and bubbles back up here with the input as its target, and keyboard
+  // selection (arrow keys, Space) also arrives as a click on the input.
+  // Ignoring both keeps arrowing through the options from throwing a keyboard
+  // user onto step 2 at the first keypress; they use Continue. The radio is
+  // checked by the label's default action, which runs after this handler, so
+  // the value is set well before the timer fires.
+  const pickService = (e: React.MouseEvent<HTMLLabelElement>) => {
+    if (e.target instanceof HTMLInputElement) return;
+    window.clearTimeout(advanceTimer.current);
+    advanceTimer.current = window.setTimeout(nextStep, AUTO_ADVANCE_MS);
   };
 
   const { y: dragY, handlers: dragHandlers } = useDragDismiss({ onDismiss: onClose });
@@ -339,7 +378,7 @@ function QuoteModalContent({
 
                   {/* Progress */}
                   <div className="flex items-center gap-1 mb-8">
-                    {[1, 2, 3].map((s) => (
+                    {[1, 2].map((s) => (
                       <div
                         key={s}
                         className={`h-1 flex-1 rounded-full transition-colors duration-300 ${
@@ -355,6 +394,11 @@ function QuoteModalContent({
                       {step === 1 && (
                         <m.div
                           key="step1"
+                          ref={focusStep}
+                          tabIndex={-1}
+                          role="group"
+                          aria-labelledby={`${headingId}-step1`}
+                          className="focus:outline-none"
                           custom={direction}
                           variants={stepVariants}
                           initial="enter"
@@ -362,13 +406,14 @@ function QuoteModalContent({
                           exit="exit"
                           transition={stepTransition}
                         >
-                          <p className="text-sm font-sans font-medium text-warm-gray-700 mb-3">
+                          <p id={`${headingId}-step1`} className="text-sm font-sans font-medium text-warm-gray-700 mb-3">
                             What service are you interested in?
                           </p>
                           <div className="grid grid-cols-2 gap-2">
                             {services.map((service) => (
                               <label
                                 key={service.slug}
+                                onClick={pickService}
                                 className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 flex items-center justify-center p-3 rounded-lg border-2 cursor-pointer text-center text-sm font-sans ${
                                   selectedService === service.slug
                                     ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
@@ -390,6 +435,7 @@ function QuoteModalContent({
                               data; this stores as null on the lead row.
                             */}
                             <label
+                              onClick={pickService}
                               className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 col-span-2 flex items-center justify-center p-3 rounded-lg border-2 border-dashed cursor-pointer text-center text-sm font-sans ${
                                 selectedService === SERVICE_UNSURE
                                   ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
@@ -405,11 +451,15 @@ function QuoteModalContent({
                               Not sure yet / a few things
                             </label>
                           </div>
+                          {/* Kept for keyboard users, who don't auto-advance
+                              (see pickService), and for anyone who came Back
+                              to check their pick. */}
                           <div className="mt-6 flex justify-end">
                             <button
                               type="button"
                               onClick={nextStep}
-                              className="press px-6 py-2.5 bg-brand-blue text-white text-sm font-sans font-semibold rounded-lg hover:bg-brand-blue-dark"
+                              disabled={!selectedService}
+                              className="press px-6 py-2.5 bg-brand-blue text-white text-sm font-sans font-semibold rounded-lg hover:bg-brand-blue-dark disabled:opacity-40 disabled:cursor-not-allowed"
                             >
                               Continue
                             </button>
@@ -417,10 +467,15 @@ function QuoteModalContent({
                         </m.div>
                       )}
 
-                      {/* Step 2: Project Details */}
+                      {/* Step 2: Contact + project details */}
                       {step === 2 && (
                         <m.div
                           key="step2"
+                          ref={focusStep}
+                          tabIndex={-1}
+                          role="group"
+                          aria-labelledby={`${headingId}-step2`}
+                          className="focus:outline-none"
                           custom={direction}
                           variants={stepVariants}
                           initial="enter"
@@ -428,82 +483,27 @@ function QuoteModalContent({
                           exit="exit"
                           transition={stepTransition}
                         >
-                          <div className="space-y-4">
-                            <div>
-                              <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
-                                Tell us about your project
-                              </label>
-                              <textarea
-                                {...register("details")}
-                                rows={3}
-                                placeholder="Size, current condition, ideas you have in mind..."
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
-                              />
-                            </div>
-                            <div>
-                              <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
-                                Timeline
-                              </label>
-                              <select
-                                {...register("timeline")}
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 bg-white"
+                          {/* Says what they're asking about. Needed because a
+                              preset opens straight on this step, so step 1 was
+                              never seen; kept on every path so the step looks
+                              the same however they got here. */}
+                          {selectedServiceName && (
+                            <div className="mb-4 flex items-center gap-2 text-sm font-sans">
+                              <span className="text-warm-gray-500">Service:</span>
+                              <span className="font-semibold text-brand-blue">{selectedServiceName}</span>
+                              <button
+                                type="button"
+                                onClick={prevStep}
+                                disabled={submitting}
+                                className="press ml-1 text-warm-gray-500 underline underline-offset-2 hover:text-warm-gray-700 disabled:opacity-50"
                               >
-                                <option value="">When are you looking to start?</option>
-                                <option value="asap">As soon as possible</option>
-                                <option value="1-3months">1-3 months</option>
-                                <option value="3-6months">3-6 months</option>
-                                <option value="planning">Just getting quotes</option>
-                              </select>
+                                Change
+                              </button>
                             </div>
-                            {/*
-                              Address lives on step 2, not the contact step.
-                              Here it reads as a question about the project;
-                              beside name/phone/email it reads as data
-                              collection, on the screen where people hesitate.
-                            */}
-                            <div>
-                              <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
-                                Project address
-                              </label>
-                              <input
-                                type="text"
-                                {...register("address")}
-                                placeholder="Street, city — where the work would happen"
-                                autoComplete="street-address"
-                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
-                              />
-                            </div>
-                          </div>
-                          <div className="mt-6 flex justify-between">
-                            <button
-                              type="button"
-                              onClick={prevStep}
-                              className="press px-4 py-2.5 text-sm font-sans font-medium text-warm-gray-500 hover:text-warm-gray-700"
-                            >
-                              Back
-                            </button>
-                            <button
-                              type="button"
-                              onClick={nextStep}
-                              className="press px-6 py-2.5 bg-brand-blue text-white text-sm font-sans font-semibold rounded-lg hover:bg-brand-blue-dark"
-                            >
-                              Continue
-                            </button>
-                          </div>
-                        </m.div>
-                      )}
-
-                      {/* Step 3: Contact Info */}
-                      {step === 3 && (
-                        <m.div
-                          key="step3"
-                          custom={direction}
-                          variants={stepVariants}
-                          initial="enter"
-                          animate="center"
-                          exit="exit"
-                          transition={stepTransition}
-                        >
+                          )}
+                          <p id={`${headingId}-step2`} className="text-sm font-sans font-medium text-warm-gray-700 mb-3">
+                            How can we reach you?
+                          </p>
                           <div className="space-y-4">
                             <div>
                               <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
@@ -513,6 +513,7 @@ function QuoteModalContent({
                                 type="text"
                                 {...register("name", { required: "Name is required" })}
                                 placeholder="Your name"
+                                autoComplete="name"
                                 className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                               />
                               {errors.name && (
@@ -521,7 +522,7 @@ function QuoteModalContent({
                                 </p>
                               )}
                             </div>
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                               <div>
                                 <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
                                   Phone *
@@ -530,6 +531,7 @@ function QuoteModalContent({
                                   type="tel"
                                   {...register("phone", { required: "Phone is required" })}
                                   placeholder="(925) 555-0000"
+                                  autoComplete="tel"
                                   className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                                 />
                                 {errors.phone && (
@@ -546,6 +548,7 @@ function QuoteModalContent({
                                   type="email"
                                   {...register("email", { required: "Email is required" })}
                                   placeholder="you@email.com"
+                                  autoComplete="email"
                                   className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                                 />
                                 {errors.email && (
@@ -554,6 +557,17 @@ function QuoteModalContent({
                                   </p>
                                 )}
                               </div>
+                            </div>
+                            <div>
+                              <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-1.5">
+                                Tell us about your project
+                              </label>
+                              <textarea
+                                {...register("details")}
+                                rows={3}
+                                placeholder="Size, current condition, ideas you have in mind..."
+                                className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-sm text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                              />
                             </div>
                           </div>
                           {submitError && (

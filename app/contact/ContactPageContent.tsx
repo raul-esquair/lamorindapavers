@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { m, AnimatePresence } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { company } from "@/lib/data/company";
@@ -9,13 +9,11 @@ import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import Button from "@/components/ui/Button";
 import { submitQuote } from "@/lib/actions/submit-quote";
-import { SERVICE_UNSURE } from "@/lib/leads/form";
+import { AUTO_ADVANCE_MS, SERVICE_UNSURE } from "@/lib/leads/form";
 
 interface FormData {
   service: string;
   details: string;
-  timeline: string;
-  address: string;
   name: string;
   phone: string;
   email: string;
@@ -29,6 +27,10 @@ export default function ContactPageContent() {
   const { register, handleSubmit, watch, formState: { errors } } = useForm<FormData>();
 
   const selectedService = watch("service");
+  const selectedServiceName =
+    selectedService === SERVICE_UNSURE
+      ? "Not sure yet"
+      : services.find((s) => s.slug === selectedService)?.name;
 
   const onSubmit = async (data: FormData) => {
     setSubmitting(true);
@@ -46,8 +48,31 @@ export default function ContactPageContent() {
     }
   };
 
-  const nextStep = () => setStep((s) => Math.min(s + 1, 3));
-  const prevStep = () => setStep((s) => Math.max(s - 1, 1));
+  // Focus, auto-advance and the keyboard exception all mirror QuoteModal —
+  // see the comments on `focusStep` and `pickService` there.
+  const hasMoved = useRef(false);
+  const focusStep = useCallback((el: HTMLDivElement | null) => {
+    if (el && hasMoved.current) el.focus({ preventScroll: true });
+  }, []);
+
+  const advanceTimer = useRef<number | undefined>(undefined);
+  useEffect(() => () => window.clearTimeout(advanceTimer.current), []);
+
+  const nextStep = () => {
+    window.clearTimeout(advanceTimer.current);
+    hasMoved.current = true;
+    setStep(2);
+  };
+  const prevStep = () => {
+    hasMoved.current = true;
+    setStep(1);
+  };
+
+  const pickService = (e: React.MouseEvent<HTMLLabelElement>) => {
+    if (e.target instanceof HTMLInputElement) return;
+    window.clearTimeout(advanceTimer.current);
+    advanceTimer.current = window.setTimeout(nextStep, AUTO_ADVANCE_MS);
+  };
 
   if (submitted) {
     return (
@@ -111,7 +136,7 @@ export default function ContactPageContent() {
             <div className="lg:col-span-2">
               {/* Progress bar */}
               <div className="flex items-center gap-2 mb-10">
-                {[1, 2, 3].map((s) => (
+                {[1, 2].map((s) => (
                   <div key={s} className="flex items-center gap-2 flex-1">
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-sans font-semibold transition-colors ${
@@ -123,9 +148,9 @@ export default function ContactPageContent() {
                       {s}
                     </div>
                     <span className="text-sm font-sans text-warm-gray-500 hidden sm:block">
-                      {s === 1 ? "Service" : s === 2 ? "Details" : "Contact"}
+                      {s === 1 ? "Service" : "Your details"}
                     </span>
-                    {s < 3 && (
+                    {s < 2 && (
                       <div
                         className={`flex-1 h-px transition-colors ${
                           step > s ? "bg-brand-blue" : "bg-warm-gray-200"
@@ -141,18 +166,24 @@ export default function ContactPageContent() {
                   {step === 1 && (
                     <m.div
                       key="step1"
+                      ref={focusStep}
+                      tabIndex={-1}
+                      role="group"
+                      aria-labelledby="contact-step1-heading"
+                      className="focus:outline-none"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <h2 className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
+                      <h2 id="contact-step1-heading" className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
                         What service do you need?
                       </h2>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                         {services.map((service) => (
                           <label
                             key={service.slug}
+                            onClick={pickService}
                             className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 flex items-center justify-center p-4 rounded-lg border-2 cursor-pointer text-center text-sm font-sans ${
                               selectedService === service.slug
                                 ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
@@ -170,6 +201,7 @@ export default function ContactPageContent() {
                         ))}
                         {/* Mirrors QuoteModal — see the comment there. */}
                         <label
+                          onClick={pickService}
                           className={`press has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-brand-blue has-[:focus-visible]:ring-offset-2 col-span-2 md:col-span-3 flex items-center justify-center p-4 rounded-lg border-2 border-dashed cursor-pointer text-center text-sm font-sans ${
                             selectedService === SERVICE_UNSURE
                               ? "border-brand-blue bg-brand-blue/5 text-brand-blue font-semibold"
@@ -186,7 +218,7 @@ export default function ContactPageContent() {
                         </label>
                       </div>
                       <div className="mt-8 flex justify-end">
-                        <Button onClick={nextStep} variant="primary">
+                        <Button onClick={nextStep} variant="primary" disabled={!selectedService}>
                           Continue
                         </Button>
                       </div>
@@ -196,76 +228,33 @@ export default function ContactPageContent() {
                   {step === 2 && (
                     <m.div
                       key="step2"
+                      ref={focusStep}
+                      tabIndex={-1}
+                      role="group"
+                      aria-labelledby="contact-step2-heading"
+                      className="focus:outline-none"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -20 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <h2 className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
-                        Tell us about your project
-                      </h2>
-                      <div className="space-y-6">
-                        <div>
-                          <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-2">
-                            Project Details
-                          </label>
-                          <textarea
-                            {...register("details")}
-                            rows={4}
-                            placeholder="Describe your project — size, current condition, any specific ideas or materials you have in mind..."
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
-                          />
-                        </div>
-                        <div>
-                          <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-2">
-                            Preferred Timeline
-                          </label>
-                          <select
-                            {...register("timeline")}
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 bg-white"
+                      {/* Mirrors QuoteModal's service line. */}
+                      {selectedServiceName && (
+                        <div className="mb-3 flex items-center gap-2 text-sm font-sans">
+                          <span className="text-warm-gray-500">Service:</span>
+                          <span className="font-semibold text-brand-blue">{selectedServiceName}</span>
+                          <button
+                            type="button"
+                            onClick={prevStep}
+                            disabled={submitting}
+                            className="press ml-1 text-warm-gray-500 underline underline-offset-2 hover:text-warm-gray-700 disabled:opacity-50"
                           >
-                            <option value="">Select timeline...</option>
-                            <option value="asap">As soon as possible</option>
-                            <option value="1-3months">1-3 months</option>
-                            <option value="3-6months">3-6 months</option>
-                            <option value="planning">Just planning / getting quotes</option>
-                          </select>
+                            Change
+                          </button>
                         </div>
-                        {/* On step 2, not the contact step — see QuoteModal. */}
-                        <div>
-                          <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-2">
-                            Project address
-                          </label>
-                          <input
-                            type="text"
-                            {...register("address")}
-                            placeholder="Street, city — where the work would happen"
-                            autoComplete="street-address"
-                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
-                          />
-                        </div>
-                      </div>
-                      <div className="mt-8 flex justify-between">
-                        <Button onClick={prevStep} variant="ghost">
-                          Back
-                        </Button>
-                        <Button onClick={nextStep} variant="primary">
-                          Continue
-                        </Button>
-                      </div>
-                    </m.div>
-                  )}
-
-                  {step === 3 && (
-                    <m.div
-                      key="step3"
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -20 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <h2 className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
-                        Your contact information
+                      )}
+                      <h2 id="contact-step2-heading" className="text-2xl md:text-3xl text-warm-gray-900 mb-6">
+                        How can we reach you?
                       </h2>
                       <div className="space-y-6">
                         <div>
@@ -276,6 +265,7 @@ export default function ContactPageContent() {
                             type="text"
                             {...register("name", { required: "Name is required" })}
                             placeholder="Your name"
+                            autoComplete="name"
                             className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                           />
                           {errors.name && (
@@ -291,6 +281,7 @@ export default function ContactPageContent() {
                               type="tel"
                               {...register("phone", { required: "Phone is required" })}
                               placeholder="(925) 555-0000"
+                              autoComplete="tel"
                               className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                             />
                             {errors.phone && (
@@ -305,12 +296,24 @@ export default function ContactPageContent() {
                               type="email"
                               {...register("email", { required: "Email is required" })}
                               placeholder="you@email.com"
+                              autoComplete="email"
                               className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
                             />
                             {errors.email && (
                               <p className="text-brand-red text-sm mt-1 font-sans">{errors.email.message}</p>
                             )}
                           </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm font-sans font-medium text-warm-gray-700 mb-2">
+                            Tell us about your project
+                          </label>
+                          <textarea
+                            {...register("details")}
+                            rows={4}
+                            placeholder="Describe your project — size, current condition, any specific ideas or materials you have in mind..."
+                            className="w-full px-4 py-3 rounded-lg border border-warm-gray-200 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20 outline-none transition-[color,border-color,box-shadow] duration-150 ease-out font-sans text-warm-gray-800 placeholder:text-warm-gray-400 bg-white"
+                          />
                         </div>
                       </div>
                       {submitError && (
