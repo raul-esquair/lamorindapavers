@@ -706,7 +706,7 @@ The blog is a fully automated AI content engine (installed from `esquair-blog-st
 - ~~Wire contact/quote form to email backend~~ **DONE** — Resend Server Action is live (`lib/actions/submit-quote.ts`); quote modal + `/contact` send to Steve with `replyTo: customer_email`, plus ntfy push. See memory file `project_form_routing.md`.
 - Add real project photos for project-5 (Outdoor Kitchen) and project-6 (Putting Green) — currently render gradient "Photo coming soon" fallback in the gallery.
 - Add remaining 3 service images (putting greens, water features, arbors) + their icons
-- Add Steve's photo for About page and homepage About Preview (currently uses placeholder spots)
+- ~~Add Steve's photo for About page and homepage About Preview~~ **DONE (2026-09-13)** — both use `steve-barsanti-family.jpg` in a 4:3 frame. `/about` also has a photo hero now (`about-hero.jpg`, the fire-pit patio). A solo headshot is still wanted for the blog author box + `Person.image` (see E-E-A-T TODO).
 - Set up Google Analytics 4 + Vercel Analytics
 - ~~Connect custom domain on Netlify~~ **DONE** — `lamorindapaving.com` serves the production deploy (verified Aug 2026: identical asset hashes to the `delightful-sundae-2ddcbc.netlify.app` origin).
 - Set up redirects from old WordPress URLs to new routes

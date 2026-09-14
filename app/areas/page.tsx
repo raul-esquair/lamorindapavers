@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { blurProps } from "@/lib/blur";
 import { cities } from "@/lib/data/cities";
 import { services } from "@/lib/data/services";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import FinalCTA from "@/components/sections/FinalCTA";
+
+const HERO_IMAGE = "/images/areas/areas-hero.jpg";
 
 export const metadata: Metadata = {
   title: "Service Areas",
@@ -19,14 +23,31 @@ export default function AreasPage() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Taller on phones than /about's hero: the crop is height-bound there,
+          so the intake tower sits mid-frame and only a taller section moves
+          the bottom-aligned text clear of it. */}
+      <section className="relative flex items-end min-h-[80vh] md:min-h-[70vh] pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src={HERO_IMAGE}
+            alt="Lafayette Reservoir at golden hour, with its intake tower, boat dock and oak-covered hills"
+            fill
+            priority
+            className="object-cover"
+            style={{ objectPosition: "45% 55%" }}
+            sizes="100vw"
+            {...blurProps(HERO_IMAGE)}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-warm-gray-900/55 via-warm-gray-900/30 to-warm-gray-900/75" />
+        </div>
+
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal className="max-w-3xl">
-            <SectionLabel>Service Areas</SectionLabel>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl text-warm-gray-900 mt-4 mb-6">
+            <SectionLabel className="text-brand-gold">Service Areas</SectionLabel>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mt-4 mb-6">
               Where We Work
             </h1>
-            <p className="text-lg md:text-xl text-warm-gray-500 font-sans">
+            <p className="text-lg md:text-xl text-warm-gray-100 font-sans">
               From the hills of Lamorinda to the wider East Bay, we bring premium
               paver craftsmanship to homes throughout Contra Costa and Alameda counties.
             </p>

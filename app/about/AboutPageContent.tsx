@@ -1,11 +1,16 @@
 "use client";
 
+import Image from "next/image";
 import { company } from "@/lib/data/company";
+import { blurProps } from "@/lib/blur";
 import SectionLabel from "@/components/ui/SectionLabel";
 import ScrollReveal from "@/components/animations/ScrollReveal";
 import ScrollStagger from "@/components/animations/ScrollStagger";
 import Button from "@/components/ui/Button";
 import FinalCTA from "@/components/sections/FinalCTA";
+
+const HERO_IMAGE = "/images/about-hero.jpg";
+const OWNER_PHOTO = "/images/steve-barsanti-family.jpg";
 
 const values = [
   {
@@ -34,14 +39,28 @@ export default function AboutPageContent() {
   return (
     <>
       {/* Hero */}
-      <section className="pt-32 pb-16 md:pt-40 md:pb-20 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative flex items-end min-h-[60vh] md:min-h-[70vh] pt-32 pb-16 md:pt-40 md:pb-20 overflow-hidden">
+        <div className="absolute inset-0">
+          <Image
+            src={HERO_IMAGE}
+            alt="Circular paver patio with a stone fire pit, a curved seat wall and a lit boulder water feature"
+            fill
+            priority
+            className="object-cover"
+            style={{ objectPosition: "center 60%" }}
+            sizes="100vw"
+            {...blurProps(HERO_IMAGE)}
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-warm-gray-900/60 via-warm-gray-900/35 to-warm-gray-900/75" />
+        </div>
+
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal className="max-w-3xl">
-            <SectionLabel>Our Story</SectionLabel>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl text-warm-gray-900 mt-4 mb-6">
+            <SectionLabel className="text-brand-gold">Our Story</SectionLabel>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl text-white mt-4 mb-6">
               About Lamorinda Pavers
             </h1>
-            <p className="text-lg md:text-xl text-warm-gray-500 font-sans">
+            <p className="text-lg md:text-xl text-warm-gray-100 font-sans">
               Built on trust, driven by craft — for over a decade.
             </p>
           </ScrollReveal>
@@ -53,10 +72,17 @@ export default function AboutPageContent() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <ScrollReveal direction="left">
-              <div className="aspect-[4/5] rounded-xl overflow-hidden bg-gradient-to-br from-warm-gray-200 to-warm-gray-300">
-                <div className="w-full h-full flex items-center justify-center text-warm-gray-400 font-sans text-lg">
-                  Steve Barsanti
-                </div>
+              {/* 4:3 to match the photo, same as the homepage About Preview —
+                  a portrait crop would cut off one of the three people. */}
+              <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-warm-gray-200">
+                <Image
+                  src={OWNER_PHOTO}
+                  alt={`${company.owner}, owner of ${company.name}, with his wife and son`}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  {...blurProps(OWNER_PHOTO)}
+                />
               </div>
             </ScrollReveal>
 
@@ -67,7 +93,7 @@ export default function AboutPageContent() {
               </h2>
               <div className="space-y-4 text-warm-gray-600 font-sans leading-relaxed">
                 <p>
-                  Steve Barsanti founded {company.name} with a simple belief: that outdoor
+                  Steve Barsanti founded {company.name}{" "}with a simple belief: that outdoor
                   spaces should be crafted with the same care and attention as the homes
                   they surround. Over a decade later, that belief hasn&apos;t changed.
                 </p>
@@ -82,7 +108,7 @@ export default function AboutPageContent() {
                   Steve is on-site, making sure every detail meets his standards — and yours.
                 </p>
                 <p>
-                  With two experienced crews and a commitment to using only premium materials,
+                  With two experienced crews and a commitment to using only premium materials,{" "}
                   {company.name} delivers results that stand the test of time. Every project
                   is backed by our {company.warranty.toLowerCase()}, because we stand behind
                   every inch of our work.
