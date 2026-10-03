@@ -1,9 +1,29 @@
-"use server";
-
-import { Resend } from "resend";
 import { services } from "@/lib/data/services";
-import { createLead } from "@/lib/leads/queries";
 import { SERVICE_UNSURE } from "@/lib/leads/form";
+
+/**
+ * Sending a quote request to the Esquair hub.
+ *
+ * This used to be a Server Action that wrote to Neon and emailed Steve from
+ * here. Both now happen in the hub, which owns the lead, the contact record
+ * and the alert — see the hub's app/api/leads/route.ts.
+ *
+ * Deliberately a plain browser `fetch`, not a Server Action:
+ *
+ *  - `/dashboard/*` is already proxied to the hub by the signed redirect in
+ *    netlify.toml, so a same-origin POST from the page is picked up by
+ *    Netlify's CDN, signed, and handed to the hub as this site. No new
+ *    config, and no secret in this repo.
+ *  - A request made from the browser carries the visitor's real IP in the
+ *    header the hub trusts. A Server Action would have put this site's own
+ *    function there instead, and the lead's audit row would record the
+ *    server rather than the person.
+ *
+ * The call signature is unchanged, so QuoteModal and ContactPageContent call
+ * it exactly as before.
+ */
+
+const ENDPOINT = "/dashboard/api/leads";
 
 export interface QuoteSubmission {
   service: string;
@@ -15,21 +35,16 @@ export interface QuoteSubmission {
   sourcePath?: string;
   /** "modal" | "contact-page" — which surface produced it. */
   sourceKind?: string;
+  /**
+   * Stable for one submission and regenerated after it succeeds, so a
+   * double-tapped button or a retry after a flaky response is one lead. The
+   * browser supplies it because only the browser knows what counts as a
+   * retry; the hub rejects a request without one rather than inventing it.
+   */
+  submissionId: string;
 }
 
 export type QuoteResult = { ok: true } | { ok: false; error: string };
-
-const FROM = "Lamorinda Pavers <quotes@lamorindapaving.com>";
-const TO = "stevebarsanti@icloud.com";
-
-function escape(s: string) {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
-}
 
 export async function submitQuote(data: QuoteSubmission): Promise<QuoteResult> {
   const name = data.name?.trim();
@@ -44,168 +59,66 @@ export async function submitQuote(data: QuoteSubmission): Promise<QuoteResult> {
     return { ok: false, error: "Please enter a valid email address." };
   }
 
+  // One name field on the form, two columns on a contact. Everything after
+  // the first space is the surname, so "Mary Jane Watson" keeps "Jane Watson"
+  // rather than losing it.
+  const [firstName, ...rest] = name.split(/\s+/);
+
   /**
-   * Persist BEFORE the RESEND_API_KEY check, not after.
-   *
-   * A misconfigured deploy must not also lose the lead — the row is the only
-   * durable record, and "we couldn't email you and also forgot you existed" is
-   * strictly worse than "we couldn't email you". The write never throws
-   * (createLead swallows), so this is safe to start and settle later.
+   * "Not sure yet" is sent as no service at all rather than as a slug —
+   * Steve's rule, kept: a lead that declined to pick is not a lead for a
+   * service, and counting it as one makes the per-service numbers lie.
    */
-  const leadPromise = persistLead({ data, name, phone, email, service });
-
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error("RESEND_API_KEY is not set");
-    await leadPromise;
-    return { ok: false, error: "Email service is not configured." };
+  const fields: Record<string, string> = {};
+  if (service !== SERVICE_UNSURE) {
+    fields.service = services.find((s) => s.slug === service)?.name ?? service;
   }
+  const details = data.details?.trim();
+  if (details) fields.details = details;
 
-  const resend = new Resend(apiKey);
-
-  const serviceName =
-    service === SERVICE_UNSURE
-      ? "Not sure yet"
-      : services.find((s) => s.slug === service)?.name ?? service;
-  const details = data.details?.trim() || "No additional details provided";
-
-  const subject = `New quote request — ${serviceName} — ${name}`;
-
-  const text = [
-    `New quote request from the website.`,
-    ``,
-    `Service: ${serviceName}`,
-    ``,
-    `Name: ${name}`,
-    `Phone: ${phone}`,
-    `Email: ${email}`,
-    ``,
-    `Project details:`,
-    details,
-    ``,
-    `Reply directly to this email to respond to ${name}.`,
-  ].join("\n");
-
-  const html = `
-    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#1A1A1A;">
-      <h2 style="margin:0 0 16px;font-size:20px;">New quote request</h2>
-      <table style="width:100%;border-collapse:collapse;font-size:14px;">
-        <tr><td style="padding:6px 0;color:#666;width:110px;">Service</td><td style="padding:6px 0;font-weight:600;">${escape(serviceName)}</td></tr>
-        <tr><td colspan="2" style="padding:12px 0 6px;border-top:1px solid #eee;"></td></tr>
-        <tr><td style="padding:6px 0;color:#666;">Name</td><td style="padding:6px 0;font-weight:600;">${escape(name)}</td></tr>
-        <tr><td style="padding:6px 0;color:#666;">Phone</td><td style="padding:6px 0;"><a href="tel:${escape(phone)}" style="color:#3B7DD8;">${escape(phone)}</a></td></tr>
-        <tr><td style="padding:6px 0;color:#666;">Email</td><td style="padding:6px 0;"><a href="mailto:${escape(email)}" style="color:#3B7DD8;">${escape(email)}</a></td></tr>
-      </table>
-      <h3 style="margin:24px 0 8px;font-size:15px;">Project details</h3>
-      <p style="margin:0;white-space:pre-wrap;font-size:14px;line-height:1.5;">${escape(details)}</p>
-      <p style="margin:24px 0 0;font-size:12px;color:#888;">Reply directly to this email to respond to ${escape(name)}.</p>
-    </div>
-  `;
-
-  const emailPromise = resend.emails.send({
-    from: FROM,
-    to: TO,
-    replyTo: email,
-    subject,
-    text,
-    html,
-  });
-
-  const ntfyPromise = sendNtfy({ name, phone, email, serviceName });
-
+  let res: Response;
   try {
-    const [emailResult, ntfyResult, leadResult] = await Promise.allSettled([
-      emailPromise,
-      ntfyPromise,
-      leadPromise,
-    ]);
-
-    // Neither the push nor the database write is allowed to fail the
-    // submission. Log and carry on — the email to Steve is the critical path.
-    if (ntfyResult.status === "rejected") {
-      console.error("ntfy error:", ntfyResult.reason);
-    }
-    if (leadResult.status === "rejected" || leadResult.value === null) {
-      console.error("lead not persisted:", leadResult.status === "rejected" ? leadResult.reason : "insert returned null");
-    }
-
-    if (emailResult.status === "rejected") {
-      console.error("Resend threw:", emailResult.reason);
-      return { ok: false, error: "Something went wrong. Please call us instead." };
-    }
-    if (emailResult.value.error) {
-      console.error("Resend error:", emailResult.value.error);
-      return { ok: false, error: "Could not send your request. Please call us instead." };
-    }
-
-    return { ok: true };
-  } catch (err) {
-    console.error("submitQuote threw:", err);
-    return { ok: false, error: "Something went wrong. Please call us instead." };
+    res = await fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        firstName,
+        lastName: rest.join(" "),
+        email,
+        phone,
+        fields,
+        pagePath: data.sourcePath,
+        sourceLabel: data.sourceKind,
+        idempotencyKey: data.submissionId,
+      }),
+    });
+  } catch {
+    // Offline, or the request never landed. Safe to retry: the same
+    // submissionId means a lead that did get through isn't duplicated.
+    return { ok: false, error: "We couldn't send that. Please check your connection and try again." };
   }
-}
-
-async function sendNtfy(p: {
-  name: string;
-  phone: string;
-  email: string;
-  serviceName: string;
-}) {
-  const topic = process.env.NTFY_TOPIC;
-  if (!topic) return;
-
-  const body = [`${p.name} · ${p.phone}`, p.email].join("\n");
-
-  const telDigits = p.phone.replace(/[^\d+]/g, "");
-  const res = await fetch(`https://ntfy.sh/${encodeURIComponent(topic)}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "text/plain; charset=utf-8",
-      Title: `New lead - ${p.serviceName}`,
-      Priority: "4",
-      Tags: "bell",
-      Click: `tel:${telDigits}`,
-    },
-    body,
-  });
 
   if (!res.ok) {
-    throw new Error(`ntfy ${res.status}: ${await res.text()}`);
-  }
-}
+    const message = await res
+      .json()
+      .then((body: unknown) =>
+        typeof body === "object" && body !== null && typeof (body as { error?: unknown }).error === "string"
+          ? (body as { error: string }).error
+          : null,
+      )
+      .catch(() => null);
 
-/**
- * Write the lead row. Never throws — `createLead` swallows database failures
- * and returns null, so a submission can never be lost to a Neon hiccup.
- *
- * ⚠️ The `sms_consent_*` columns are deliberately left null. The opt-in
- * checkbox was removed on 2026-09-08: the system is notify-only, so nothing
- * texts customers, and a box promising "text me about scheduling my estimate"
- * was a promise the site does not keep. The columns stay for the deferred
- * customer-facing work — see plans/appointment-system/README.md — but nothing
- * writes them, and nothing should until there is a real send behind them.
- *
- * `timeline`, `address` and `city` are also left null. The form stopped asking
- * on 2026-09-13 when it went from three steps to two — Steve calls every lead
- * himself and asks both on the phone. Same reasoning as above for keeping the
- * columns: empty ones cost nothing, and dropping and re-adding them is churn.
- */
-async function persistLead(p: {
-  data: QuoteSubmission;
-  name: string;
-  phone: string;
-  email: string;
-  service: string;
-}) {
-  return createLead({
-    name: p.name,
-    email: p.email,
-    phone: p.phone,
-    // "Not sure yet" is stored as null rather than a fake slug, so counting
-    // leads per service stays honest.
-    service: p.service === SERVICE_UNSURE ? null : p.service,
-    details: p.data.details?.trim() || null,
-    sourcePath: p.data.sourcePath?.trim() || null,
-    sourceKind: p.data.sourceKind?.trim() || null,
-  });
+    console.error("quote submission failed", res.status, message);
+    // A 4xx is something the visitor can fix; anything else is ours and
+    // shouldn't be dressed up as their mistake.
+    return {
+      ok: false,
+      error:
+        res.status >= 400 && res.status < 500 && message
+          ? message
+          : "Something went wrong on our end. Please call us instead — we'd hate to miss you.",
+    };
+  }
+
+  return { ok: true };
 }

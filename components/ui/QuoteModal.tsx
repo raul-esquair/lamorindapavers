@@ -153,16 +153,26 @@ function QuoteModalContent({
       ? "Not sure yet"
       : services.find((s) => s.slug === selectedService)?.name;
 
+  /**
+   * One id per submission, kept across a retry and cleared once it lands, so
+   * a double-tapped button or a resend after a dropped response is one lead
+   * rather than two. The hub refuses a submission without it.
+   */
+  const submissionIdRef = useRef("");
+
   const onSubmit = async (data: FormData) => {
+    if (!submissionIdRef.current) submissionIdRef.current = crypto.randomUUID();
     setSubmitting(true);
     setSubmitError(null);
     const result = await submitQuote({
       ...data,
       sourcePath: window.location.pathname,
       sourceKind: "modal",
+      submissionId: submissionIdRef.current,
     });
     setSubmitting(false);
     if (result.ok) {
+      submissionIdRef.current = "";
       setSubmitted(true);
     } else {
       setSubmitError(result.error);
