@@ -4,3 +4,48 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
+
+# ─── Esquair hub ────────────────────────────────────────────────────────────
+# /dashboard, /feedback and /unsubscribe are served by the Esquair hub,
+# proxied from Netlify's CDN rather than through this site's Next.js runtime.
+#
+# `signed` names the env var holding this site's own secret, which Netlify
+# uses to sign every proxied request (x-nf-sign) so the hub can tell which
+# client it is. Set with `npm run site:proxy-secret -- <netlify site id>` in
+# the hub repo. `force` makes the rule win over this site's own routes —
+# proven against the Next.js runtime on Gadget, not just static files.
+#
+# The marketing pages never call the hub: if the hub is down, the dashboard
+# goes down and the website stays up.
+
+[[redirects]]
+  from = "/dashboard"
+  to = "https://esquair-crm.vercel.app/dashboard"
+  status = 200
+  force = true
+  signed = "ESQUAIR_HUB_SIGNING_SECRET"
+
+[[redirects]]
+  from = "/dashboard/*"
+  to = "https://esquair-crm.vercel.app/dashboard/:splat"
+  status = 200
+  force = true
+  signed = "ESQUAIR_HUB_SIGNING_SECRET"
+
+# These two stay at the SITE ROOT, not under /dashboard: review emails link
+# to lamorindapaving.com/feedback?t=… and /unsubscribe?t=… , and that address
+# must not change. The hub serves them under its own basePath, which is why
+# the targets say /dashboard.
+[[redirects]]
+  from = "/feedback"
+  to = "https://esquair-crm.vercel.app/dashboard/feedback"
+  status = 200
+  force = true
+  signed = "ESQUAIR_HUB_SIGNING_SECRET"
+
+[[redirects]]
+  from = "/unsubscribe"
+  to = "https://esquair-crm.vercel.app/dashboard/unsubscribe"
+  status = 200
+  force = true
+  signed = "ESQUAIR_HUB_SIGNING_SECRET"
