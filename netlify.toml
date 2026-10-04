@@ -49,3 +49,13 @@
   status = 200
   force = true
   signed = "ESQUAIR_HUB_SIGNING_SECRET"
+
+# The estimate a customer opens from the email their contractor sends. Same
+# arrangement as /feedback: the address stays at the site root so what the
+# customer sees is this domain, and the hub serves it under its own basePath.
+[[redirects]]
+  from = "/estimate"
+  to = "https://esquair-crm.vercel.app/dashboard/estimate"
+  status = 200
+  force = true
+  signed = "ESQUAIR_HUB_SIGNING_SECRET"
