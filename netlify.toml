@@ -59,3 +59,18 @@
   status = 200
   force = true
   signed = "ESQUAIR_HUB_SIGNING_SECRET"
+
+# The customer's portal: one standing link per customer, listing every estimate
+# and invoice they have been sent, and where they pay an invoice by card.
+#
+# A WILDCARD, unlike the four rules above. Those are single pages that carry
+# their credential in the query string (/feedback?t=…); the portal carries it
+# as a path segment and has pages beneath it — /portal/<code>, then
+# /portal/<code>/estimate/<id> and /portal/<code>/invoice/<id>. Without the
+# splat only the index would answer and every link from it would 404.
+[[redirects]]
+  from = "/portal/*"
+  to = "https://esquair-crm.vercel.app/dashboard/portal/:splat"
+  status = 200
+  force = true
+  signed = "ESQUAIR_HUB_SIGNING_SECRET"
