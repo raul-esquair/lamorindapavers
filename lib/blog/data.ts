@@ -14,6 +14,247 @@ import type { BlogPost } from "./types";
 
 export const BLOG_POSTS: BlogPost[] = [
   {
+    slug: "how-professional-paver-installation-prevents-drainage",
+    featuredImage: "/images/blog-how-professional-paver-installation-prevents-drainage.png",
+    title: "How Professional Paver Installation Prevents Drainage Problems",
+    metaTitle: "Paver Installation Drainage: 4 Elements That Prevent Failure",
+    excerpt:
+      "Professional paver installation prevents drainage problems through four engineered elements working together — surface grading at 1-inch per 8 feet, 8-10 inch base over geotextile, PVC edge restraints, and French drains routed for hillside conditions. Here's how each element prevents specific failure modes on East Bay clay-soil patios, walkways, and driveways.",
+    date: "2026-10-12",
+    readingTime: "17 min read",
+    relatedService: "patios",
+    faqs: [
+      {
+        "question": "How do pavers handle drainage?",
+        "answer": "Pavers handle drainage through engineered surface grading (1 inch per 8 feet minimum, sloped away from structures), a compacted aggregate base that maintains bearing capacity under saturation, polymeric joint sand that seals surface water out of the base, and — on hillside lots — a French drain that intercepts uphill runoff before it reaches the paver footprint. Standard interlocking pavers shed water across the surface to a designated outlet; they don't infiltrate it downward unless the system uses permeable paver installation with open-graded joints. Professional paver installation drainage engineers all four elements together."
+      },
+      {
+        "question": "Do paver driveways drain better than concrete?",
+        "answer": "On East Bay clay-soil lots, paver driveways handle drainage failure better than concrete — not because they shed water faster, but because they don't crack when the subgrade moves. Concrete driveways crack at clay-movement joints within 5–7 years on Orinda Formation clay; those cracks become permanent water-entry pathways into the subgrade. A paver driveway on the same lot flexes with clay movement without cracking, and vehicular-rated polymeric joint sand seals the joints against surface water entry. When a paver installation does develop a drainage problem, it shows as localized settling — repairable at $50–$200 per section. A cracked concrete driveway requires section removal and repouring at $2,000–$10,000."
+      },
+      {
+        "question": "Do I need a French drain with my paver patio?",
+        "answer": "Not always. French drains are required on hillside lots in Lafayette, Orinda, Moraga, and parts of Walnut Creek where uphill water would reach the paver base from the uphill side — typically where grade above the patio footprint exceeds 3–5% and there's an identifiable upstream drainage source. On flat lots with no upstream drainage routing and correctly specified surface grading, a French drain isn't needed. The decision gets made during a site walk, not from a photo. If your property is above Route 24 in Orinda or on a hillside parcel in Lafayette or Moraga, plan for a French drain to be part of the scope conversation."
+      },
+      {
+        "question": "What's the right slope for a paver driveway?",
+        "answer": "The industry standard for paver driveway drainage is 1 inch per 8 feet, sloped away from the garage or structure toward a designated drainage outlet — typically the street, a channel drain at the apron, or a yard drainage point. On hillside lots where topography demands it, 1:6 or 1:4 may be appropriate. A slope below 1:8 creates pooling; a slope above 1:4 can feel steep underfoot and may require additional edge restraint detailing at the low end. The drainage outlet — where water goes after crossing the driveway — must be identified and confirmed before the grade is set."
+      },
+      {
+        "question": "Are permeable pavers worth the extra cost?",
+        "answer": "Permeable pavers are worth the cost premium in specific contexts: projects exceeding Contra Costa County's 2,500 sq ft impervious surface threshold, sites where routing a French drain to daylight isn't feasible, and lots where groundwater recharge is a priority. Permeable paver upgrades typically add 15–25% to the base paver cost but reduce or eliminate French drain installation costs, so the net premium is often smaller than it appears. On a standard flat East Bay lot with no stormwater compliance trigger and an available drainage outlet, conventional pavers with proper surface grading are the right solution — permeable pavers in that context add cost without adding drainage benefit."
+      },
+      {
+        "question": "How long does paver drainage last before needing repair?",
+        "answer": "A professionally installed paver drainage system — proper surface grading, 8–10 inch Class II base with geotextile, PVC edge restraints, and vehicular-rated polymeric joint sand where required — lasts the full lifespan of the installation: 25–50 years without major intervention. The maintenance cadence is resand and reseal the polymeric joint sand every 5–7 years and inspect edge restraint alignment annually. Drainage repairs appear in the maintenance schedule of installations built without professional drainage engineering. A paver installation with professional paver installation drainage engineering lasts 3–5x longer than the same installation without it."
+      }
+    ],
+    content: `
+## The Short Answer
+
+Professional paver installation prevents drainage problems through four engineered elements working together — surface grading at 1 inch per 8 feet minimum, 8–10 inches of compacted Class II base over non-woven geotextile fabric, PVC edge restraints with 10-inch galvanized spike spacing, and French drains routed where uphill water arrives at the paver footprint. Each element prevents a specific failure mode; missing any one creates a vulnerability that surfaces within 2–5 East Bay winters.
+
+The industry-standard paver surface slope is 1 inch per 8 feet sloped away from structures and toward designated drainage paths. On Orinda Formation expansive clay with 18–25 inches of seasonal rainfall concentrated into four months, skipping any one of these four steps isn't a minor shortcut — it's a predictable failure sequence. Lamorinda Pavers engineers all four elements into every [paver patio installation](/services/patios) and [paver driveway installation](/services/paver-driveways) across Lafayette, Orinda, Moraga, Walnut Creek, and Danville.
+
+For a broader look at what separates professional work from cut-rate installs on East Bay clay-soil lots, [the professional paver installation category guide](/blog/how-professional-pavers-upgrade-east-bay-outdoor-spaces) covers every build dimension in depth.
+
+---
+
+## Why East Bay Drainage Is Unique — The Clay + Hillside + Winter Rain Combination
+
+East Bay paver installations face a drainage challenge that doesn't exist in flat sandy markets — expansive clay subgrade that holds water at the surface, hillside topography in Lafayette, Orinda, and Moraga that concentrates winter runoff, and 18–25 inches of annual rainfall compressed into a 4–5 month December-through-April window.
+
+Expansive clay is soil that swells when wet and shrinks when dry, with seasonal volume change of 5–10% — it's not stable bearing material; it's a moving substrate that concrete slabs crack against and that paver bases saturate into when paver installation drainage is engineered incorrectly. Orinda Formation clay underlies most of Lafayette, Orinda, and Moraga, and it's among the highest-expansion profiles in the Bay Area.
+
+East Bay clay-soil lots receive 18–25 inches of winter rain concentrated into 4–5 months — a saturation cycle that flat, sandy markets never experience.
+
+The three conditions compound each other. Hillside topography routes uphill runoff toward driveway and patio footprints regardless of how the paved surface is graded. Expansive clay then holds that water at the surface and at the base boundary instead of letting it drain away. And when 18–25 inches of rain arrives in four months instead of spread across twelve, the base never fully dries between saturation events. A standard 4-inch base on sandy soil might handle that. A 4-inch base on Orinda Formation clay doesn't survive five wet seasons without showing settlement.
+
+The four engineered elements below are direct responses to these three specific conditions — not general best practices that apply anywhere. If you're already seeing the results of drainage failure on a driveway, [what causes driveway pavers to sink or shift](/blog/what-causes-driveway-pavers-to-sink-or-shift) breaks down the failure mechanisms in detail.
+
+---
+
+## Element 1: How Professional Installers Grade Paver Surfaces for Drainage
+
+Professional paver installation grades the finished surface at 1 inch per 8 feet minimum, sloped away from structures and toward designated drainage paths — the industry-standard slope that sheds water within 30 seconds of a 1-inch rain without creating visible tilt.
+
+The grading approach starts at the site walk, not at install day. Identifying where water needs to go before a single piece of base aggregate goes down means pinpointing which direction the surface needs to pitch, where the outlet is (a channel drain, a French drain inlet, a yard daylight point), and whether any hardscape transition creates a low spot that'll trap water. Slope direction gets marked with chalk lines across the excavated grade before the base goes in, because correcting slope after the base is compacted requires stripping and resetting everything.
+
+A 6-foot mason level walked in three directions across the finished paver field confirms the grade is continuous before polymeric sand goes down. A level showing deviation over 1/4 inch in an 8-foot span signals a low point that will pool.
+
+On hillside lots in the Orinda hills or above Route 24 in Lafayette, the standard 1:8 slope isn't always enough. Where topography demands it — grades of 3% or steeper feeding the paver footprint — a 1:6 or 1:4 surface slope may be appropriate. The steeper slope still feels level underfoot; you only notice it when water moves across it. Movement is exactly what you want.
+
+A properly graded paver surface isn't just a drainage solution — it also prevents uneven compaction. A perfectly flat patio compacts unevenly because furniture and foot traffic concentrate force in patches. Proper slope distributes load across the full field and prevents both pooling and the differential settling that pooling accelerates.
+
+For the full day-by-day breakdown of how grading integrates into professional install sequencing, [how to install a level paver patio that won't shift](/blog/how-to-install-a-level-paver-patio-that-wont-shift) covers the homeowner verification checklist alongside crew process.
+
+---
+
+## Element 2: How Base Preparation Prevents Drainage-Driven Failures
+
+The 8–10 inch Class II aggregate base in 3-inch lifts over non-woven geotextile fabric — the professional install spec — prevents drainage-driven failures by maintaining bearing capacity even when saturated, preventing clay migration into the base, and creating a drainage path beneath the pavers.
+
+Class II aggregate is a graded crushed stone blend meeting the Caltrans gradation specification for particle size distribution — it achieves tight angular interlock under compaction and maintains bearing capacity under repeated load while still allowing water to move through it laterally. The graded particle curve is the key: not so open that it loses structural strength, not so fine that it clogs and holds water.
+
+A paver base loses 30–50% of compressive strength when saturated; professional drainage prevents that saturation by giving the base both depth reserve and a drainage path.
+
+The depth provides that reserve. When the top 3–4 inches of base aggregate approach saturation after a sustained storm, the lower layers are still dry enough to maintain bearing capacity. An 8-inch base has that reserve; a 4-inch base doesn't. The 3-inch compacted lift sequencing — per ICPI Tech Spec 2 (Construction of Interlocking Concrete Pavements) — ensures every inch of that depth is actually compacted, not just the top half. A plate compactor's vibration penetrates 3–4 inches; pour 8 inches in one pass and you've compacted 4 inches, full stop.
+
+The non-woven geotextile fabric separating the aggregate from native clay does the work that depth alone can't. Under winter hydraulic pressure — water moving through saturated soil — clay fines migrate upward into aggregate voids and reduce bearing capacity from the bottom of the base up. Three to five wet seasons without geotextile turns a correctly built base into a clay-contaminated one. With geotextile, that migration path is closed. Water passes through the fabric; clay particles don't.
+
+For a deeper look at what compaction actually involves — equipment, technique, and verification — [what is paver base compaction and why it matters](/blog/what-is-paver-base-compaction-and-why-it-matters) covers all of it. And [11 DIY drainage mistakes to avoid](/blog/11-diy-paver-patio-mistakes-that-ruin-drainage) catalogs exactly what happens when base depth or geotextile gets skipped.
+
+---
+
+## Element 3: How Edge Restraints Contribute to Drainage Performance
+
+PVC edge restraints with 10-inch galvanized spikes at 10-inch spacing prevent drainage-driven failure by stopping lateral water seepage under the perimeter pavers and maintaining the paver field's structural integrity through seasonal clay movement.
+
+The drainage mechanism here is less obvious than surface grading, but it's just as consequential. When perimeter pavers migrate outward — even 1/4 inch per season — water finds a path under the edge, into the base aggregate, and directly onto the clay subgrade. The restraint isn't just keeping the pattern tidy; it's maintaining a water barrier at the most vulnerable point of the installation.
+
+Without proper edge restraint, that seepage path opens faster than most homeowners expect. Clay expansion during the wet season pushes outward against the paver field. Without confinement, perimeter pavers walk 1/4 to 1/2 inch per season — gradual enough to miss at a glance, obvious after three years when you check the alignment.
+
+The common shortcut is using existing concrete curb as the edge "restraint." Concrete curb bonds poorly to Class II aggregate and cracks at clay-movement joints — the same joints that cause concrete driveways to fail on East Bay lots in the first place. Those cracks become water-entry points. PVC spike-down restraint installed continuously at 10-inch spacing holds through clay movement cycles because it flexes slightly with the subgrade rather than cracking against it.
+
+At corners and turning radii — especially on driveways — vehicle shear force concentrates. That's where undersized spikes at 24-inch spacing fail first, and where water entry from a failed edge restraint does the most base damage because the corner is typically where drainage routing changes direction. For the full failure taxonomy of what edge restraint shortcuts cost over time, [11 driveway paver mistakes that cause cracks](/blog/11-driveway-paver-mistakes-that-cause-cracks) covers each one with time-to-failure estimates.
+
+---
+
+## Element 4: When Professional Installs Include French Drains (and When They Don't)
+
+Professional paver installations include French drain installation on hillside lots in Lafayette, Orinda, Moraga, and parts of Walnut Creek where uphill rainfall or natural drainage routing would otherwise saturate the paver base from the uphill side.
+
+A French drain is a perforated pipe buried in clean gravel and wrapped in non-woven geotextile fabric that collects subsurface and surface water and routes it to a daylight outlet — it intercepts water before it reaches the paver base, addressing where water comes from rather than what the paved surface does with it.
+
+Not every paver project needs a French drain. The decision criteria used on a site walk:
+
+- **Hillside grade above 3–5% with an identifiable uphill water source** — French drain typically required at the uphill edge of the paver footprint
+- **Flat lot, no upstream drainage routing to the paver area, surface grading correct** — French drain typically not required
+- **Properties along Happy Valley Road in Lafayette or above Route 24 in Orinda** — almost always require uphill French drain; the watershed above those lots is large enough that surface grading alone can't handle the volume during a sustained storm
+
+When a French drain is warranted, the spec is 4-inch perforated PVC pipe bedded in #57 clean stone and wrapped in non-woven geotextile fabric, routed to a daylight outlet or a compliant storm drain connection. Contra Costa County drainage best practices require that French drain outlets discharge to daylight or an approved drainage facility — not onto neighboring property. Routing to daylight is straightforward on most hillside lots; if daylight isn't accessible, the alternative is a dry well or connection to a storm drain at the curb, which requires a County encroachment permit.
+
+The decision gets made during the site walk, not from a photo. Every Lamorinda Pavers site visit includes reading the uphill drainage routing before the French drain line item is included or excluded from the bid. On sloped [Lafayette](/lafayette) and [Orinda](/orinda) lots specifically, that uphill read determines whether the project is a 4-element system or a 3-element one.
+
+---
+
+## How Polymeric Joint Sand Interacts With Paver Drainage
+
+Polymeric joint sand creates a flexible water-shedding seal across paver joints — sealed enough to prevent surface water from entering the joint and base, but flexible enough to handle clay-movement stress without cracking.
+
+Regular silica sand — the material amateur installs use to fill joints — washes out of driveway joints within two to three East Bay winters. What's left is an open channel for surface water to enter the base directly. Polymeric joint sand activates with water to form a flexible polymer bond that sheds rain at the surface while allowing the paver field to flex with ground movement. That flexibility is specifically what makes it work on East Bay clay subgrades where a rigid mortar joint would crack at clay-movement points.
+
+Product selection matters by application. Techniseal HP NextGel and Alliance Gator Maxx carry explicit vehicular-use ratings — they're formulated for the compression-and-rebound cycling that vehicle tires generate daily on driveways. For patios and pedestrian walkways, SEK Pro and standard pedestrian-rated polymeric products are appropriate. Using patio-grade polymeric on a driveway won't hold; the joint opens within a season and the surface water pathway into the base reopens with it.
+
+The maintenance cadence: resand and reseal every 5–7 years to maintain joint integrity. That's predictable, budgeted maintenance — not a failure. What's not predictable is how fast silica sand washout opens drainage pathways in a patio or driveway that started with the wrong joint material. For how joint sand failure interacts with the broader paver failure sequence, [how to prevent paver patio sinking](/blog/how-to-prevent-paver-patio-sinking-2026) covers the progression and intervention points.
+
+---
+
+## Permeable Paver Systems — When Professional Installers Recommend Them
+
+Permeable paver systems — paver units with specifically engineered open joints filled with crushed stone — replace surface water shedding with subsurface infiltration, and professional installers recommend them when the site has stormwater compliance triggers or when traditional drainage routing isn't feasible.
+
+Permeable pavers are interlocking pavers with specifically engineered open joints filled with crushed stone that allow stormwater to infiltrate the ground beneath rather than running off as surface water.
+
+Use cases where permeable paver installation makes sense on East Bay lots:
+
+- **Projects exceeding Contra Costa County's 2,500 sq ft impervious surface threshold** — permeable paver systems may satisfy or reduce stormwater compliance requirements, avoiding detention basin requirements
+- **Sites where French drain routing to daylight isn't possible** — permeable infiltration is the alternative to surface runoff routing
+- **Sites prioritizing groundwater recharge** — relevant on lots where the homeowner is managing a septic system or water table relationship
+
+Permeable systems require a different base specification than standard paver installs. The base uses open-graded aggregate without a geotextile separator between layers — the opposite of the standard spec — because water needs to move downward through the system, not get intercepted by a fabric. Connection to infiltration basins or perforated drain networks at the base of the aggregate is required when infiltration into native soil isn't adequate.
+
+Permeable paver upgrades typically add 15–25% to the base paver cost but reduce or eliminate French drain installation costs. On a project where a French drain would otherwise cost $3,000–$6,000, the permeable paver premium can be cost-neutral or better. For [paver patio installation](/services/patios) or [paver driveway installation](/services/paver-driveways) projects near the 2,500 sq ft threshold, it's worth scoping both options before committing to the drainage approach.
+
+Permeable pavers aren't a universal solution. On a standard flat East Bay lot with no stormwater compliance trigger and an available drainage outlet, conventional pavers with proper surface grading outperform permeable systems at lower cost. The EPA's permeable pavement guidance and Contra Costa County's low-impact development standards both frame permeable systems as site-specific tools, not default upgrades.
+
+---
+
+## How Professional Drainage Engineering Extends Paver Lifespan
+
+Professional drainage engineering extends paver installation lifespan from 5–15 years (typical of installations with drainage failure) to 25–50 years by preventing the cascading failure mode where water saturates the base, reduces compressive strength, and accelerates settling under load.
+
+A paver installation with professional drainage engineering lasts 3–5x longer than the same installation without it — the durability difference is almost entirely drainage-driven.
+
+The failure cascade on a poorly drained installation runs like this: surface water or uphill runoff reaches the base → base aggregate saturates → base loses 30–50% compressive strength → load concentration finds soft spots → settling appears under traffic → joint sand fails at the settled joints → more surface water enters at open joints → cascade continues and accelerates. Within 5–8 East Bay wet seasons, a paved surface that started level has visible dips, open joints, and edge migration.
+
+Professional paver installation drainage breaks that cascade at the first link. Surface grading sheds water before it dwells on the paver field. The geotextile-separated base maintains bearing capacity through saturation because clay fines can't enter. The edge restraint closes the perimeter water-entry path. The French drain — where the site requires it — intercepts uphill flow before it reaches the base boundary. Each element addresses a specific water-entry pathway; together they close all four.
+
+The paver units themselves — Belgard, Calstone, Techo-Bloc — are rated for 100+ years of service life at 8,000 psi compressive strength. The lifespan limit isn't the pavers. It's what's underneath them and whether the drainage system keeps it intact.
+
+For the detailed breakdown of how drainage failures interact with specific installation mistakes, [11 DIY drainage mistakes to avoid](/blog/11-diy-paver-patio-mistakes-that-ruin-drainage) covers the failure-mode taxonomy. If you're looking at an existing installation already showing drainage-driven settling, [how to fix existing drainage problems](/blog/how-to-fix-driveway-pavers-uneven-from-drainage) walks through the diagnostic sequence. And [10 ways pro paver installation improves outdoor living](/blog/10-ways-pro-paver-installation-improves-outdoor-living) puts the 25–50 year lifespan figure in context alongside the other performance dimensions that separate professional installs from cut-rate work.
+
+---
+
+## How to Verify Drainage Performance After Install
+
+Verify paver drainage performance with three observable tests within the first wet season — the hose flow test, the heavy-rain observation, and the post-winter inspection.
+
+1. **Hose flow test (any time after install):** Run a garden hose at the highest point of the paver field at full flow. Water should sheet across the surface and exit at the designated drainage point — channel drain, yard outlet, or French drain inlet — within 30 seconds without pooling anywhere on the field. Any standing water deeper than 1/4 inch identifies a low spot that needs attention before the rains start.
+
+2. **Heavy-rain observation (first 1-inch+ rainfall after install):** Photograph the paver surface within 5 minutes of the rain stopping. No pooling deeper than 1/4 inch should be visible anywhere on the field. Water at the perimeter edge that's moving toward the outlet is correct. Water sitting against the house foundation or in the middle of the paver field is a drainage failure that needs diagnosis.
+
+3. **Post-winter inspection (March or April after the first full wet season):** Walk the full perimeter and check for joint sand washout (visible aggregate between pavers), edge migration (perimeter pavers that have moved outward from the restraint line), and visible settling (a 6-foot level walked across the field shows deviation over 1/4 inch). Any of these findings signals a drainage failure that didn't surface during the install — and is significantly easier to address in the second season than the fifth.
+
+Lamorinda Pavers' 5-year workmanship warranty covers drainage performance specifically — base settlement, drainage failure attributable to the installation, and edge restraint movement are all named warranty items. The post-winter inspection in March or April is the right time to make a warranty call if any of these signs appear. For [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville) homeowners, the inspection protocol is identical — the timeline and observable markers don't change by city, only the likelihood that uphill drainage routing surfaces as the failure source.
+
+---
+
+## How Lamorinda Pavers Engineers Drainage for East Bay Paver Installations
+
+Professional drainage engineering for East Bay paver installations requires four elements working together — grading, base, edge restraint, and French drain where applicable — and that's the system Lamorinda Pavers builds into every project across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville).
+
+Every project starts with a site walk that reads drainage before anything else. The focus is on where winter runoff arrives, which direction the lot pitches, whether uphill water sources require a French drain at the paver footprint boundary, and where the drainage outlet routes to. That site read determines the drainage plan — not a template applied from the last project, but a routing decision specific to this lot's grade, clay profile, and hardscape layout.
+
+Every bid from Lamorinda Pavers includes the drainage plan as a named line item: surface slope specification (direction, outlet, minimum pitch), French drain decision (included with spec, or explicitly assessed and excluded with the reason), base depth with geotextile noted, edge restraint product and spike spacing, and polymeric joint sand product by SKU. There are no drainage allowances on a Lamorinda bid — the plan is specific to the site before you sign.
+
+On Lafayette hillside lots along Happy Valley Road, the uphill French drain gets its own routing review before base depth is set. On Moraga's clay slopes, the geotextile spec is non-negotiable. On Walnut Creek and Danville flatland projects, the drainage engineering is simpler — but the base prep and grading approach are identical, because even a flat lot in Walnut Creek will pool if surface slope isn't established correctly during the screed.
+
+Lamorinda Pavers' 5-year workmanship warranty covers drainage performance specifically. If you're evaluating contractors and want to know what questions to ask about drainage approach before signing, [9 questions to vet a paver installer for big patios](/blog/9-questions-to-vet-a-paver-installer-for-big-patios) gives you the exact interrogation framework. CSLB License #1092749.
+
+---
+
+## Frequently Asked Questions
+
+### How do pavers handle drainage?
+
+Pavers handle drainage through engineered surface grading (1 inch per 8 feet minimum, sloped away from structures), a compacted aggregate base that maintains bearing capacity under saturation, polymeric joint sand that seals surface water out of the base, and — on hillside lots — a French drain that intercepts uphill runoff before it reaches the paver footprint. Standard interlocking pavers shed water across the surface to a designated outlet; they don't infiltrate it downward unless the system uses permeable paver installation with open-graded joints. Professional paver installation drainage engineers all four elements together.
+
+### Do paver driveways drain better than concrete?
+
+On East Bay clay-soil lots, paver driveways handle drainage failure better than concrete — not because they shed water faster, but because they don't crack when the subgrade moves. Concrete driveways crack at clay-movement joints within 5–7 years on Orinda Formation clay; those cracks become permanent water-entry pathways into the subgrade. A paver driveway on the same lot flexes with clay movement without cracking, and vehicular-rated polymeric joint sand seals the joints against surface water entry. When a paver installation does develop a drainage problem, it shows as localized settling — repairable at $50–$200 per section. A cracked concrete driveway requires section removal and repouring at $2,000–$10,000.
+
+### Do I need a French drain with my paver patio?
+
+Not always. French drains are required on hillside lots in Lafayette, Orinda, Moraga, and parts of Walnut Creek where uphill water would reach the paver base from the uphill side — typically where grade above the patio footprint exceeds 3–5% and there's an identifiable upstream drainage source. On flat lots with no upstream drainage routing and correctly specified surface grading, a French drain isn't needed. The decision gets made during a site walk, not from a photo. If your property is above Route 24 in Orinda or on a hillside parcel in Lafayette or Moraga, plan for a French drain to be part of the scope conversation.
+
+### What's the right slope for a paver driveway?
+
+The industry standard for paver driveway drainage is 1 inch per 8 feet, sloped away from the garage or structure toward a designated drainage outlet — typically the street, a channel drain at the apron, or a yard drainage point. On hillside lots where topography demands it, 1:6 or 1:4 may be appropriate. A slope below 1:8 creates pooling; a slope above 1:4 can feel steep underfoot and may require additional edge restraint detailing at the low end. The drainage outlet — where water goes after crossing the driveway — must be identified and confirmed before the grade is set.
+
+### Are permeable pavers worth the extra cost?
+
+Permeable pavers are worth the cost premium in specific contexts: projects exceeding Contra Costa County's 2,500 sq ft impervious surface threshold, sites where routing a French drain to daylight isn't feasible, and lots where groundwater recharge is a priority. Permeable paver upgrades typically add 15–25% to the base paver cost but reduce or eliminate French drain installation costs, so the net premium is often smaller than it appears. On a standard flat East Bay lot with no stormwater compliance trigger and an available drainage outlet, conventional pavers with proper surface grading are the right solution — permeable pavers in that context add cost without adding drainage benefit.
+
+### How long does paver drainage last before needing repair?
+
+A professionally installed paver drainage system — proper surface grading, 8–10 inch Class II base with geotextile, PVC edge restraints, and vehicular-rated polymeric joint sand where required — lasts the full lifespan of the installation: 25–50 years without major intervention. The maintenance cadence is resand and reseal the polymeric joint sand every 5–7 years and inspect edge restraint alignment annually. Drainage repairs appear in the maintenance schedule of installations built without professional drainage engineering. A paver installation with professional paver installation drainage engineering lasts 3–5x longer than the same installation without it.
+
+---
+
+## Get Your Drainage Plan in Writing Before Installation Starts
+
+If you're planning a paver project on a hillside East Bay lot or a property with drainage challenges — an Orinda hillside, a Lafayette parcel above Route 24, a Moraga clay slope, or any lot where you've seen water pool in the past — request a free on-site estimate from Lamorinda Pavers. I'll walk the property personally, identify drainage routing and uphill water sources, assess whether a French drain is required and where it routes, and scope all four engineered drainage elements — grading, base, edge restraint, and French drain — for your specific lot.
+
+The drainage plan arrives with the fixed-price proposal in writing within 48 hours: surface slope specification with outlet named, French drain included with spec or explicitly excluded with the reason, base depth and geotextile specified, edge restraint product and spike spacing, and polymeric joint sand SKU by application type. Drainage isn't an allowance line or a verbal assurance — it's a named spec on every bid.
+
+Across [Lafayette](/lafayette), [Orinda](/orinda), [Moraga](/moraga), [Walnut Creek](/walnut-creek), and [Danville](/danville), this is how paver installation drainage gets engineered correctly the first time.
+
+[Contact us](/contact) to schedule your site visit. CSLB License #1092749.
+    `.trim(),
+  },
+
+  {
     slug: "10-ways-pro-paver-installation-improves-outdoor-living",
     featuredImage: "/images/blog-10-ways-pro-paver-installation-improves-outdoor-living.png",
     title: "10 Ways Pro Paver Installation Improves Outdoor Living",
